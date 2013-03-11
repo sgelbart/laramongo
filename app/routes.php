@@ -15,10 +15,13 @@
 Route::get('/', 'HomeController@index');
 
 // CategoriesController
-Route::get(    'category/{id}',                   'CategoriesController@show' );
+Route::get(    'category/{id}', 'CategoriesController@show' );
 
 // ProductsController
-Route::get(    'product/{id}',                   'ProductsController@show' );
+Route::get(    'product/{id}', 'ProductsController@show' );
+
+// HealthCheck
+Route::get(    'health', function(){ return "It's working ;D"; } );
 
 /*
 |--------------------------------------------------------------------------

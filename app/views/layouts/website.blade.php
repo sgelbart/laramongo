@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Leroy Merlin - Tudo para você reformar e decorar sua casa.</title>
+        <title>Laramongo - Tudo para você reformar e decorar sua casa.</title>
         {{ Basset::show('website.css') }}
     </head>
     <body>
@@ -24,7 +24,7 @@
 
             
             <div class='footer'>
-                Copyright © {{ date('Y') }} Leroy Merlin, todos os direitos Reservados
+                Copyright © {{ date('Y') }} Laramongo, todos os direitos Reservados
             </div>
 
         </div>

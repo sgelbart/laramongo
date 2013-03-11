@@ -1,6 +1,6 @@
 <div class='topbar'>
     
-    <a href='#' class='bullet'>A Leroy Merlin</a>
+    <a href='#' class='bullet'>A Laramongo</a>
     <a href='#' class='bullet'>Sustentabilidade</a>
     <a href='#' class='bullet'>Central de Atendimento</a>
     
@@ -22,7 +22,7 @@
 
 </div>
 
-<h1 class='logo'>Leroy Merlin</h1>
+<h1 class='logo'>Laramongo</h1>
 
 <div class='accountbox'>
     Já é cliente? <a href='#'>Clique</a> |

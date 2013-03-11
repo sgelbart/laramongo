@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Leroy Merlin</title>
+        <title>Laramongo</title>
             {{ Basset::show('admin.css') }}
     </head>
     <body>
@@ -12,7 +12,7 @@
         {{-- Navigation bar at top of the page --}}
         <div class="navbar navbar-static-top">
             <div class="navbar-inner">
-                <a class="brand" href="/">Leroy Merlin</a>
+                <a class="brand" href="/">Laramongo</a>
 
                 {{-- Navigation links --}}
                 @if( Auth::user() )
