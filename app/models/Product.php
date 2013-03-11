@@ -16,45 +16,13 @@ class Product extends BaseModel
      */
     public static $rules = array(
         'name'      => 'required',
-        'family'     => 'required',
+        'category'     => 'required',
     );
 
     /**
      * Setable with the setAttributes method
      */
     public $massAssignment = array();
-
-    /**
-     * Verify if the model is valid and if the category exists
-     *
-     * @return bool
-     */
-    public function isValid()
-    {
-        if( parent::isValid() )
-        {
-            // Check the cache if this has already been compared within 2 minutes
-            if( Category::exists($this->family) )
-            {
-                return true;
-            }
-            else
-            {
-                $error_message = "Categoria '".$this->family."' não encontrada. ".
-                                 " <b><a href='".
-                                 URL::action('Admin\CategoriesController@index').
-                                 "'>Gerenciar Categorias</a></b>";
-
-                $this->errors = new Illuminate\Support\MessageBag( (array)$error_message );
-
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     /**
      * Return image URL
@@ -84,7 +52,7 @@ class Product extends BaseModel
 
         // Should activate the category
         if($result)
-            Category::activate( $this->family );
+            Category::activate( $this->category );
 
         return $result;
     }

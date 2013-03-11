@@ -37,4 +37,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         Mail::pretend(true);
     }
 
+    /**
+     * Clean database collection
+     */
+    protected function cleanCollection( $collection )
+    {
+        $db = LMongo::connection();
+        $db->$collection->drop();
+    }    
+
 }

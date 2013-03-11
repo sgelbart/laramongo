@@ -11,7 +11,10 @@
 		"jasonlewis/basset": "dev-master",
 		"jonob/html": "v1.1.4",
 		"jonob/formly": "v1.2.1",
-		"vipsoft/unzip": "dev-master",
+		"vipsoft/unzip": "dev-master"
+	},
+	"require-dev": {
+		"zizaco/factory-muff": "*",
 		"mockery/mockery": "*"
 	},
 	"autoload": {
