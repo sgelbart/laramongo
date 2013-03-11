@@ -1,13 +1,5 @@
-## Laravel 4.x
+## Laramongo
 
-### A Framework For Web Artisans
+### An Ecommerce using Laravel 4 and MongoDB
 
 [Official Documentation](http://four.laravel.com) (Under Active Development)
-
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
-
-### License
-
-The Laravel framework is open-sourced software license under the [MIT license](http://opensource.org/licenses/MIT)
