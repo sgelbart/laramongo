@@ -32,7 +32,7 @@ class ProductsTest extends TestCase
         $invalid_id = 0;
 
         // The website index location
-        $location = 'http://:';
+        $location = 'http://:/';
 
         $crawler = $this->requestAction('GET', 'ProductsController@show', ['id'=>$invalid_id]);
 

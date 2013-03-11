@@ -8,13 +8,14 @@
 {{-- Since multiple line brackets are not yet implemented --}}
 {{-- see: https://github.com/laravel/framework/issues/88  --}}
 <?=
-    Form::openForFiles(
-        URL::action(
+    Form::open([   
+        'url' => URL::action(
             isset( $action ) ? $action : 'Admin\CategoriesController@store',
             isset( $category ) ? ['id'=>$category->id] : []
         ),
-        isset( $method ) ? $method : 'POST' 
-    )
+        'method'=> isset( $method ) ? $method : 'POST',
+        'files'=>true
+    ])
 ?>
     <fieldset>
         @if ( isset($category) )

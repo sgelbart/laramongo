@@ -3,7 +3,11 @@
         Importar produtos
     </h2>
 
-    {{ Form::openForFiles(URL::action('Admin\ProductsController@doImport'), 'POST') }}
+    {{ Form::open([
+        'url' => URL::action('Admin\ProductsController@doImport'),
+        'method' => 'POST',
+        'files' => true
+    ]) }}
 
         {{ Form::label('family', 'Família') }}
         {{ Form::text('family', 'betoneiras', ['readonly'] ) }}

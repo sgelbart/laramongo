@@ -45,7 +45,7 @@ class AdminCategoriesTest extends TestCase
         $crawler = $this->requestAction('POST', 'Admin\CategoriesController@store');
 
         // Index location
-        $location = 'http://:/'.URL::action('Admin\CategoriesController@index');
+        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
 
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
     }
@@ -69,7 +69,7 @@ class AdminCategoriesTest extends TestCase
         $invalid_id = 0;
 
         // The edit form location
-        $location = 'http://:/'.URL::action('Admin\CategoriesController@index');
+        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
 
         $crawler = $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$invalid_id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -86,7 +86,7 @@ class AdminCategoriesTest extends TestCase
         Input::replace( $category->attributes );
 
         // Index location
-        $location = 'http://:/'.URL::action('Admin\CategoriesController@index');
+        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
 
         $crawler = $this->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -104,7 +104,7 @@ class AdminCategoriesTest extends TestCase
         Input::replace( array('name'=>'') );
 
         // The edit form location
-        $location = 'http://:/'.URL::action('Admin\CategoriesController@edit', ['id' => $category->id]);
+        $location = 'http://:'.URL::action('Admin\CategoriesController@edit', ['id' => $category->id]);
 
         $crawler = $this->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));

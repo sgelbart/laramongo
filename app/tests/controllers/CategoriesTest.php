@@ -32,7 +32,7 @@ class CategoriesTest extends TestCase
         $invalid_id = 0;
 
         // The website index location
-        $location = 'http://:';
+        $location = 'http://:/';
 
         $crawler = $this->requestAction('GET', 'CategoriesController@show', ['id'=>$invalid_id]);
 

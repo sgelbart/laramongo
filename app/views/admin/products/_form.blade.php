@@ -8,13 +8,13 @@
 {{-- Since multiple line brackets are not yet implemented --}}
 {{-- see: https://github.com/laravel/framework/issues/88  --}}
 <?=
-    Form::open(
-        URL::action(
+    Form::open([
+        'url' => URL::action(
             isset( $action ) ? $action : 'Admin\ProductsController@store',
             isset( $product ) ? ['id'=>$product->id] : []
         ),
-        isset( $method ) ? $method : 'POST' 
-    )
+        'method' => isset( $method ) ? $method : 'POST' 
+    ])
 ?>
     <fieldset>
         <div class='wrapper'>

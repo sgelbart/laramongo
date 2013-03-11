@@ -47,7 +47,7 @@ class AdminProductsTest extends TestCase
         $crawler = $this->requestAction('POST', 'Admin\ProductsController@store');
 
         // Index location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@index');
+        $location = 'http://:'.URL::action('Admin\ProductsController@index');
 
         // Should redirect with success message
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -62,7 +62,7 @@ class AdminProductsTest extends TestCase
         Input::replace( array() );
 
         // The create form location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@create');
+        $location = 'http://:'.URL::action('Admin\ProductsController@create');
 
         $crawler = $this->requestAction('POST', 'Admin\ProductsController@store');
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -74,7 +74,7 @@ class AdminProductsTest extends TestCase
      */
     public function testShouldShow(){
         // The edit form location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@edit', ['id' => 0]);
+        $location = 'http://:'.URL::action('Admin\ProductsController@edit', ['id' => 0]);
 
         $crawler = $this->requestAction('GET', 'Admin\ProductsController@show', ['id' => 0]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -99,7 +99,7 @@ class AdminProductsTest extends TestCase
         $invalid_id = 0;
 
         // The edit form location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@index');
+        $location = 'http://:'.URL::action('Admin\ProductsController@index');
 
         $crawler = $this->requestAction('GET', 'Admin\ProductsController@edit', ['id'=>$invalid_id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -116,7 +116,7 @@ class AdminProductsTest extends TestCase
         Input::replace( $product->attributes );
 
         // Index location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@index');
+        $location = 'http://:'.URL::action('Admin\ProductsController@index');
 
         $crawler = $this->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));
@@ -134,7 +134,7 @@ class AdminProductsTest extends TestCase
         Input::replace( array('name'=>'') );
 
         // The edit form location
-        $location = 'http://:/'.URL::action('Admin\ProductsController@edit', ['id' => $product->id]);
+        $location = 'http://:'.URL::action('Admin\ProductsController@edit', ['id' => $product->id]);
 
         $crawler = $this->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->id]);
         $this->assertTrue($this->client->getResponse()->isRedirect($location));

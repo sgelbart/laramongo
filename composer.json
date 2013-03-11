@@ -1,7 +1,7 @@
 {
 	"require": {
 		"laravel/framework": "4.0.*",
-		"navruzm/lmongo": "*",
+		"navruzm/lmongo": "dev-master#e0f1090a96757b656f7a7e836eb00d67b27cbb2c",
 		"navruzm/laravel-mongo-auth": "dev-master",
 		"navruzm/laravel-mongo-validation": "dev-master",
 		"navruzm/laravel-mongo-cache": "dev-master",
