@@ -1,0 +1,24 @@
+[global]
+ApplicationName=laramongo
+DevToolsEndpoint=git.elasticbeanstalk.sa-east-1.amazonaws.com
+EnvironmentName=develop
+OptionSettingFile=optionsettings.laramongo-env
+RdsEnabled=No
+Region=sa-east-1
+ServiceEndpoint=https://elasticbeanstalk.sa-east-1.amazonaws.com
+SolutionStack=64bit Amazon Linux running PHP 5.4
+
+[branches]
+develop=develop
+master=production
+
+[branch:develop]
+EnvironmentName=develop
+OptionSettingFile=/home/zizaco/Projetos/php_projects/leroy-merlin/.elasticbeanstalk/optionsettings.develop
+RdsEnabled=No
+
+[branch:master]
+EnvironmentName=production
+OptionSettingFile=/home/zizaco/Projetos/php_projects/leroy-merlin/.elasticbeanstalk/optionsettings.production
+RdsEnabled=No
+
