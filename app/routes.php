@@ -21,7 +21,7 @@ Route::get(    'category/{id}', 'CategoriesController@show' );
 Route::get(    'product/{id}', 'ProductsController@show' );
 
 // HealthCheck
-Route::get(    'health', function(){ return "It's working ;D"; } );
+Route::get(    'health', function(){ return "The application is healty"; } );
 
 /*
 |--------------------------------------------------------------------------
