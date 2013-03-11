@@ -1,6 +1,18 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.0.*",
+		"navruzm/lmongo": "*",
+		"navruzm/laravel-mongo-auth": "dev-master",
+		"navruzm/laravel-mongo-validation": "dev-master",
+		"navruzm/laravel-mongo-cache": "dev-master",
+		"keboola/csv": "1.0.9",
+		"zizaco/confide": "dev-master",
+		"zizaco/lessy": "dev-master",
+		"jasonlewis/basset": "dev-master",
+		"jonob/html": "v1.1.4",
+		"jonob/formly": "v1.2.1",
+		"vipsoft/unzip": "dev-master",
+		"mockery/mockery": "*"
 	},
 	"autoload": {
 		"classmap": [
@@ -9,7 +21,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+			"app/libraries"
 		]
 	},
 	"minimum-stability": "dev"

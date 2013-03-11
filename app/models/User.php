@@ -1,52 +1,52 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+class User extends BaseModel implements Illuminate\Auth\UserInterface
+{
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+    /**
+     * The database collection
+     *
+     * @var string
+     */
+    protected $collection = 'users';
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    public static function logAttempt( $credentials )
+    {
+        $user = User::first([
+            '$or'=> [
+                ['email'    => $credentials['email'] ] ,
+                ['username' => $credentials['email'] ]
+            ] 
+        ]);
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password');
+        if ( $user and Hash::check($credentials['password'], $user->password) )
+        {
+            Auth::login( 
+                $user,
+                isset($credentials['remember']) ? $credentials['remember'] : false 
+            );
+            
+            return true;
+        }
+    }
 
-	/**
-	 * Get the unique identifier for the user.
-	 *
-	 * @return mixed
-	 */
-	public function getAuthIdentifier()
-	{
-		return $this->getKey();
-	}
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Get the password for the user.
-	 *
-	 * @return string
-	 */
-	public function getAuthPassword()
-	{
-		return $this->password;
-	}
-
-	/**
-	 * Get the e-mail address where password reminders are sent.
-	 *
-	 * @return string
-	 */
-	public function getReminderEmail()
-	{
-		return $this->email;
-	}
-
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 }

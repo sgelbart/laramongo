@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'pt',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'Y81f7ILLLRKmggmToNUoQvIkvAUkOHxi',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -81,7 +81,8 @@ return array(
 	'providers' => array(
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-		'Illuminate\Auth\AuthServiceProvider',
+		//'Illuminate\Auth\AuthServiceProvider',
+		'MongoAuth\MongoAuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\CommandCreatorServiceProvider',
 		'Illuminate\Session\CommandsServiceProvider',
@@ -110,6 +111,12 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'LMongo\LMongoServiceProvider',
+		'Zizaco\Confide\ConfideServiceProvider',
+		'Zizaco\Lessy\LessyServiceProvider',
+		'Meido\Form\FormServiceProvider',
+		'Meido\HTML\HTMLServiceProvider',
+		'Basset\BassetServiceProvider',
 
 	),
 
@@ -175,6 +182,12 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		'LMongo'          => 'LMongo\Facades\LMongo',
+		'EloquentMongo'   => 'LMongo\Eloquent\Model',
+		'Basset'          => 'Basset\Facades\Basset',
+		'Form' 	          => 'Meido\Form\FormFacade',
+		'HTML' 	          => 'Meido\HTML\HTMLFacade',
+		'Confide'         => 'Zizaco\Confide\ConfideFacade',
 
 	),
 
