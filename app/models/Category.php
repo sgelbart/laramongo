@@ -35,6 +35,10 @@ class Category extends BaseModel {
         'productTemplate' => 'default'
     );
 
+    protected $guarded = array(
+        'image_file'
+    );
+
     /**
      * Path where category images will be stored
      *

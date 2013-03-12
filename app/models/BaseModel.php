@@ -23,6 +23,7 @@ abstract class BaseModel extends EloquentMongo
      */
     public function save()
     {
+
         if( $this->isValid() )
         {
             return parent::save();

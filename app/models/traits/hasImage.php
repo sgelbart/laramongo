@@ -11,7 +11,7 @@ trait hasImage
     public function attachUploadedImage( $image_file )
     {
         $path = app_path().'/'.$this->images_path;
-        $filename = $this->id.'.jpg';
+        $filename = $this->_id.'.jpg';
 
         $old = umask(0); 
 
