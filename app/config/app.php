@@ -81,8 +81,7 @@ return array(
 	'providers' => array(
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-		//'Illuminate\Auth\AuthServiceProvider',
-		'MongoAuth\MongoAuthServiceProvider',
+		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\CommandCreatorServiceProvider',
 		'Illuminate\Session\CommandsServiceProvider',
@@ -111,10 +110,10 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		'Way\Generators\GeneratorsServiceProvider',
 		'LMongo\LMongoServiceProvider',
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Lessy\LessyServiceProvider',
-		'Jonob\HTML\HTMLServiceProvider',
 		'Basset\BassetServiceProvider',
 
 	),
@@ -184,9 +183,6 @@ return array(
 		'LMongo'          => 'LMongo\Facades\LMongo',
 		'EloquentMongo'   => 'LMongo\Eloquent\Model',
 		'Basset'          => 'Basset\Facades\Basset',
-		'HTML' 	          => 'Jonob\HTML\HTMLFacade',
-		'Confide'         => 'Zizaco\Confide\ConfideFacade',
-
 	),
 
 );

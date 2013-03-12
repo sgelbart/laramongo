@@ -1,16 +1,12 @@
 {
 	"require": {
 		"laravel/framework": "4.0.*",
-		"navruzm/lmongo": "dev-master#e0f1090a96757b656f7a7e836eb00d67b27cbb2c",
-		"navruzm/laravel-mongo-auth": "dev-master",
-		"navruzm/laravel-mongo-validation": "dev-master",
-		"navruzm/laravel-mongo-cache": "dev-master",
+		"way/generators": "dev-master",
+		"navruzm/lmongo": "dev-master#d673d7762028ab53a54f227caa8882830e80c427",
 		"keboola/csv": "1.0.9",
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
-		"jonob/html": "v1.1.4",
-		"jonob/formly": "v1.2.1",
 		"vipsoft/unzip": "dev-master"
 	},
 	"require-dev": {
