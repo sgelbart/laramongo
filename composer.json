@@ -7,7 +7,8 @@
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
-		"vipsoft/unzip": "dev-master"
+		"vipsoft/unzip": "dev-master",
+		"jonob/html": "dev-master"
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",

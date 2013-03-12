@@ -15,7 +15,7 @@
                 <a class="brand" href="/">Laramongo</a>
 
                 {{-- Navigation links --}}
-                @if( Auth::user() )
+                @if( true ) {{-- Auth::user --}}
                     <ul class="nav">
 
                         <li {{ (Request::is('admin/categor*')) ? 'class="active"' : '' }}>

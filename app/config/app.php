@@ -115,6 +115,7 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Lessy\LessyServiceProvider',
 		'Basset\BassetServiceProvider',
+		'Jonob\HTML\HTMLServiceProvider',
 
 	),
 
@@ -183,6 +184,7 @@ return array(
 		'LMongo'          => 'LMongo\Facades\LMongo',
 		'EloquentMongo'   => 'LMongo\Eloquent\Model',
 		'Basset'          => 'Basset\Facades\Basset',
+		'HTML'            => 'Jonob\HTML\HTMLFacade',
 	),
 
 );

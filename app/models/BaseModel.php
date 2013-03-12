@@ -1,8 +1,6 @@
 <?php
 
-use Zizaco\LmongoOrm\MongoModel;
-
-abstract class BaseModel extends MongoModel
+abstract class BaseModel extends EloquentMongo
 {
     /**
      * Validation rules
