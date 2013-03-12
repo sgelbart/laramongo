@@ -73,15 +73,6 @@ class ImporterTest extends TestCase {
     }
 
     /**
-     * Clean database collection
-     */
-    private function cleanCollection( $collection )
-    {
-        $db = LMongo::connection();
-        $db->$collection->drop();
-    }
-
-    /**
      * Returns an category that "exists in database".
      *
      * @param string $name

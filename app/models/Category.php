@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 class Category extends BaseModel {
 
     /**
@@ -24,5 +26,32 @@ class Category extends BaseModel {
      * @var string
      */
     private $images_path = '../public/assets/img/categories';
+
+    /**
+     * Verify if the model is valid
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $valid = parent::isValid();
+
+        if( $valid )
+        {
+            $exists = Category::where('name',$this->name)->get()->count();
+
+            if( $exists )
+            {
+                $this->errors = new MessageBag(['Já existe uma categoria com esse nome']);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

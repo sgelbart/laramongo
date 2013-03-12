@@ -19,7 +19,7 @@
             @foreach ($categories as $category)
                 <tr>
                     <td>
-                        {{ HTML::action( 'Admin\CategoriesController@edit', $category->name, ['id'=>$category->id] ) }}
+                        {{ HTML::action( 'Admin\CategoriesController@edit', $category->name, ['id'=>$category->_id] ) }}
                     </td>
                 </tr>
             @endforeach
