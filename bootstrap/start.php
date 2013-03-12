@@ -24,11 +24,16 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+if( isset($_SERVER['PARAM3']) )
+{
+    $env = $app['env'] = $_SERVER['PARAM3'];
+}
+else
+{
+    $env = $app['env'] = 'local';
+}
 
-	'local' => array('your-machine-name'),
 
-));
 
 /*
 |--------------------------------------------------------------------------
