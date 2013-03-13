@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Category, View, Input, Redirect, URL;
+use Category, View, Input, Redirect, URL, MongoId;
 
 class CategoriesController extends AdminController {
 
@@ -84,7 +84,18 @@ class CategoriesController extends AdminController {
 	 */
 	public function edit($id)
 	{
-		//
+		$category = Category::find(new MongoId($id));
+
+        if(! $category)
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada' );
+        }
+
+        $this->layout->content = View::make('admin.categories.edit')
+            ->with( 'category', $category )
+            ->with( 'action', 'Admin\CategoriesController@update')
+            ->with( 'method', 'PUT');
 	}
 
 	/**
@@ -94,7 +105,37 @@ class CategoriesController extends AdminController {
 	 */
 	public function update($id)
 	{
-		//
+		$category = Category::find(new MongoId($id));
+
+        if(! $category)
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        $category->fill( Input::all() );
+
+        // Save if valid
+        if ( $category->save() )
+        {
+            // Attach image to category
+            if( Input::hasFile('image_file') )
+            {
+                $category->attachUploadedImage( Input::file('image_file') );
+            }
+            
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Alterações salvas com sucesso' );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $category->errors->all();
+
+            return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+                ->withInput()
+                ->with( 'error', $error );
+        }
 	}
 
 	/**

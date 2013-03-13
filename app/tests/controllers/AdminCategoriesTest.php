@@ -20,7 +20,7 @@ class AdminCategoriesTest extends ControllerTestCase
      */
     public function testShouldIndex(){
         $this->requestAction('GET', 'Admin\CategoriesController@index');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->assertRequestOk();
     }
 
     /**
@@ -29,7 +29,7 @@ class AdminCategoriesTest extends ControllerTestCase
      */
     public function testShouldCreate(){
         $this->requestAction('GET', 'Admin\CategoriesController@create');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->assertRequestOk();
     }
 
     /**
@@ -56,6 +56,59 @@ class AdminCategoriesTest extends ControllerTestCase
         $this->withInput($input)->requestAction('POST', 'Admin\CategoriesController@store');
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@create'));
+        $this->assertSessionHas('error');
+    }
+
+    /**
+     * Edit action should always return 200 when if exists
+     *
+     */
+    public function testShouldEdit(){
+        $category = f::create( 'Category' );
+
+        $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$category->_id]);
+        $this->assertRequestOk();
+    }
+
+    /**
+     * Edit action should redirect to index if category doesn't exists
+     *
+     */
+    public function testShouldNotEditNull(){
+
+        $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>'123']);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','não encontrad');
+    }
+
+    /**
+     * Update action should update existent category and redirect to index
+     *
+     */
+    public function testShouldUpdateExistent(){
+        $category = f::create( 'Category' );
+
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Update action should redirect to edit form of the same category if update
+     * input is invalid
+     *
+     */
+    public function testShouldNotUpdateWithInvalidInput(){
+        $category = f::create( 'Category' );
+        $category->name = '';
+
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('error');
     }
 }

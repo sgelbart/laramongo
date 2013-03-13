@@ -36,7 +36,8 @@ class Category extends BaseModel {
     );
 
     protected $guarded = array(
-        'image_file'
+        'image_file',
+        '_id',
     );
 
     /**
