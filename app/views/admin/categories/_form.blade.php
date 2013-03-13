@@ -56,7 +56,7 @@
     @endif
 
     <div class='form-actions'>
-        {{ Form::button('Salvar categoria', ['type'=>'submit', 'class'=>'btn btn-primary'] ) }}
+        {{ Form::button('Salvar categoria', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
 
         @if ( isset($category) )
             {{ HTML::action( 'Admin\CategoriesController@destroy', 'Excluir', ['id'=>$category->id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}

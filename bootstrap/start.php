@@ -24,7 +24,11 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-if( isset($_SERVER['PARAM3']) )
+if( isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == 4443 ) // For selenium tests
+{
+    $env = $app['env'] = 'testing';
+}
+elseif( isset($_SERVER['PARAM3']) )
 {
     $env = $app['env'] = $_SERVER['PARAM3'];
 }

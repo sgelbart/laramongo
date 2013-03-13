@@ -12,7 +12,8 @@
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",
-		"mockery/mockery": "*"
+		"mockery/mockery": "*",
+		"alexandresalome/php-selenium": "1.0.1"
 	},
 	"autoload": {
 		"classmap": [
@@ -23,6 +24,7 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
 			"app/tests/ControllerTestCase.php",
+			"app/tests/AcceptanceTestCase.php",
 			"app/libraries"
 		]
 	},
