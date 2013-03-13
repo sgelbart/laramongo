@@ -48,6 +48,23 @@ class Category extends BaseModel {
     private $images_path = '../public/assets/img/categories';
 
     /**
+     * Reference to parent
+     */
+    public function parent()
+    {
+        return $this->belongsToMany('Category','parents');
+    }
+
+    /**
+     * Return all the parents
+     *
+     */
+    public function parents()
+    {
+        return $this->parent()->getQuery()->get();
+    }
+
+    /**
      * Verify if the model is valid
      *
      * @return bool
