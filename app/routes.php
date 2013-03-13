@@ -31,13 +31,15 @@ Route::get('admin', function()
 });
 
 // Admin\CategoriesController
-Route::get(    'admin/categories',               'Admin\CategoriesController@index' );
-Route::get(    'admin/category',                 'Admin\CategoriesController@index' );
-Route::get(    'admin/category/create',          'Admin\CategoriesController@create');
-Route::post(   'admin/category/store',           'Admin\CategoriesController@store');
-Route::get(    'admin/category/{id}/edit',       'Admin\CategoriesController@edit');
-Route::put(    'admin/category/{id}',            'Admin\CategoriesController@update');
-Route::delete( 'admin/category/{id}',            'Admin\CategoriesController@destroy');
+Route::get(    'admin/categories',                       'Admin\CategoriesController@index' );
+Route::get(    'admin/category',                         'Admin\CategoriesController@index' );
+Route::get(    'admin/category/create',                  'Admin\CategoriesController@create');
+Route::post(   'admin/category/store',                   'Admin\CategoriesController@store');
+Route::get(    'admin/category/{id}/edit',               'Admin\CategoriesController@edit');
+Route::put(    'admin/category/{id}',                    'Admin\CategoriesController@update');
+Route::get(    'admin/category/{id}',                    'Admin\CategoriesController@show');
+Route::delete( 'admin/category/{id}',                    'Admin\CategoriesController@destroy');
+Route::get(    'admin/category/{id}/tree/{perspective?}','Admin\CategoriesController@tree');
 
 
 /*

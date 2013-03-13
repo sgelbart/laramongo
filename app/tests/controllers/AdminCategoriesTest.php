@@ -60,7 +60,7 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Edit action should always return 200 when if exists
+     * Edit action should always return 200 if exists
      *
      */
     public function testShouldEdit(){
@@ -110,5 +110,31 @@ class AdminCategoriesTest extends ControllerTestCase
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('error');
+    }
+
+    /**
+     * Show action should always return 200 if exists
+     *
+     */
+    public function testShouldShow(){
+        $category = f::create( 'Category' );
+
+        $this->requestAction('GET', 'Admin\CategoriesController@show', ['id'=>$category->_id]);
+        $this->assertRequestOk();
+    }
+
+    /**
+     * Show action should always return 200 if exists
+     *
+     */
+    public function testShouldDisplayTree(){
+        $category = f::create( 'Category' );
+
+        $this->requestAction(
+            'GET', 'Admin\CategoriesController@tree', 
+            ['id'=>$category->_id, 'kind'=>'parents']
+        );
+        
+        $this->assertRequestOk();
     }
 }

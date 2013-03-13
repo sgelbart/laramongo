@@ -68,14 +68,51 @@ class CategoriesController extends AdminController {
 	}
 
 	/**
-	 * Display the specified resource.
-	 *
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+     * Display the specified resource.
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
+        $category = Category::find(new MongoId($id));
+
+        if(! $category)
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada' );
+        }
+
+        $this->layout->content = View::make('admin.categories.hierarchy')
+            ->with( 'category', $category );
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return Response
+     */
+    public function tree($id, $perspective = 'parents')
+    {
+        $category = Category::find(new MongoId($id));
+
+        if(! $category)
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada' );
+        }
+
+        if($perspective == 'childs')
+        {
+            $view_name = 'admin.categories.tree.childs';
+        }
+        else
+        {
+            $view_name = 'admin.categories.tree.parents';
+        }
+
+        $this->layout->content = View::make($view_name)
+            ->with( 'category', $category );
+    }
 
 	/**
 	 * Show the form for editing the specified resource.

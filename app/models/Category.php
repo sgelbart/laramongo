@@ -65,6 +65,15 @@ class Category extends BaseModel {
     }
 
     /**
+     * Return all the childs
+     *
+     */
+    public function childs()
+    {
+        return Category::where('_id',['$in'=>$this->category_id])->get();
+    }
+
+    /**
      * Verify if the model is valid
      *
      * @return bool
