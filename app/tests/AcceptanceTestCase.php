@@ -22,6 +22,7 @@ class AcceptanceTestCase extends TestCase
         if(AcceptanceTestCase::$loadedBrowser)
         {
             AcceptanceTestCase::$loadedBrowser->stop();
+            AcceptanceTestCase::$loadedBrowser = null;
         }
     }
 
