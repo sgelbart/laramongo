@@ -26,7 +26,6 @@ class Category extends BaseModel {
      */
     public static $factory = array(
         'name' => 'string',
-        'image' => 'categoryimage.jpg',
         'parents' => array(),
         'shortDesc' => 'text',
         'description' => 'text',
