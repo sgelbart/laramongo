@@ -84,9 +84,8 @@ class Category extends BaseModel {
 
         if( $valid )
         {
-            $exists = Category::where('name',$this->name) // does a category with the same name
-                ->where('_id',[ '$ne'=>$this->_id ])      // with different _id exists?
-                ->get()->count();
+            // does a category with the same name and with different _id exists?
+            $exists = Category::where(['name'=>$this->name, '_id'=>['$ne'=>$this->_id]])->count();
 
             if( $exists )
             {

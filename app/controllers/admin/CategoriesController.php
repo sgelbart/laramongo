@@ -74,7 +74,7 @@ class CategoriesController extends AdminController {
      */
     public function show($id)
     {
-        $category = Category::find(new MongoId($id));
+        $category = Category::first($id);
 
         if(! $category)
         {
@@ -93,7 +93,7 @@ class CategoriesController extends AdminController {
      */
     public function tree($id, $perspective = 'parents')
     {
-        $category = Category::find(new MongoId($id));
+        $category = Category::first($id);
 
         if(! $category)
         {
@@ -121,7 +121,7 @@ class CategoriesController extends AdminController {
 	 */
 	public function edit($id)
 	{
-		$category = Category::find(new MongoId($id));
+		$category = Category::first($id);
 
         if(! $category)
         {
@@ -142,7 +142,7 @@ class CategoriesController extends AdminController {
 	 */
 	public function update($id)
 	{
-		$category = Category::find(new MongoId($id));
+		$category = Category::first($id);
 
         if(! $category)
         {

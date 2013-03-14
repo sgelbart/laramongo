@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseModel extends EloquentMongo
+abstract class BaseModel extends Zizaco\Mongoloid\Model
 {
     /**
      * Validation rules
@@ -58,5 +58,10 @@ abstract class BaseModel extends EloquentMongo
         {
             return true;
         }
+    }
+
+    public function __construct()
+    {
+        $this->database = Config::get('lmongo::connections.default.database');
     }
 }
