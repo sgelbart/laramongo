@@ -91,27 +91,9 @@ class CategoriesController extends AdminController {
      *
      * @return Response
      */
-    public function tree($id, $perspective = 'parents')
+    public function tree()
     {
-        $category = Category::first($id);
-
-        if(! $category)
-        {
-            return Redirect::action('Admin\CategoriesController@index')
-                ->with( 'flash', 'Categoria não encontrada' );
-        }
-
-        if($perspective == 'childs')
-        {
-            $view_name = 'admin.categories.tree.childs';
-        }
-        else
-        {
-            $view_name = 'admin.categories.tree.parents';
-        }
-
-        $this->layout->content = View::make($view_name)
-            ->with( 'category', $category );
+        $this->layout->content = View::make('admin.categories.tree');
     }
 
 	/**

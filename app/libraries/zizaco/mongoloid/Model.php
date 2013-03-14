@@ -439,7 +439,7 @@ class Model
         $ref_ids = $this->$field;
 
         if (! isset($ref_ids[0]) )
-            return null;
+            return array();
 
         if ($this->isMongoId($ref_ids[0]))
         {

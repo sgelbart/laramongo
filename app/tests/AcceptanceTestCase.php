@@ -46,6 +46,13 @@ class AcceptanceTestCase extends TestCase
         $this->assertContains($needle, $text, "Given element does not contain $needle");
     }
 
+    public function assertBodyHasHtml($needle)
+    {
+        $html = str_replace("\n", '', $this->browser->getHtmlSource());
+
+        $this->assertContains($needle, $html, "Body html does not contain $needle");
+    }
+
     public function assertLocation($location)
     {
         $current_location = substr($this->browser->getLocation(), strlen($location)*-1);

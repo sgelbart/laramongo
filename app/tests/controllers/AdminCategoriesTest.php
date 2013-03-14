@@ -124,17 +124,24 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Show action should always return 200 if exists
+     * Show action should redirect to index if category doesn't exists
+     *
+     */
+    public function testShouldNotShowNull(){
+
+        $this->requestAction('GET', 'Admin\CategoriesController@show', ['id'=>'123']);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','não encontrad');
+    }
+
+    /**
+     * Index action should always return 200
      *
      */
     public function testShouldDisplayTree(){
-        $category = f::create( 'Category' );
-
-        $this->requestAction(
-            'GET', 'Admin\CategoriesController@tree', 
-            ['id'=>$category->_id, 'kind'=>'parents']
-        );
-        
+        $this->requestAction('GET', 'Admin\CategoriesController@tree');
         $this->assertRequestOk();
     }
+
 }

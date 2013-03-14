@@ -3,7 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Category extends BaseModel {
-    use hasImage;
+    use hasImage, categoryTree;
 
     /**
      * The database collection
@@ -28,7 +28,6 @@ class Category extends BaseModel {
         'name' => 'string',
         'image' => 'categoryimage.jpg',
         'parents' => array(),
-        'kind' => 'leaf',
         'shortDesc' => 'text',
         'description' => 'text',
         'template' => 'default',
@@ -50,27 +49,26 @@ class Category extends BaseModel {
     /**
      * Reference to parent
      */
-    public function parent()
-    {
-        return $this->belongsToMany('Category','parents');
-    }
-
-    /**
-     * Return all the parents
-     *
-     */
     public function parents()
     {
-        return $this->parent()->getQuery()->get();
+        return $this->referencesMany('Category','parents');
     }
 
     /**
-     * Return all the childs
+     * A full ancestors tree
+     */
+    public function ancestors()
+    {
+        return $this->embedsMany('Category','ancestors');
+    }
+
+    /**
+     * Return all the childs. Use carefully.
      *
      */
     public function childs()
     {
-        return Category::where('_id',['$in'=>$this->category_id])->get();
+        return Category::where(['parents'=>$this->_id]);
     }
 
     /**
@@ -99,6 +97,40 @@ class Category extends BaseModel {
         }
 
         return false;
+    }
+
+    /**
+     * Save the model to the database if it's valid
+     * Before saving, build ancestor tree
+     *
+     * @return bool
+     */
+    public function save()
+    {
+
+        if( $this->isValid() )
+        {
+            $this->buildAncestors();
+            return parent::save();
+
+            foreach ($this->childs() as $child) {
+                $child->buildAncestors();
+                $child->save();
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function buildAncestors()
+    {
+        unset($this->ancestors);
+        if($this->parents())
+        {
+            $this->ancestors = $this->parents()->toArray();
+        }
     }
 
 }

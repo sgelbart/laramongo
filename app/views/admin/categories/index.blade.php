@@ -3,6 +3,8 @@
         Categorias
     </h2>
 
+    @include('admin.categories._tabs')
+
     <p>
         <a href='{{ URL::action( 'Admin\CategoriesController@create' ) }}' class='btn btn-primary' id='btn-create-new-category'>
             Nova Categoria

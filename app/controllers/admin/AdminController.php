@@ -13,6 +13,11 @@ abstract class AdminController extends \Controller {
     {
         if ( ! is_null($this->layout))
         {
+            if( \Input::get('ajax') || \Request::ajax() )
+            {
+                $this->layout = 'layouts.ajax';
+            }
+
             $this->layout = \View::make($this->layout);
         }
     }
