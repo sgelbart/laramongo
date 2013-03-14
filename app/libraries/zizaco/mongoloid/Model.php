@@ -508,6 +508,49 @@ class Model
     }
 
     /**
+     * Detach a document or id from an reference array
+     * 
+     * @param string $field
+     * @param mixed $obj _id, document or model instance
+     * @return void
+     */
+    public function detach($field, $obj)
+    {
+        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        {
+            $mongoId = $obj->getMongoId();
+        }
+        elseif( is_array($obj) )
+        {
+            if(isset($obj['id']))
+            {
+                $mongoId = $obj['id'];
+            }
+            elseif(isset($obj['_id']))
+            {
+                $mongoId = $obj['_id'];
+            }
+        }
+        else
+        {
+            $mongoId = $obj;
+        }
+
+        if($mongoId != null)
+        {
+            $attr = (array)$this->getAttribute($field);
+            
+            foreach ($attr as $key => $value) {
+                if((string)$value == (string)$mongoId)
+                {
+                    unset($attr[$key]);
+                }
+            }
+            $this->setAttribute($field, $attr);
+        }
+    }
+
+    /**
      * Embed a new document to an attribute
      * 
      * @param string $field

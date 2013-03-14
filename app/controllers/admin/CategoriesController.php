@@ -183,6 +183,23 @@ class CategoriesController extends AdminController {
             ->with( 'flash', 'Alterações salvas com sucesso' );
     }
 
+    /**
+     * Detach a parent to the specified resource.
+     *
+     * @return Response
+     */
+    public function detach($id, $parent_id)
+    {
+        $category = Category::first($id);
+
+        // Detach parent and save
+        $category->detach('parents', $parent_id);
+        $category->save();
+        
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+            ->with( 'flash', 'Alterações salvas com sucesso' );
+    }
+
 	/**
 	 * Remove the specified resource from storage.
 	 *

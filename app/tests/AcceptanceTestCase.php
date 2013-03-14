@@ -36,28 +36,35 @@ class AcceptanceTestCase extends TestCase
     {
         $text = $this->browser->getBodyText();
 
-        $this->assertContains($needle, $text, "Body text does not contain $needle");
+        $this->assertContains($needle, $text, "Body text does not contain '$needle'");
     }
 
     public function assertElementHasText($locator, $needle)
     {
         $text = $this->browser->getText($locator);
 
-        $this->assertContains($needle, $text, "Given element does not contain $needle");
+        $this->assertContains($needle, $text, "Given element does not contain '$needle'");
+    }
+
+    public function assertElementHasNotText($locator, $needle)
+    {
+        $text = $this->browser->getText($locator);
+
+        $this->assertNotContains($needle, $text, "Given element do contain '$needle' but it shoudn't");
     }
 
     public function assertBodyHasHtml($needle)
     {
         $html = str_replace("\n", '', $this->browser->getHtmlSource());
 
-        $this->assertContains($needle, $html, "Body html does not contain $needle");
+        $this->assertContains($needle, $html, "Body html does not contain '$needle'");
     }
 
     public function assertLocation($location)
     {
         $current_location = substr($this->browser->getLocation(), strlen($location)*-1);
 
-        $this->assertEquals($current_location, $location, "The current location ($current_location) is not $location");
+        $this->assertEquals($current_location, $location, "The current location ($current_location) is not '$location'");
     }
 
     protected function startBrowser()

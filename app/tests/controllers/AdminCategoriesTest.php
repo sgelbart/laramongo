@@ -173,4 +173,25 @@ class AdminCategoriesTest extends ControllerTestCase
         $this->assertSessionHas('flash', 'não');
     }
 
+    /**
+     * Dettach action should redirect to edit of the same resource
+     *
+     */
+    public function testShouldDetach(){
+        $parent = f::create( 'Category' );
+        $category = f::create( 'Category' );
+        $category->attachToParents($parent);
+        $category->save();
+
+        $this->withInput( ['parent'=>(string)$parent->_id] );
+        
+        $this->requestAction(
+                'DELETE', 'Admin\CategoriesController@detach',
+                ['id'=>$category->_id, 'parent'=>$parent->_id]
+        );
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
 }

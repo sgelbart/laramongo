@@ -103,6 +103,8 @@ class CategoryTest extends TestCase
     public function testShouldGetImage()
     {
         $category = f::create('Category');
+        $category->image = 'default.jpg';
+        $category->save();
 
         $this->assertEquals(
             URL::to('assets/img/categories/'.$category->image),

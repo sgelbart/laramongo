@@ -29,4 +29,22 @@ class ModifyCategoryHierarchy extends AcceptanceTestCase
 
         $this->assertElementHasText(l::id('hierarchy-table'), $parent->name);
     }
+
+    public function testDeattachParentOfCategory()
+    {
+        $parent = f::create( 'Category' );
+        $category = f::create( 'Category' );
+        $category->attachToParents($parent);
+        $category->save();
+
+        $this->browser
+            ->open(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]))
+            ->click(l::linkContaining('Hierarquia'))
+            ->click(l::linkContaining('Remover relação'))
+            ->waitForPageToLoad(1000)
+            ->click(l::linkContaining('Hierarquia'))
+            ->waitForPageToLoad(1000);
+
+        $this->assertElementHasNotText(l::id('hierarchy-table'), $parent->name);
+    }
 }

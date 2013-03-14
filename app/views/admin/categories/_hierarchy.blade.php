@@ -12,7 +12,7 @@
                     {{ HTML::action('Admin\CategoriesController@edit', $parent->name, ['id'=>$parent->_id]) }}
                 </td>
                 <td>
-                    <a class='btn btn-danger btn-small'>Remover relação</a>
+                    <a href='{{ URL::action('Admin\CategoriesController@detach', ['id'=>$category->_id, 'parent'=>$parent->_id]) }}' class='btn btn-danger btn-small' data-method='delete'>Remover relação</a>
                 </td>
             <tr>
         @endforeach

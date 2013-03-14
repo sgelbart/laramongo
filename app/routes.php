@@ -31,17 +31,18 @@ Route::get('admin', function()
 });
 
 // Admin\CategoriesController
-Route::get(    'admin/category/tree',       'Admin\CategoriesController@tree');
-Route::get(    'admin/categories/tree',     'Admin\CategoriesController@tree');
-Route::get(    'admin/categories',          'Admin\CategoriesController@index' );
-Route::get(    'admin/category',            'Admin\CategoriesController@index' );
-Route::get(    'admin/category/create',     'Admin\CategoriesController@create');
-Route::post(   'admin/category/store',      'Admin\CategoriesController@store');
-Route::get(    'admin/category/{id}/edit',  'Admin\CategoriesController@edit');
-Route::put(    'admin/category/{id}',       'Admin\CategoriesController@update');
-Route::get(    'admin/category/{id}',       'Admin\CategoriesController@show');
-Route::delete( 'admin/category/{id}',       'Admin\CategoriesController@destroy');
-Route::post(   'admin/category/{id}/attach','Admin\CategoriesController@attach');
+Route::get(    'admin/category/tree',                'Admin\CategoriesController@tree');
+Route::get(    'admin/categories/tree',              'Admin\CategoriesController@tree');
+Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );
+Route::get(    'admin/category',                     'Admin\CategoriesController@index' );
+Route::get(    'admin/category/create',              'Admin\CategoriesController@create');
+Route::post(   'admin/category/store',               'Admin\CategoriesController@store');
+Route::get(    'admin/category/{id}/edit',           'Admin\CategoriesController@edit');
+Route::put(    'admin/category/{id}',                'Admin\CategoriesController@update');
+Route::get(    'admin/category/{id}',                'Admin\CategoriesController@show');
+Route::delete( 'admin/category/{id}',                'Admin\CategoriesController@destroy');
+Route::post(   'admin/category/{id}/attach',         'Admin\CategoriesController@attach');
+Route::delete( 'admin/category/{id}/attach/{parent}','Admin\CategoriesController@detach');
 
 /*
 |--------------------------------------------------------------------------
