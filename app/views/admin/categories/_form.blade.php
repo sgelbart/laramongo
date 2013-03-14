@@ -30,6 +30,20 @@
     </div>
 
     <div class="control-group">
+        <span class='control-label'>Tipo</span>
+        <div class="controls">
+            <label for='kind' class='radio'>
+                Categoria
+                {{ Form::radio('kind', '', true, ['id'=>'radio-kind-blank']) }}
+            </label>
+            <label for='kind' class='radio'>
+                Chave de entrada
+                {{ Form::radio('kind', 'leaf', array_get( $f,'kind') == 'leaf', ['id'=>'radio-kind-leaf']) }}
+            </label>
+        </div>
+    </div>
+
+    <div class="control-group">
         {{ Form::label('description', 'Descrição', ['class'=>'control-label']) }}
         <div class="controls">
             {{ Form::textarea('description', array_get( $f,'description') ) }}

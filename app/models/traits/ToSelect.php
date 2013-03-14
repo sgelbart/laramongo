@@ -1,6 +1,6 @@
 <?php
 
-trait toSelect
+trait ToSelect
 {
     public static function allToOptions()
     {

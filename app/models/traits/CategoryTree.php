@@ -1,6 +1,6 @@
 <?php
 
-trait categoryTree{
+trait CategoryTree{
 
     protected $treeUnderBuild;
 

@@ -546,7 +546,7 @@ class Model
                     unset($attr[$key]);
                 }
             }
-            $this->setAttribute($field, $attr);
+            $this->setAttribute($field, array_values($attr));
         }
     }
 

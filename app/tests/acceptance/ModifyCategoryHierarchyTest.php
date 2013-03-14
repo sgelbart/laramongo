@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ModifyCategoryHierarchy extends AcceptanceTestCase
+class ModifyCategoryHierarchyTest extends AcceptanceTestCase
 {
     /**
      * Clean collection between every test
@@ -32,9 +32,11 @@ class ModifyCategoryHierarchy extends AcceptanceTestCase
 
     public function testDeattachParentOfCategory()
     {
-        $parent = f::create( 'Category' );
+        $parentA = f::create( 'Category' ); // will be detached
+        $parentB = f::create( 'Category' ); // will not be detached
         $category = f::create( 'Category' );
-        $category->attachToParents($parent);
+        $category->attachToParents($parentA);
+        $category->attachToParents($parentB);
         $category->save();
 
         $this->browser
@@ -42,9 +44,9 @@ class ModifyCategoryHierarchy extends AcceptanceTestCase
             ->click(l::linkContaining('Hierarquia'))
             ->click(l::linkContaining('Remover relação'))
             ->waitForPageToLoad(1000)
-            ->click(l::linkContaining('Hierarquia'))
-            ->waitForPageToLoad(1000);
+            ->click(l::linkContaining('Hierarquia'));
 
-        $this->assertElementHasNotText(l::id('hierarchy-table'), $parent->name);
+        $this->assertElementHasNotText(l::id('hierarchy-table'), $parentA->name);
+        $this->assertElementHasText(l::id('hierarchy-table'), $parentB->name);
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Category extends BaseModel {
-    use hasImage, categoryTree, toSelect;
+    use HasImage, CategoryTree, ToSelect;
 
     /**
      * The database collection

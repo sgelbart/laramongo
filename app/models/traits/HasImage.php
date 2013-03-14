@@ -1,6 +1,6 @@
 <?php
 
-trait hasImage
+trait HasImage
 {
     /**
      * Attach an UploadedFile as the category image
