@@ -1,6 +1,6 @@
 @section ('content')
     <h2>
-        Editar categoria
+        <small>Editar categoria</small> {{ $category->name }}
     </h2>
 
     @include('admin.categories._edit_tabs')
@@ -10,8 +10,7 @@
     </div>
 
     <div id='category-hierarchy'> 
-        <hr>
-        <h3>Hierarchy!</h3>
+        @include ('admin.categories._hierarchy')
     </div>
 
 @stop

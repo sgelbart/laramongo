@@ -103,7 +103,8 @@ class CategoriesController extends AdminController {
 	 */
 	public function edit($id)
 	{
-		$category = Category::first($id);
+		$category =   Category::first($id);
+        $categories = Category::allToOptions();
 
         if(! $category)
         {
@@ -113,6 +114,7 @@ class CategoriesController extends AdminController {
 
         $this->layout->content = View::make('admin.categories.edit')
             ->with( 'category', $category )
+            ->with( 'categories', $categories )
             ->with( 'action', 'Admin\CategoriesController@update')
             ->with( 'method', 'PUT');
 	}
@@ -156,6 +158,30 @@ class CategoriesController extends AdminController {
                 ->with( 'error', $error );
         }
 	}
+
+    /**
+     * Attach a parent to the specified resource.
+     *
+     * @return Response
+     */
+    public function attach($id)
+    {
+        $category = Category::first($id);
+        $parent = Category::first( Input::get('parent') );
+
+        if(! ($parent && $category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        // Attach parent and save
+        $category->attachToParents($parent);
+        $category->save();
+        
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+            ->with( 'flash', 'Alterações salvas com sucesso' );
+    }
 
 	/**
 	 * Remove the specified resource from storage.

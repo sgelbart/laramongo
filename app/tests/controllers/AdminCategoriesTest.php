@@ -144,4 +144,33 @@ class AdminCategoriesTest extends ControllerTestCase
         $this->assertRequestOk();
     }
 
+    /**
+     * Attach action should redirect to edit of the same resource
+     *
+     */
+    public function testShouldAttachExistent(){
+        $category = f::create( 'Category' );
+        $parent = f::create( 'Category' );
+
+        $this->withInput( ['parent'=>(string)$parent->_id] )
+            ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Attach action should redirect to index if the category do not exists
+     *
+     */
+    public function testShouldNotAttachWithInvalidInput(){
+        $category = f::create( 'Category' );
+
+        $this->withInput( ['parent'=>'123123'] )
+            ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash', 'não');
+    }
+
 }
