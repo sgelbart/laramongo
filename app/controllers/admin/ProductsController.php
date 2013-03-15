@@ -33,7 +33,10 @@ class ProductsController extends AdminController {
      */
     public function create()
     {
-        $this->layout->content = View::make('admin.products.create');
+        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+
+        $this->layout->content = View::make('admin.products.create')
+            ->with( 'leafs', $leafs );
     }
 
     /**
@@ -82,6 +85,7 @@ class ProductsController extends AdminController {
     public function edit($id)
     {
         $product = Product::first($id);
+        $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
         if(! $product)
         {
@@ -91,7 +95,8 @@ class ProductsController extends AdminController {
 
         $this->layout->content = View::make('admin.products.edit')
             ->with( 'product', $product )
-            ->with( 'action', 'Admin\ProductsController@update')
+            ->with( 'leafs', $leafs )
+            ->with( 'action', 'Admin\ProductsController@update' )
             ->with( 'method', 'PUT');
     }
 
@@ -152,7 +157,10 @@ class ProductsController extends AdminController {
      */
     public function import()
     {
-        $this->layout->content = View::make('admin.products.import');
+        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+
+        $this->layout->content = View::make('admin.products.import')
+            ->with( 'leafs', $leafs );
     }
 
     /**
@@ -195,7 +203,7 @@ class ProductsController extends AdminController {
 
             // Import file
             $importer = new Importer($path.$filename,'Product');
-            $importer->import();
+            $importer->import( Input::get('category') );
 
             // Remove temporary file
             unlink($path.$filename);

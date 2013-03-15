@@ -12,6 +12,7 @@ class LinkProductsToCategoriesTest extends AcceptanceTestCase
     {
         parent::setUp();
         $this->cleanCollection( 'categories' );
+        $this->cleanCollection( 'products' );
     }
 
     public function testShouldSetCategoryAsLeaf()
@@ -42,5 +43,21 @@ class LinkProductsToCategoriesTest extends AcceptanceTestCase
         $category = Category::find($category->_id);
 
         $this->assertNotEquals('leaf', (string)$category->kind);
+    }
+
+    public function testShouldSetLeafCategoryOfProduct()
+    {
+        $leafA = f::create( 'Category', ['kind'=>'leaf'] );
+        $leafB = f::create( 'Category', ['kind'=>'leaf'] );
+        $product = f::create( 'Product' );
+
+        $this->browser
+            ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))
+            ->select(l::IdOrName('category'), $leafB->name)
+            ->click(l::id('submit-save-product'))
+            ->waitForPageToLoad(1000);
+
+        $product = Product::first($product->_id);
+        $this->assertEquals($leafB, $product->category());
     }
 }

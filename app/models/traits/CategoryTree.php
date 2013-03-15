@@ -1,4 +1,6 @@
-<?php
+<?php namespace Traits;
+
+use HTML;
 
 trait CategoryTree{
 

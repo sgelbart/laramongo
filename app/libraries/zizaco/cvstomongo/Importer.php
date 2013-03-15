@@ -53,7 +53,7 @@ class Importer
      *
      * @return void
      */
-    public function import()
+    public function import( $category )
     {
         $headers = array();
 
@@ -70,6 +70,9 @@ class Importer
                     array_combine( $headers, $this->treatLine($line) )
                 ))
                 {
+                    // Set the leaf category where that product belongs
+                    $instance->category = new \MongoId($category);
+
                     if( $instance->save() )
                     {
                         $this->success[] = $instance;

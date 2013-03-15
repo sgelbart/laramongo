@@ -9,8 +9,8 @@
         'files' => true
     ]) }}
 
-        {{ Form::label('family', 'Família') }}
-        {{ Form::text('family', 'betoneiras', ['readonly'] ) }}
+        {{ Form::label('category', 'Chave de entrada') }}
+        {{ Form::select('category', $leafs) }}
 
         {{ Form::label('csv_file', 'Escolha um arquivo csv para importar') }}
         <div class='well'>

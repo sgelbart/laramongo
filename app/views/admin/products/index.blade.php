@@ -9,7 +9,7 @@
         </a>
 
         <a href='{{ URL::action( 'Admin\ProductsController@import' ) }}' class='btn btn-inverse'>
-            Importar CSV
+            Importar Produtos
         </a>
     </div>
 
@@ -26,7 +26,7 @@
                 <tr>
                     <td>{{ $product->_id }}</td>
                     <td>
-                        {{ HTML::action( 'ProductsController@show', $product->name, ['id'=>$product->id] ) }}
+                        {{ HTML::action( 'Admin\ProductsController@edit', $product->name, ['id'=>$product->_id] ) }}
                     </td>
                     <td>{{ $product->category }}</td>
                 </tr>

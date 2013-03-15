@@ -1,10 +1,10 @@
-<?php
+<?php namespace Traits;
 
 trait ToSelect
 {
-    public static function allToOptions()
+    public static function toOptions( $query = array() )
     {
-        $all = static::all();
+        $all = static::where( $query );
         $result = array();
 
         foreach ($all as $item) {

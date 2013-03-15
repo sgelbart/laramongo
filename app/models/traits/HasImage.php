@@ -1,4 +1,6 @@
-<?php
+<?php namespace Traits;
+
+use URL;
 
 trait HasImage
 {
@@ -21,7 +23,7 @@ trait HasImage
         $image_file->move($path, $filename);
         try{
             chmod($path.'/'.$filename, 0775);    
-        }catch( Exception $e){}
+        }catch( \Exception $e){}
 
         umask($old); 
 

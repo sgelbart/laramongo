@@ -36,6 +36,14 @@ class Product extends BaseModel {
     );
 
     /**
+     * Reference to category
+     */
+    public function category()
+    {
+        return $this->referencesOne('Category','category');
+    }
+
+    /**
      * Return image URL
      *
      * @return string

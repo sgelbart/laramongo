@@ -428,7 +428,7 @@ class Model
      */
     protected function referencesOne($model, $field)
     {
-        return $model::where(array('_id'=>$this->$field));
+        return $model::first(array('_id'=>$this->$field));
     }
 
     /**
