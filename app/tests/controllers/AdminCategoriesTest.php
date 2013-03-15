@@ -113,29 +113,6 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Show action should always return 200 if exists
-     *
-     */
-    public function testShouldShow(){
-        $category = f::create( 'Category' );
-
-        $this->requestAction('GET', 'Admin\CategoriesController@show', ['id'=>$category->_id]);
-        $this->assertRequestOk();
-    }
-
-    /**
-     * Show action should redirect to index if category doesn't exists
-     *
-     */
-    public function testShouldNotShowNull(){
-
-        $this->requestAction('GET', 'Admin\CategoriesController@show', ['id'=>'123']);
-
-        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
-        $this->assertSessionHas('flash','não encontrad');
-    }
-
-    /**
      * Index action should always return 200
      *
      */
@@ -192,6 +169,36 @@ class AdminCategoriesTest extends ControllerTestCase
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Characteristic action should update existent category and redirect to index
+     *
+     */
+    public function testShouldAddCharacteristicExistent(){
+        $category = f::create( 'Category' );
+
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Characteristic action should redirect to edit form of the same category if update
+     * input is invalid
+     *
+     */
+    public function testShouldNotAddCharacteristicWithInvalidInput(){
+        $category = f::create( 'Category' );
+        $category->name = '';
+
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('error');
     }
 
 }

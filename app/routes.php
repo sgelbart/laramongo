@@ -43,6 +43,7 @@ Route::get(    'admin/category/{id}',                'Admin\CategoriesController
 Route::delete( 'admin/category/{id}',                'Admin\CategoriesController@destroy');
 Route::post(   'admin/category/{id}/attach',         'Admin\CategoriesController@attach');
 Route::delete( 'admin/category/{id}/attach/{parent}','Admin\CategoriesController@detach');
+Route::post(   'admin/category/{id}/characteristic', 'Admin\CategoriesController@characteristic');
 
 // Admin\ProductsController
 Route::get(    'admin/products',                'Admin\ProductsController@index' );

@@ -9,6 +9,10 @@
         @include ('admin.categories._form')
     </div>
 
+    <div id='category-characteristcs'> 
+        @include ('admin.categories._characteristics')
+    </div>
+
     <div id='category-hierarchy'> 
         @include ('admin.categories._hierarchy')
     </div>
