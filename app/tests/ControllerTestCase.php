@@ -44,11 +44,23 @@ class ControllerTestCase extends TestCase{
         if( $action_url == '' )
             trigger_error("Action '$action' does not exist");
 
+        return $this->requestUrl( $method, $action_url, $params );
+    }
+
+    /**
+     * Request an URL
+     * 
+     * @param string $method
+     * @param string $url
+     * @return ControllerTestCase this for method chaining.
+     */
+    public function requestUrl( $method, $url, $params = array() )
+    {
         try
         {
             // The following method returns Synfony's DomCrawler
             // but it will not be used when testing controllers
-            $this->client->request( $method, $action_url, array_merge($params, $this->requestInput) );
+            $this->client->request( $method, $url, array_merge($params, $this->requestInput) );
         }
         catch(HttpException $e)
         {
@@ -117,10 +129,14 @@ class ControllerTestCase extends TestCase{
         {
             $statusCode = $this->lastException->getStatusCode();
         }
-        else
+        elseif( $response )
         {
             $statusCode = $response->getStatusCode();
-        }   
+        }
+        else
+        {
+            $statisCode = null;
+        }
 
         $isRedirection = in_array($statusCode, array(201, 301, 302, 303, 307, 308));
 

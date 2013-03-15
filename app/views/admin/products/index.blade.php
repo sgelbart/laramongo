@@ -16,19 +16,19 @@
     <table class='table table-stripped'>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>LM</th>
                 <th>Nome</th>
-                <th>Marca</th>
+                <th>Chave de Entrada</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->_id }}</td>
                     <td>
                         {{ HTML::action( 'ProductsController@show', $product->name, ['id'=>$product->id] ) }}
                     </td>
-                    <td>{{ $product->marca }}</td>
+                    <td>{{ $product->category }}</td>
                 </tr>
             @endforeach
         </tbody>
