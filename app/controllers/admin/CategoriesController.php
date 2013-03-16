@@ -202,19 +202,62 @@ class CategoriesController extends AdminController {
     }
 
     /**
-     * Update the specified resource in storage.
+     * Add a new characteristic to the specified resource in storage.
      *
      * @return Response
      */
-    public function characteristic($id)
+    public function add_characteristic($id)
     {
         $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
 
         $characteristic = new Characteristic;
         $characteristic->fill( Input::all() );
 
-        $category->embedToCharacteristics( $characteristic );
+        if( $characteristic->isValid() )
+        {
+            $category->embedToCharacteristics( $characteristic );
+            $category->save();
+
+            return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+                ->with( 'flash', 'Caracteristica incluída com sucesso' );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $characteristic->errors->all();
+
+            return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+                ->withInput()
+                ->with( 'error', $error );
+        }            
+    }
+
+    /**
+     * Destroy an embedded characteristic
+     *
+     * @return Response
+     */
+    public function destroy_characteristic($id, $charac_name)
+    {
+        $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        $category->unembed('characteristics', ['name'=>$charac_name]);
         $category->save();
+
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
+            ->with( 'flash', 'Caracteristica removida com sucesso' );
     }
 
 	/**

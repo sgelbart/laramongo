@@ -172,21 +172,21 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Characteristic action should update existent category and redirect to index
+     * Add Characteristic action should update existent category and redirect to edit
      *
      */
     public function testShouldAddCharacteristicExistent(){
         $category = f::create( 'Category' );
 
-        $this->withInput( $category->getAttributes() )
-            ->requestAction('POST', 'Admin\CategoriesController@characteristic', ['id'=>$category->_id]);
+        $this->withInput( f::attributesFor( 'Characteristic' ) )
+            ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('flash','sucesso');
     }
 
     /**
-     * Characteristic action should redirect to edit form of the same category if update
+     * Add Characteristic action should redirect to edit form of the same category if update
      * input is invalid
      *
      */
@@ -195,10 +195,27 @@ class AdminCategoriesTest extends ControllerTestCase
         $category->name = '';
 
         $this->withInput( $category->getAttributes() )
-            ->requestAction('POST', 'Admin\CategoriesController@characteristic', ['id'=>$category->_id]);
+            ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('error');
+    }
+
+    /**
+     * Characteristic should be removed from existent category and redirect to edit
+     *
+     */
+    public function testShouldDestroyCharacteristicExistent(){
+        $category = f::create( 'Category' );
+        $charac = f::create( 'Characteristic' );
+
+        $category->embedToCharacteristics( $charac );
+        $category->save();
+
+        $this->requestAction('DELETE', 'Admin\CategoriesController@destroy_characteristic', ['id'=>$category->_id, 'charac_name'=>$charac->name]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
     }
 
 }

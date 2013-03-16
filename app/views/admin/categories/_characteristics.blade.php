@@ -26,7 +26,12 @@
                 <td>
                     <div class='btn-group'>
                         <a class='btn btn-mini'>Modificar</a>
-                        <a class='btn btn-danger btn-mini'>Excluir</a>
+                        {{ HTML::action(
+                            'Admin\CategoriesController@destroy_characteristic', 
+                            'Excluir',
+                            ['id'=>$category->_id, 'charac_name'=>$charac->name],
+                            ['class'=>'btn btn-danger btn-mini', 'data-method'=>'DELETE']
+                        ) }}
                     </div>
                 </td>
             </tr>

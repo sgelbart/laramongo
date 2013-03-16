@@ -583,6 +583,56 @@ class Model
     }
 
     /**
+     * Embed a new document to an attribute
+     * 
+     * @param string $field
+     * @param mixed $target, document or part of the document. Ex: ['name'='Something']
+     * @return void
+     */
+    public function unembed($field, $target)
+    {
+        if( is_a($target,'Zizaco\Mongoloid\Model') )
+        {
+            $target = $target->toArray();
+        }
+        else
+        
+        if(! is_array($target) )
+        {
+            trigger_error( get_class($this)." unembed Method second parameter should be an array." );
+        }
+
+        $documents = $this->getAttribute($field);
+
+        // Foreach embedded document
+        foreach ($documents as $oKey => $document)
+        {
+            // Remove it unless...
+            $remove = true;
+
+            foreach ($target as $tKey => $tValue) // For each key defined in the target obj
+            {
+                if(isset($document[$tKey]))
+                {
+                    if($target[$tKey] != $document[$tKey]) // The value is equal for the embedded document
+                    {
+                        $remove = false;
+                    }
+                }
+            }
+
+            // If not
+            if( $remove )
+            {
+                unset($documents[$oKey]); // Remove it
+            }
+        }
+
+        // Update attribute
+        $this->setAttribute($field, array_values($documents));
+    }
+
+    /**
      * Dynamically retrieve attributes on the model.
      *
      * @param  string  $key
