@@ -179,9 +179,9 @@ class AdminCategoriesTest extends ControllerTestCase
         $category = f::create( 'Category' );
 
         $this->withInput( $category->getAttributes() )
-            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+            ->requestAction('POST', 'Admin\CategoriesController@characteristic', ['id'=>$category->_id]);
 
-        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('flash','sucesso');
     }
 
@@ -195,7 +195,7 @@ class AdminCategoriesTest extends ControllerTestCase
         $category->name = '';
 
         $this->withInput( $category->getAttributes() )
-            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
+            ->requestAction('POST', 'Admin\CategoriesController@characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('error');

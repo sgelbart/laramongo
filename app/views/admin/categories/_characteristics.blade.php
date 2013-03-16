@@ -1,4 +1,4 @@
-<table class='table table-bordered table-striped' id='hierarchy-table'>
+<table class='table table-bordered table-striped' id='characteristics-table'>
     <thead>
         <tr>
             <th>Caracteristicas</th>
@@ -9,27 +9,28 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                Capacidade
-            </td>
-            <td>
-                Numero
-            </td>
-            <td>
-                <span class="muted">&ltvalor&gt</span>
-                btus/h
-            </td>
-            <td>
-                Qualquer
-            </td>
-            <td>
-                <div class='btn-group'>
-                    <a class='btn btn-mini'>Modificar</a>
-                    <a class='btn btn-danger btn-mini'>Excluir</a>
-                </div>
-            </td>
-        </tr>
+        @foreach ( $category->characteristics() as $charac )
+            <tr>
+                <td>
+                    {{ $charac->name }}
+                </td>
+                <td>
+                    {{ $charac->getTypeStr() }}
+                </td>
+                <td>
+                    {{ $charac->displayLayout() }}
+                </td>
+                <td>
+                    {{ $charac->getValuesStr() }}
+                </td>
+                <td>
+                    <div class='btn-group'>
+                        <a class='btn btn-mini'>Modificar</a>
+                        <a class='btn btn-danger btn-mini'>Excluir</a>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
     </tbody>
 </table>
 
@@ -43,7 +44,7 @@
 
     {{ Form::label('type', 'Nova caracteristica', ['class'=>'control-label']) }}
 
-    {{ Form::select('type', ['Numero','Numero decimal','Opções','Livre'], null, ['class'=>'input-block-level']) }}
+    {{ Form::select('type', ['int'=>'Numero','float'=>'Numero decimal','option'=>'Opções','string'=>'Livre'], null, ['class'=>'input-block-level']) }}
 
     {{ Form::text('name', '', ['placeholder'=>'Nome da caracteristica', 'class'=>'input-block-level']) }}
 

@@ -1,6 +1,7 @@
 <?php namespace Admin;
 
-use Category, View, Input, Redirect, URL, MongoId;
+use Category, Characteristic;
+use View, Input, Redirect, URL, MongoId;
 
 class CategoriesController extends AdminController {
 
@@ -198,6 +199,22 @@ class CategoriesController extends AdminController {
         
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Alterações salvas com sucesso' );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return Response
+     */
+    public function characteristic($id)
+    {
+        $category = Category::first($id);
+
+        $characteristic = new Characteristic;
+        $characteristic->fill( Input::all() );
+
+        $category->embedToCharacteristics( $characteristic );
+        $category->save();
     }
 
 	/**

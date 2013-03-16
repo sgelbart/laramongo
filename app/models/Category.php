@@ -54,6 +54,14 @@ class Category extends BaseModel {
     }
 
     /**
+     * Embedded characteristics
+     */
+    public function characteristics()
+    {
+        return $this->embedsMany('Characteristic','characteristics');
+    }
+
+    /**
      * A full ancestors tree
      */
     public function ancestors()

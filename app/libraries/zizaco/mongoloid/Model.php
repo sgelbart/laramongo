@@ -114,6 +114,9 @@ class Model
     {
         $instance = new static;
 
+        if (! $instance->collection)
+            return false;
+
         // Get query array
         $query = $instance->prepareQuery($id);
 
@@ -165,8 +168,11 @@ class Model
      * @return Zizaco\LmongoOdm\OdmCursor
      */
     public static function where($query = array(), $fields = array())
-    {
+    {      
         $instance = new static;
+
+        if (! $instance->collection)
+            return false;
 
         // Get query array
         $query = $instance->prepareQuery($query);
