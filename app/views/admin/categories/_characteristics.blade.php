@@ -42,7 +42,7 @@
 <div class='well'>
     {{
         Form::open([   
-            'url' => URL::action('Admin\CategoriesController@characteristic', ['id'=>$category->_id]),
+            'url' => URL::action('Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]),
             'method'=>'POST'
         ])
     }}

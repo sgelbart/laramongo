@@ -85,6 +85,7 @@ class ProductsController extends AdminController {
     public function edit($id)
     {
         $product = Product::first($id);
+        $category = $product->category();
         $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
         if(! $product)
@@ -96,6 +97,7 @@ class ProductsController extends AdminController {
         $this->layout->content = View::make('admin.products.edit')
             ->with( 'product', $product )
             ->with( 'leafs', $leafs )
+            ->with( 'category', $category )
             ->with( 'action', 'Admin\ProductsController@update' )
             ->with( 'method', 'PUT');
     }
