@@ -130,6 +130,10 @@ class Importer
             {
                 $value = (float)$value;
             }
+            else
+            {
+                $value = ucfirst($value);
+            }
 
             $line[$key] = utf8_encode($value);
         }

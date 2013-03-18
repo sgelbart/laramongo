@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 class Product extends BaseModel {
 
     /**
@@ -57,6 +59,36 @@ class Product extends BaseModel {
         else
         {
             return URL::to('assets/img/products/default.png');
+        }
+    }
+
+    public function isValid()
+    {
+        if(parent::isValid())
+        {
+            $result = true;
+
+            foreach ($this->category()->characteristics() as $charac) {
+
+                if(isset($this->details[clean_case($charac->name)]))
+                {
+                    if (! $charac->validate($this->details[clean_case($charac->name)]))
+                    {
+                        if(! $this->errors)
+                        {
+                            $this->errors = new MessageBag;
+                        }
+                        $this->errors->add($charac->name, "Valor inválido para caracteristica '$charac->name'");
+                        $result = false;
+                    }
+                }
+            }
+
+            return $result;
+        }
+        else
+        {
+            return false;
         }
     }
 
