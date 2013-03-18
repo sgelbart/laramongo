@@ -207,7 +207,7 @@ class AdminCategoriesTest extends ControllerTestCase
      */
     public function testShouldDestroyCharacteristicExistent(){
         $category = f::create( 'Category' );
-        $charac = f::create( 'Characteristic' );
+        $charac = f::instance( 'Characteristic' );
 
         $category->embedToCharacteristics( $charac );
         $category->save();

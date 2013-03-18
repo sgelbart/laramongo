@@ -51,7 +51,7 @@
 
     {{ Form::select('type', ['int'=>'Numero','float'=>'Numero decimal','option'=>'Opções','string'=>'Livre'], null, ['class'=>'input-block-level']) }}
 
-    {{ Form::text('name', '', ['placeholder'=>'Nome da caracteristica', 'class'=>'input-block-level']) }}
+    {{ Form::text('name', '', ['placeholder'=>'Nome da caracteristica', 'class'=>'input-block-level', 'id'=>'characteristic-name']) }}
 
     {{ Form::label('layout-pre', 'Layout', ['class'=>'control-label']) }}
 

@@ -52,7 +52,7 @@
 
     <div class='form-actions'>
 
-        {{ Form::button('Salvar caracteristicas', ['type'=>'submit', 'id'=>'submit-save-product', 'class'=>'btn btn-primary'] ) }}
+        {{ Form::button('Salvar caracteristicas', ['type'=>'submit', 'id'=>'submit-save-product-characteristics', 'class'=>'btn btn-primary'] ) }}
 
         {{ HTML::action( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
 
