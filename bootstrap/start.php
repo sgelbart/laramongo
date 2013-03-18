@@ -28,7 +28,7 @@ if( isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == 4443 ) // For s
 {
     $env = $app['env'] = 'testing';
 }
-elseif( isset($_SERVER['PARAM3']) )
+elseif( isset($_SERVER['PARAM3']) && $_SERVER['PARAM3'] )
 {
     $env = $app['env'] = $_SERVER['PARAM3'];
 }
