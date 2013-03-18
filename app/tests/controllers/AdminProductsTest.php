@@ -123,6 +123,23 @@ class AdminProductsTest extends ControllerTestCase
     }
 
     /**
+     * Update characteristics action should update existent product and redirect to index
+     *
+     */
+    public function testShouldUpdateCharacteristicsOfExistent(){
+        $product = f::create( 'Product' );
+        $category = $product->category();
+        $category->embedToCharacteristics( f::instance('Characteristic', ['name'=>'Size']) );
+        $category->save();
+
+        $this->withInput( ['size'=>5] )
+            ->requestAction('PUT', 'Admin\ProductsController@characteristic', ['id'=>$product->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
      * Destroy action should redirect to index
      *
      */

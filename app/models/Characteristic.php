@@ -50,6 +50,20 @@ class Characteristic extends BaseModel {
         parent::setAttribute($key, $value);
     }
 
+    public function isValid()
+    {
+        if($this->type == 'option')
+        {
+            if(! is_array($this->values))
+            {
+
+                return false;
+            }
+        }
+
+        return parent::isValid();
+    }
+
     public function displayLayout( $value = "<span class='muted'>&ltvalor&gt</span>" )
     {
         $result = ($this->getAttribute('layout-pre')) ? $this->getAttribute('layout-pre')." " : "";
@@ -61,7 +75,7 @@ class Characteristic extends BaseModel {
 
     public function getValuesStr()
     {
-        if(is_array($this->values))
+        if($this->type == 'option' && is_array($this->values))
             return implode(', ', $this->values);
         else
             return 'Qualquer';

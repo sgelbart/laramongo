@@ -1,5 +1,5 @@
 <?php
-    $f = array_merge( $product->attributes, Input::old() );
+    $f = array_merge( (array)$product->details, Input::old() );
 ?>
 
 {{-- Since multiple line brackets are not yet implemented --}}
@@ -7,7 +7,7 @@
 <?=
     Form::open([
         'url' => URL::action( 
-            'Admin\ProductsController@characteristics',
+            'Admin\ProductsController@characteristic',
             ['id'=>$product->_id]
         ),
         'method' => 'PUT',

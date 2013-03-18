@@ -85,14 +85,15 @@ class ProductsController extends AdminController {
     public function edit($id)
     {
         $product = Product::first($id);
-        $category = $product->category();
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
         if(! $product)
         {
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Produto não encontrado');
         }
+
+        $category = $product->category();
+        $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.edit')
             ->with( 'product', $product )
@@ -135,6 +136,41 @@ class ProductsController extends AdminController {
                 ->with( 'error', $error );
         }
 
+    }
+
+    public function characteristic($id)
+    {
+        $product = Product::first($id);
+        $category = $product->category();
+
+        if(! $product)
+        {
+            return Redirect::action('Admin\ProductsController@index')
+                ->with( 'flash', 'Produto não encontrado');
+        }
+
+        $details = array();
+        foreach ($category->characteristics() as $charac) {
+            $details[snake_case($charac->name)] = Input::get(snake_case($charac->name));
+        }
+
+        $product->details = $details;
+
+        // Save if valid
+        if ( $product->save() )
+        {
+            return Redirect::action('Admin\ProductsController@index')
+                ->with( 'flash', 'As caracteristicas do produto foram salvas com sucesso' );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $product->errors->all();
+
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$id])
+                ->withInput()
+                ->with( 'error', $error );
+        }
     }
 
     /**

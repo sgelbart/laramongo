@@ -47,16 +47,17 @@ Route::post(   'admin/category/{id}/characteristic', 'Admin\CategoriesController
 Route::delete( 'admin/category/{id}/characteristic/{charac_name}', 'Admin\CategoriesController@destroy_characteristic');
 
 // Admin\ProductsController
-Route::get(    'admin/products',                'Admin\ProductsController@index' );
-Route::get(    'admin/product',                 'Admin\ProductsController@index' );
-Route::get(    'admin/product/import',          'Admin\ProductsController@import' );
-Route::post(   'admin/product/doImport',        'Admin\ProductsController@doImport' );
-Route::get(    'admin/product/create',          'Admin\ProductsController@create' );
-Route::post(   'admin/product',                 'Admin\ProductsController@store' );
-Route::get(    'admin/product/{id}',            'Admin\ProductsController@show' );
-Route::get(    'admin/product/{id}/edit',       'Admin\ProductsController@edit' );
-Route::put(    'admin/product/{id}',            'Admin\ProductsController@update' );
-Route::delete( 'admin/product/{id}',            'Admin\ProductsController@destroy' );
+Route::get(    'admin/products',                    'Admin\ProductsController@index' );
+Route::get(    'admin/product',                     'Admin\ProductsController@index' );
+Route::get(    'admin/product/import',              'Admin\ProductsController@import' );
+Route::post(   'admin/product/doImport',            'Admin\ProductsController@doImport' );
+Route::get(    'admin/product/create',              'Admin\ProductsController@create' );
+Route::post(   'admin/product',                     'Admin\ProductsController@store' );
+Route::get(    'admin/product/{id}',                'Admin\ProductsController@show' );
+Route::get(    'admin/product/{id}/edit',           'Admin\ProductsController@edit' );
+Route::put(    'admin/product/{id}',                'Admin\ProductsController@update' );
+Route::delete( 'admin/product/{id}',                'Admin\ProductsController@destroy' );
+Route::put(   'admin/product/{id}/characteristic',  'Admin\ProductsController@characteristic');
 
 /*
 |--------------------------------------------------------------------------
