@@ -25,7 +25,10 @@
 			"app/tests/TestCase.php",
 			"app/tests/ControllerTestCase.php",
 			"app/tests/AcceptanceTestCase.php",
-			"app/libraries"
+			"app/libraries",
+			"app/models/traits/CategoryTree.php",
+			"app/models/traits/HasImage.php",
+			"app/models/traits/ToSelect.php"
 		]
 	},
 	"minimum-stability": "dev"
