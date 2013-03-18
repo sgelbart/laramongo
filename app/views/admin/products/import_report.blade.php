@@ -16,9 +16,7 @@
         @foreach ($failed as $f)
             <div class="alert alert-error">
                 <h5>{{ $f->name }}</h5>
-                @foreach ($f->errors->all() as $error)
-                    {{ $error }}
-                @endforeach
+                {{ implode('<br>', $f->errors->all()) }}
             </div>
         @endforeach
     @else
