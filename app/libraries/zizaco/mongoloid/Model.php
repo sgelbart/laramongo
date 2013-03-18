@@ -308,7 +308,12 @@ class Model
     {
         if( $this->connection == null )
         {
-            $this->connection = new MongoClient();
+            $this->connection = new MongoClient(
+                'mongodb://'.
+                \Config::get('lmongo::connections.default.host').
+                ':'.
+                \Config::get('lmongo::connections.default.port')
+            );
         }
 
         return $this->connection->{$this->database};
