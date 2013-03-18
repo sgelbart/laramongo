@@ -2,3 +2,5 @@
 composer.phar
 composer.lock
 .DS_Store.elasticbeanstalk/.elasticbeanstalk/
+app/storage/csv*
+public/assets/img/categories/*

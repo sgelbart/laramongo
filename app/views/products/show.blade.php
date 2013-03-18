@@ -17,15 +17,15 @@
 
         <table class='table'>
             @foreach ($category->characteristics() as $charac)
-                {{ snake_case($charac->name) }}
-                @if ( is_array($product->details) && isset($product->details[snake_case($charac->name)]) )
+                {{ clean_case($charac->name) }}
+                @if ( is_array($product->details) && isset($product->details[clean_case($charac->name)]) )
                     <tr>
                         <td class='attr_header'>
                             {{ $charac->name }}
                         </td>
                         <td>
                             {{ 
-                                $charac->displayLayout($product->details[snake_case($charac->name)])
+                                $charac->displayLayout($product->details[clean_case($charac->name)])
                             }}
                         </td>
                     </tr>
