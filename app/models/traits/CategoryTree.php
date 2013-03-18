@@ -2,7 +2,8 @@
 
 use HTML;
 
-trait CategoryTree{
+trait CategoryTree
+{
 
     protected $treeUnderBuild;
 
