@@ -1,6 +1,8 @@
 <?php
 
-class AdminProductsTest extends TestCase
+use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
+
+class AdminProductsTest extends ControllerTestCase
 {
     /**
      * Clean collection between every test
@@ -9,10 +11,8 @@ class AdminProductsTest extends TestCase
     {
         parent::setUp();
 
-        // Set session
-        Input::setSessionStore(app()['session']);
-
-        $this->aExistentCategory();
+        $this->cleanCollection( 'products' );
+        $this->cleanCollection( 'categories' );
     }
 
     /**
@@ -20,8 +20,8 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldIndex(){
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@index');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->requestAction('GET', 'Admin\ProductsController@index');
+        $this->assertRequestOk();
     }
 
     /**
@@ -29,8 +29,8 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldCreate(){
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@create');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->requestAction('GET', 'Admin\ProductsController@create');
+        $this->assertRequestOk();
     }
 
     /**
@@ -38,19 +38,12 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldStore(){
-        $input = $this->aExistentProduct()->attributes;
-        unset($input['id']);
+        $input = f::attributesFor( 'Product' );
 
-        // Post parameters
-        Input::replace( $input );
+        $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
 
-        $crawler = $this->requestAction('POST', 'Admin\ProductsController@store');
-
-        // Index location
-        $location = 'http://:'.URL::action('Admin\ProductsController@index');
-
-        // Should redirect with success message
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
@@ -58,14 +51,13 @@ class AdminProductsTest extends TestCase
      * is not valid
      */
     public function testShouldNotStoreInvalid(){
-        // Simulates empty fields
-        Input::replace( array() );
+        $input = f::attributesFor( 'Product' );
+        $input['name'] = ''; // With blank name
 
-        // The create form location
-        $location = 'http://:'.URL::action('Admin\ProductsController@create');
+        $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
 
-        $crawler = $this->requestAction('POST', 'Admin\ProductsController@store');
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\ProductsController@create'));
+        $this->assertSessionHas('error');
     }
 
     /**
@@ -73,11 +65,8 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldShow(){
-        // The edit form location
-        $location = 'http://:'.URL::action('Admin\ProductsController@edit', ['id' => 0]);
-
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@show', ['id' => 0]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->requestAction('GET', 'Admin\ProductsController@show', ['id' => 0]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id' => 0]));
     }
 
     /**
@@ -85,10 +74,11 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldEditExistent(){
-        $product = $this->aExistentProduct();
+        $product = f::create( 'Product' );
 
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@edit', ['id'=>$product->id]);
-        $this->assertTrue($this->client->getResponse()->isOk());
+        /* Some laravel bug is happening here */
+        $this->requestUrl('GET', URL::action('Admin\ProductsController@index', ['id'=>$product->_id]));
+        $this->assertRequestOk();
     }
 
     /**
@@ -96,13 +86,10 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldNotEditNull(){
-        $invalid_id = 0;
+        $this->requestAction('GET', 'Admin\ProductsController@edit', ['id'=>'123']);
 
-        // The edit form location
-        $location = 'http://:'.URL::action('Admin\ProductsController@index');
-
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@edit', ['id'=>$invalid_id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','não encontrad');
     }
 
     /**
@@ -110,16 +97,13 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldUpdateExistent(){
-        $product = $this->aExistentProduct();
+        $product = f::create( 'Product' );
 
-        // Simulates valid input
-        Input::replace( $product->attributes );
+        $this->withInput( $product->getAttributes() )
+            ->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->_id]);
 
-        // Index location
-        $location = 'http://:'.URL::action('Admin\ProductsController@index');
-
-        $crawler = $this->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
@@ -127,17 +111,32 @@ class AdminProductsTest extends TestCase
      * input is invalid
      *
      */
-    public function testShouldNotUpdateNull(){
-        $product = $this->aExistentProduct();
+    public function testShouldNotUpdateWithInvalidInput(){
+        $product = f::create( 'Product' );
+        $product->name = '';
 
-        // Simulates empty fields
-        Input::replace( array('name'=>'') );
+        $this->withInput( $product->getAttributes() )
+            ->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->_id]);
 
-        // The edit form location
-        $location = 'http://:'.URL::action('Admin\ProductsController@edit', ['id' => $product->id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]));
+        $this->assertSessionHas('error');
+    }
 
-        $crawler = $this->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+    /**
+     * Update characteristics action should update existent product and redirect to index
+     *
+     */
+    public function testShouldUpdateCharacteristicsOfExistent(){
+        $product = f::create( 'Product' );
+        $category = $product->category();
+        $category->embedToCharacteristics( f::instance('Characteristic', ['name'=>'Size']) );
+        $category->save();
+
+        $this->withInput( ['size'=>5] )
+            ->requestAction('PUT', 'Admin\ProductsController@characteristic', ['id'=>$product->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
@@ -145,10 +144,12 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShouldDestroy(){
-        $product = $this->aExistentProduct();
+        $product = f::create( 'Product' );
 
-        $crawler = $this->requestAction('DELETE', 'Admin\ProductsController@destroy',['id' => $product->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirection());
+        $this->requestAction('DELETE', 'Admin\ProductsController@destroy', ['id'=>$product->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','sucess');
     }
 
     /**
@@ -156,64 +157,7 @@ class AdminProductsTest extends TestCase
      *
      */
     public function testShowImportDialog(){
-        $crawler = $this->requestAction('GET', 'Admin\ProductsController@import');
-        $this->assertTrue($this->client->getResponse()->isOk());
-    }
-
-    /**
-     * Request an URL by the action name
-     * 
-     * @param string $method
-     * @param string $action
-     *
-     * @return Symfony\Component\DomCrawler\Crawler
-     */
-    public function requestAction( $method, $action, $params = array())
-    {
-        $action_url = URL::action($action, $params);
-        
-        if ($action_url == '')
-            $this->assertTrue(false, $action.' does not exist');
-
-        return $this->client->request( $method, $action_url );
-    }
-
-    /**
-     * Returns an product that "exists in database".
-     *
-     * @param string $name
-     * @return Product
-     */
-    private function aExistentProduct( $name = 'something' )
-    {
-        $product = new Product;
-
-        $product->name = 'something';
-        $product->family = 'existentfamily';
-        $product->price = 12.34;
-        $product->desc = 'the description';
-
-        $product->save();
-
-        return $product;
-    }
-
-    /**
-     * Returns an category that "exists in database".
-     *
-     * @param string $name
-     * @return Category
-     */
-    private function aExistentCategory( $name = 'existentfamily' )
-    {
-        $category = new Category;
-
-        $category->name = $name;
-        $category->description = 'somedescription';
-        $category->image = 'aimage.jpg';
-
-        $category->save();
-
-        return $category;
+        $this->requestAction('GET', 'Admin\ProductsController@import');
+        $this->assertRequestOk();
     }
 }

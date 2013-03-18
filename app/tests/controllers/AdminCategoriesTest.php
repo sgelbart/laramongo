@@ -1,6 +1,8 @@
 <?php
 
-class AdminCategoriesTest extends TestCase
+use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
+
+class AdminCategoriesTest extends ControllerTestCase
 {
     /**
      * Clean collection between every test
@@ -9,8 +11,7 @@ class AdminCategoriesTest extends TestCase
     {
         parent::setUp();
 
-        // Set session
-        Input::setSessionStore(app()['session']);
+        $this->cleanCollection( 'categories' );
     }
 
     /**
@@ -18,8 +19,8 @@ class AdminCategoriesTest extends TestCase
      *
      */
     public function testShouldIndex(){
-        $crawler = $this->requestAction('GET', 'Admin\CategoriesController@index');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->requestAction('GET', 'Admin\CategoriesController@index');
+        $this->assertRequestOk();
     }
 
     /**
@@ -27,8 +28,8 @@ class AdminCategoriesTest extends TestCase
      *
      */
     public function testShouldCreate(){
-        $crawler = $this->requestAction('GET', 'Admin\CategoriesController@create');
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->requestAction('GET', 'Admin\CategoriesController@create');
+        $this->assertRequestOk();
     }
 
     /**
@@ -36,29 +37,37 @@ class AdminCategoriesTest extends TestCase
      *
      */
     public function testShouldStore(){
-        $input = $this->aExistentCategory()->attributes;
-        unset($input['id']);
+        $input = f::attributesFor( 'Category' );
 
-        // Post parameters
-        Input::replace( $input );
+        $this->withInput($input)->requestAction('POST', 'Admin\CategoriesController@store');
 
-        $crawler = $this->requestAction('POST', 'Admin\CategoriesController@store');
-
-        // Index location
-        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
-
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
-     * Edit action should return 200 then id exists in database
+     * Store action should redirect to create when invalid
+     *
      */
-    public function testShouldEditExistent()
-    {
-        $category = $this->aExistentCategory();
+    public function testNotShouldStoreInvalid(){
+        $input = f::attributesFor( 'Category' );
+        $input['name'] = ''; // With blank name
 
-        $crawler = $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$category->id]);
-        $this->assertTrue($this->client->getResponse()->isOk());
+        $this->withInput($input)->requestAction('POST', 'Admin\CategoriesController@store');
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@create'));
+        $this->assertSessionHas('error');
+    }
+
+    /**
+     * Edit action should always return 200 if exists
+     *
+     */
+    public function testShouldEdit(){
+        $category = f::create( 'Category' );
+
+        $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$category->_id]);
+        $this->assertRequestOk();
     }
 
     /**
@@ -66,13 +75,11 @@ class AdminCategoriesTest extends TestCase
      *
      */
     public function testShouldNotEditNull(){
-        $invalid_id = 0;
 
-        // The edit form location
-        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
+        $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>'123']);
 
-        $crawler = $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$invalid_id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','não encontrad');
     }
 
     /**
@@ -80,16 +87,13 @@ class AdminCategoriesTest extends TestCase
      *
      */
     public function testShouldUpdateExistent(){
-        $category = $this->aExistentCategory();
+        $category = f::create( 'Category' );
 
-        // Simulates valid input
-        Input::replace( $category->attributes );
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
 
-        // Index location
-        $location = 'http://:'.URL::action('Admin\CategoriesController@index');
-
-        $crawler = $this->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
@@ -97,64 +101,121 @@ class AdminCategoriesTest extends TestCase
      * input is invalid
      *
      */
-    public function testShouldNotUpdateNull(){
-        $category = $this->aExistentCategory();
+    public function testShouldNotUpdateWithInvalidInput(){
+        $category = f::create( 'Category' );
+        $category->name = '';
 
-        // Simulates empty fields
-        Input::replace( array('name'=>'') );
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
 
-        // The edit form location
-        $location = 'http://:'.URL::action('Admin\CategoriesController@edit', ['id' => $category->id]);
-
-        $crawler = $this->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirect($location));
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('error');
     }
 
     /**
-     * Destroy action should redirect to index
+     * Index action should always return 200
      *
      */
-    public function testShouldDestroy(){
-        $category = $this->aExistentCategory();
-
-        $crawler = $this->requestAction('DELETE', 'Admin\CategoriesController@destroy',['id' => $category->id]);
-        $this->assertTrue($this->client->getResponse()->isRedirection());
+    public function testShouldDisplayTree(){
+        $this->requestAction('GET', 'Admin\CategoriesController@tree');
+        $this->assertRequestOk();
     }
 
     /**
-     * Request an URL by the action name
-     * 
-     * @param string $method
-     * @param string $action
+     * Attach action should redirect to edit of the same resource
      *
-     * @return Symfony\Component\DomCrawler\Crawler
      */
-    public function requestAction( $method, $action, $params = array())
-    {
-        $action_url = URL::action($action, $params);
+    public function testShouldAttachExistent(){
+        $category = f::create( 'Category' );
+        $parent = f::create( 'Category' );
 
-        if ($action_url == '')
-            $this->assertTrue(false, $action.' does not exist');
+        $this->withInput( ['parent'=>(string)$parent->_id] )
+            ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
 
-        return $this->client->request( $method, $action_url );
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
     }
 
     /**
-     * Returns an category that "exists in database".
+     * Attach action should redirect to index if the category do not exists
      *
-     * @param string $name
-     * @return Category
      */
-    private function aExistentCategory( $name = 'something' )
-    {
-        $category = new Category;
+    public function testShouldNotAttachWithInvalidInput(){
+        $category = f::create( 'Category' );
 
-        $category->name = 'something';
-        $category->description = 'somedescription';
-        $category->image = 'aimage.jpg';
+        $this->withInput( ['parent'=>'123123'] )
+            ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
 
+        $this->assertRedirection(URL::action('Admin\CategoriesController@index'));
+        $this->assertSessionHas('flash', 'não');
+    }
+
+    /**
+     * Dettach action should redirect to edit of the same resource
+     *
+     */
+    public function testShouldDetach(){
+        $parent = f::create( 'Category' );
+        $category = f::create( 'Category' );
+        $category->attachToParents($parent);
         $category->save();
 
-        return $category;
+        $this->withInput( ['parent'=>(string)$parent->_id] );
+        
+        $this->requestAction(
+                'DELETE', 'Admin\CategoriesController@detach',
+                ['id'=>$category->_id, 'parent'=>$parent->_id]
+        );
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
     }
+
+    /**
+     * Add Characteristic action should update existent category and redirect to edit
+     *
+     */
+    public function testShouldAddCharacteristicExistent(){
+        $category = f::create( 'Category' );
+
+        $this->withInput( f::attributesFor( 'Characteristic' ) )
+            ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Add Characteristic action should redirect to edit form of the same category if update
+     * input is invalid
+     *
+     */
+    public function testShouldNotAddCharacteristicWithInvalidInput(){
+        $category = f::create( 'Category' );
+        $category->name = '';
+
+        $this->withInput( $category->getAttributes() )
+            ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('error');
+    }
+
+    /**
+     * Characteristic should be removed from existent category and redirect to edit
+     *
+     */
+    public function testShouldDestroyCharacteristicExistent(){
+        $category = f::create( 'Category' );
+        $charac = f::instance( 'Characteristic' );
+
+        $category->embedToCharacteristics( $charac );
+        $category->save();
+
+        $this->requestAction('DELETE', 'Admin\CategoriesController@destroy_characteristic', ['id'=>$category->_id, 'charac_name'=>$charac->name]);
+
+        $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
 }

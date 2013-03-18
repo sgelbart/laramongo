@@ -53,7 +53,7 @@ class Importer
      *
      * @return void
      */
-    public function import()
+    public function import( $category )
     {
         $headers = array();
 
@@ -70,6 +70,11 @@ class Importer
                     array_combine( $headers, $this->treatLine($line) )
                 ))
                 {
+                    $instance->details = array_combine( $headers, $this->treatLine($line) );
+
+                    // Set the leaf category where that product belongs
+                    $instance->category = $category;
+
                     if( $instance->save() )
                     {
                         $this->success[] = $instance;

@@ -1,7 +1,9 @@
 <?php
 
-class ProductTest extends TestCase {
+use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
+class ProductTest extends TestCase
+{
     /**
      * Clean collection between every test
      */
@@ -10,35 +12,6 @@ class ProductTest extends TestCase {
         parent::setUp();
         $this->cleanCollection( 'products' );
         $this->cleanCollection( 'categories' );
-
-        $this->aExistentCategory();
-    }
-
-    /**
-     * Should validate product
-     *
-     */
-    public function testShouldValidateProduct()
-    {
-        $product = new Product;
-
-        $product->name = 'product';
-        $product->family = 'existentfamily';
-
-        // Should return true, since it's a valid product
-        $this->assertTrue( $product->isValid() );
-
-        $product->name = '';
-        $product->family = 'existentfamily';
-
-        // Should return false, since the name is empty
-        $this->assertFalse( $product->isValid() );
-
-        $product->name = 'product';
-        $product->family = 'non_existant';
-
-        // Should return false, since the name is empty
-        $this->assertFalse( $product->isValid() );
     }
 
     /**
@@ -50,7 +23,7 @@ class ProductTest extends TestCase {
         $product = new Product;
 
         $product->name = 'product';
-        $product->family = 'existentfamily';
+        $product->category = f::create('Category')->_id;
 
         // Should return true, since it's a valid product
         $this->assertTrue( $product->save() );
@@ -65,7 +38,7 @@ class ProductTest extends TestCase {
         $product = new Product;
 
         $product->name = '';
-        $product->family = 'existentfamily';
+        $product->category = f::create('Category')->_id;
 
         // Should return true, since it's a valid product
         $this->assertFalse( $product->save() );
@@ -84,46 +57,16 @@ class ProductTest extends TestCase {
             'id' => 123123,
             'name' => 'thename',
             'nonexistant' => 'avalue',
-            'family' => 'existentfamily',
+            'category' => f::create('Category')->_id,
         );
 
-        $document->massAssignment = array('name','family');
+        $document->fillable = array('name','category');
 
-        $document->setAttributes( $input );
+        $document->fill( $input );
 
         $this->assertNotEquals( $input['id'], $document->getAttribute('id') );
         $this->assertEquals   ( $input['name'], $document->getAttribute('name') );
         $this->assertNotEquals( $input['nonexistant'], $document->getAttribute('nonexistant') );
-        $this->assertEquals   ( $input['family'], $document->getAttribute('family') );
+        $this->assertEquals   ( $input['category'], $document->getAttribute('category') );
     }
-
-
-    /**
-     * Clean database collection
-     */
-    private function cleanCollection( $collection )
-    {
-        $db = LMongo::connection();
-        $db->$collection->drop();
-    }
-
-    /**
-     * Returns an category that "exists in database".
-     *
-     * @param string $name
-     * @return Category
-     */
-    private function aExistentCategory( $name = 'existentfamily' )
-    {
-        $category = new Category;
-
-        $category->name = $name;
-        $category->description = 'somedescription';
-        $category->image = 'aimage.jpg';
-
-        $category->save();
-
-        return $category;
-    }
-    
 }

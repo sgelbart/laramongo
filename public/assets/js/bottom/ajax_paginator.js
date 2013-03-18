@@ -1,5 +1,8 @@
 $(function(){
 
+    if($('[data-nextpage]').length == 0)
+        return;
+
     // When scroll page
     $(window).scroll(function() {
 

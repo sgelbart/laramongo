@@ -1,8 +1,6 @@
 <?php
 
-use Zizaco\LmongoOrm\MongoModel;
-
-abstract class BaseModel extends MongoModel
+abstract class BaseModel extends Zizaco\Mongoloid\Model
 {
     /**
      * Validation rules
@@ -25,6 +23,7 @@ abstract class BaseModel extends MongoModel
      */
     public function save()
     {
+
         if( $this->isValid() )
         {
             return parent::save();
@@ -59,5 +58,10 @@ abstract class BaseModel extends MongoModel
         {
             return true;
         }
+    }
+
+    public function __construct()
+    {
+        $this->database = Config::get('lmongo::connections.default.database');
     }
 }

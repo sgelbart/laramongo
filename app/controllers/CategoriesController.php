@@ -2,13 +2,13 @@
 
 class CategoriesController extends BaseController {
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @return Response
+     */
+    public function show($id)
+    {
         $category = Category::first($id);
 
         if(! $category)
@@ -19,7 +19,7 @@ class CategoriesController extends BaseController {
 
         $page = Input::get('page') ?: 1;
 
-        $products = Product::where(array('family'=>$category->name))
+        $products = Product::where(['category'=>(string)$category->_id])
             ->sort(array('_id'=>'1'))
             ->limit(12)
             ->skip( ($page-1)*12 );
@@ -42,5 +42,5 @@ class CategoriesController extends BaseController {
                 ->with( 'total_pages', round($products->count()/12) )
                 ->with( 'page', $page );
         }
-	}
+    }
 }

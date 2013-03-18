@@ -1,13 +1,13 @@
-<?php namespace Zizaco\LmongoOrm;
+<?php namespace Zizaco\Mongoloid;
 
-use LMongo;
+use MongoClient;
 
-class MongoModel
+class Model
 {
     /**
      * The connection name for the model.
      *
-     * @var LMongo\Database
+     * @var MongoDB
      */
     protected $connection;
 
@@ -19,19 +19,11 @@ class MongoModel
     protected $collection = 'temporary';
 
     /**
-     * The primary key for the model. Will become the _id 
-     * in MongoDB document.
+     * The database associated with the model.
      *
      * @var string
      */
-    protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = true;
+    protected $database = 'mongoloid';
 
     /**
      * Indicates if the model should be timestamped.
@@ -61,7 +53,7 @@ class MongoModel
      *
      * @var array
      */
-    public $massAssignment = array();
+    public $fillable = array();
 
     /**
      * Save the model to the database.
@@ -70,6 +62,9 @@ class MongoModel
      */
     public function save()
     {
+        if (! $this->collection)
+            return false;
+
         $preparedAttr = $this->prepareMongoAttributes( $this->attributes );
 
         $result = $this->collection()
@@ -78,7 +73,6 @@ class MongoModel
         if(isset($result['ok']) && $result['ok'] )
         {
             $this->parseDocument($this->attributes);
-            $this->cleanAttribute('_id');
             return true;
         }
         else
@@ -114,11 +108,14 @@ class MongoModel
      *
      * @param  mixed  $id
      * @param  array  $fields
-     * @return Zizaco\LmongoOrm\MongoModel
+     * @return Zizaco\LmongoOdm\MongoModel
      */
     public static function first($id = array(), $fields = array())
     {
         $instance = new static;
+
+        if (! $instance->collection)
+            return false;
 
         // Get query array
         $query = $instance->prepareQuery($id);
@@ -127,7 +124,7 @@ class MongoModel
         if(! empty($fields))
             $fields = $instance->prepareProjection($fields);
 
-        // Perform Mongo's findOne
+        // Perfodm Mongo's findOne
         $document = $instance->collection()->findOne( $query, $fields );
 
         // If the response is correctly parsed return it
@@ -144,7 +141,7 @@ class MongoModel
     /**
      * Find one document by id or by query array. Returns
      * a single model if only one document matched the
-     * criteria, or a OrmCursor if more than one.
+     * criteria, or a OdmCursor if more than one.
      *
      * @param  mixed  $id
      * @param  array  $fields
@@ -168,11 +165,14 @@ class MongoModel
      *
      * @param  array  $query
      * @param  array  $fields
-     * @return Zizaco\LmongoOrm\OrmCursor
+     * @return Zizaco\LmongoOdm\OdmCursor
      */
     public static function where($query = array(), $fields = array())
-    {
+    {      
         $instance = new static;
+
+        if (! $instance->collection)
+            return false;
 
         // Get query array
         $query = $instance->prepareQuery($query);
@@ -181,8 +181,8 @@ class MongoModel
         if(! empty($fields))
             $fields = $instance->prepareProjection($fields);
 
-        // Perform Mongo's find and returns iterable cursor
-        $cursor =  new OrmCursor(
+        // Perfodm Mongo's find and returns iterable cursor
+        $cursor =  new OdmCursor(
             $instance->collection()->find( $query, $fields ),
             get_class($instance)
         );
@@ -194,7 +194,7 @@ class MongoModel
      * Find "all" documents from the collection
      *
      * @param  array  $fields
-     * @return Zizaco\LmongoOrm\OrmCursor
+     * @return Zizaco\LmongoOdm\OdmCursor
      */
     public static function all( $fields = array() )
     {
@@ -214,14 +214,6 @@ class MongoModel
             return false;
 
         try{
-            // Grab the primary key
-            if(isset($doc['_id']))
-            {
-                $pkey = (string)$doc['_id'];
-                $this->setAttribute($this->primaryKey, $pkey);
-                unset($doc['_id']);
-            }
-
             // For each attribute, feed the model object
             foreach ($doc as $field => $value) {
                 $this->setAttribute($field, $value);
@@ -252,7 +244,7 @@ class MongoModel
         if (! is_array($id))
         {
             // If not an array, then search by _id
-            $id = array( 'id' => $id );
+            $id = array( '_id' => $id );
         }
         
         // Prepare query array with attributes
@@ -271,21 +263,20 @@ class MongoModel
     private function prepareMongoAttributes($attr)
     {
         // Translate the primary key field into _id
-        if( isset($attr[$this->primaryKey]) )
+        if( isset($attr['_id']) )
         {
             // If its a 24 digits hexadecimal, then it's a MongoId
-            if (strlen($attr[$this->primaryKey]) == 24 && ctype_xdigit($attr[$this->primaryKey]))
+            if ($this->isMongoId($attr['_id']))
             {
-                $attr['_id'] = new \MongoId( $attr[$this->primaryKey] );   
+                $attr['_id'] = new \MongoId( $attr['_id'] );   
             }
-            elseif(is_numeric($attr[$this->primaryKey]))
+            elseif(is_numeric($attr['_id']))
             {
-                $attr['_id'] = (int)$attr[$this->primaryKey];
+                $attr['_id'] = (int)$attr['_id'];
             }
             else{
-                $attr['_id'] = $attr[$this->primaryKey];   
+                $attr['_id'] = $attr['_id'];   
             }
-            unset($attr[$this->primaryKey]);
         }
 
         return $attr;
@@ -309,24 +300,24 @@ class MongoModel
     }
 
     /**
-     * Returns the LMongo database object (the connection)
+     * Returns the database object (the connection)
      *
-     * @return LMongo\Database
+     * @return MongoDB
      */
     protected function db()
     {
         if( $this->connection == null )
         {
-            $this->connection = LMongo::connection();
+            $this->connection = new MongoClient();
         }
 
-        return $this->connection;
+        return $this->connection->{$this->database};
     }
 
     /**
      * Returns the LMongo collection object
      *
-     * @return LMongo\Database
+     * @return MongoDB
      */
     protected function collection()
     {
@@ -358,6 +349,26 @@ class MongoModel
     }
 
     /**
+     * Get all attributes from the model.
+     *
+     * @return mixed
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Get the _id.
+     *
+     * @return mixed
+     */
+    public function getMongoId()
+    {
+        return $this->getAttribute('_id');
+    }
+
+    /**
      * Set a given attribute on the model.
      *
      * @param  string  $key
@@ -375,10 +386,10 @@ class MongoModel
      * @param  array   $input
      * @return void
      */
-    public function setAttributes( $input )
+    public function fill( $input )
     {
         foreach ($input as $key => $value) {
-            if( empty($this->massAssignment) or in_array($key,$this->massAssignment) )
+            if( empty($this->fillable) or in_array($key,$this->fillable) )
             {
                 $this->setAttribute( $key, $value );
             }                
@@ -398,7 +409,7 @@ class MongoModel
     }
 
     /**
-     * Convert the model instance to JSON.
+     * Returns the model instance as JSON.
      *
      * @param  int  $options
      * @return string
@@ -406,6 +417,219 @@ class MongoModel
     public function toJson($options = 0)
     {
         return json_encode($this->attributes, $options);
+    }
+
+    /**
+     * Returns the model instance as an Array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Returns the referenced documents as objects
+     */
+    protected function referencesOne($model, $field)
+    {
+        return $model::first(array('_id'=>$this->$field));
+    }
+
+    /**
+     * Returns the cursor for the referenced documents as objects
+     */
+    protected function referencesMany($model, $field)
+    {
+        $ref_ids = $this->$field;
+
+        if (! isset($ref_ids[0]) )
+            return array();
+
+        if ($this->isMongoId($ref_ids[0]))
+        {
+            foreach ($ref_ids as $key => $value) {
+                $ref_ids[$key] = new \MongoId($value);
+            }
+        }
+
+        return $model::where(array('_id'=>array('$in'=>$ref_ids)));
+    }
+
+    /**
+     * Return array of referenced documents as objects
+     */
+    protected function embedsMany($model, $field)
+    {
+        $documents = array();
+
+        if(is_array($this->$field))
+        {
+            foreach ($this->$field as $document) {
+                $instance = new $model;
+                $instance->parseDocument( $document );
+                $documents[] = $instance;
+            }
+        }
+
+        return $documents;
+    }
+
+    /**
+     * Attach a new document or id to an reference array
+     * 
+     * @param string $field
+     * @param mixed $obj _id, document or model instance
+     * @return void
+     */
+    public function attach($field, $obj)
+    {
+        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        {
+            $mongoId = $obj->getMongoId();
+        }
+        elseif( is_array($obj) )
+        {
+            if(isset($obj['id']))
+            {
+                $mongoId = $obj['id'];
+            }
+            elseif(isset($obj['_id']))
+            {
+                $mongoId = $obj['_id'];
+            }
+        }
+        else
+        {
+            $mongoId = $obj;
+        }
+
+        if($mongoId != null)
+        {
+            $attr = (array)$this->getAttribute($field);
+            $attr[] = $mongoId;
+            $this->setAttribute($field, $attr);
+        }
+    }
+
+    /**
+     * Detach a document or id from an reference array
+     * 
+     * @param string $field
+     * @param mixed $obj _id, document or model instance
+     * @return void
+     */
+    public function detach($field, $obj)
+    {
+        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        {
+            $mongoId = $obj->getMongoId();
+        }
+        elseif( is_array($obj) )
+        {
+            if(isset($obj['id']))
+            {
+                $mongoId = $obj['id'];
+            }
+            elseif(isset($obj['_id']))
+            {
+                $mongoId = $obj['_id'];
+            }
+        }
+        else
+        {
+            $mongoId = $obj;
+        }
+
+        if($mongoId != null)
+        {
+            $attr = (array)$this->getAttribute($field);
+            
+            foreach ($attr as $key => $value) {
+                if((string)$value == (string)$mongoId)
+                {
+                    unset($attr[$key]);
+                }
+            }
+            $this->setAttribute($field, array_values($attr));
+        }
+    }
+
+    /**
+     * Embed a new document to an attribute
+     * 
+     * @param string $field
+     * @param mixed $obj _id, document or model instance
+     * @return void
+     */
+    public function embed($field, $obj)
+    {
+        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        {
+            $document = $obj->toArray();
+        }
+        else
+        {
+            $document = $obj;
+        }
+
+        if($document != null)
+        {
+            $attr = (array)$this->getAttribute($field);
+            $attr[] = $document;
+            $this->setAttribute($field, $attr);
+        }
+    }
+
+    /**
+     * Embed a new document to an attribute
+     * 
+     * @param string $field
+     * @param mixed $target, document or part of the document. Ex: ['name'='Something']
+     * @return void
+     */
+    public function unembed($field, $target)
+    {
+        if( is_a($target,'Zizaco\Mongoloid\Model') )
+        {
+            $target = $target->toArray();
+        }
+        else
+        
+        if(! is_array($target) )
+        {
+            trigger_error( get_class($this)." unembed Method second parameter should be an array." );
+        }
+
+        $documents = $this->getAttribute($field);
+
+        // Foreach embedded document
+        foreach ($documents as $oKey => $document)
+        {
+            // Remove it unless...
+            $remove = true;
+
+            foreach ($target as $tKey => $tValue) // For each key defined in the target obj
+            {
+                if(isset($document[$tKey]))
+                {
+                    if($target[$tKey] != $document[$tKey]) // The value is equal for the embedded document
+                    {
+                        $remove = false;
+                    }
+                }
+            }
+
+            // If not
+            if( $remove )
+            {
+                unset($documents[$oKey]); // Remove it
+            }
+        }
+
+        // Update attribute
+        $this->setAttribute($field, array_values($documents));
     }
 
     /**
@@ -428,7 +652,30 @@ class MongoModel
      */
     public function __set($key, $value)
     {
-        $this->setAttribute($key, $value);
+        // Set attribute
+        $this->setAttribute($key, $value);    
+    }
+
+    public function __call($method, $parameters)
+    {
+        $value = isset($parameters[0]) ? $parameters[0] : null;
+
+        if ('attachTo' == substr($method,0,8)) //
+        {
+            // Attach a new document or id to an reference array
+            $field = strtolower(substr($method,8,1)).substr($method,9);
+            $this->attach($field, $value);
+        }
+        elseif ('embedTo' == substr($method,0,7)) //
+        {
+            // Embed a new document or id to an reference array
+            $field = strtolower(substr($method,7,1)).substr($method,8);
+            $this->embed($field, $value);
+        }
+        else
+        {
+            trigger_error('Call to undefined method '.$method);
+        }
     }
 
     /**
@@ -461,5 +708,17 @@ class MongoModel
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    /**
+     * Checks if a string is a MongoID
+     * 
+     * @param string $string String to be checked.
+     * @return boolean
+     */
+    private function isMongoId($string)
+    {
+        // If its a 24 digits hexadecimal, then it's a MongoId
+        return (is_string($string) && strlen($string) == 24 && ctype_xdigit($string));
     }
 }

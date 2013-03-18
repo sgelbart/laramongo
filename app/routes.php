@@ -37,33 +37,41 @@ Route::get('admin', function()
 });
 
 // Admin\CategoriesController
-Route::get(    'admin/categories',               'Admin\CategoriesController@index' );
-Route::get(    'admin/category',                 'Admin\CategoriesController@index' );
-Route::get(    'admin/category/create',          'Admin\CategoriesController@create');
-Route::post(   'admin/category/store',           'Admin\CategoriesController@store');
-Route::get(    'admin/category/{id}/edit',       'Admin\CategoriesController@edit');
-Route::put(    'admin/category/{id}',            'Admin\CategoriesController@update');
-Route::delete( 'admin/category/{id}',            'Admin\CategoriesController@destroy');
+Route::get(    'admin/category/tree',                'Admin\CategoriesController@tree');
+Route::get(    'admin/categories/tree',              'Admin\CategoriesController@tree');
+Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );
+Route::get(    'admin/category',                     'Admin\CategoriesController@index' );
+Route::get(    'admin/category/create',              'Admin\CategoriesController@create');
+Route::post(   'admin/category/store',               'Admin\CategoriesController@store');
+Route::get(    'admin/category/{id}/edit',           'Admin\CategoriesController@edit');
+Route::put(    'admin/category/{id}',                'Admin\CategoriesController@update');
+Route::get(    'admin/category/{id}',                'Admin\CategoriesController@show');
+Route::delete( 'admin/category/{id}',                'Admin\CategoriesController@destroy');
+Route::post(   'admin/category/{id}/attach',         'Admin\CategoriesController@attach');
+Route::delete( 'admin/category/{id}/attach/{parent}','Admin\CategoriesController@detach');
+Route::post(   'admin/category/{id}/characteristic', 'Admin\CategoriesController@add_characteristic');
+Route::delete( 'admin/category/{id}/characteristic/{charac_name}', 'Admin\CategoriesController@destroy_characteristic');
 
 // Admin\ProductsController
-Route::get(    'admin/products',                'Admin\ProductsController@index' );
-Route::get(    'admin/product',                 'Admin\ProductsController@index' );
-Route::get(    'admin/product/import',          'Admin\ProductsController@import' );
-Route::post(   'admin/product/doImport',        'Admin\ProductsController@doImport' );
-Route::get(    'admin/product/create',          'Admin\ProductsController@create' );
-Route::post(   'admin/product',                 'Admin\ProductsController@store' );
-Route::get(    'admin/product/{id}',            'Admin\ProductsController@show' );
-Route::get(    'admin/product/{id}/edit',       'Admin\ProductsController@edit' );
-Route::put(    'admin/product/{id}',            'Admin\ProductsController@update' );
-Route::delete( 'admin/product/{id}',            'Admin\ProductsController@destroy' );
+Route::get(    'admin/products',                    'Admin\ProductsController@index' );
+Route::get(    'admin/product',                     'Admin\ProductsController@index' );
+Route::get(    'admin/product/import',              'Admin\ProductsController@import' );
+Route::post(   'admin/product/doImport',            'Admin\ProductsController@doImport' );
+Route::get(    'admin/product/create',              'Admin\ProductsController@create' );
+Route::post(   'admin/product',                     'Admin\ProductsController@store' );
+Route::get(    'admin/product/{id}',                'Admin\ProductsController@show' );
+Route::get(    'admin/product/{id}/edit',           'Admin\ProductsController@edit' );
+Route::put(    'admin/product/{id}',                'Admin\ProductsController@update' );
+Route::delete( 'admin/product/{id}',                'Admin\ProductsController@destroy' );
+Route::put(   'admin/product/{id}/characteristic',  'Admin\ProductsController@characteristic');
 
 /*
 |--------------------------------------------------------------------------
-| Confide Routes
+| Authentication Routes
 |--------------------------------------------------------------------------
 |
 */
 
-Route::get( 'user/login',           'UsersController@login');
-Route::post('user/login',           'UsersController@do_login');
-Route::get( 'user/logout',          'UsersController@logout');
+Route::get( 'login',           'UsersController@login');
+Route::post('login',           'UsersController@do_login');
+Route::get( 'logout',          'UsersController@logout');

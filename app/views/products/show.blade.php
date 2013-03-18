@@ -3,7 +3,7 @@
     <p>
         Seu caminho foi: 
         {{ HTML::to( '/', 'Home' ) }} >
-        {{ HTML::action( 'CategoriesController@show', $category->name, ['id'=>$category->id] ) }} >
+        {{ HTML::action( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
         {{ $product->name }}
     </p>
 
@@ -14,16 +14,22 @@
 
         <p>{{ $product->description }}</p>
 
+
         <table class='table'>
-            @foreach ($product->attributes as $attr => $val)
-                <tr>
-                    <td class='attr_header'>
-                        {{ $attr }}
-                    </td>
-                    <td>
-                        {{ $val }}
-                    </td>
-                </tr>
+            @foreach ($category->characteristics() as $charac)
+                {{ snake_case($charac->name) }}
+                @if ( is_array($product->details) && isset($product->details[snake_case($charac->name)]) )
+                    <tr>
+                        <td class='attr_header'>
+                            {{ $charac->name }}
+                        </td>
+                        <td>
+                            {{ 
+                                $charac->displayLayout($product->details[snake_case($charac->name)])
+                            }}
+                        </td>
+                    </tr>
+                @endif
             @endforeach
         </table>
 

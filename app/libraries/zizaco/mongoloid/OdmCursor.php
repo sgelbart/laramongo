@@ -1,8 +1,6 @@
-<?php namespace Zizaco\LmongoOrm;
+<?php namespace Zizaco\Mongoloid;
 
-use LMongo;
-
-class OrmCursor implements \Iterator
+class OdmCursor implements \Iterator
 {
     /**
      * Model class that will be returned when iterate
@@ -26,7 +24,7 @@ class OrmCursor implements \Iterator
     private $position = 0;
 
     /**
-     * OrmCursor constructor. The mongo cursor and the
+     * OdmCursor constructor. The mongo cursor and the
      * model should be provided
      *
      * @param $cursor MongoCursor
@@ -59,7 +57,7 @@ class OrmCursor implements \Iterator
 
             // In case of sort, limit and other methods of the cursor
             // that return itself (for chained method calls), should
-            // return $this (OrmCursor object) instead of MongoCursor.
+            // return $this (OdmCursor object) instead of MongoCursor.
             if(is_object($result) && get_class($result) == 'MongoCursor')
             {
                 return $this;
@@ -121,7 +119,15 @@ class OrmCursor implements \Iterator
      */
     public function toArray()
     {
-        return iterator_to_array($this);
+        $result = array();
+
+        $this->limit(20);
+        foreach($this as $document)
+        {
+            $result[] = $document->getAttributes();
+        }
+
+        return $result;
     }
 
     /**
