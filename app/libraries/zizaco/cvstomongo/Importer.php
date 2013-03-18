@@ -33,6 +33,14 @@ class Importer
     protected $success;
 
     /**
+     * Array of attributes that are not characteristics. This attributes
+     * will not be embedded in the details attribute.
+     */
+    protected $non_characteristic_keys = [
+        '_id','name','description','small_description','category'
+    ];
+
+    /**
      * The file and the model/collection that should be imported
      *
      * @param $file string
@@ -66,12 +74,20 @@ class Importer
             else
             {
                 $instance = new $this->model();
+                $attributes = array_combine( $headers, $this->treatLine($line) );
+
+                foreach ($attributes as $key => $value) {
+                    if(! in_array($key, $this->non_characteristic_keys))
+                    {
+                        $attributes['details'][$key] = $value;
+                        unset($attributes[$key]);
+                    }
+                }
+
                 if( $instance->parseDocument(
-                    array_combine( $headers, $this->treatLine($line) )
+                    $attributes
                 ))
                 {
-                    $instance->details = array_combine( $headers, $this->treatLine($line) );
-
                     // Set the leaf category where that product belongs
                     $instance->category = $category;
 
@@ -115,7 +131,7 @@ class Importer
                 $value = (float)$value;
             }
 
-            $line[$key] = $value;
+            $line[$key] = utf8_encode($value);
         }
 
         return $line;
