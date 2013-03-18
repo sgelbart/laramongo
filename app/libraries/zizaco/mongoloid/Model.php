@@ -312,7 +312,9 @@ class Model
                 'mongodb://'.
                 \Config::get('lmongo::connections.default.host').
                 ':'.
-                \Config::get('lmongo::connections.default.port')
+                \Config::get('lmongo::connections.default.port').
+                '/'.
+                \Config::get('lmongo::connections.default.database')
             );
         }
 
