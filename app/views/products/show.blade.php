@@ -14,8 +14,10 @@
 
         <p>{{ $product->description }}</p>
 
+
         <table class='table'>
             @foreach ($category->characteristics() as $charac)
+                {{ snake_case($charac->name) }}
                 @if ( is_array($product->details) && isset($product->details[snake_case($charac->name)]) )
                     <tr>
                         <td class='attr_header'>

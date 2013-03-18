@@ -38,6 +38,7 @@ class CategoriesController extends AdminController {
 		$category = new Category;
 
 		$category->fill( Input::all() );
+        unset($category->image_file);
 
 		// Save if valid
         if ( $category->save() )

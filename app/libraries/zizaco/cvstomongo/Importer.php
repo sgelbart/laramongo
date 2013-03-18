@@ -70,8 +70,10 @@ class Importer
                     array_combine( $headers, $this->treatLine($line) )
                 ))
                 {
+                    $instance->details = array_combine( $headers, $this->treatLine($line) );
+
                     // Set the leaf category where that product belongs
-                    $instance->category = new \MongoId($category);
+                    $instance->category = $category;
 
                     if( $instance->save() )
                     {

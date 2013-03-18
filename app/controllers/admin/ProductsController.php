@@ -152,8 +152,11 @@ class ProductsController extends AdminController {
         $details = array();
         foreach ($category->characteristics() as $charac) {
             $details[snake_case($charac->name)] = Input::get(snake_case($charac->name));
-        }
 
+            if(! $details[snake_case($charac->name)])
+                $details[snake_case($charac->name)] = Input::get(str_replace(' ', '_', snake_case($charac->name)));
+        }
+        
         $product->details = $details;
 
         // Save if valid

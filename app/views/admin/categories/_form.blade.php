@@ -20,6 +20,8 @@
 }}
     @if ( isset($category) )
         {{ HTML::image($category->imageUrl()) }}
+
+        <hr>
     @endif
     
     <div class="control-group">
