@@ -14,6 +14,12 @@
 // Home
 Route::get('/', 'HomeController@index');
 
+// CategoriesController
+Route::get(    'category/{id}', 'CategoriesController@show' );
+
+// ProductsController
+Route::get(    'product/{id}', 'ProductsController@show' );
+
 // HealthCheck
 Route::get(    'health', function(){ return "The application is healty"; } );
 

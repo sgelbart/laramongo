@@ -13,7 +13,7 @@ class BaseController extends Controller {
 	{
 		if ( ! is_null($this->layout))
 		{
-			$categories = Category::where(array('active'=>true));
+			$categories = Category::all();
 			
 			$this->layout = View::make($this->layout);
 			$this->layout->with('categories', $categories);
