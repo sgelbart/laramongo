@@ -131,12 +131,29 @@ class Category extends BaseModel {
         }
     }
 
+    /**
+     * Build ancestors tree within this category
+     */
     public function buildAncestors()
     {
         unset($this->ancestors);
         if($this->parents())
         {
             $this->ancestors = $this->parents()->toArray();
+        }
+    }
+
+    /**
+     * Validate every product within this category. This may be used
+     * in order to validate new characteristics that were included.
+     */
+    public function validateProducts()
+    {
+        foreach (Product::where(['category'=>$this->_id]) as $product) {
+            if(! $product->idValid())
+            {
+                $product->save();
+            }
         }
     }
 

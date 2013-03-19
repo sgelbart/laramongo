@@ -39,6 +39,10 @@
     </tbody>
 </table>
 
+{{ HTML::action('Admin\CategoriesController@validate_products', "Validar Produtos", ['id'=>$category->_id], ['class'=>'btn btn-inverse']) }}
+
+<hr>
+
 <div class='well'>
     {{
         Form::open([   

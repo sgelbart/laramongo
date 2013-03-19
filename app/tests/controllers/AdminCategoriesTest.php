@@ -218,4 +218,11 @@ class AdminCategoriesTest extends ControllerTestCase
         $this->assertSessionHas('flash','sucesso');
     }
 
+    public function testShouldValidateAllProductsForCharacteristics(){
+        $category = f::create( 'Category' );
+        $product = f::create( 'Product', ['category'=>$category->_id] );
+
+        $this->requestAction('GET', 'Admin\CategoriesController@validate_products', ['id'=>$category->_id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@fix', ['id'=>$category->_id]));    }
+
 }

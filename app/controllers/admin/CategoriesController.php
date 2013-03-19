@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Category, Characteristic;
+use Category, Characteristic, Product;
 use View, Input, Redirect, URL, MongoId;
 
 class CategoriesController extends AdminController {
@@ -260,6 +260,25 @@ class CategoriesController extends AdminController {
 
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Caracteristica removida com sucesso' );
+    }
+
+    /**
+     * Validates all the products within a category
+     * to see if their characteristics are valid
+     */
+    public function validate_products($id)
+    {
+        $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        $category->validateProducts();
+
+        return Redirect::action('Admin\ProductsController@fix', ['id'=>$category->_id]);
     }
 
 	/**
