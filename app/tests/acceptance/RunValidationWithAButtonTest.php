@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
+class RunValidationWithAButtonTest extends AcceptanceTestCase
 {
     /**
      * Clean collection between every test
@@ -17,10 +17,11 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
 
     public function testShouldDisplayErrorsWhenImporting()
     {
-        $category = $this->aCategoryWithRules();
+        $category = f::create('Category', ['kind'=>'leaf']);
 
         $sampleFile = 'file://'.__DIR__.'/../assets/lixeirasAlgumasErradas.csv';
 
+        // Import file
         $this->browser
             ->open(URL::action('Admin\ProductsController@import'))
             ->select(l::IdOrName('category'), $category->name)
@@ -28,42 +29,27 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
             ->click(l::id('submit-import-form'))
             ->waitForPageToLoad(1000);
 
+        // Create new characteristics
+        $category->characteristics = $this->characteristicsSet();
+        $category->save();
+
+        // Validate new rules created
+        $this->browser
+            ->open(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]))
+            ->click(l::linkContaining('Caracteristicas'))
+            ->click(l::linkContaining('Validar Produtos'))
+            ->waitForPageToLoad(3000);
+
         $expectedResult = [
-            'Produtos com erro 2',
             'Lixeira u la la',
             'Lixeira Erronea',
-            'Cor','Tampa','Diâmetro',
         ];
 
         $this->assertBodyHasText( $expectedResult );
     }
 
-    public function testShouldDisplayErrorsWhenUpdating()
+    private function characteristicsSet()
     {
-        $category = $this->aCategoryWithRules();
-
-        $product = f::create( 'Product', ['category'=>$category->_id] );
-
-        $this->browser
-            ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))
-            ->click(l::linkContaining('Caracteristicas'))
-            ->select(l::IdOrName('cor'), 'Cromado')
-            ->type(l::IdOrName('capacidade'), 'Errado')
-            ->select(l::IdOrName('pedal'), 'Sim')
-            ->select(l::IdOrName('tampa'), 'Sim')
-            ->type(l::IdOrName('altura'), '20')
-            ->type(l::IdOrName('diametro'), 'Errado')
-            ->click(l::id('submit-save-product-characteristics'))
-            ->waitForPageToLoad(1000)
-            ->click(l::linkContaining('Caracteristicas'));
-
-        $this->assertBodyHasNotText( 'Sucesso','Errado' );
-    }
-
-    private function aCategoryWithRules()
-    {
-        $category = f::instance( 'Category', ['kind'=>'leaf'] );
-
         $charac_array = [
             [
                 'type' => 'option',
@@ -96,9 +82,6 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
             ],
         ];
 
-        $category->characteristics = $charac_array;
-        $category->save();
-
-        return $category;
+        return $charac_array;
     }
 }

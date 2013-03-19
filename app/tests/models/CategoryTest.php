@@ -127,7 +127,7 @@ class CategoryTest extends TestCase
         $grandParent = f::create('Category');
         $parentA = f::create('Category');
         $parentB = f::create('Category');
-        $child = f::create('Category');
+        $child = f::create('Category', ['kind'=>'']);
 
         $parentA->attachToParents($grandParent);
         $parentA->save();
@@ -157,6 +157,8 @@ class CategoryTest extends TestCase
      */
     public function testValidateProducts()
     {
+        $category = f::create('Category', ['kind'=>'leaf']);
 
+        $this->assertTrue($category->validateProducts());
     }
 }

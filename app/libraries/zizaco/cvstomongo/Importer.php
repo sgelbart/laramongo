@@ -91,7 +91,7 @@ class Importer
                     // Set the leaf category where that product belongs
                     $instance->category = $category;
 
-                    if( $instance->save() )
+                    if( $instance->save(true) )
                     {
                         $this->success[] = $instance;
                     }

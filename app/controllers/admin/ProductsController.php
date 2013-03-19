@@ -51,8 +51,10 @@ class ProductsController extends AdminController {
         $product->fill( Input::all() );
 
         // Save if valid
-        if ( $product->save() )
+        if ( $product->isValid() )
         {
+            $product->save();
+
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Novo produto incluído com sucesso' );
         }
@@ -121,8 +123,10 @@ class ProductsController extends AdminController {
         $product->fill( Input::all() );
 
         // Save if valid
-        if ( $product->save() )
+        if ( $product->isValid() )
         {
+            $product->save();
+
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Alterações salvas com sucesso' );
         }
@@ -264,6 +268,16 @@ class ProductsController extends AdminController {
         }
         
         return '';
+    }
+
+    public function fix($category_id)
+    {
+        $products = Product::where(['category'=>$category_id, 'state'=>'invalid']);
+        $category = Category::first($category_id);
+
+        $this->layout->content = View::make('admin.products.fix')
+            ->with( 'products', $products )
+            ->with( 'category', $category );
     }
 
 }

@@ -21,10 +21,10 @@ abstract class BaseModel extends Zizaco\Mongoloid\Model
      *
      * @return bool
      */
-    public function save()
+    public function save($force = false)
     {
 
-        if( $this->isValid() )
+        if( $this->isValid() || $force )
         {
             return parent::save();
         }

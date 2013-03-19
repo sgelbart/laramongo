@@ -64,7 +64,8 @@ Route::get(    'admin/product/{id}',                'Admin\ProductsController@sh
 Route::get(    'admin/product/{id}/edit',           'Admin\ProductsController@edit' );
 Route::put(    'admin/product/{id}',                'Admin\ProductsController@update' );
 Route::delete( 'admin/product/{id}',                'Admin\ProductsController@destroy' );
-Route::put(   'admin/product/{id}/characteristic',  'Admin\ProductsController@characteristic');
+Route::put(    'admin/product/{id}/characteristic', 'Admin\ProductsController@characteristic');
+Route::get(    'admin/product/{category_id}/fix',   'Admin\ProductsController@fix');
 
 /*
 |--------------------------------------------------------------------------

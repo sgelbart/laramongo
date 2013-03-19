@@ -112,17 +112,17 @@ class Category extends BaseModel {
      *
      * @return bool
      */
-    public function save()
+    public function save( $force = false )
     {
 
         if( $this->isValid() )
         {
             $this->buildAncestors();
-            return parent::save();
+            return parent::save( $force );
 
             foreach ($this->childs() as $child) {
                 $child->buildAncestors();
-                $child->save();
+                $child->save( $force );
             }
         }
         else
@@ -149,12 +149,14 @@ class Category extends BaseModel {
      */
     public function validateProducts()
     {
-        foreach (Product::where(['category'=>$this->_id]) as $product) {
-            if(! $product->idValid())
+        foreach (Product::where(['category'=>(string)$this->_id]) as $product) {
+            if(! $product->isValid())
             {
-                $product->save();
+                $product->save(true);
             }
         }
+
+        return true;
     }
 
 }

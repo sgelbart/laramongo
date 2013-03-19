@@ -62,6 +62,10 @@ class Product extends BaseModel {
         }
     }
 
+    /**
+     * Overwrites the isValid method in order to make sure that the characteristics
+     * are valid
+     */
     public function isValid()
     {
         if(parent::isValid())
@@ -85,6 +89,29 @@ class Product extends BaseModel {
             }
 
             return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Overwrites the save metod to save anyway but to mark the
+     * product as invalid
+     *
+     */
+    public function save( $force = false )
+    {
+
+        if( $this->isValid() )
+        {
+            return parent::save();
+        }
+        elseif( $force )
+        {
+            $this->state = 'invalid';
+            return parent::save( true );
         }
         else
         {
