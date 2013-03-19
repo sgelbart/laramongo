@@ -118,4 +118,45 @@ class CategoryTest extends TestCase
             $category->imageUrl()
         );
     }
+
+    /**
+     * Should build ancestors tree
+     */
+    public function testShouldBuildAncestorsWhenSave()
+    {
+        $grandParent = f::create('Category');
+        $parentA = f::create('Category');
+        $parentB = f::create('Category');
+        $child = f::create('Category');
+
+        $parentA->attachToParents($grandParent);
+        $parentA->save();
+
+        $child->attachToParents($parentA);
+        $child->attachToParents($parentB);
+        $child->save();
+
+        $this->assertEquals(
+            $child->parents()->toArray(false)[0],
+            $child->ancestors()[0]
+        );
+
+        $this->assertEquals(
+            $child->parents()->toArray(false)[1],
+            $child->ancestors()[1]
+        );
+
+        $this->assertEquals(
+            $child->parents()->toArray(false)[0]->ancestors(),
+            $child->ancestors()[0]->ancestors()
+        );
+    }
+
+    /**
+     * Should validate all products within this category
+     */
+    public function testValidateProducts()
+    {
+
+    }
 }

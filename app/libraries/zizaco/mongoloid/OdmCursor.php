@@ -117,14 +117,21 @@ class OdmCursor implements \Iterator
      *
      * @return array
      */
-    public function toArray()
+    public function toArray( $documentsTooArray = true )
     {
         $result = array();
 
         $this->limit(20);
         foreach($this as $document)
         {
-            $result[] = $document->getAttributes();
+            if( $documentsTooArray )
+            {
+                $result[] = $document->getAttributes();
+            }
+            else
+            {
+                $result[] = $document;
+            }
         }
 
         return $result;
