@@ -30,7 +30,7 @@ class ProductTest extends TestCase
     }
 
     /**
-     * Should save invalid product but mark it as invalid
+     * Should not save invalid product
      *
      */
     public function testShouldNotSaveInvalidProduct()
@@ -41,7 +41,22 @@ class ProductTest extends TestCase
         $product->category = f::create('Category')->_id;
 
         // Should return true, since it's a valid product
-        $this->assertTrue( $product->save('bacon') );
+        $this->assertFalse( $product->save() );
+    }
+
+    /**
+     * Should save invalid product but mark it as invalid
+     *
+     */
+    public function testShouldSaveInvalidProductIfForced()
+    {
+        $product = new Product;
+
+        $product->name = '';
+        $product->category = f::create('Category')->_id;
+
+        // Should return true, since it's a valid product
+        $this->assertTrue( $product->save(true) );
 
         $product = Product::find($product->_id);
 
