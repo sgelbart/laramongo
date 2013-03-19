@@ -33,7 +33,7 @@
         @endif
 
         <div class='form-actions'>
-            {{ Form::button('Importar', ['type'=>'submit', 'class'=>'btn btn-primary'] ) }}
+            {{ Form::button('Importar', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-import-form'] ) }}
         </div>
 
     {{ Form::close() }}
