@@ -34,11 +34,11 @@
     <div class="control-group">
         <span class='control-label'>Tipo</span>
         <div class="controls">
-            <label for='kind' class='radio'>
+            <label for='radio-kind-blank' class='radio'>
                 Categoria
                 {{ Form::radio('kind', '', true, ['id'=>'radio-kind-blank']) }}
             </label>
-            <label for='kind' class='radio'>
+            <label for='radio-kind-leaf' class='radio'>
                 Chave de entrada
                 {{ Form::radio('kind', 'leaf', array_get( $f,'kind') == 'leaf', ['id'=>'radio-kind-leaf']) }}
             </label>
