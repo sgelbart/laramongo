@@ -18,7 +18,7 @@ class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
     {
         $this->buildSampleTree();
 
-        $this->browser->open('/admin/categories/tree');
+        $this->browser->open('/admin/categories');
             
         $this->assertExpandTreeIten('root');
         $this->assertExpandTreeIten('parentA');
@@ -33,7 +33,7 @@ class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
     {
         $root = $this->buildSampleTree();
 
-        $this->browser->open('/admin/categories/tree')
+        $this->browser->open('/admin/categories')
             ->click(l::linkContaining('Editar')) // Click in the first 'Editar' btn in the list
             ->waitForPageToLoad(1000);
 

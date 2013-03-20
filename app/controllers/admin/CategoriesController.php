@@ -12,10 +12,7 @@ class CategoriesController extends AdminController {
 	 */
 	public function index()
 	{
-		$categories = Category::all();
-
-		$this->layout->content = View::make('admin.categories.index')
-			->with( 'categories', $categories );
+		$this->layout->content = View::make('admin.categories.tree');
 	}
 
 	/**
@@ -86,16 +83,6 @@ class CategoriesController extends AdminController {
 
         $this->layout->content = View::make('admin.categories.hierarchy')
             ->with( 'category', $category );
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function tree()
-    {
-        $this->layout->content = View::make('admin.categories.tree');
     }
 
 	/**
