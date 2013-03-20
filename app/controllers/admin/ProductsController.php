@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Input, View, Product, Redirect, Category;
+use Input, View, Product, Redirect, Response, Category;
 use Zizaco\CsvToMongo\Importer;
 use Zizaco\CsvToMongo\ImageUnzipper;
 
@@ -139,9 +139,13 @@ class ProductsController extends AdminController {
                 ->withInput()
                 ->with( 'error', $error );
         }
-
     }
 
+    /**
+     * Update the characteristics (details) of a product
+     * 
+     * @return Response
+     */
     public function characteristic($id)
     {
         $product = Product::first($id);
@@ -270,14 +274,47 @@ class ProductsController extends AdminController {
         return '';
     }
 
-    public function fix($category_id)
+    /**
+     * Index all the invalid products within a category
+     * 
+     * @return Response
+     */
+    public function invalids($category_id)
     {
         $products = Product::where(['category'=>$category_id, 'state'=>'invalid']);
         $category = Category::first($category_id);
 
-        $this->layout->content = View::make('admin.products.fix')
+        $this->layout->content = View::make('admin.products.invalids')
             ->with( 'products', $products )
             ->with( 'category', $category );
+    }
+
+    /**
+     * Updates some of the characteristics of a product. Should be called
+     * by ajax. So it answers javascript.
+     *
+     * @return Response (Javascript)
+     */
+    public function fix($id)
+    {
+        $product = Product::first($id);
+
+        if(! $product)
+        {
+            return Response::make('Product not found', 404);
+        }
+
+        $product->details = array_merge(
+            $product->details,
+            Input::all()
+        );
+
+        // Save if valid
+        if ( $product->save(true) )
+        {
+            return View::make('admin.products.fix')
+                ->with('product', $product);
+        }
     }
 
 }

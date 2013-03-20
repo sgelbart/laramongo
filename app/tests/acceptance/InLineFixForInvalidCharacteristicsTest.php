@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class RunValidationWithAButtonTest extends AcceptanceTestCase
+class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
 {
     /**
      * Clean collection between every test
@@ -40,12 +40,27 @@ class RunValidationWithAButtonTest extends AcceptanceTestCase
             ->click(l::linkContaining('Validar Produtos'))
             ->waitForPageToLoad(3000);
 
-        $expectedResult = [
-            '66666666',
-            '77777777',
-        ];
+            // Fix first product
+        $this->browser
+            ->select(l::css('#row-66666666-fix select.error'), 'Cromado')
+            ->click(l::css('#row-66666666-fix button'));
 
-        $this->assertBodyHasText( $expectedResult );
+            // Fix second product
+        $this->browser
+            ->select(l::css('#row-77777777-fix select.error'), 'Sim')
+            ->type(l::css('#row-77777777-fix input.error'), '20')
+            ->click(l::css('#row-77777777-fix button'));
+
+        sleep(1); // Wait for ajax =(
+            
+        $productA = Product::first('66666666');
+        $this->assertEquals('Cromado', $productA->details['cor']);
+        $this->assertNull($productA->state);
+
+        $productB = Product::first('77777777');
+        $this->assertEquals('Sim', $productB->details['tampa']);
+        $this->assertEquals('20', $productB->details['diametro']);
+        $this->assertNull($productB->state);
     }
 
     private function characteristicsSet()

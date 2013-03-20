@@ -73,3 +73,13 @@ require __DIR__.'/../filters.php';
 */
 
 require __DIR__.'/../libraries/helpers.php';
+
+/*
+|--------------------------------------------------------------------------
+| Additional View extensions
+|--------------------------------------------------------------------------
+|
+*/
+
+View::addExtension('blade.js','blade');
+View::addExtension('js','blade');

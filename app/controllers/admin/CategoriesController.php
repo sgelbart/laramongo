@@ -278,7 +278,7 @@ class CategoriesController extends AdminController {
 
         $category->validateProducts();
 
-        return Redirect::action('Admin\ProductsController@fix', ['category_id'=>$category->_id]);
+        return Redirect::action('Admin\ProductsController@invalids', ['category_id'=>$category->_id]);
     }
 
 	/**

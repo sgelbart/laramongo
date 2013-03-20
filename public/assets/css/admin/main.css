@@ -54,14 +54,16 @@ fieldset div.wrapper .collumn {
 .tree li .btn-group {
   float: right;
 }
-input.error {
+input.error,
+select.error {
   color: #b94a48;
   border-color: #b94a48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
 }
-input.error:focus {
+input.error:focus,
+select.error:focus {
   border-color: #953b39;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #d59392;
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #d59392;
@@ -70,7 +72,8 @@ input.error:focus {
 .btn-marginless {
   margin-bottom: 0px;
 }
-td input {
+td input,
+td select {
   margin-bottom: 0px !important;
 }
 span.padding-as-input {

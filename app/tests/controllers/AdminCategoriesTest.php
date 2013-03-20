@@ -223,7 +223,7 @@ class AdminCategoriesTest extends ControllerTestCase
         $product = f::create( 'Product', ['category'=>$category->_id] );
 
         $this->requestAction('GET', 'Admin\CategoriesController@validate_products', ['id'=>$category->_id]);
-        $this->assertRedirection(URL::action('Admin\ProductsController@fix', ['category_id'=>$category->_id]));
+        $this->assertRedirection(URL::action('Admin\ProductsController@invalids', ['category_id'=>$category->_id]));
     }
 
 }

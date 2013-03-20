@@ -106,6 +106,7 @@ class Product extends BaseModel {
 
         if( $this->isValid() )
         {
+            unset($this->state);
             return parent::save();
         }
         elseif( $force )
