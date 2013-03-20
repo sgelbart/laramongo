@@ -15,7 +15,7 @@ class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
         $this->cleanCollection( 'products' );
     }
 
-    public function testShouldDisplayErrorsWhenImporting()
+    public function testShouldFixInvalidProducts()
     {
         $category = f::create('Category', ['kind'=>'leaf']);
 

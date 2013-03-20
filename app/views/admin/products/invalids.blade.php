@@ -24,6 +24,9 @@
                     @foreach( $category->characteristics() as $char )
                         <th>
                             {{ $char->name }}
+                            @if ( $char->getAttribute('layout-pos') )
+                                ({{ $char->getAttribute('layout-pos') }})
+                            @endif
                         </th>
                     @endforeach
                     <th>
