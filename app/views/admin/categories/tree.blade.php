@@ -10,7 +10,7 @@
 
     <hr>
 
-    <div class='tree' data-tree='true'>
+    <div class='tree' data-tree='true' id='categories-table'>
         {{ Category::showTree() }}
     </div>
 

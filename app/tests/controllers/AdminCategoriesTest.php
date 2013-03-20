@@ -113,15 +113,6 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Index action should always return 200
-     *
-     */
-    public function testShouldDisplayTree(){
-        $this->requestAction('GET', 'Admin\CategoriesController@tree');
-        $this->assertRequestOk();
-    }
-
-    /**
      * Attach action should redirect to edit of the same resource
      *
      */
