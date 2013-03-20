@@ -2,8 +2,8 @@
 
 use Illuminate\Support\MessageBag;
 
-class Category extends BaseModel {
-    use Traits\HasImage, Traits\CategoryTree, Traits\ToSelect;
+class Category extends BaseModel implements Traits\ToTreeInterface {
+    use Traits\HasImage, Traits\ToTree, Traits\ToSelect;
 
     /**
      * The database collection
@@ -44,6 +44,16 @@ class Category extends BaseModel {
      * @var string
      */
     private $images_path = '../public/assets/img/categories';
+
+    /**
+     * Protected attribute containing the options of the tree
+     *
+     * @var array
+     */
+    static protected $treeOptions = array(
+        'nodeView' => 'admin.categories._tree_node',
+        'nodeName' => 'category'
+    );
 
     /**
      * Reference to parent

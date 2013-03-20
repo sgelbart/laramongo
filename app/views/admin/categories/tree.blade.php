@@ -11,7 +11,7 @@
     <hr>
 
     <div class='tree' data-tree='true' id='categories-table'>
-        {{ Category::showTree() }}
+        {{ Category::renderTree() }}
     </div>
 
 @stop
