@@ -20,8 +20,12 @@ interface ToTreeInterface
 
     /**
      * Will render the tree based 
+     * The $treeStates parameter may contain an array of
+     * the session saved using the "data-tree-session-url"
+     * attribute of the tree dom (in html)
+     *
      */
-    public static function renderTree();
+    public static function renderTree( $treeStates );
 
     /**
      * isRoot should return true for the root nodes.

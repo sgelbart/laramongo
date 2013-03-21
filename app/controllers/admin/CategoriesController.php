@@ -1,19 +1,43 @@
 <?php namespace Admin;
 
 use Category, Characteristic, Product;
-use View, Input, Redirect, URL, MongoId;
+use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class CategoriesController extends AdminController {
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$this->layout->content = View::make('admin.categories.tree');
-	}
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $this->layout->content = View::make('admin.categories.tree')
+            ->with('treeState', Session::get('category-tree-state', array()));
+    }
+
+    /**
+     * Called whenever a node has been opened in the tree.
+     *
+     * @return Response
+     */
+    public function tree()
+    {
+        // Get the id and the state of the node
+        $node_state = [Input::get( 'id' ) => Input::get( 'state' )];
+
+        // Merge with the actual data
+        $tree_state = array_merge(
+            Session::get('category-tree-state', array()), 
+            $node_state
+        );
+
+        // Save in session
+        Session::put('category-tree-state',$tree_state);
+        
+        // Return an empty 'success'
+        return Response::make('',200);
+    }
 
 	/**
 	 * Show the form for creating a new resource.

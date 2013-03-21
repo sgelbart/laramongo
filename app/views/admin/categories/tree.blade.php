@@ -10,8 +10,11 @@
 
     <hr>
 
-    <div class='tree' data-tree='true' id='categories-table'>
-        {{ Category::renderTree() }}
+    <div
+        class='tree' data-tree='true' id='categories-table'
+        data-tree-session-url='{{ URL::action( 'Admin\CategoriesController@tree' ) }}' 
+    >
+        {{ Category::renderTree( $treeState ) }}
     </div>
 
 @stop

@@ -6,6 +6,8 @@ trait ToTree
 {
     public static $_nodes;
 
+    public static $_treeState;
+
     /**
      * Should contain a STATIC protected attribute
      * containing the options of the tree
@@ -17,11 +19,13 @@ trait ToTree
     );
     */
 
-    public static function renderTree()
+    public static function renderTree( $treeStates )
     {
         $result = '<ul>';
 
         static::$_nodes = static::all()->toArray(false);
+
+        static::$_treeState = $treeStates;
 
         foreach (static::$_nodes as $node) {
             if($node->isRoot())
@@ -41,7 +45,18 @@ trait ToTree
 
     protected function renderNode( $is_parent = false )
     {
-        $result = '<li>';
+        $domId = 'tree_'.
+                   array_get(static::$treeOptions,'nodeName','node')
+                   .'_'.$this->_id;
+
+        $domState = 'collapsed="true"';
+
+        if(array_get(static::$_treeState, $domId, false))
+        {
+            $domState = 'collapsed="'.array_get(static::$_treeState, $domId).'"';
+        }
+
+        $result = '<li id="'.$domId.'" '.$domState.'>';
 
         $result .= \View::make( array_get( static::$treeOptions, 'nodeView', 'path.to.tree_node_view') )
             ->with( array_get(static::$treeOptions,'nodeName','node'), $this )

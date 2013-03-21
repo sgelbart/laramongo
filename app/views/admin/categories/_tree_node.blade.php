@@ -1,4 +1,4 @@
-<a>
+<a data-name='{{ $category->name }}' >
     @if ($category->kind == 'leaf')
         <i class='icon-leaf'></i>
     @elseif ($is_parent)
