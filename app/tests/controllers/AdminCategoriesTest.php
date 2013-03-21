@@ -39,7 +39,7 @@ class AdminCategoriesTest extends ControllerTestCase
     public function testShouldSaveTreeChangesInSession(){
         $this->withInput(['id'=>'123','state'=>'true'])->requestAction('POST', 'Admin\CategoriesController@tree');
         $this->assertRequestOk();
-        $this->assertEquals(['123'=>'true'], Session::get('category-tree-state')[0]);
+        $this->assertEquals(array_values(['123'=>'true']), array_values(Session::get('category-tree-state')));
     }
 
     /**
