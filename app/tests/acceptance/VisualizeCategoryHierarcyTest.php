@@ -47,8 +47,10 @@ class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
      */
     private function assertExpandTreeIten($name, $collapsedShouldBe='false')
     {
+        $domId = 'tree_category_'.$this->getIdByName($name);
+
         // Grab the dom element
-        $locator = l::css("[data-name=$name]");
+        $locator = l::css("#$domId");
 
         // Click in it
         $this->browser->click(l::linkContaining($name));
@@ -94,5 +96,18 @@ class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
         $childB->save();
 
         return $root;
+    }
+
+    private function getIdByName($name)
+    {
+        $category = Category::first(['name'=>$name]);
+        if($category)
+        {
+            return $category->_id;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

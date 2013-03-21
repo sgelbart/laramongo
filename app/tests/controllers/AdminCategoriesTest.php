@@ -33,6 +33,16 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
+     * Tree action should always return 200
+     *
+     */
+    public function testShouldSaveTreeChangesInSession(){
+        $this->withInput(['id'=>'123','state'=>'true'])->requestAction('POST', 'Admin\CategoriesController@tree');
+        $this->assertRequestOk();
+        $this->assertEquals(['123'=>'true'], Session::get('category-tree-state')[0]);
+    }
+
+    /**
      * Store action should redirect to index on success
      *
      */
