@@ -103,6 +103,7 @@ class Product extends BaseModel {
      */
     public function save( $force = false )
     {
+        $this->lm = (string)$this->_id;
 
         if( $this->isValid() )
         {

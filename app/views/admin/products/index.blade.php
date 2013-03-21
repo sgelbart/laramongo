@@ -13,26 +13,15 @@
         </a>
     </div>
 
-    <table class='table table-stripped'>
-        <thead>
-            <tr>
-                <th>LM</th>
-                <th>Nome</th>
-                <th>Chave de Entrada</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($products as $product)
-                <tr>
-                    <td>{{ $product->_id }}</td>
-                    <td>
-                        {{ HTML::action( 'Admin\ProductsController@edit', $product->name, ['id'=>$product->_id] ) }}
-                    </td>
-                    <td>{{ $product->category }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <form class="form-search" data-ajax="true" data-quicksearch-url='{{ URL::action( 'Admin\ProductsController@index' ) }}'>
+        <input 
+            type="text" name="search" value="{{ Input::get('search') }}"
+            class="input-medium search-query" data-submit-on-type='true'
+        >
+        <button type="submit" class="btn">Buscar</button>
+    </form>
 
-    @include ('admin._pagination')
+    <div id='product-index'>
+        @include ('admin.products._list')
+    </div>
 @stop

@@ -13,17 +13,41 @@ class ProductsController extends AdminController {
      */
     public function index()
     {
+        $search = Input::get('search');
+
         $page = Input::get('page') ?: 1;
 
-        $products = Product::all()
+        if($search)
+        {
+            $query = [ '$or'=> [
+                ['name'=> new \MongoRegex('/^'.$search.'/i')],
+                ['lm'=> new \MongoRegex('/^'.$search.'/i')]
+            ]];
+        }
+        else
+        {
+            $query = array();
+        }
+
+        $products = Product::where($query)
             ->sort(array('_id'=>'1'))
             ->limit(6)
             ->skip( ($page-1)*6 );
 
-        $this->layout->content = View::make('admin.products.index')
-            ->with( 'total_pages', round($products->count()/6) )
-            ->with( 'page', $page )
-            ->with( 'products', $products );
+        if( \Input::get('ajax') || \Request::ajax() )
+        {
+            return View::make('admin.products.quicksearch')
+                ->with( 'total_pages', round($products->count()/6) )
+                ->with( 'page', $page )
+                ->with( 'products', $products );
+        }
+        else
+        {
+            $this->layout->content = View::make('admin.products.index')
+                ->with( 'total_pages', round($products->count()/6) )
+                ->with( 'page', $page )
+                ->with( 'products', $products );
+        }
     }
 
     /**

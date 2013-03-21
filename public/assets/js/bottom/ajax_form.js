@@ -27,4 +27,8 @@
 $(function(){
 
     $('form[data-ajax=true]').ajaxForm();
+
+    $('input[data-submit-on-type=true]').keyup(function(){
+        $(this).closest('form[data-ajax=true]').ajaxSubmit();
+    })
 })

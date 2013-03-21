@@ -30,6 +30,27 @@ class ProductTest extends TestCase
     }
 
     /**
+     * Should set 'lm' attribute with a STRING containing the '_id'
+     *
+     */
+    public function testShouldSetLmString()
+    {
+        $product = new Product;
+
+        $product->_id = '777';
+        $product->name = 'product';
+        $product->category = f::create('Category')->_id;
+
+        // Save and retreive the saved product
+        $product->save();
+        $product = Product::first($product->_id);
+
+        // Check if the lm attribute has been created
+        $this->assertEquals('777', $product->lm);
+        $this->assertTrue(is_string($product->lm));
+    }
+
+    /**
      * Should not save invalid product
      *
      */

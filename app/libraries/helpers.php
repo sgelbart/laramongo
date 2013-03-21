@@ -1,5 +1,39 @@
 <?php
 
+if ( ! function_exists('escape_for_js'))
+{
+    /**
+     * Escapes the content in order to be used as a string
+     * in Javascript.
+     */
+    function escape_for_js($content)
+    {
+        return str_replace("\n",'\n', str_replace('"','\"', $content ));
+    }
+}
+
+if ( ! function_exists('view_vars'))
+{
+    /**
+     * By using this function in a view an array
+     * containing all the variables passed to the view
+     *
+     */
+    function view_vars($__data)
+    {
+        $result = array();
+
+        foreach ($__data as $key => $value) {
+            if($key != '__env')
+            {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
+}
+
 if ( ! function_exists('clean_case'))
 {
     /**

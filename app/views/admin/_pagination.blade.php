@@ -2,7 +2,7 @@
     <div class="pagination pagination-centered">
         <ul>
             @if ($page > 1)
-                <li><a href="?page={{ $page-1 }}">
+                <li><a href="?page={{ $page-1 }}&search={{ Input::get('search') }}">
                     {{ Lang::get('pagination.previous') }}
                 </a></li>
             @else
@@ -12,11 +12,11 @@
             @endif
             @for ($i = 1; $i <= $total_pages; $i++)
                 <li{{ ($i == $page) ? ' class="active" ' : '' }}>
-                    <a href="?page={{ $i }}">{{ $i }}</a>
+                    <a href="?page={{ $i }}&search={{ Input::get('search') }}">{{ $i }}</a>
                 </li>
             @endfor
             @if ($i-1 != $page)
-                <li><a href="?page={{ $page+1 }}">
+                <li><a href="?page={{ $page+1 }}&search={{ Input::get('search') }}">
                     {{ Lang::get('pagination.next') }}
                 </a></li>
             @else
