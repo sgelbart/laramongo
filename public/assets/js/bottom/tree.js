@@ -52,7 +52,7 @@ $(function(){
     
     // Make <li> elements collapsable
     $('[data-tree=true]').find('li').find('a').click(function(){
-        var el = $(this).parent();
+        var el = $(this).closest('li');
 
         if(el.attr('collapsed') == "true")
         {

@@ -169,4 +169,17 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         return true;
     }
 
+    /**
+     * Returns the ammount of products that this category have
+     */
+    public function productCount()
+    {
+        $productCount = Cache::rememberForever("category_".$this->_id."_prod_count", function()
+            {
+                return Product::where(['category'=>(string)$this->_id])->count();
+            });
+
+        return $productCount;
+    }
+
 }

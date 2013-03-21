@@ -21,7 +21,7 @@ trait ToTree
 
     public static function renderTree( $treeStates )
     {
-        $result = '<ul>';
+        $result = '<ul class="roots">';
 
         static::$_nodes = static::all()->toArray(false);
 
@@ -58,29 +58,32 @@ trait ToTree
 
         $result = '<li id="'.$domId.'" '.$domState.'>';
 
-        $result .= \View::make( array_get( static::$treeOptions, 'nodeView', 'path.to.tree_node_view') )
-            ->with( array_get(static::$treeOptions,'nodeName','node'), $this )
-            ->with( 'is_parent', $is_parent )
-            ->render();
-
         $has_child = false;
+        $subResult = '';
         foreach( static::$_nodes as $node ) {
             if( in_array((string)$this->_id, (array)$node->parents) )
             {
                 if(! $has_child)
                 {
-                    $result .= '<ul>';
+                    $subResult .= '<ul>';
                     $has_child = true;
                 }
 
-                $result .= $node->renderNode( $has_child );
+                $subResult .= $node->renderNode( $has_child );
             }
         }
 
+        $result .= \View::make( array_get( static::$treeOptions, 'nodeView', 'path.to.tree_node_view') )
+            ->with( array_get(static::$treeOptions,'nodeName','node'), $this )
+            ->with( 'is_parent', $has_child )
+            ->render();
+
         if( $has_child )
         {
-            $result .= '</ul>';
+            $subResult .= '</ul>';
         }
+
+        $result .= $subResult;
 
         $result .= '</li>';
 

@@ -47,12 +47,33 @@ fieldset div.wrapper .collumn {
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
 }
+.tree a:hover {
+  text-decoration: none;
+}
+.tree ul {
+  padding-left: 10px;
+  margin-left: 6px;
+  border-left: dotted 1px #999;
+}
+.tree ul[class^=roots] {
+  padding-left: 0px;
+  margin-left: 0px;
+  border-left: none;
+}
 .tree li {
-  margin-top: 10px;
+  margin-top: 5px;
   display: block;
 }
 .tree li .btn-group {
   float: right;
+}
+.tree div.line {
+  width: 100%;
+  border-radius: 3px;
+  padding: 5px;
+}
+.tree div.line:hover {
+  background-color: #E7E7E7;
 }
 input.error,
 select.error {
@@ -81,4 +102,10 @@ span.padding-as-input {
   padding: 4px 6px;
   display: inline-block;
   opacity: 0.5;
+}
+li[collapsed="true"] a .icon-chevron-right {
+  background-position: -456px -72px !important;
+}
+li[collapsed="false"] a .icon-chevron-right {
+  background-position: -313px -119px;
 }
