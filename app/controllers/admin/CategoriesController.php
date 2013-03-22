@@ -12,7 +12,7 @@ class CategoriesController extends AdminController {
      */
     public function index()
     {
-        $this->layout->content = View::make('admin.categories.tree')
+        $this->layout->content = View::make('admin.categories.index')
             ->with('treeState', Session::get('category-tree-state', array()));
     }
 

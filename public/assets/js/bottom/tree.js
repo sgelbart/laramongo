@@ -16,6 +16,35 @@
 
 $(function(){
 
+    function searchFor( name )
+    {
+        if(name.length > 0)
+        {
+            var el = $('div[data-tree=true] li a[data-name]');
+
+            var nameLenght = name.length;
+
+            el.each(function(){
+
+                var possibleResult = $(this).attr('data-name').substr(0,nameLenght).toLowerCase() == name.toLowerCase();
+
+                if( ! possibleResult )
+                {
+                    $(this).addClass('not-important');
+                }
+                else
+                {
+                    $(this).removeClass('not-important');
+                    unfoldLeaf( el );
+                }
+            })
+        }
+        else
+        {
+            $('div[data-tree=true] li a[data-name]').removeClass('not-important');
+        }
+    }
+
     function saveStateInSession( el )
     {
         var tree = el.closest('div[data-tree=true]');
@@ -31,9 +60,22 @@ $(function(){
         }
     }
 
+    function unfoldLeaf( el )
+    {
+        var parent = el.parent().closest('[data-tree=true] li');
+
+        if( parent.length > 0 )
+        {
+            parent.attr('collapsed', false);
+            parent.find('ul').css('display','block');
+
+            unfoldLeaf( parent );
+        }
+    }
+
     function processChildOf( el )
     {
-        var child = el.find('li');
+        var child = el.find('[collapsed]');
 
         if( child.length > 0 )
         {
@@ -80,5 +122,10 @@ $(function(){
         {
             $(this).find('ul').css('display','none');    
         }
+    })
+
+    // Toggle quicksearch
+    $('[data-tree-search=true] input[data-submit-on-type=true]').keyup(function(){
+        searchFor($(this).val());
     })
 })

@@ -50,6 +50,9 @@ fieldset div.wrapper .collumn {
 .tree a:hover {
   text-decoration: none;
 }
+.tree .not-important {
+  opacity: 0.3;
+}
 .tree ul {
   padding-left: 10px;
   margin-left: 6px;

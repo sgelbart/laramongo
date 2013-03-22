@@ -3,23 +3,28 @@
         Produtos
     </h2>
 
-    <div class="btn-group">
-        <a href='{{ URL::action( 'Admin\ProductsController@create' ) }}' class='btn btn-primary'>
-            Novo Produto
-        </a>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="btn-group pull-right">
+                <a href='{{ URL::action( 'Admin\ProductsController@create' ) }}' class='btn btn-primary'>
+                    Novo Produto
+                </a>
 
-        <a href='{{ URL::action( 'Admin\ProductsController@import' ) }}' class='btn btn-inverse'>
-            Importar Produtos
-        </a>
+                <a href='{{ URL::action( 'Admin\ProductsController@import' ) }}' class='btn btn-inverse'>
+                    Importar Produtos
+                </a>
+            </div>
+
+            <form class="form-search navbar-form pull-left" data-ajax="true" data-quicksearch-url='{{ URL::action( 'Admin\ProductsController@index' ) }}'>
+                <input 
+                    type="text" name="search" value="{{ Input::get('search') }}"
+                    class="input-medium search-query" data-submit-on-type='true'
+                    placeholder="Pesquisar"
+                >
+                {{-- <button type="submit" class="btn">Buscar</button> --}}
+            </form>
+        </div>
     </div>
-
-    <form class="form-search" data-ajax="true" data-quicksearch-url='{{ URL::action( 'Admin\ProductsController@index' ) }}'>
-        <input 
-            type="text" name="search" value="{{ Input::get('search') }}"
-            class="input-medium search-query" data-submit-on-type='true'
-        >
-        <button type="submit" class="btn">Buscar</button>
-    </form>
 
     <div id='product-index'>
         @include ('admin.products._list')
