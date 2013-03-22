@@ -24,8 +24,11 @@ interface ToTreeInterface
      * the session saved using the "data-tree-session-url"
      * attribute of the tree dom (in html)
      *
+     * If the $options is not provided then the static protected
+     * $treeOptions will be used.
+     *
      */
-    public static function renderTree( $treeStates );
+    public static function renderTree( $treeStates, $options = null );
 
     /**
      * isRoot should return true for the root nodes.

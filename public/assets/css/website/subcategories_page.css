@@ -1,0 +1,97 @@
+.tiled_subcategories h1 {
+  color: #ff7700;
+  font-style: italic;
+}
+.tiled_subcategories div.img_frame {
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+  border-radius: 2px;
+  padding: 16px;
+  margin: 0px 16px;
+  background-color: #FFF;
+}
+.tiled_subcategories div.img_frame .img {
+  background-color: #DDD;
+  width: 100%;
+  height: 300px;
+  border: solid 1px #DDD;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+.tiled_subcategories div.img_frame .img .cat_desc {
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.tiled_subcategories div.img_frame .img .cat_desc strong {
+  display: block;
+  margin: 10px;
+  color: #B6FF00;
+  font-size: 20px;
+}
+.tiled_subcategories div.img_frame .img .cat_desc p {
+  display: block;
+  margin: 10px;
+  color: #FFF;
+}
+.tiled_subcategories .subcategories {
+  overflow: hidden;
+}
+.tiled_subcategories .subcategories .subcategory-tile {
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  border-radius: 2px;
+  padding: 0px;
+  margin: 8px 8px;
+  background-color: #FFF;
+  border: solid 1px #DDD;
+  cursor: pointer;
+}
+.tiled_subcategories .subcategories .subcategory-tile:hover {
+  border: solid 1px #B6FF00;
+  box-shadow: 0 0 5px #B6FF00, 7px 7px 3px rgba(0,0,0,0.2);
+  opacity: 0.8;
+}
+.tiled_subcategories .subcategories .subcategory-tile h3 {
+  margin-top: 0px;
+  color: #ff7700;
+  font-size: 13px;
+  height: 30px;
+}
+.tiled_subcategories .subcategories .subcategory-tile .img {
+  width: 100%;
+  min-height: 170px;
+  background-color: #FFF;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  box-shadow: inset 0 0 15px rgba(100,100,100,0.2);
+  position: relative;
+}
+.tiled_subcategories .subcategories .subcategory-tile .img .cat_desc {
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.tiled_subcategories .subcategories .subcategory-tile .img .cat_desc strong {
+  display: block;
+  margin: 10px;
+  color: #B6FF00;
+  font-size: 20px;
+}
+.tiled_subcategories .subcategories .subcategory-tile .img .cat_desc p {
+  display: block;
+  margin: 10px;
+  color: #FFF;
+}
+.tiled_subcategories .subcategories div[data-nextpage] {
+  clear: both;
+  display: block;
+  text-align: center;
+  padding: 5px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+}

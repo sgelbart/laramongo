@@ -19,8 +19,13 @@ trait ToTree
     );
     */
 
-    public static function renderTree( $treeStates )
+    public static function renderTree( $treeStates, $options = null )
     {
+        if(! $options)
+        {
+            $options = static::$treeOptions;
+        }
+
         $result = '<ul class="roots">';
 
         static::$_nodes = static::all()->toArray(false);
@@ -30,7 +35,7 @@ trait ToTree
         foreach (static::$_nodes as $node) {
             if($node->isRoot())
             {
-                $result .= $node->renderNode( true );
+                $result .= $node->renderNode( true, $options );
             }
         }
 
@@ -43,10 +48,10 @@ trait ToTree
         return count($this->parents()) == 0;
     }
 
-    protected function renderNode( $is_parent = false )
+    protected function renderNode( $is_parent = false, $options )
     {
         $domId = 'tree_'.
-                   array_get(static::$treeOptions,'nodeName','node')
+                   array_get($options,'nodeName','node')
                    .'_'.$this->_id;
 
         $domState = 'collapsed="true"';
@@ -69,12 +74,12 @@ trait ToTree
                     $has_child = true;
                 }
 
-                $subResult .= $node->renderNode( $has_child );
+                $subResult .= $node->renderNode( $has_child, $options );
             }
         }
 
-        $result .= \View::make( array_get( static::$treeOptions, 'nodeView', 'path.to.tree_node_view') )
-            ->with( array_get(static::$treeOptions,'nodeName','node'), $this )
+        $result .= \View::make( array_get( $options, 'nodeView', 'path.to.tree_node_view') )
+            ->with( array_get($options,'nodeName','node'), $this )
             ->with( 'is_parent', $has_child )
             ->render();
 

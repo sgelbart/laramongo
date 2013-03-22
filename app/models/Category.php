@@ -182,4 +182,14 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         return $productCount;
     }
 
+    public static function renderMenu()
+    {
+        $options = array(
+            'nodeView' => 'layouts.website._menu_node',
+            'nodeName' => 'category'
+        );
+
+        return static::renderTree( array(), $options );
+    }
+
 }

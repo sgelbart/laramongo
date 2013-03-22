@@ -147,12 +147,16 @@ div.sidebar .side_menu h3 {
   margin-top: 3px;
   text-indent: -9999px !important;
 }
+div.sidebar .side_menu li {
+  position: relative;
+}
 div.sidebar .side_menu ul {
   list-style-type: none;
   padding: 0px;
   margin-bottom: 0px;
 }
-div.sidebar .side_menu ul li {
+div.sidebar .side_menu ul a {
+  display: block;
   background: url("../../img/layout/sidemenu_bullet.png") no-repeat 168px 3px;
   background-size: 12px;
   background-color: #465f31;
@@ -167,12 +171,44 @@ div.sidebar .side_menu ul li {
   -webkit-border-radius: 3px 3px 3px 3px;
   cursor: pointer;
 }
-div.sidebar .side_menu ul li:hover {
+div.sidebar .side_menu ul a:hover {
   color: #f6ff00;
   background-color: #35501E;
 }
-div.sidebar .side_menu ul li:last-child {
+div.sidebar .side_menu ul a:last-child {
   margin-bottom: 0px;
+}
+div.sidebar .side_menu ul.roots li ul {
+  background-color: #FFF;
+  border: dashed 1px #c3ed63;
+  position: absolute;
+  display: none;
+  left: 182px;
+  top: 0px;
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+  z-index: 999;
+}
+div.sidebar .side_menu ul.roots li ul a {
+  background-color: transparent;
+  background-image: none;
+  color: #465f31;
+}
+div.sidebar .side_menu ul.roots li ul a:hover {
+  color: #c3ed63;
+}
+div.sidebar .side_menu ul.roots li ul ul {
+  display: none;
+  position: relative !important;
+  left: 20px;
+  background-color: #c3ed63;
+  min-height: 25px;
+  box-shadow: inset 1px 1px 10px rgba(0,0,0,0.5);
+}
+div.sidebar .side_menu ul.roots li ul ul a {
+  color: #000;
+}
+div.sidebar .side_menu ul.roots li ul ul a:hover {
+  color: #465f31;
 }
 div.main {
   float: left;
