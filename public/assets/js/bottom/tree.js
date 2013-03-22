@@ -35,7 +35,7 @@ $(function(){
                 else
                 {
                     $(this).removeClass('not-important');
-                    unfoldLeaf( el );
+                    unfoldLeaf( $(this) );
                 }
             })
         }
@@ -62,15 +62,17 @@ $(function(){
 
     function unfoldLeaf( el )
     {
-        var parent = el.parent().closest('[data-tree=true] li');
+        nodes = $('[data-tree=true] li');
 
-        if( parent.length > 0 )
-        {
-            parent.attr('collapsed', false);
-            parent.find('ul').css('display','block');
+        nodes.each(function(){
+            var node = $(this);
 
-            unfoldLeaf( parent );
-        }
+            if(node.find('[data-name="'+el.attr('data-name')+'"]').length > 0)
+            {
+                node.attr('collapsed', false);
+                node.find('ul').first().css('display','block');
+            }
+        })
     }
 
     function processChildOf( el )

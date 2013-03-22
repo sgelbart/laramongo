@@ -20,7 +20,6 @@ class CategoriesController extends BaseController {
         $page = Input::get('page') ?: 1;
 
         $products = Product::where(['category'=>(string)$category->_id])
-            ->sort(array('_id'=>'1'))
             ->limit(12)
             ->skip( ($page-1)*12 );
 
