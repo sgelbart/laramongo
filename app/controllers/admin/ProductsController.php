@@ -328,9 +328,17 @@ class ProductsController extends AdminController {
             return Response::make('Product not found', 404);
         }
 
+        $input = Input::all();
+        $details = array();
+
+        foreach ($input as $key => $value) {
+            // Replaces underline with spaces
+            $details[str_replace('_', ' ', $key)] = $value; 
+        }
+
         $product->details = array_merge(
             $product->details,
-            Input::all()
+            $details
         );
 
         // Save if valid

@@ -64,6 +64,6 @@ if ( ! function_exists('clean_case'))
             $normalizeChars
         );
 
-        return snake_case($value, $delimiter);
+        return strtolower($value);
     }
 }

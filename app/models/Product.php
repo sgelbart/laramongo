@@ -52,9 +52,9 @@ class Product extends BaseModel {
      */
     public function imageUrl( $img = 1, $size = 300 )
     {
-        if( file_exists(app_path().'/../public/assets/img/products/'.$this->id.'_'.$img.'_'.$size.'.jpg') )
+        if( file_exists(app_path().'/../public/assets/img/products/'.$this->_id.'_'.$img.'_'.$size.'.jpg') )
         {
-            return URL::to('assets/img/products/'.$this->id.'_'.$img.'_'.$size.'.jpg');
+            return URL::to('assets/img/products/'.$this->_id.'_'.$img.'_'.$size.'.jpg');
         }
         else
         {

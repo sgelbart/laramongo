@@ -29,10 +29,12 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
             ->waitForPageToLoad(1000);
 
         $expectedResult = [
-            'Produtos com erro 2',
+            'Produtos com erro 3',
             'Lixeira u la la',
             'Lixeira Erronea',
             'Cor','Tampa','Diâmetro',
+            'Lixeira sem LM',
+            'Produto sem LM',
         ];
 
         $this->assertBodyHasText( $expectedResult );

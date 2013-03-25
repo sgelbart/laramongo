@@ -1,6 +1,7 @@
 <?php namespace Zizaco\CsvToMongo;
 
 use Keboola\Csv\CsvFile;
+use Illuminate\Support\MessageBag;
 
 class Importer
 {
@@ -91,7 +92,14 @@ class Importer
                     // Set the leaf category where that product belongs
                     $instance->category = $category;
 
-                    $instance->save(true);
+                    if($instance->_id)
+                    {
+                        $instance->save(true);
+                    }
+                    else
+                    {
+                        $instance->errors = new MessageBag(['_id','Produto sem LM']);
+                    }
 
                     if( ! $instance->errors )
                     {

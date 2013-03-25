@@ -11,9 +11,16 @@ var row = $('#row-{{ $product->_id }}-fix');
             '</span>';
     });
 
-    // Remove the find button
+    // Remove the button
     row.find('button').fadeOut(function(){$(this).remove();});
+
+    // Focus in other input
+    row.parent().find('input[type=text],select').first().focus();
 @else
+    {{ '/*' }}
+    <?php print_r($product->errors->all()); ?>
+    {{ '*/' }}
+
     // Blink the row to indicate that it still invalid
     row.hide().fadeIn().fadeOut().fadeIn();
 @endif
