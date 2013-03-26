@@ -19,6 +19,8 @@ var row = $('#row-{{ $product->_id }}-fix');
 @else
     {{ '/*' }}
     <?php print_r($product->errors->all()); ?>
+    {{ "\n" }}
+    {{ $product }}
     {{ '*/' }}
 
     // Blink the row to indicate that it still invalid
