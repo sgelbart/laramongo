@@ -1,4 +1,6 @@
+vendor/
 composer.phar
+composer.lock
 .DS_Store.elasticbeanstalk/.elasticbeanstalk/
 app/storage/csv*
 app/storage/zip_*
