@@ -21,7 +21,10 @@ Route::get(    'category/{id}', 'CategoriesController@show' );
 Route::get(    'product/{id}', 'ProductsController@show' );
 
 // HealthCheck
-Route::get(    'health', function(){ return "The application is healty"; } );
+Route::get(    'health', function(){
+    $hc = new Laramongo\HealthCheck\HealthCheck;
+    return $hc->renderResults();
+} );
 
 /*
 |--------------------------------------------------------------------------
