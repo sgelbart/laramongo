@@ -510,49 +510,6 @@
         ]
     },
     {
-        "name": "zizaco/factory-muff",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Zizaco/factory-muff.git",
-            "reference": "v1.4.1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Zizaco/factory-muff/zipball/v1.4.1",
-            "reference": "v1.4.1",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2013-02-18 16:09:11",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Zizaco\\FactoryMuff": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Zizaco Zizuini",
-                "email": "zizaco@gmail.com"
-            }
-        ],
-        "description": "The goal of this Package is to enable the rapid creation of objects for the purpose of testing.",
-        "keywords": [
-            "factory",
-            "laravel",
-            "testing"
-        ]
-    },
-    {
         "name": "jonob/html",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -1600,18 +1557,61 @@
         ]
     },
     {
+        "name": "zizaco/factory-muff",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Zizaco/factory-muff.git",
+            "reference": "v1.4.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Zizaco/factory-muff/zipball/v1.4.2",
+            "reference": "v1.4.2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2013-03-26 20:29:48",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Zizaco\\FactoryMuff": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Zizaco Zizuini",
+                "email": "zizaco@gmail.com"
+            }
+        ],
+        "description": "The goal of this Package is to enable the rapid creation of objects for the purpose of testing.",
+        "keywords": [
+            "factory",
+            "laravel",
+            "testing"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/framework.git",
-            "reference": "e9edef892fd82d19531e153e6e8bef9cd81eb43c"
+            "reference": "fffe388fcd52dd3ef50ea99e62ed234d511fe997"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/e9edef892fd82d19531e153e6e8bef9cd81eb43c",
-            "reference": "e9edef892fd82d19531e153e6e8bef9cd81eb43c",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/fffe388fcd52dd3ef50ea99e62ed234d511fe997",
+            "reference": "fffe388fcd52dd3ef50ea99e62ed234d511fe997",
             "shasum": ""
         },
         "require": {
@@ -1667,7 +1667,7 @@
             "iron-io/iron_mq": "1.4.4",
             "mockery/mockery": "0.7.2"
         },
-        "time": "2013-03-26 18:28:54",
+        "time": "2013-03-26 20:09:54",
         "type": "library",
         "extra": {
             "branch-alias": {

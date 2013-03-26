@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e9edef892fd82d19531e153e6e8bef9cd81eb43c"
+                "reference": "fffe388fcd52dd3ef50ea99e62ed234d511fe997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e9edef892fd82d19531e153e6e8bef9cd81eb43c",
-                "reference": "e9edef892fd82d19531e153e6e8bef9cd81eb43c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/fffe388fcd52dd3ef50ea99e62ed234d511fe997",
+                "reference": "fffe388fcd52dd3ef50ea99e62ed234d511fe997",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2013-03-26 18:28:54"
+            "time": "2013-03-26 20:09:54"
         },
         {
             "name": "laravelbook/ardent",
@@ -1652,12 +1652,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Zizaco/factory-muff.git",
-                "reference": "v1.4.1"
+                "reference": "v1.4.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Zizaco/factory-muff/zipball/v1.4.1",
-                "reference": "v1.4.1",
+                "url": "https://api.github.com/repos/Zizaco/factory-muff/zipball/v1.4.2",
+                "reference": "v1.4.2",
                 "shasum": ""
             },
             "require": {
@@ -1685,7 +1685,7 @@
                 "laravel",
                 "testing"
             ],
-            "time": "2013-02-18 16:09:11"
+            "time": "2013-03-26 20:29:48"
         }
     ],
     "aliases": [
