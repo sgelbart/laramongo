@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+echo Config::get('session.driver');
 
 // Home
 Route::get('/', 'HomeController@index');
@@ -26,7 +27,7 @@ Route::get(    'health', function(){
 } );
 
 // HealthCheck
-Route::get(    'health_details', function(){
+Route::get(    'health/details', function(){
     $hc = new Laramongo\HealthCheck\HealthCheck;
     return $hc->renderResults();
 } );
