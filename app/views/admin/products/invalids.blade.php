@@ -81,7 +81,7 @@
     @endif
 
     <div class='form-actions'>
-        {{ HTML::action( 'Admin\CategoriesController@edit', 'Voltar', ['id'=>$category->_id], ['class'=>'btn'] ) }}
+        {{ Html::linkAction( 'Admin\CategoriesController@edit', 'Voltar', ['id'=>$category->_id], ['class'=>'btn'] ) }}
     </div>
 
 @stop

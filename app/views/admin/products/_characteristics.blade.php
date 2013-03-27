@@ -54,7 +54,7 @@
 
         {{ Form::button('Salvar caracteristicas', ['type'=>'submit', 'id'=>'submit-save-product-characteristics', 'class'=>'btn btn-primary'] ) }}
 
-        {{ HTML::action( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+        {{ Html::linkAction( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
 
     </div>
 {{ Form::close() }}

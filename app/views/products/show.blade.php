@@ -2,15 +2,15 @@
 
     <p>
         Seu caminho foi: 
-        {{ HTML::to( '/', 'Home' ) }} >
-        {{ HTML::action( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
+        {{ Html::to( '/', 'Home' ) }} >
+        {{ Html::linkAction( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
         {{ $product->name }}
     </p>
 
     <div class='product_page'>
         <h1>{{ ucfirst($product->name) }}</h1>
 
-        {{ HTML::image($product->imageUrl(1,600)) }}
+        {{ Html::image($product->imageUrl(1,600)) }}
 
         <p>{{ $product->description }}</p>
 

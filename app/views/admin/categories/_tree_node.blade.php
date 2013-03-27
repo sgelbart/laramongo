@@ -20,14 +20,14 @@
 
     <div class='btn-group'>
         @if($is_leaf)
-            {{ HTML::action(
+            {{ Html::linkAction(
                 'Admin\CategoriesController@products',
                 'Produtos',
                 ['id'=>$category->_id],
                 ['class'=>'btn btn-primary btn-mini', 'id'=>'products-cat-'.$category->_id]
             ); }}
         @endif
-        {{ HTML::action(
+        {{ Html::linkAction(
             'Admin\CategoriesController@edit',
             'Editar',
             ['id'=>$category->_id],

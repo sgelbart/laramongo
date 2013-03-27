@@ -1,6 +1,6 @@
 <?php namespace Traits;
 
-use HTML;
+use Html;
 
 trait ToTree
 {

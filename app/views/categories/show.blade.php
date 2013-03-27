@@ -2,7 +2,7 @@
 
     <p>
         Seu caminho foi: 
-        {{ HTML::to( '/', 'Home' ) }} >
+        {{ Html::to( '/', 'Home' ) }} >
         {{ $category->name }}
     </p>
 
@@ -24,7 +24,7 @@
             @include('categories._products')
 
             <div data-nextpage="2" >
-                {{ HTML::image('assets/img/loading.gif') }}
+                {{ Html::image('assets/img/loading.gif') }}
                 Carregando mais resultados...
             </div>
 

@@ -1,14 +1,13 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*",
+		"laravel/framework": "dev-master#201484e9f2c39b06269d0745fb5dae2ef9c1b530",
 		"way/generators": "dev-master",
 		"navruzm/lmongo": "dev-master#d673d7762028ab53a54f227caa8882830e80c427",
 		"keboola/csv": "1.0.9",
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
-		"vipsoft/unzip": "dev-master",
-		"jonob/html": "dev-master"
+		"vipsoft/unzip": "dev-master"
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",

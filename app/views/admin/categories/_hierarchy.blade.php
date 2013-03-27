@@ -9,7 +9,7 @@
         @foreach ( $category->parents() as $parent )
             <tr>
                 <td>
-                    {{ HTML::action('Admin\CategoriesController@edit', $parent->name, ['id'=>$parent->_id]) }}
+                    {{ Html::linkAction('Admin\CategoriesController@edit', $parent->name, ['id'=>$parent->_id]) }}
                 </td>
                 <td>
                     <a href='{{ URL::action('Admin\CategoriesController@detach', ['id'=>$category->_id, 'parent'=>$parent->_id]) }}' class='btn btn-danger btn-small' data-method='delete'>Remover relação</a>

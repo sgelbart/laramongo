@@ -1,6 +1,6 @@
 <?php namespace Traits;
 
-use HTML;
+use Html;
 
 trait CategoryTree
 {
@@ -43,14 +43,14 @@ trait CategoryTree
             $html .="<div class='btn-group'>\n";
             if($is_leaf)
             {
-                $html .= HTML::action(
+                $html .= Html::action(
                     'Admin\CategoriesController@products',
                     'Produtos',
                     ['id'=>$branch->_id],
                     ['class'=>'btn btn-primary btn-mini', 'id'=>'products-cat-'.$branch->_id]
                 );
             }
-            $html .= HTML::action(
+            $html .= Html::action(
                 'Admin\CategoriesController@edit',
                 'Editar',
                 ['id'=>$branch->_id],

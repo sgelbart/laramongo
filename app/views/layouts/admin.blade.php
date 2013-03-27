@@ -19,15 +19,15 @@
                     <ul class="nav">
 
                         <li {{ (Request::is('admin/categor*')) ? 'class="active"' : '' }}>
-                            {{ HTML::action( 'Admin\CategoriesController@index', 'Categorias' ) }}
+                            {{ Html::linkAction( 'Admin\CategoriesController@index', 'Categorias' ) }}
                         </li>
 
                         <li {{ (Request::is('admin/product*')) ? 'class="active"' : '' }}>
-                            {{ HTML::action( 'Admin\ProductsController@index', 'Produtos' ) }}
+                            {{ Html::linkAction( 'Admin\ProductsController@index', 'Produtos' ) }}
                         </li>
 
                         <li>
-                            {{ HTML::action( 'UsersController@logout', 'Logout' ) }}
+                            {{ Html::linkAction( 'UsersController@logout', 'Logout' ) }}
                         </li>
                     </ul>
                 @endif

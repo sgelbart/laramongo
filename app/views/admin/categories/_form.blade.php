@@ -19,7 +19,7 @@
     ])
 }}
     @if ( isset($category) )
-        {{ HTML::image($category->imageUrl()) }}
+        {{ Html::image($category->imageUrl()) }}
 
         <hr>
     @endif
@@ -75,9 +75,9 @@
         {{ Form::button('Salvar categoria', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
 
         @if ( isset($category) )
-            {{ HTML::action( 'Admin\CategoriesController@destroy', 'Excluir', ['id'=>$category->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
+            {{ Html::linkAction( 'Admin\CategoriesController@destroy', 'Excluir', ['id'=>$category->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
         @endif
 
-        {{ HTML::action( 'Admin\CategoriesController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+        {{ Html::linkAction( 'Admin\CategoriesController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
     </div>
 {{ Form::close() }}

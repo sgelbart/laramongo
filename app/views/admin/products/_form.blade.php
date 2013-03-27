@@ -44,10 +44,10 @@
             {{ Form::button('Salvar produto', ['type'=>'submit', 'id'=>'submit-save-product', 'class'=>'btn btn-primary'] ) }}
 
             @if ( isset($product) )
-                {{ HTML::action( 'Admin\ProductsController@destroy', 'Excluir', ['id'=>$product->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
+                {{ Html::linkAction( 'Admin\ProductsController@destroy', 'Excluir', ['id'=>$product->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
             @endif
 
-            {{ HTML::action( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+            {{ Html::linkAction( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
 
         </div>
     </fieldset>

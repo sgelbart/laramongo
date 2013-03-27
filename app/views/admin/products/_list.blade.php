@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ $product->_id }}</td>
                 <td>
-                    {{ HTML::action( 'Admin\ProductsController@edit', $product->name, ['id'=>$product->_id] ) }}
+                    {{ Html::linkAction( 'Admin\ProductsController@edit', $product->name, ['id'=>$product->_id] ) }}
                 </td>
                 <td>{{ $product->category }}</td>
             </tr>
