@@ -16,7 +16,7 @@ class ImageUnzipperTest extends TestCase {
     {
         parent::setUp();
 
-        $this->img_dir = app_path().'/../public/assets/img/products/';
+        $this->img_dir = app_path().'/../public/uploads/img/products/';
 
         $this->clearFiles();
     }
