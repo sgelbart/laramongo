@@ -15,6 +15,21 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | Base Path
+    |--------------------------------------------------------------------------
+    |
+    | The base path of where the files will be sent do S3. I.E:
+    | By setting this as the public path, if you have the 'public/img/a.jpg'
+    | file, you should call S3->send('img/a.jpg');
+    | 
+    | This path will be used when referencing assets, i.e: Asset::url('img/a.jpg')
+    | will point to the local /public/img/a.jpg if S3 is not enabled.
+    |
+    */
+    'base_local_path' => app_path().'/../public/',
+
+    /*
+    |--------------------------------------------------------------------------
     | Access Key and Secret Key
     |--------------------------------------------------------------------------
     |
@@ -49,6 +64,6 @@ return array(
     |
     */
 
-    'bucket' => 'laramongo-assets',
+    'bucket' => 'laramongo-develop',
 
 );

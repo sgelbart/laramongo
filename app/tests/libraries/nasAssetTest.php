@@ -8,7 +8,7 @@ class nasAssetTest extends TestCase {
     {
         parent::setUp();
 
-        Config::set('s3.base_url','S3/');
+        Config::set('s3.base_remote_url','S3/');
         Config::set('s3.enable',true);
     }
 

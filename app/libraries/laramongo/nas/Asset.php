@@ -20,7 +20,7 @@ class Asset {
     {
         if(Config::get('s3.enable', false))
         {
-            return Config::get('s3.base_url','S3/').$url;    
+            return Config::get('s3.base_remote_url','S3/').$url;    
         }
         else
         {

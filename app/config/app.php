@@ -117,6 +117,7 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Lessy\LessyServiceProvider',
 		'Basset\BassetServiceProvider',
+		'Laramongo\Nas\S3ServiceProvider',
 
 	),
 

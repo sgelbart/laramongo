@@ -23,7 +23,7 @@ class nasS3Test extends TestCase {
     public function testShouldSendFile()
     {
         $fileToUpload = 'assets/img/loading.gif';
-        $expectedFullFilename = app()->path.'/../public/'.$fileToUpload;
+        $expectedFullFilename = Config::get('s3.base_local_path').$fileToUpload;
 
         $oyatelS3 = m::mock('OyatelS3');
 
@@ -47,5 +47,35 @@ class nasS3Test extends TestCase {
 
         // Assert if the sendFile returns true
         $this->assertTrue($s3->sendFile($fileToUpload));
+    }
+
+    public function testShouldUploadDirectoryRecursively()
+    {
+        $dirToUpload['normal'] =      'assets/img/';
+        $dirToUpload['alternative'] = 'assets/img';
+
+        $oyatelS3 = m::mock('OyatelS3');
+
+        // oyatelS3 object should run inputFile with expected full filename
+        $oyatelS3
+            ->shouldReceive('inputFile')
+            ->andReturn('fileObj')
+            ->atLeast()->times(4); // Should be called more than 1 times each time
+
+        // oyatelS3 object should run puObject with those params
+        $oyatelS3
+            ->shouldReceive('putObject')
+            ->andReturn(true)
+            ->atLeast()->times(4); // Should be called more than 1 times each time
+
+        // Create the S3 instance
+        $s3 = new S3;
+
+        // Set it to use our mock ;)
+        $s3->oyatelS3 = $oyatelS3;
+
+        // Assert if the send returns true (2x that's why the mocked methods are set to 4 times)
+        $this->assertTrue($s3->send($dirToUpload['normal']));
+        $this->assertTrue($s3->send($dirToUpload['alternative']));
     }
 }

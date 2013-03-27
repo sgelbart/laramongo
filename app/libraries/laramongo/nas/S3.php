@@ -18,20 +18,52 @@ class S3 {
 
     public function sendFile( $file )
     {
-        $full_filename = app()->path.'/../public/'.$file;
+        $fullFilename = \Config::get('s3.base_local_path').$file;
 
-        if(file_exists($full_filename))
+        if(file_exists($fullFilename))
         {            
             return $this->oyatelS3->putObject(
-                $this->oyatelS3->inputFile($full_filename),
+                $this->oyatelS3->inputFile($fullFilename),
                 $this->bucket,
                 $file,
                 \S3::ACL_PUBLIC_READ
             );
         }
-        else
+        
+        return false;
+    }
+
+    public function send( $path )
+    {
+        // If '/' is the last character, remove it
+        if(substr($path,-1) == '/')
+            $path = substr($path,0,-1);
+
+        // Get full path
+        $fullPath = \Config::get('s3.base_local_path').$path;
+
+        if(file_exists($fullPath))
         {
-            return false;
+            // If is a directory then send content recursivelly
+            if(is_dir($fullPath))
+            {
+                foreach( scandir($fullPath) as $file )
+                {
+                    if($file != '.' && $file != '..')
+                    {
+                        $this->send($path.'/'.$file);
+                    }
+                }
+            }
+            else // If not, then send file
+            {
+                $this->sendFile( $path );
+            }
+
+            // Done
+            return true;
         }
+
+        return false;
     }
 }
