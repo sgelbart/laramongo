@@ -2,7 +2,7 @@
 
     <p>
         Seu caminho foi: 
-        {{ Html::to( '/', 'Home' ) }} >
+        {{ Html::link( '/', 'Home' ) }} >
         {{ $category->name }}
     </p>
 

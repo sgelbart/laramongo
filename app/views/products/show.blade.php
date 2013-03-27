@@ -2,7 +2,7 @@
 
     <p>
         Seu caminho foi: 
-        {{ Html::to( '/', 'Home' ) }} >
+        {{ Html::link( '/', 'Home' ) }} >
         {{ Html::linkAction( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
         {{ $product->name }}
     </p>
