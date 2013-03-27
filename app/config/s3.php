@@ -37,9 +37,9 @@ return array(
     |
     */
 
-    'aws_access_key' => '???',
+    'aws_access_key' => isset($_SERVER['AWS_ACCESS_KEY_ID']) ? $_SERVER['AWS_ACCESS_KEY_ID'] : '???',
 
-    'aws_secret_key' => '???',
+    'aws_secret_key' => isset($_SERVER['AWS_SECRET_KEY']) ? $_SERVER['AWS_SECRET_KEY'] : '???',
 
     /*
     |--------------------------------------------------------------------------
