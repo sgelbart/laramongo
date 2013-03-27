@@ -9,7 +9,7 @@ class nasAssetTest extends TestCase {
         parent::setUp();
 
         Config::set('s3.base_remote_url','S3/');
-        Config::set('s3.enable',true);
+        Config::set('s3.enabled',true);
     }
 
     public function testShouldGetUrlStatically()
@@ -21,7 +21,7 @@ class nasAssetTest extends TestCase {
 
         // Asserts if the url doens't contain the S3 root if
         // it's not enabled (for dev environment for ex:)
-        Config::set('s3.enable',false);
+        Config::set('s3.enabled',false);
         $this->assertEquals($url, Asset::url($url));
     }
 
@@ -36,7 +36,7 @@ class nasAssetTest extends TestCase {
 
         // Asserts if the url doens't contain the S3 root if
         // it's not enabled (for dev environment for ex:)
-        Config::set('s3.enable',false);
+        Config::set('s3.enabled',false);
         $this->assertEquals($url, $asset->urlTo($url));
 
     }

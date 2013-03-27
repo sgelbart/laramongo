@@ -186,6 +186,7 @@ return array(
 		'LMongo'          => 'LMongo\Facades\LMongo',
 		'EloquentMongo'   => 'LMongo\Eloquent\Model',
 		'Basset'          => 'Basset\Facades\Basset',
+		'Asset'           => 'Laramongo\Nas\Asset',
 	),
 
 );

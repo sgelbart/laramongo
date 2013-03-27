@@ -18,9 +18,13 @@ class Asset {
 
     public function urlTo( $url )
     {
-        if(Config::get('s3.enable', false))
+        if(Config::get('s3.enabled', false))
         {
-            return Config::get('s3.base_remote_url','S3/').$url;    
+            $defaultRemoteUrl = 'https://'.
+                Config::get('s3.endpoint').'/'.
+                Config::get('s3.bucket').'/';
+
+            return Config::get('s3.base_remote_url',$defaultRemoteUrl).$url;    
         }
         else
         {

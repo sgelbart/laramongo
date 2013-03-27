@@ -1,6 +1,6 @@
 <?php namespace Traits;
 
-use URL;
+use URL, Asset;
 
 trait HasImage
 {
@@ -12,7 +12,7 @@ trait HasImage
      */
     public function attachUploadedImage( $image_file )
     {
-        $path = app_path().'/'.$this->images_path;
+        $path = app_path().'/../public/uploads/img/'.$this->collection;
         $filename = $this->_id.'.jpg';
 
         $old = umask(0); 
@@ -25,11 +25,38 @@ trait HasImage
             chmod($path.'/'.$filename, 0775);    
         }catch( \Exception $e){}
 
-        umask($old); 
+        umask($old);
 
         $this->image = $filename;
-        
-        return $this->save();
+
+        if($this->sendImageToNas())
+        {
+            return $this->save();    
+        }
+        else
+        {
+            return false;
+        }        
+    }
+
+    protected function sendImageToNas()
+    {
+        if(\Config::get('s3.enabled',false))
+        {
+
+            $public_path = 'uploads/img/'.$this->collection.'/'.$this->image;
+            $full_path = app_path().'/../public/'.$public_path;
+
+            $s3 = new \Laramongo\Nas\S3;
+            $result = $s3->sendFile($public_path);    
+
+            if($result)
+            {
+                unlink($full_path);
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -41,11 +68,11 @@ trait HasImage
     {
         if( $this->image )
         {
-            return URL::to('assets/img/categories/'.$this->image);
+            return URL::to(Asset::url('uploads/img/'.$this->collection.'/'.$this->image));
         }
         else
         {
-            return URL::to('assets/img/categories/default.png');
+            return URL::to(Asset::url('assets/img/'.$this->collection.'/default.png'));
         }
     }
 }

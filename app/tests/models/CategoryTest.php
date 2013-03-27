@@ -107,7 +107,7 @@ class CategoryTest extends TestCase
         $category->save();
 
         $this->assertEquals(
-            URL::to('assets/img/categories/'.$category->image),
+            URL::to('uploads/img/categories/'.$category->image),
             $category->imageUrl()
         );
 

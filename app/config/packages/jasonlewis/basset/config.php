@@ -142,7 +142,7 @@ return array(
 	|
 	*/
 
-	'production_environment' => '',
+	'production_environment' => isset($_SERVER['AWS_ACCESS_KEY_ID']),
 
 	/*
 	|--------------------------------------------------------------------------

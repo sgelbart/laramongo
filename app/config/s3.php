@@ -11,7 +11,7 @@ return array(
     |
     */
 
-    'enable' => true,
+    'enabled' => isset($_SERVER['AWS_ACCESS_KEY_ID']),
 
     /*
     |--------------------------------------------------------------------------

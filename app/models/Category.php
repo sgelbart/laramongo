@@ -39,13 +39,6 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
     );
 
     /**
-     * Path where category images will be stored
-     *
-     * @var string
-     */
-    private $images_path = '../public/assets/img/categories';
-
-    /**
      * Protected attribute containing the options of the tree
      *
      * @var array
