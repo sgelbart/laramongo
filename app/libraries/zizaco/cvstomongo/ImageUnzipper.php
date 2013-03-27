@@ -17,7 +17,7 @@ class ImageUnzipper
      *
      * @var string
      */
-    private $images_path = '../public/assets/img/products';
+    private $images_path = '../public/uploads/img/products';
 
     /**
      * File that will be unzipped
@@ -57,6 +57,7 @@ class ImageUnzipper
         try{
             foreach ($filenames as $filename) {
                 chmod($path.'/'.$filename, 0775);
+                $this->sendImageToNas( $filename );
             }
         }catch( Exception $e){
             umask($old);
@@ -64,6 +65,29 @@ class ImageUnzipper
         }
 
         umask($old);
+        return true;
+    }
+
+    /**
+     * Send image to the Nas service
+     */
+    protected function sendImageToNas( $image )
+    {
+        if(\Config::get('s3.enabled',false))
+        {
+
+            $public_path = 'uploads/img/products/'.$this->image;
+            $full_path = app_path().'/../public/'.$public_path;
+
+            $s3 = new \Laramongo\Nas\S3;
+            $result = $s3->sendFile($public_path);    
+
+            if($result)
+            {
+                unlink($full_path);
+            }
+        }
+
         return true;
     }
 }
