@@ -26,7 +26,7 @@
                     <input type="hidden" name="deactivated" value="false">
                     <input
                         type="checkbox" name="deactivated" value="true" 
-                        {{ (Input::get('deactivated')) ? 'checked="checked"' : '' }}
+                        {{ (Input::get('deactivated') == 'true') ? 'checked="checked"' : '' }}
                         data-submit-on-click='true'
                     >
                     Todos
