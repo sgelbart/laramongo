@@ -23,6 +23,7 @@
                 >
                 &nbsp;
                 <label class="checkbox">
+                    <input type="hidden" name="deactivated" value="false">
                     <input
                         type="checkbox" name="deactivated" value="true" 
                         {{ (Input::get('deactivated')) ? 'checked="checked"' : '' }}
