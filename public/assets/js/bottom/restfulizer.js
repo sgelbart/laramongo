@@ -11,7 +11,8 @@
  *     // Will trigger the route Route::delete('post/(:id)')
  * 
  */
-$(function(){
+
+restfulizer = function(){
     $('[data-method]').append(function(){
         return "\n"+
         "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
@@ -20,5 +21,20 @@ $(function(){
     })
     .removeAttr('href')
     .attr('style','cursor:pointer;')
-    .attr('onclick','$(this).find("form").submit();');
+    .unbind('click')
+    .click(function(){
+
+        if($(this).attr('data-ajax'))
+        {
+            $(this).find("form").ajaxSubmit();
+        }
+        else
+        {
+            $(this).find("form").submit();
+        }
+    });
+}
+
+$(function(){
+    restfulizer();
 });

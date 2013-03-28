@@ -21,7 +21,7 @@ class CategoriesController extends BaseController {
         {
             $page = Input::get('page') ?: 1;
 
-            $products = Product::where(['category'=>(string)$category->_id])
+            $products = Product::where(['category'=>(string)$category->_id, 'deactivated'=>null])
                 ->limit(12)
                 ->skip( ($page-1)*12 );
 

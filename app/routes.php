@@ -75,6 +75,7 @@ Route::delete( 'admin/product/{id}',                  'Admin\ProductsController@
 Route::put(    'admin/product/{id}/characteristic',   'Admin\ProductsController@characteristic');
 Route::get(    'admin/product/{category_id}/invalids','Admin\ProductsController@invalids');
 Route::put(    'admin/product/{id}/fix',              'Admin\ProductsController@fix');
+Route::put(    'admin/product/{id}/toggle',           'Admin\ProductsController@toggle');
 
 /*
 |--------------------------------------------------------------------------

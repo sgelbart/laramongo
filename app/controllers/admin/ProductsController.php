@@ -349,4 +349,32 @@ class ProductsController extends AdminController {
         }
     }
 
+    /**
+     * Toggle the deactivation of a product. Should be called
+     * by ajax. So it answers javascript.
+     *
+     * @return Response (Javascript)
+     */
+    public function toggle($id)
+    {
+        $product = Product::first($id);
+
+        if(! $product)
+        {
+            return Response::make('Product not found', 404);
+        }
+
+        if($product->deactivated)
+        {
+            $product->activate();
+        }
+        else
+        {
+            $product->deactivate();
+        }
+        $product->save();
+
+        return View::make('admin.products.toggle')
+                ->with('product', $product);
+    }
 }

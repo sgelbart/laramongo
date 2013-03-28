@@ -160,4 +160,20 @@ class AdminProductsTest extends ControllerTestCase
         $this->requestAction('GET', 'Admin\ProductsController@import');
         $this->assertRequestOk();
     }
+
+    //Test invalids
+
+    //Test fix
+
+    /**
+     * Toggle action should simply return 200
+     *
+     */
+    public function testToggleDeactivation()
+    {
+        $product = f::create( 'Product' );
+
+        $this->requestAction('PUT', 'Admin\ProductsController@toggle', ['id'=>$product->_id]);
+        $this->assertRequestOk();
+    }
 }
