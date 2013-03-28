@@ -97,6 +97,45 @@ class CategoryTest extends TestCase
     }
 
     /**
+     * Should attach uploaded image to category and
+     * send image to S3 if it's enabled
+     *
+     */
+    public function testShouldAttachImageAndSendToS3()
+    {
+        // Create category
+        $category = f::create('Category');
+
+        // The file that should be sent using the S3->sendFile() method
+        $fileToSend = 'uploads/img/categories/'.$category->_id.'.jpg';
+
+        // There must be a file to be deleted after upload, this will touch that file
+        // if this file is not created than the HasImage->sendImageToNas() will fail
+        $file = fopen(app_path().'/../public/'.$fileToSend,'w');
+        fwrite($file, 'lorem ipsum');
+        fclose($file);
+
+        // Enable the S3 in configuration
+        Config::set('s3.enabled',true);
+
+        // Mock the S3 object and inject it in the IoC
+        $mockS3 = m::mock('Laramongo\Nas\S3');
+        $mockS3
+            ->shouldReceive('sendFile')
+            ->with($fileToSend)
+            ->once()
+            ->andReturn(true);
+
+        app()['s3'] = $mockS3;
+
+        // Run the default attachUploadedImage
+        $file = m::mock('UploadedFile');
+        $file->shouldReceive('move')->once();
+
+        $this->assertTrue( $category->attachUploadedImage( $file ) );
+    }
+
+    /**
      * Should get image URL
      *
      */

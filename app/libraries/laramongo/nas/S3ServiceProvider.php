@@ -18,6 +18,11 @@ class S3ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        $this->app['s3'] = $this->app->share(function($app)
+        {
+            return new S3;
+        });
+
         $this->app['s3.commands'] = $this->app->share(function($app)
         {
             return new Commands\S3($app);
