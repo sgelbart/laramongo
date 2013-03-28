@@ -239,7 +239,8 @@ class ProductsController extends AdminController {
         $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.import')
-            ->with( 'leafs', $leafs );
+            ->with( 'leafs', $leafs )
+            ->with( 'conjugated', Input::get('conjugated') );
     }
 
     /**
@@ -282,7 +283,7 @@ class ProductsController extends AdminController {
 
             // Import file
             $importer = new Importer($path.$filename,'Product');
-            $importer->import( Input::get('category') );
+            $importer->import( Input::get('category'), Input::get('conjugated') );
 
             // Remove temporary file
             unlink($path.$filename);

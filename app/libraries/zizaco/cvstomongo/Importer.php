@@ -38,7 +38,7 @@ class Importer
      * will not be embedded in the details attribute.
      */
     protected $non_characteristic_keys = [
-        '_id','name','description','small_description','category'
+        '_id','name','description','small_description','category','products',
     ];
 
     /**
@@ -62,9 +62,10 @@ class Importer
      *
      * @return void
      */
-    public function import( $category )
+    public function import( $category, $conjugated = false )
     {
         $headers = array();
+        $conjugatedCount = 1;
 
         foreach( $this->keboola as $line )
         {
@@ -78,9 +79,17 @@ class Importer
                 $attributes = array_combine( $headers, $this->treatLine($line) );
 
                 foreach ($attributes as $key => $value) {
+
                     if(! in_array($key, $this->non_characteristic_keys))
                     {
                         $attributes['details'][$key] = $value;
+                        unset($attributes[$key]);
+                    }
+
+                    // Conjugated
+                    if($key == 'products')
+                    {
+                        $attributes['conjugated'] = array_map('trim',explode(".",$value));
                         unset($attributes[$key]);
                     }
                 }
@@ -95,6 +104,18 @@ class Importer
                     if($instance->_id)
                     {
                         $instance->save(true);
+                    }
+                    elseif($conjugated)
+                    {
+                        $generatedId = 'CJ'.
+                            substr(microtime(),-8).
+                            str_pad($conjugatedCount,3,'0',STR_PAD_LEFT);
+
+                        $conjugatedCount++;
+
+                        $instance->_id = $generatedId;
+
+                        $instance->save();
                     }
                     else
                     {

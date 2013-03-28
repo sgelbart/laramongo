@@ -19,9 +19,26 @@ class ProductsController extends BaseController {
 
         $category = $product->category();
 
+        if($product->conjugated)
+        {
+            return $this->showConjugated($product, $category);
+        }
+
         // For non ajax requests, return the layout with the view embeded
         $this->layout->content = View::make('products.show')
             ->with( 'product', $product )
             ->with( 'category', $category );
+    }
+
+    protected function showConjugated( $product, $category )
+    {
+        $query = ['lm'=>['$in'=>$product->conjugated]];
+
+        $conjProducts = Product::where($query);
+
+        $this->layout->content = View::make('products.show_conjugated')
+            ->with( 'product', $product )
+            ->with( 'category', $category )
+            ->with( 'conjProducts', $conjProducts );
     }
 }

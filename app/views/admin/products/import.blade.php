@@ -1,6 +1,6 @@
 @section ('content')
     <h2>
-        Importar produtos
+        Importar produtos{{ ($conjugated) ? ' conjugados' : '' }}
     </h2>
 
     {{ Form::open([
@@ -8,6 +8,8 @@
         'method' => 'POST',
         'files' => true
     ]) }}
+
+        {{ Form::hidden('conjugated', $conjugated) }}
 
         {{ Form::label('category', 'Chave de entrada') }}
         {{ Form::select('category', $leafs) }}

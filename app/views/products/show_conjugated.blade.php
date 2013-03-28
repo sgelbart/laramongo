@@ -14,8 +14,12 @@
 
         <p>{{ $product->description }}</p>
 
+        @foreach($conjProducts as $product)
 
-        @include('products._product_characteristics')
+            <?php $category = $product->category(); ?>
+            @include('products._product_characteristics')
+
+        @endforeach
 
     </div>
 

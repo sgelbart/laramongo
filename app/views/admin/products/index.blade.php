@@ -13,6 +13,15 @@
                 <a href='{{ URL::action( 'Admin\ProductsController@import' ) }}' class='btn btn-inverse'>
                     Importar Produtos
                 </a>
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ URL::action( 'Admin\ProductsController@import' ) }}"><i class="icon-th-list"></i> Importar produtos</a></li>
+                    <li><a href="{{ URL::action( 'Admin\ProductsController@import', ['conjugated'=>true] ) }}"><i class="icon-th"></i> Importar conjugados</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><i class="icon-arrow-down"></i> Exportar produtos</a></li>
+                </ul>
             </div>
 
             <form class="form-search navbar-form pull-left" data-ajax="true" data-quicksearch-url='{{ URL::action( 'Admin\ProductsController@index' ) }}'>
