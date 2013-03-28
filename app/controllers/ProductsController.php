@@ -11,7 +11,7 @@ class ProductsController extends BaseController {
     {
         $product = Product::first($id);
 
-        if(! $product)
+        if(! $product || ! $product->isVisible())
         {
             return Redirect::action('HomeController@index')
                 ->with( 'flash', 'Produto não encontrada' );
