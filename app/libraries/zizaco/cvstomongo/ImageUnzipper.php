@@ -76,16 +76,21 @@ class ImageUnzipper
         if(\Config::get('s3.enabled',false))
         {
 
-            $public_path = 'uploads/img/products/'.$this->image;
+            $public_path = 'uploads/img/products/'.$image;
             $full_path = app_path().'/../public/'.$public_path;
 
-            $s3 = new \Laramongo\Nas\S3;
-            $result = $s3->sendFile($public_path);    
-
-            if($result)
+            $s3 = app()->s3;
+            if( $s3 )
             {
-                unlink($full_path);
+                $result = $s3->sendFile($public_path);    
+
+                if($result)
+                {
+                    return unlink($full_path);
+                }
             }
+
+            return false;
         }
 
         return true;
