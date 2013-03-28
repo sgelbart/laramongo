@@ -97,6 +97,37 @@ class Product extends BaseModel {
     }
 
     /**
+     * Determines if a product is visible or not. This takes a decision
+     * assembling the following facts:
+     * - state is not 'invalid'
+     * - deactivate is not any sort of 'true'
+     * - product has an _id
+     */
+    public function isVisible()
+    {
+        return 
+            $this->state != 'invalid' &&
+            $this->deactivated == false &&
+            $this->_id != false;
+    }
+
+    /**
+     * Simply set the deactivated attribute to true
+     */
+    public function deactivate()
+    {
+        $this->deactivated = true;
+    }
+
+    /**
+     * Simply unset the deactivated attribute
+     */
+    public function activate()
+    {
+        unset($this->deactivated);
+    }
+
+    /**
      * Overwrites the save metod to save anyway but to mark the
      * product as invalid
      *
@@ -120,5 +151,4 @@ class Product extends BaseModel {
             return false;
         }
     }
-
 }

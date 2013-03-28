@@ -66,6 +66,54 @@ class ProductTest extends TestCase
     }
 
     /**
+     * Assert if a product is visible or not. A visible product
+     * consists in the following:
+     * - state is not 'invalid'
+     * - deactivate is not any sort of 'true'
+     * - product has an _id
+     */
+    public function testProductVisibility()
+    {
+        // A non-saved product should not be visible
+        $product = f::instance('Product');
+        $this->assertFalse($product->isVisible());
+
+        // A valid saved product should be visible
+        $product = f::create('Product');
+        $this->assertTrue($product->isVisible());
+
+        // A invalid product should not be visible
+        $product->state = 'invalid';
+        $this->assertFalse($product->isVisible());
+
+        // A deactivated product should not be visible
+        $product = f::create('Product', ['deactivated'=>1]);
+        $this->assertFalse($product->isVisible());
+    }
+
+    /**
+     * Should deactivate a product
+     */
+    public function testShouldDeactivateProduct()
+    {
+        $product = f::instance('Product');
+        $product->deactivate();
+
+        $this->assertTrue($product->deactivated);
+    }
+
+    /**
+     * Should activate a product
+     */
+    public function testShouldActivateProduct()
+    {
+        $product = f::instance('Product', ['deactivated'=>true]);
+        $product->activate();
+
+        $this->assertNotEquals(true, $product->deactivated);
+    }
+
+    /**
      * Should save invalid product but mark it as invalid
      *
      */
