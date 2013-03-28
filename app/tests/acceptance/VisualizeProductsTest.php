@@ -56,6 +56,44 @@ class VisualizeProductsTest extends AcceptanceTestCase
         $this->assertElementHasText(l::id('product-index'), 'ProductA');
     }
 
+    public function testDeactvatedProductsInQuicksearch()
+    {
+        $this->buildSampleProducts();
+
+        $prod = Product::first(111);
+        $prod->deactivate();
+        $prod->save();
+
+        $this->browser->open('/admin/products?search=ProductB');
+
+        $this->assertElementHasText(l::id('product-index'), 'ProductB');
+        $this->assertElementHasNotText(l::id('product-index'), 'ProductA');
+
+        // Search using query strings
+        $this->browser->open('/admin/products?search=ProductA');
+
+        $this->assertElementHasNotText(l::id('product-index'), 'ProductB');
+        $this->assertElementHasNotText(l::id('product-index'), 'ProductA');
+
+        // Should be case unsensitive
+        $this->browser->open('/admin/products?search=product');
+
+        $this->assertElementHasText(l::id('product-index'), 'ProductB');
+        $this->assertElementHasNotText(l::id('product-index'), 'ProductA');
+
+        // Search using query strings
+        $this->browser->open('/admin/products?search=ProductA&deactivated=true');
+
+        $this->assertElementHasNotText(l::id('product-index'), 'ProductB');
+        $this->assertElementHasText(l::id('product-index'), 'ProductA');
+
+        // Should be case unsensitive
+        $this->browser->open('/admin/products?search=product&deactivated=true');
+
+        $this->assertElementHasText(l::id('product-index'), 'ProductB');
+        $this->assertElementHasText(l::id('product-index'), 'ProductA');
+    }
+
     /**
      * Create a leaf category and populates it with two products:
      * 'ProductA' and 'ProductB' with the respective LMs: '111', '123'.
