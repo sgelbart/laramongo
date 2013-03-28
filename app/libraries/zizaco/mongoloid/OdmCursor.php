@@ -162,6 +162,16 @@ class OdmCursor implements \Iterator
         return $this->cursor->valid();
     }
 
+    function sort( $fields )
+    {
+        if($this->count() > 1)
+        {
+            $this->cursor->sort( $fields );
+        }
+        
+        return $this;
+    }
+
     /**
      * Conver the cursor to its string representation.
      *

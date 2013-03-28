@@ -14,6 +14,7 @@ class ProductsController extends AdminController {
     public function index()
     {
         $search = Input::get('search');
+        $deactivated = Input::get('deactivated') != 'true';
 
         $page = Input::get('page') ?: 1;
 
@@ -29,8 +30,13 @@ class ProductsController extends AdminController {
             $query = array();
         }
 
+        if($deactivated)
+        {
+            $query = array_merge($query,['deactivated'=>null]);
+        }
+
         $products = Product::where($query)
-            ->sort(array('_id'=>'1'))
+            ->sort(['_id'=>1])
             ->limit(6)
             ->skip( ($page-1)*6 );
 

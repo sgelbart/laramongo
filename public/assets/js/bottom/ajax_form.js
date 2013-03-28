@@ -31,4 +31,8 @@ $(function(){
     $('input[data-submit-on-type=true]').keyup(function(){
         $(this).closest('form[data-ajax=true]').ajaxSubmit();
     })
+
+    $('input[data-submit-on-click=true]').click(function(){
+        $(this).closest('form[data-ajax=true]').ajaxSubmit();
+    })
 })

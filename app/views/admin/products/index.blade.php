@@ -21,6 +21,15 @@
                     class="input-medium search-query" data-submit-on-type='true'
                     placeholder="Pesquisar"
                 >
+                &nbsp;
+                <label class="checkbox">
+                    <input
+                        type="checkbox" name="deactivated" value="true" 
+                        {{ (Input::get('deactivated')) ? 'checked="checked"' : '' }}
+                        data-submit-on-click='true'
+                    >
+                    Todos
+                </label>
                 {{-- <button type="submit" class="btn">Buscar</button> --}}
             </form>
         </div>
