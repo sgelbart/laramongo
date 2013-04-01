@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'cookie',
+	'driver' => isset($_SERVER['PARAM4']) ? 'redis' : 'cookie',
 
 	/*
 	|--------------------------------------------------------------------------
