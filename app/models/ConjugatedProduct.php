@@ -15,6 +15,14 @@ class ConjugatedProduct extends BaseModel {
         'active' => true,
     );
 
+    /**
+     * The attached products that compose a conjugated
+     */
+    public function products()
+    {
+        return $this->referencesMany('Product','conjugated');
+    }
+
     public function save( $force = false )
     {
         if($this->_id == null)
@@ -77,5 +85,4 @@ class ConjugatedProduct extends BaseModel {
 
         return false;     
     }
-
 }

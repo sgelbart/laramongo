@@ -42,6 +42,21 @@ class ConjugatedProductTest extends TestCase
         $this->assertContains('LM Inválido', $conjProduct->errors->first(0));
     }
 
+    public function testShouldDetachDeletedProducts()
+    {
+        $conjProduct = $this->aConjugatedProduct();
+        $product = $conjProduct->products()->first();
+
+        // $conjProduct should contain the $product
+        $this->assertContains($product->_id, $conjProduct->conjugated);
+
+        // But after deleting the $product, $conjProduct should not containt
+        // $product anymore
+        $product->delete();
+        $conjProduct = ConjugatedProduct::first($conjProduct->_id);
+        $this->assertNotContains($product->_id, $conjProduct->conjugated);
+    }
+
     private function aConjugatedProduct()
     {
         for ($i=0; $i < 4; $i++) {

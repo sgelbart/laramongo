@@ -151,4 +151,24 @@ class Product extends BaseModel {
             return false;
         }
     }
+
+    /**
+     * Overwrites the Mongoloid\Model delete method in order
+     * to clean references to the resource
+     */
+    public function delete()
+    {
+        if(parent::delete())
+        {
+            // Unembed from conjugated products
+            $affectedProducts = ConjugatedProduct::where(
+                ['conjugated'=>$this->_id]
+            );
+
+            foreach ($affectedProducts as $product) {
+                $product->detach('conjugated',$this->_id);
+                $product->save();
+            }
+        }
+    }
 }

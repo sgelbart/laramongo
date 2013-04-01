@@ -138,6 +138,17 @@ class OdmCursor implements \Iterator
     }
 
     /**
+     * Returns the first element of the cursor
+     *
+     * @return mixed
+     */
+    public function first()
+    {
+        $this->rewind();
+        return $this->current();
+    }
+
+    /**
      * Iterator key method (used in foreach)
      *
      */
