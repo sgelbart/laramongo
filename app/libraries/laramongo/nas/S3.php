@@ -33,6 +33,11 @@ class S3 {
         return false;
     }
 
+    public function listBuckets()
+    {       
+        return $this->oyatelS3->listBuckets();
+    }
+
     public function send( $path )
     {
         // If '/' is the last character, remove it

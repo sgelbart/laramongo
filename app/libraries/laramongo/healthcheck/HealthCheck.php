@@ -1,6 +1,7 @@
 <?php namespace Laramongo\HealthCheck;
 
 use Session, MongoClient, Config;
+use Laramongo\Nas\S3;
 
 class HealthCheck
 {
@@ -34,7 +35,15 @@ class HealthCheck
 
     public function checkNas()
     {
-        return false;
+        if(Config::get('s3.enabled', false))
+        {
+            $s3 = new S3;
+            return count((array)$s3->listBuckets()) > 0;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function renderResults()
@@ -57,6 +66,13 @@ class HealthCheck
             </head>
             </body>
                 <h1>Health Check</h1>
+                <div>
+                    <h2>Host name</h2>
+                    <p>
+                        Value: 
+                        <span class='success'>".gethostname()."</span>
+                    </p>
+                </div>
                 <div>
                     <h2>Session</h2>
                     <p>
