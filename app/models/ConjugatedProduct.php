@@ -45,21 +45,30 @@ class ConjugatedProduct extends BaseModel {
     {
         if( parent::isValid() )
         {
+            // Check if there is another conjugated combination that is
+            // equals to the current.
             if(
                 ConjugatedProduct::where(
                     ['conjugated'=>$this->conjugated, '_id'=>['$ne'=>$this->_id ] ]
                 )->count()
             )
             {
+                $this->errors = new MessageBag(
+                    ['Combinação Duplicada', "Já existe um produto conjugado com esta combinação."]
+                );
                 return false;
             }
 
+            // Check if all the lms are valid.
             if(
                 Product::where(
                     ['lm'=>['$in'=>$this->conjugated ] ]
                 )->count() != count($this->conjugated)
             )
             {
+                $this->errors = new MessageBag(
+                    ['LM Inválido', "Um ou mais LMs são invalidos. Verifique se não existem LMs duplicados ou incorretos no conjugado."]
+                );
                 return false;
             }
 

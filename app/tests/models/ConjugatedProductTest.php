@@ -27,6 +27,7 @@ class ConjugatedProductTest extends TestCase
         $dupliConjProduct = f::instance( 'ConjugatedProduct' );
         $dupliConjProduct->conjugated = $conjProduct->conjugated;
         $this->assertFalse($dupliConjProduct->isValid());
+        $this->assertContains('Duplic', $dupliConjProduct->errors->first(0));
 
         // Following the above, equal lm combinations should be
         // valid for the same _id (I.E: Update)
@@ -38,7 +39,7 @@ class ConjugatedProductTest extends TestCase
         $conjProduct = $this->aConjugatedProduct();
         $conjProduct->conjugated = array_merge($conjProduct->conjugated,['123123']);
         $this->assertFalse($conjProduct->isValid());
-
+        $this->assertContains('LM Inválido', $conjProduct->errors->first(0));
     }
 
     private function aConjugatedProduct()
