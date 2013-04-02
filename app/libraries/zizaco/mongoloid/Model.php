@@ -12,6 +12,13 @@ class Model
     protected $connection;
 
     /**
+     * The connection name for the model.
+     *
+     * @var MongoDB
+     */
+    static $shared_connection;
+
+    /**
      * The collection associated with the model.
      *
      * @var string
@@ -306,16 +313,29 @@ class Model
      */
     protected function db()
     {
-        if( $this->connection == null )
+        if( Model::$shared_connection )
         {
-            $this->connection = new MongoClient(
-                'mongodb://'.
+            $this->connection = Model::$shared_connection;
+        }
+        elseif( $this->connection == null )
+        {
+            $connectionString = 'mongodb://'.
                 \Config::get('lmongo::connections.default.host').
                 ':'.
                 \Config::get('lmongo::connections.default.port').
                 '/'.
-                \Config::get('lmongo::connections.default.database')
-            );
+                \Config::get('lmongo::connections.default.database');
+
+            try{
+                $this->connection = new MongoClient($connectionString);
+            }
+            catch(\MongoConnectionException $e)
+            {
+                sleep(2);
+                $this->connection = new MongoClient($connectionString);
+            }
+
+            Model::$shared_connection = $this->connection;
         }
 
         return $this->connection->{$this->database};

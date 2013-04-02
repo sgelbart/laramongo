@@ -78,58 +78,76 @@ class Importer
                 $instance = new $this->model();
                 $attributes = array_combine( $headers, $this->treatLine($line) );
 
-                foreach ($attributes as $key => $value) {
+                try{
 
-                    if(! in_array($key, $this->non_characteristic_keys))
-                    {
-                        $attributes['details'][$key] = $value;
-                        unset($attributes[$key]);
+                    foreach ($attributes as $key => $value) {
+
+                        if(! in_array($key, $this->non_characteristic_keys))
+                        {
+                            $attributes['details'][$key] = $value;
+                            unset($attributes[$key]);
+                        }
+
+                        // Conjugated
+                        if($key == 'products')
+                        {
+                            $attributes['conjugated'] = array_map('trim',explode(".",$value));
+                            unset($attributes[$key]);
+                        }
                     }
 
-                    // Conjugated
-                    if($key == 'products')
+                    if( $instance->parseDocument(
+                        $attributes
+                    ))
                     {
-                        $attributes['conjugated'] = array_map('trim',explode(".",$value));
-                        unset($attributes[$key]);
+                        // Set the leaf category where that product belongs
+                        $instance->category = $category;
+
+                        if($instance->_id)
+                        {
+                            $instance->save(true);
+                        }
+                        elseif($conjugated)
+                        {
+                            $generatedId = 'CJ'.
+                                substr(microtime(),-8).
+                                str_pad($conjugatedCount,3,'0',STR_PAD_LEFT);
+
+                            $conjugatedCount++;
+
+                            $instance->_id = $generatedId;
+
+                            $instance->save();
+                        }
+                        else
+                        {
+                            $instance->errors = new MessageBag(['_id','Produto sem LM']);
+                        }
+
+                        if( ! $instance->errors )
+                        {
+                            $this->success[] = $instance;
+                        }
+                        else
+                        {
+                            $this->errors[] = $instance;
+                        }
                     }
                 }
-
-                if( $instance->parseDocument(
-                    $attributes
-                ))
+                catch(\Exception $e)
                 {
-                    // Set the leaf category where that product belongs
-                    $instance->category = $category;
+                    $instance = new $this->model();
 
-                    if($instance->_id)
-                    {
-                        $instance->save(true);
-                    }
-                    elseif($conjugated)
-                    {
-                        $generatedId = 'CJ'.
-                            substr(microtime(),-8).
-                            str_pad($conjugatedCount,3,'0',STR_PAD_LEFT);
+                    if($attributes['_id'])
+                        $instance->_id = $attributes['_id'];
 
-                        $conjugatedCount++;
+                    if($attributes['name'])
+                        $instance->name = $attributes['name'];
 
-                        $instance->_id = $generatedId;
+                    $instance->errors = new MessageBag(['Exception', $e->getMessage() ]);
 
-                        $instance->save();
-                    }
-                    else
-                    {
-                        $instance->errors = new MessageBag(['_id','Produto sem LM']);
-                    }
-
-                    if( ! $instance->errors )
-                    {
-                        $this->success[] = $instance;
-                    }
-                    else
-                    {
-                        $this->errors[] = $instance;
-                    }
+                    $this->errors[] = $instance;
+                        
                 }
             }
         }
