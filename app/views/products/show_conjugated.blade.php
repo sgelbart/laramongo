@@ -14,7 +14,12 @@
 
         <p>{{ $product->description }}</p>
 
+        @include('products._product_characteristics')
+
+        <h2>Composto por</h2>
         @foreach($conjProducts as $product)
+
+            <h3>{{ Html::linkAction('ProductsController@show', $product->name, ['id'=>$product->_id] ) }}</h3>
 
             <?php $category = $product->category(); ?>
             @include('products._product_characteristics')
