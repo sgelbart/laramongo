@@ -13,4 +13,10 @@
         @include ('admin.products._characteristics')
     </div>
 
+    @if( $product instanceof ConjugatedProduct )
+        <div id='product-conjugation'> 
+            @include ('admin.products._conjugation')
+        </div>
+    @endif
+
 @stop

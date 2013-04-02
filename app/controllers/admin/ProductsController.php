@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Input, View, Product, Redirect, Response, Category;
+use Input, View, Product, ConjugatedProduct, Redirect, Response, Category;
 use Zizaco\CsvToMongo\Importer;
 use Zizaco\CsvToMongo\ImageUnzipper;
 
@@ -122,6 +122,13 @@ class ProductsController extends AdminController {
         {
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Produto não encontrado');
+        }
+
+        if($product->conjugated)
+        {
+            $conjProduct = new ConjugatedProduct;
+            $conjProduct->parseDocument( $product->toArray() );
+            $product = $conjProduct;
         }
 
         $category = $product->category();
