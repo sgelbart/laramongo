@@ -138,6 +138,8 @@ class Importer
                 {
                     $instance = new $this->model();
 
+                    $instance->category = $category;
+
                     if($attributes['_id'])
                         $instance->_id = $attributes['_id'];
 
