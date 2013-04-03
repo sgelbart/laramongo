@@ -110,6 +110,35 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
     }
 
     /**
+     * Determines if a category is visible or not. This takes a decision
+     * assembling the following facts:
+     * - hidden is not any sort of 'true'
+     * - category has an _id
+     */
+    public function isVisible()
+    {
+        return 
+            $this->hidden == false &&
+            $this->_id != false;
+    }
+
+    /**
+     * Simply set the hidden attribute to true
+     */
+    public function hide()
+    {
+        $this->hidden = true;
+    }
+
+    /**
+     * Simply unset the hidden attribute
+     */
+    public function unhide()
+    {
+        unset($this->hidden);
+    }
+
+    /**
      * Save the model to the database if it's valid
      * Before saving, build ancestor tree
      *

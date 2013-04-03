@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    {{ Form::hidden('active', array_get( $f,'active') ) }}
+    {{ Form::hidden('hidden', array_get( $f,'hidden') ) }}
 
     @if ( Session::get('error') )
         <div class="alert alert-error">

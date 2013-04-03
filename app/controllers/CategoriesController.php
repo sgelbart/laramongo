@@ -11,7 +11,7 @@ class CategoriesController extends BaseController {
     {
         $category = Category::first($id);
 
-        if(! $category)
+        if(! $category || ! $category->isVisible())
         {
             return Redirect::action('HomeController@index')
                 ->with( 'flash', 'Categoria não encontrada' );

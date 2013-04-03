@@ -192,6 +192,49 @@ class CategoryTest extends TestCase
     }
 
     /**
+     * Assert if a category is visible or not. A visible category
+     * consists in the following:
+     * - hidden is not any sort of 'true'
+     * - category has an _id
+     */
+    public function testCategoryVisibility()
+    {
+        // A non-saved category should not be visible
+        $category = f::instance('Category');
+        $this->assertFalse($category->isVisible());
+
+        // A valid saved category should be visible
+        $category = f::create('Category');
+        $this->assertTrue($category->isVisible());
+
+        // A hidden category should not be visible
+        $category = f::create('Category', ['hidden'=>1]);
+        $this->assertFalse($category->isVisible());
+    }
+
+    /**
+     * Should deactivate a category
+     */
+    public function testShouldHideCategory()
+    {
+        $category = f::instance('Category');
+        $category->hide();
+
+        $this->assertTrue($category->hidden);
+    }
+
+    /**
+     * Should activate a category
+     */
+    public function testShouldUnhideCategory()
+    {
+        $category = f::instance('Category', ['hidden'=>true]);
+        $category->unhide();
+
+        $this->assertNotEquals(true, $category->hidden);
+    }
+
+    /**
      * Should validate all products within this category
      */
     public function testValidateProducts()
