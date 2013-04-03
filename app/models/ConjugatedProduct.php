@@ -79,7 +79,7 @@ class ConjugatedProduct extends Product {
             // Check if all the lms are valid.
             if(
                 Product::where(
-                    ['lm'=>['$in'=>$this->conjugated ] ]
+                    ['_id'=>['$in'=>$this->conjugated ] ]
                 )->count() != count($this->conjugated)
             )
             {

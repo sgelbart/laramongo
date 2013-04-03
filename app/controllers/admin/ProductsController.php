@@ -408,4 +408,52 @@ class ProductsController extends AdminController {
         return View::make('admin.products.toggle')
                 ->with('product', $product);
     }
+
+    /**
+     * Add a product to a conjugated one
+     */
+    public function addToConjugated($conj_id, $id)
+    {
+        $conjProduct = ConjugatedProduct::first($conj_id);
+        $conjProduct->attachToConjugated( (int)$id );
+
+        if($conjProduct->save())
+        {
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+                ->with( 'flash', 'Produto adicionado com sucesso' );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $conjProduct->errors->all();
+
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+                ->withInput()
+                ->with( 'error', $error );
+        }
+    }
+
+    /**
+     * Remove product from conjugated
+     */
+    public function removeFromConjugated($conj_id, $id)
+    {
+        $conjProduct = ConjugatedProduct::first($conj_id);
+        $conjProduct->detach( 'conjugated', (int)$id );
+
+        if($conjProduct->save())
+        {
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+                ->with( 'flash', 'Produto removido com sucesso' );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $conjProduct->errors->all();
+
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+                ->withInput()
+                ->with( 'error', $error );
+        }
+    }
 }

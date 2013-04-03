@@ -225,4 +225,55 @@ class AdminProductsTest extends ControllerTestCase
         $this->requestAction('PUT', 'Admin\ProductsController@toggle', ['id'=>$product->_id]);
         $this->assertRequestOk();
     }
+
+    /**
+     * Should add a product to a composition of a conjugated one
+     *
+     */
+    public function testAddToConjugated()
+    {
+        $product = f::create( 'Product', ['_id'=>9823938] );
+        $conjProduct = f::create(
+            'ConjugatedProduct',
+            ['conjugated'=>[f::create('Product')->_id, f::create('Product')->_id]] 
+        );
+
+        $this->requestAction('PUT', 'Admin\ProductsController@addToConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Should remove successfuly a product from a conjugated product
+     *
+     */
+    public function testRemoveFromConjugated()
+    {
+        $product = f::create( 'Product', ['_id'=>9827778] );
+        $conjProduct = f::create(
+            'ConjugatedProduct',
+            ['conjugated'=>[$product->_id, f::create('Product')->_id, f::create('Product')->_id]] 
+        );
+
+        $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Fail to remove product from conjugated product
+     *
+     */
+    public function testFailToRemoveFromConjugated()
+    {
+        $product = f::create( 'Product', ['_id'=>9826638] );
+        $conjProduct = f::create(
+            'ConjugatedProduct',
+            ['conjugated'=>[$product->_id, f::create('Product')->_id]] // Only two products
+        );
+
+        $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertSessionHas('error');
+    }
 }

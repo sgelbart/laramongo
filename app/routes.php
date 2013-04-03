@@ -78,6 +78,8 @@ Route::put(    'admin/product/{id}/characteristic',   'Admin\ProductsController@
 Route::get(    'admin/product/{category_id}/invalids','Admin\ProductsController@invalids');
 Route::put(    'admin/product/{id}/fix',              'Admin\ProductsController@fix');
 Route::put(    'admin/product/{id}/toggle',           'Admin\ProductsController@toggle');
+Route::put(    'admin/product/{conj_id}/add/{id}',    'Admin\ProductsController@addToConjugated');
+Route::put(    'admin/product/{conj_id}/remove/{id}', 'Admin\ProductsController@removeFromConjugated');
 
 /*
 |--------------------------------------------------------------------------

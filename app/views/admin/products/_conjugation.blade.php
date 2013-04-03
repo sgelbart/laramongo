@@ -14,7 +14,10 @@
                     <a class='btn' href='{{ URL::action('Admin\ProductsController@show', ['id'=>$conjProduct->_id]) }}'>
                         <i class='icon-share-alt'></i>
                     </a>
-                    <a href="" class='btn btn-danger'>
+                    <a
+                        class='btn btn-danger' data-method="PUT"
+                        href='{{ URL::action('Admin\ProductsController@removeFromConjugated', ['conj_id'=>$product->_id, 'id'=>$conjProduct->_id]) }}'
+                    >
                         <i class='icon-remove icon-white'></i>
                     </a>
                 </div>
@@ -32,6 +35,7 @@
         class="input-block-level search-query" data-submit-on-type='true'
         placeholder="Pesquisar"
     >
+    {{ Form::hidden('conj_id', $product->_id) }}
 </form>
 
-<div id='product-index'></div>
+<div id='product-index' data-conjugatedId='{{ $product->_id }}'></div>

@@ -9,7 +9,10 @@
                     {{ $product->name }}
                 </td>
                 <td>
-                    <a class="btn btn-primary" href="">
+                    <a
+                        class="btn btn-primary" data-method="PUT"
+                        href='{{ URL::action('Admin\ProductsController@addToConjugated', ['conj_id'=>$conj_id, 'id'=>$product->_id]) }}'
+                    >
                         <i class="icon-plus icon-white"></i>
                         <small>Adicionar</small>
                     </a>

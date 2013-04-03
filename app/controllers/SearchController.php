@@ -11,6 +11,7 @@ class SearchController extends BaseController {
     public function products()
     {
         $search = Input::get('search');
+        $conj_id = Input::get('conj_id');
 
         if( strlen($search) > 0 )
         {
@@ -28,6 +29,7 @@ class SearchController extends BaseController {
         }
 
         return View::make('search.products')
-                ->with( 'products', $products );
+                ->with( 'products', $products )
+                ->with( 'conj_id', $conj_id);
     }
 }
