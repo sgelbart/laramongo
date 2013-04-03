@@ -22,16 +22,18 @@
 
         <div class='subcategories'>
             @foreach( $subCategories as $subCategory )
-                <a href='{{ URL::action('CategoriesController@show', ['id'=>$subCategory->_id]) }}'>
-                    <div class='subcategory-tile'>
-                        <div class='img' style='background-image: url({{ $subCategory->imageUrl() }});'>
-                            <div class='cat_desc'>
-                                <strong>{{ ucfirst($subCategory->name) }}</strong>
-                                <p>{{ ucfirst($subCategory->description) }}</p>
+                @if ($subCategory->isVisible())
+                    <a href='{{ URL::action('CategoriesController@show', ['id'=>$subCategory->_id]) }}'>
+                        <div class='subcategory-tile'>
+                            <div class='img' style='background-image: url({{ $subCategory->imageUrl() }});'>
+                                <div class='cat_desc'>
+                                    <strong>{{ ucfirst($subCategory->name) }}</strong>
+                                    <p>{{ ucfirst($subCategory->description) }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                @endif
             @endforeach
         </div>
 

@@ -19,7 +19,7 @@ trait ToTree
     );
     */
 
-    public static function renderTree( $treeStates, $options = null )
+    public static function renderTree( $treeStates, $options = null, $showHidden = false )
     {
         if(! $options)
         {
@@ -28,7 +28,17 @@ trait ToTree
 
         $result = '<ul class="roots">';
 
-        static::$_nodes = static::all()->toArray(false);
+        if($showHidden)
+        {
+            $query = array();
+        }
+        else
+        {   
+            $query = ['hidden'=>['$ne'=>'true']];
+        }
+            
+        static::$_nodes = static::where($query)->toArray(false);
+
 
         static::$_treeState = $treeStates;
 

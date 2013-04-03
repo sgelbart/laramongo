@@ -46,7 +46,7 @@ class CategoriesController extends BaseController {
         }
         else
         {
-            $subCategories = Category::where(['parents'=>$category->_id]);
+            $subCategories = Category::where(['parents'=>$category->_id, 'hidden'=>['$ne'=>'true']]);
 
             $this->layout->content = View::make('categories.subcategories')
                 ->with( 'category', $category )

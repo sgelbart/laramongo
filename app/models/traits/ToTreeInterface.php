@@ -27,8 +27,11 @@ interface ToTreeInterface
      * If the $options is not provided then the static protected
      * $treeOptions will be used.
      *
+     * If the $showHidden parameter is false and the object
+     * has the 'hidden' attribute than it will not be displayed
+     *
      */
-    public static function renderTree( $treeStates, $options = null );
+    public static function renderTree( $treeStates, $options = null, $showHidden = false );
 
     /**
      * isRoot should return true for the root nodes.

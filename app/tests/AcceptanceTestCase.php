@@ -88,6 +88,17 @@ class AcceptanceTestCase extends TestCase
         }
     }
 
+    public function assertBodyHasNotHtml($needle)
+    {
+        $html = str_replace("\n", '', $this->browser->getHtmlSource());
+
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertNotContains($singleNiddle, $html, "Body html does not contain '$singleNiddle'");
+        }
+    }
+
     public function assertLocation($location)
     {
         $current_location = substr($this->browser->getLocation(), strlen($location)*-1);

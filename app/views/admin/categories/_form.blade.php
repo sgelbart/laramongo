@@ -62,7 +62,7 @@
     <div class="control-group">
         <span class='control-label'>Opções</span>
         <div class="controls">
-            <label for='radio-kind-blank' class='checkbox'>
+            <label for='checkbox-hidden' class='checkbox'>
                 Invisível
                 {{ Form::hidden('hidden', false ) }}
                 {{ Form::checkbox('hidden', 'true', array_get( $f,'hidden'), ['id'=>'checkbox-hidden']) }}
