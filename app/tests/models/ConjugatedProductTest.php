@@ -18,6 +18,15 @@ class ConjugatedProductTest extends TestCase
     {
         $this->cleanCollection( 'products' );
 
+        // A conjugated product should not be valid if it has less
+        // than two lms in the conjugated attribute
+        $conjProduct = $this->aConjugatedProduct();
+        $conjProduct->conjugated = [$conjProduct->conjugated[0]];
+        $this->assertFalse($conjProduct->isValid());
+        $conjProduct->conjugated = [];
+        $this->assertFalse($conjProduct->isValid());
+        $this->assertContains('2 LMs', $conjProduct->errors->first(1));
+
         // A valid conjugated product
         $conjProduct = $this->aConjugatedProduct();
         $this->assertTrue($conjProduct->isValid());

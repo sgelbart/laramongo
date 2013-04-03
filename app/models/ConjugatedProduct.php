@@ -53,6 +53,15 @@ class ConjugatedProduct extends Product {
     {
         if( parent::isValid() )
         {
+            // Check if the conjugated product have at least two products
+            if( count((array)$this->conjugated) < 2 )
+            {
+                $this->errors = new MessageBag(
+                    ['Conjugação mínima', "Um produto conjugado deve possuir pelo menos 2 LMs de produto."]
+                );
+                return false;
+            }
+
             // Check if there is another conjugated combination that is
             // equals to the current.
             if(
