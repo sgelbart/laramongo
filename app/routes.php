@@ -31,6 +31,8 @@ Route::get(    'health/details', function(){
     return $hc->renderResults();
 } );
 
+Route::get(    'search/products', 'SearchController@products');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes

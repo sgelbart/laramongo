@@ -117,14 +117,14 @@ class OdmCursor implements \Iterator
      *
      * @return array
      */
-    public function toArray( $documentsTooArray = true )
+    public function toArray( $documentsToArray = true )
     {
         $result = array();
 
         $this->limit(20);
         foreach($this as $document)
         {
-            if( $documentsTooArray )
+            if( $documentsToArray )
             {
                 $result[] = $document->getAttributes();
             }
@@ -196,6 +196,25 @@ class OdmCursor implements \Iterator
         foreach($this as $document)
         {
             $result .= (string)$document;
+        }
+
+        $result = '['.$result.']';
+
+        return $result;
+    }
+
+    /**
+     * Conver the cursor to its string representation.
+     *
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        $result = '';
+
+        foreach($this as $document)
+        {
+            $result .= $document->toJson($options);
         }
 
         $result = '['.$result.']';

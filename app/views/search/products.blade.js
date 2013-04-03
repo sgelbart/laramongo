@@ -1,0 +1,1 @@
+alert( '{{ $products->first() }}' );
