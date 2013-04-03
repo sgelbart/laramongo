@@ -146,7 +146,7 @@ class Importer
                     if($attributes['name'])
                         $instance->name = $attributes['name'];
 
-                    $instance->errors = new MessageBag(['Exception', $e->getMessage() ]);
+                    $instance->errors = new MessageBag(['Product is invalid:', 'Exception - '.$e->getMessage() ]);
 
                     $this->errors[] = $instance;
                         
