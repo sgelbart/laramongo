@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class AddNewCategoryTest extends AcceptanceTestCase
+class HideCategoryTest extends AcceptanceTestCase
 {
     /**
      * Clean collection between every test
