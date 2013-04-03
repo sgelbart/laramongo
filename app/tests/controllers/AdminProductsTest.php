@@ -179,9 +179,40 @@ class AdminProductsTest extends ControllerTestCase
         $this->assertRequestOk();
     }
 
-    //Test invalids
+    /**
+     * Invalids action should always return 200 
+     *
+     */
+    public function testDisplayInvalids(){
+        $category = f::create( 'Category' );
 
-    //Test fix
+        $this->requestAction('GET', 'Admin\ProductsController@invalids', ['category_id'=>$category->_id]);
+        $this->assertRequestOk();
+    }
+
+    /**
+     * Fix action should update existent product
+     *
+     */
+    public function testShouldFixExistent(){
+        $product = f::create( 'Product', ['details'=>['color'=>'red']] );
+
+        $this->withInput( ['color'=>'blue'] )
+            ->requestAction('PUT', 'Admin\ProductsController@fix', ['id'=>$product->_id]);
+
+        $this->assertRequestOk();
+    }
+
+    /**
+     * Fix action should return 404 if the product doesn't exist
+     *
+     */
+    public function testShouldNotFixNonExistent(){
+        $this->withInput( ['char'=>'anything'] )
+            ->requestAction('PUT', 'Admin\ProductsController@fix', ['id'=>'lol']);
+
+        $this->assertStatusCode('404');
+    }
 
     /**
      * Toggle action should simply return 200
