@@ -44,6 +44,7 @@
             @yield('content')
         </div>
         
+        {{ Basset::show('js_global.js') }}
         {{ Basset::show('js_bottom.js') }}
     </body>
 </html>

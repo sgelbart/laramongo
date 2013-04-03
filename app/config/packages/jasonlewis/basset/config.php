@@ -112,9 +112,14 @@ return array(
 			$collection->requireTree('assets/css/admin');
 		},
 
+		'js_global' => function($collection)
+		{
+			$collection->add('assets/js/global/jquery.js');
+			$collection->add('assets/js/global/jquery.form.js');
+		},
+
 		'js_bottom' => function($collection)
 		{
-			$collection->add('assets/js/bottom/jquery.js');
 			$collection->requireTree('assets/js/bottom');
 		},
 	),
