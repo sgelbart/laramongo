@@ -42,7 +42,7 @@ class ConjugatedProductTest extends TestCase
         $this->assertContains('LM Inválido', $conjProduct->errors->first(0));
     }
 
-    public function testShouldDetachDeletedProducts()
+    public function testShouldNotDeleteProductsThatComposeConjugated()
     {
         $conjProduct = $this->aConjugatedProduct();
         $product = $conjProduct->products()->first();
@@ -50,11 +50,15 @@ class ConjugatedProductTest extends TestCase
         // $conjProduct should contain the $product
         $this->assertContains($product->_id, $conjProduct->conjugated);
 
-        // But after deleting the $product, $conjProduct should not containt
-        // $product anymore
-        $product->delete();
+        // Delete method should return false and insert an error message
+        // containing 'conjugado'
+        $this->assertFalse($product->delete());
+        $this->assertContains('conjugado', $product->errors->first(0));
+
+        // After realoading the conjugated from the database
+        // it should still contain the product
         $conjProduct = ConjugatedProduct::first($conjProduct->_id);
-        $this->assertNotContains($product->_id, $conjProduct->conjugated);
+        $this->assertContains($product->_id, $conjProduct->conjugated);
     }
 
     private function aConjugatedProduct()

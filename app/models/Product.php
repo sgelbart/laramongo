@@ -158,17 +158,25 @@ class Product extends BaseModel {
      */
     public function delete()
     {
-        if(parent::delete())
-        {
-            // Unembed from conjugated products
-            $affectedProducts = ConjugatedProduct::where(
-                ['conjugated'=>$this->_id]
-            );
+        // Check if its part of a conjugated product
+        $affectedProduct = ConjugatedProduct::first(
+            ['conjugated'=>$this->_id]
+        );
 
-            foreach ($affectedProducts as $product) {
-                $product->detach('conjugated',$this->_id);
-                $product->save();
-            }
+        if($affectedProduct)
+        {
+            $this->errors = new MessageBag([
+                'Produto compõe um conjugado','Não é possível excluir um '.
+                'produto que faz parte de um conjugado. Esse produto faz parte'.
+                'do conjugado '.$affectedProduct->_id.'. Remova o produto do'.
+                'conjugado antes de exclui-lo.'
+            ]);
+
+            return false;
+        }
+        else
+        {
+            return parent::delete();
         }
     }
 }
