@@ -230,10 +230,27 @@ class ProductsController extends AdminController {
     {
         $product = Product::first($id);
 
-        $product->delete();
-
-        return Redirect::action('Admin\ProductsController@index')
+        if ( $product->delete() )
+        {
+            return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Produto removido com sucesso' );
+        }
+        else
+        {
+            if( $product->errors )
+            {
+                $errorMessage = $product->errors->first(0);
+            }
+            else
+            {
+                $errorMessage = 'Não foi possível excluir o produto. Tente novamente mais tarde.';
+            }
+
+            return Redirect::action('Admin\ProductsController@index')
+                ->with( 'flash', $errorMessage);
+        }
+
+        
     }
 
     /**

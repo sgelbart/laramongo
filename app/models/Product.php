@@ -160,7 +160,7 @@ class Product extends BaseModel {
     {
         // Check if its part of a conjugated product
         $affectedProduct = ConjugatedProduct::first(
-            ['conjugated'=>$this->_id]
+            ['conjugated'=>(string)$this->_id]
         );
 
         if($affectedProduct)

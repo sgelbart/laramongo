@@ -153,6 +153,22 @@ class AdminProductsTest extends ControllerTestCase
     }
 
     /**
+     * Destroy action should redirect to index with error message
+     * when failed to delete product. I.E: A product that compose a
+     * conjugated
+     *
+     */
+    public function testShouldShowErrorWhenDestroyFails(){
+        $product = f::create( 'Product', ['_id'=>'C88978897'] );
+        $conjProduct = f::create( 'ConjugatedProduct', ['conjugated'=>[(string)$product->_id]] );
+
+        $this->requestAction('DELETE', 'Admin\ProductsController@destroy', ['id'=>$product->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ProductsController@index'));
+        $this->assertSessionHas('flash','conjugado');
+    }
+
+    /**
      * Import action should always return 200 
      *
      */
