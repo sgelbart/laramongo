@@ -91,8 +91,17 @@ class Importer
                         // Conjugated
                         if($key == 'products')
                         {
-                            $attributes['conjugated'] = array_map('trim',explode(".",$value));
                             unset($attributes[$key]);
+                            $conjugatedArray = array_map('trim',explode(".",$value));
+
+                            foreach ($conjugatedArray as $i => $lm) {
+                                if(is_numeric($lm))
+                                {
+                                    $conjugatedArray[$i] = (int)$lm;
+                                }
+                            }
+
+                            $attributes['conjugated'] = $conjugatedArray;
                         }
                     }
 

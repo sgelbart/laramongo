@@ -12,13 +12,20 @@ class SearchController extends BaseController {
     {
         $search = Input::get('search');
 
-        $query = [ '$or'=> [
-            ['name'=> new \MongoRegex('/^'.$search.'/i')],
-            ['lm'=> new \MongoRegex('/^'.$search.'/i')]
-        ]];
+        if( strlen($search) > 0 )
+        {
+            $query = [ '$or'=> [
+                ['name'=> new \MongoRegex('/^'.$search.'/i')],
+                ['lm'=> new \MongoRegex('/^'.$search.'/i')]
+            ]];
 
-        $products = Product::where($query, ['_id','name'])
-            ->limit(20);
+            $products = Product::where($query, ['_id','name'])
+                ->limit(20);
+        }
+        else
+        {
+            $products = [];
+        }
 
         return View::make('search.products')
                 ->with( 'products', $products );

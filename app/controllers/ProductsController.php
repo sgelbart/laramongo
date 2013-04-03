@@ -32,13 +32,12 @@ class ProductsController extends BaseController {
 
     protected function showConjugated( $product, $category )
     {
-        $query = ['lm'=>['$in'=>$product->conjugated]];
-
-        $conjProducts = Product::where($query);
+        $conjProduct = new ConjugatedProduct;
+        $conjProduct->parseDocument( $product->toArray() );
 
         $this->layout->content = View::make('products.show_conjugated')
-            ->with( 'product', $product )
+            ->with( 'product', $conjProduct )
             ->with( 'category', $category )
-            ->with( 'conjProducts', $conjProducts );
+            ->with( 'conjProducts', $conjProduct->products() );
     }
 }
