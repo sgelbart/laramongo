@@ -59,7 +59,16 @@
         </div>
     </div>
 
-    {{ Form::hidden('hidden', array_get( $f,'hidden') ) }}
+    <div class="control-group">
+        <span class='control-label'>Opções</span>
+        <div class="controls">
+            <label for='radio-kind-blank' class='checkbox'>
+                Invisível
+                {{ Form::hidden('hidden', false ) }}
+                {{ Form::checkbox('hidden', 'true', array_get( $f,'hidden'), ['id'=>'checkbox-hidden']) }}
+            </label>
+        </div>
+    </div>
 
     @if ( Session::get('error') )
         <div class="alert alert-error">
