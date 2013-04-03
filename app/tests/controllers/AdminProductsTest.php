@@ -160,7 +160,9 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testShouldShowErrorWhenDestroyFails(){
         $product = f::create( 'Product', ['_id'=>'C88978897'] );
-        $conjProduct = f::create( 'ConjugatedProduct', ['conjugated'=>[(string)$product->_id]] );
+        $otherProduct = f::create( 'Product', ['_id'=>'C99972831'] );
+        
+        $conjProduct = f::create( 'ConjugatedProduct', ['conjugated'=>[$product->_id, $otherProduct->_id]] );
 
         $this->requestAction('DELETE', 'Admin\ProductsController@destroy', ['id'=>$product->_id]);
 
