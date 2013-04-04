@@ -24,6 +24,9 @@
  *   <div id='div_two'>
  *       Content of two
  *   </div>
+ *
+ * PS:
+ *   Requires: jquery.querystring.js
  * 
  */
 
@@ -44,12 +47,10 @@ $(function(){
             el.removeClass('active');
         })
     }
-    
-    // Make <li> that have the 'data-tab-of' attibute clickable
-    // in order to display it's content and hide the content of other
-    // tabs.
-    $('.nav [data-tab-of]').click(function(){
-        var el = $(this);
+
+    function displayTab( tab )
+    {
+        var el = tab;
         var other_tabs = el.parent().find('li');
 
         var target = $('#'+el.attr('data-tab-of'));
@@ -61,8 +62,24 @@ $(function(){
 
         target.show();
         el.addClass('active');
+    }
+    
+    // Make <li> that have the 'data-tab-of' attibute clickable
+    // in order to display it's content and hide the content of other
+    // tabs.
+    $('.nav [data-tab-of]').click(function(){
+        displayTab( $(this) );
     });
 
     // Hide the "data-tab-of" of each <li> that it's not '.active'
     hideContentOfTabs($('.nav li').not('[class*=active]'));
+    
+    if($.QueryString['tab'])
+    {
+        displayTab( $('.nav li[data-tab-of="'+$.QueryString['tab']+'"]') );
+    }
+    else
+    {
+        displayTab( $('.nav li[class*=active]') );
+    }
 })
