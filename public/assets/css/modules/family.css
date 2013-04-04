@@ -1,0 +1,58 @@
+/* this module is used to display the current family filtered */
+.family {
+  position: relative;
+  width: 93.1%;
+  margin-top: 1%;
+  margin: 0.9375%;
+  padding: 2%;
+  border: 1px solid #CCC;
+  -webkit-border-radius:  4px; 
+  -moz-border-radius:  4px; 
+  border-radius:  4px; 
+}
+
+.family .photo {
+  width: 50%;
+  display: inline-block;
+  padding-top: 1.4%;
+}
+
+.family h2 {
+  margin: 0%;
+}
+
+.family .description {
+  display: inline-block;
+  vertical-align: top;
+  padding: 1%;
+  width: 46%;
+}
+
+.family .description h3 {
+  margin: 0;
+}
+
+@media screen and (min-width:240px) and (max-width: 454px) {
+  .family {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .family .photo {
+    width: 100%;
+  }
+
+  .family .description {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width:455px) and (max-width: 697px) {
+ .family .photo {
+    width: 100%;
+  }
+
+  .family .description {
+    width: 100%;
+  }
+}

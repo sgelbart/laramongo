@@ -1,0 +1,32 @@
+/* Is used to display at user what filter was selected */
+.filter {
+  background-color: #E3E3E3;
+  display: none;
+  padding: 2%;
+  margin-right: 0;
+  margin: 0.9375%;
+  width: 93.9%;
+
+  -webkit-border-radius:  4px; 
+  -moz-border-radius:  4px; 
+  border-radius:  4px; 
+}
+
+.filter-selected {
+  margin-left: 10px;
+}
+
+/* Media queries */
+@media screen and (min-width:240px) and (max-width: 454px) {
+  .filter {
+    margin-left: 0;
+    margin-right: 0;
+    display: block;
+  }
+}
+
+@media screen and (min-width:455px) and (max-width: 697px) {
+  .filter {
+    display: block;
+  }
+}

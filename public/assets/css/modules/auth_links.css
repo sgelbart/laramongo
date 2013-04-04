@@ -1,0 +1,27 @@
+/* css is used in the navigation links to login/logout */
+.auth-links {
+  width: 25%;
+  text-align: right;
+}
+
+.auth-links li {
+  display: inline-block;
+}
+
+.auth-links a { text-decoration: none; color: #3E3E3E; }
+.auth-links a:link { text-decoration:none; }
+.auth-links a:visited { text-decoration:none; }
+.auth-links a:hover { text-decoration:none; }
+.auth-links a:active { text-decoration:none; }
+
+@media screen and (min-width:240px) and (max-width: 454px) {
+  .auth-links {
+    width: 31%;
+  }
+}
+
+@media screen and (min-width:455px) and (max-width: 697px) {
+  .auth-links {
+    width: 51%;
+  }
+}
