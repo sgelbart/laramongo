@@ -101,11 +101,6 @@ class Importer
                                 }
                             }
 
-                            echo $value;
-                            echo '<br>';
-                            print_r($conjugatedArray);
-                            exit;
-
                             $attributes['conjugated'] = $conjugatedArray;
                         }
                     }
