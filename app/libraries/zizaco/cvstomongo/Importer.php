@@ -92,7 +92,7 @@ class Importer
                         if($key == 'products')
                         {
                             unset($attributes[$key]);
-                            $conjugatedArray = array_map('trim',explode(".",$value));
+                            $conjugatedArray = array_map('trim',explode(",",$value));
 
                             foreach ($conjugatedArray as $i => $lm) {
                                 if(is_numeric($lm))
@@ -100,6 +100,11 @@ class Importer
                                     $conjugatedArray[$i] = (int)$lm;
                                 }
                             }
+
+                            echo $value;
+                            echo '<br>';
+                            print_r($conjugatedArray);
+                            exit;
 
                             $attributes['conjugated'] = $conjugatedArray;
                         }
@@ -176,8 +181,10 @@ class Importer
 
             $value = trim( $value );
 
-            // Replaces brazilian , to .
-            if( $this->keboola->getDelimiter() != ',' )
+            // Replaces brazilian ',' to '.'
+            // But if there is 7 or more units before ',' (I.E 1 million or more)
+            // don't. Because probably thats is some values separated by comma
+            if( $this->keboola->getDelimiter() != ',' && strpos($value,',') < 7 )
             {
                 $value = str_replace( ',','.',$value );
             }
