@@ -419,7 +419,7 @@ class ProductsController extends AdminController {
 
         if($conjProduct->save())
         {
-            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id, 'tab'=>'product-conjugation'])
                 ->with( 'flash', 'Produto adicionado com sucesso' );
         }
         else
@@ -427,7 +427,7 @@ class ProductsController extends AdminController {
             // Get validation errors
             $error = $conjProduct->errors->all();
 
-            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id, 'tab'=>'product-conjugation'])
                 ->withInput()
                 ->with( 'error', $error );
         }
@@ -443,7 +443,7 @@ class ProductsController extends AdminController {
 
         if($conjProduct->save())
         {
-            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id, 'tab'=>'product-conjugation'])
                 ->with( 'flash', 'Produto removido com sucesso' );
         }
         else
@@ -451,7 +451,7 @@ class ProductsController extends AdminController {
             // Get validation errors
             $error = $conjProduct->errors->all();
 
-            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id])
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$conj_id, 'tab'=>'product-conjugation'])
                 ->withInput()
                 ->with( 'error', $error );
         }
