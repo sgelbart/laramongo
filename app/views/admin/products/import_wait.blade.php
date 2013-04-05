@@ -1,13 +1,14 @@
 @section ('content')
     <h2>
-        Processando arquivo:
+        Importação
     </h2>
 
     <div class='well'>
-        {{ $id }}
+        <p>Por favor aguarde enquanto o arquivo é processado...</p>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;"></div>
+        </div>
     </div>
-
-    <p>Aguarde...</p>
 
     <script>
         setTimeout(function(){
