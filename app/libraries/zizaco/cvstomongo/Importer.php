@@ -69,7 +69,7 @@ class Importer
 
         // Increase the time limit
         set_time_limit(500);
-        Log::info("Importing Start: ".date('H:m:s'));
+        \Log::info("Importing Start: ".date('H:m:s'));
 
 
         foreach( $this->keboola as $line )
@@ -168,7 +168,7 @@ class Importer
             }
         }
 
-        Log::info("Importing Finished: ".date('H:m:s'));
+        \Log::info("Importing Finished: ".date('H:m:s'));
     }
 
     /**
