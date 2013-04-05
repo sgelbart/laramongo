@@ -305,12 +305,12 @@ class ProductsController extends AdminController {
             // Place file in storage
             $csv_file->move($path, $filename);
 
-            // Import file
-            $importer = new Importer($path.$filename,'Product');
-            $importer->import( Input::get('category'), Input::get('conjugated') );
-
-            // Remove temporary file
-            unlink($path.$filename);
+            // Creates the import object
+            $import = new Import;
+            $import->filename = $path.$filename;
+            $import->category = Input::get('category');
+            $import->isConjugated = Input::get('conjugated');
+            $import->save();
 
             $this->layout->content = View::make('admin.products.import_report')
                 ->with( 'success', $importer->getSuccess() )

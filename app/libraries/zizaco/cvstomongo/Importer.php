@@ -140,11 +140,11 @@ class Importer
 
                         if( ! $instance->errors )
                         {
-                            $this->success[] = $instance;
+                            $this->success[] = $instance->_id;
                         }
                         else
                         {
-                            $this->errors[] = $instance;
+                            $this->errors[] = ['_id'=>$instance->_id, 'error'=>$instance->errors->all()];
                         }
                     }
                 }
