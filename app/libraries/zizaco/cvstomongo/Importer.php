@@ -67,6 +67,11 @@ class Importer
         $headers = array();
         $conjugatedCount = 1;
 
+        // Increase the time limit
+        set_time_limit(500);
+        Log::info("Importing Start: ".date('H:m:s'));
+
+
         foreach( $this->keboola as $line )
         {
             if( empty($headers) )
@@ -162,6 +167,8 @@ class Importer
                 }
             }
         }
+
+        Log::info("Importing Finished: ".date('H:m:s'));
     }
 
     /**
