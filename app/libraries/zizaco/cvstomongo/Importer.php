@@ -144,7 +144,7 @@ class Importer
                         }
                         else
                         {
-                            $this->errors[] = ['_id'=>$instance->_id, 'error'=>$instance->errors->all()];
+                            $this->errors[] = ['_id'=>$instance->_id, 'name'=>$instance->name, 'error'=>$instance->errors->all()];
                         }
                     }
                 }

@@ -8,7 +8,8 @@
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
 		"vipsoft/unzip": "dev-master",
-		"oyatel/amazon-s3-php-class": "dev-master"
+		"oyatel/amazon-s3-php-class": "dev-master",
+		"pda/pheanstalk": "dev-master"
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",
@@ -26,6 +27,7 @@
 			"app/tests/ControllerTestCase.php",
 			"app/tests/AcceptanceTestCase.php",
 			"app/libraries",
+			"app/jobs",
 			"app/models/traits/CategoryTree.php",
 			"app/models/traits/HasImage.php",
 			"app/models/traits/ToSelect.php"

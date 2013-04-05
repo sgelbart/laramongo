@@ -67,6 +67,7 @@ Route::get(    'admin/category/{id}/validate',       'Admin\CategoriesController
 Route::get(    'admin/products',                      'Admin\ProductsController@index' );
 Route::get(    'admin/product',                       'Admin\ProductsController@index' );
 Route::get(    'admin/product/import',                'Admin\ProductsController@import' );
+Route::get(    'admin/product/import_result/{id}',    'Admin\ProductsController@importResult' );
 Route::post(   'admin/product/doImport',              'Admin\ProductsController@doImport' );
 Route::get(    'admin/product/create',                'Admin\ProductsController@create' );
 Route::post(   'admin/product',                       'Admin\ProductsController@store' );

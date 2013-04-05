@@ -35,16 +35,23 @@ class Import extends BaseModel {
      */
     public function process()
     {
-        // Import file
-        $importer = new Importer($this->filename,'Product');
-        $importer->import( $this->category, $this->isConjugated );
+        if(! $this->isDone() )
+        {
+            // Import file
+            $importer = new Importer($this->filename,'Product');
+            $importer->import( $this->category, $this->isConjugated );
 
-        // Remove temporary file
-        unlink($this->filename);
+            // Retreive results
+            $this->success = $importer->getSuccess();
+            $this->fail = $importer->getErrors();
 
-        $this->done = true;
+            // Remove temporary file
+            unlink($this->filename);
 
-        return $this->save();
+            $this->done = true;
+
+            return $this->save();
+        }
     }
 
     /**
@@ -53,6 +60,15 @@ class Import extends BaseModel {
     public function isDone()
     {
         return $this->done == true;
+    }
+
+    public function save($force = false)
+    {
+        $result = parent::save($force);
+
+        Queue::push('ProcessImports');
+
+        return $result;
     }
 
 }

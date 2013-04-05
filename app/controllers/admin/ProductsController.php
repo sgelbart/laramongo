@@ -1,6 +1,7 @@
 <?php namespace Admin;
 
-use Input, View, Product, ConjugatedProduct, Redirect, Response, Category;
+use Input, View, Product, ConjugatedProduct;
+use Redirect, Response, Category, Import;
 use Zizaco\CsvToMongo\Importer;
 use Zizaco\CsvToMongo\ImageUnzipper;
 
@@ -312,12 +313,8 @@ class ProductsController extends AdminController {
             $import->isConjugated = Input::get('conjugated');
             $import->save();
 
-            $this->layout->content = View::make('admin.products.import_report')
-                ->with( 'success', $importer->getSuccess() )
-                ->with( 'failed', $importer->getErrors() )
+            return Redirect::action('Admin\ProductsController@importResult', ['id'=>$import->_id])
                 ->with( 'flash', $flash );
-
-            return $this->layout;
         }
         else
         {
@@ -327,6 +324,23 @@ class ProductsController extends AdminController {
         }
         
         return '';
+    }
+
+    public function importResult($id)
+    {
+        $import = Import::first($id);
+
+        if($import->isDone())
+        {
+            $this->layout->content = View::make('admin.products.import_report')
+                ->with( 'success', $import->success )
+                ->with( 'failed', $import->fail );
+        }
+        else
+        {
+            $this->layout->content = View::make('admin.products.import_wait')
+                ->with( 'id', $id );
+        }
     }
 
     /**
