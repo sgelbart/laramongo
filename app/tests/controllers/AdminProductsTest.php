@@ -239,7 +239,7 @@ class AdminProductsTest extends ControllerTestCase
         );
 
         $this->requestAction('PUT', 'Admin\ProductsController@addToConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
-        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
         $this->assertSessionHas('flash','sucesso');
     }
 
@@ -256,7 +256,7 @@ class AdminProductsTest extends ControllerTestCase
         );
 
         $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
-        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
         $this->assertSessionHas('flash','sucesso');
     }
 
@@ -273,7 +273,7 @@ class AdminProductsTest extends ControllerTestCase
         );
 
         $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
-        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id]));
+        $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
         $this->assertSessionHas('error');
     }
 }

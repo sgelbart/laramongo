@@ -1,6 +1,7 @@
 <?php namespace Zizaco\Mongoloid;
 
 use MongoClient;
+use Cache;
 
 class Model
 {
@@ -16,7 +17,7 @@ class Model
      *
      * @var MongoDB
      */
-    static $shared_connection;
+    public static $shared_connection;
 
     /**
      * The collection associated with the model.
@@ -174,7 +175,7 @@ class Model
      * @param  array  $fields
      * @return Zizaco\LmongoOdm\OdmCursor
      */
-    public static function where($query = array(), $fields = array())
+    public static function where($query = array(), $fields = array(), $cachable = false)
     {      
         $instance = new static;
 
@@ -188,11 +189,22 @@ class Model
         if(! empty($fields))
             $fields = $instance->prepareProjection($fields);
 
-        // Perfodm Mongo's find and returns iterable cursor
-        $cursor =  new OdmCursor(
-            $instance->collection()->find( $query, $fields ),
-            get_class($instance)
-        );
+        if($cachable)
+        {
+            // Perfodm Mongo's find and returns iterable cursor
+            $cursor =  new CachableOdmCursor(
+                $query,
+                get_class($instance)
+            );
+        }
+        else
+        {
+            // Perfodm Mongo's find and returns iterable cursor
+            $cursor =  new OdmCursor(
+                $instance->collection()->find( $query, $fields ),
+                get_class($instance)
+            );
+        }
 
         return $cursor;
     }
@@ -313,29 +325,10 @@ class Model
      */
     protected function db()
     {
-        if( Model::$shared_connection )
+        if(! $this->connection )
         {
-            $this->connection = Model::$shared_connection;
-        }
-        elseif( $this->connection == null )
-        {
-            $connectionString = 'mongodb://'.
-                \Config::get('lmongo::connections.default.host').
-                ':'.
-                \Config::get('lmongo::connections.default.port').
-                '/'.
-                \Config::get('lmongo::connections.default.database');
-
-            try{
-                $this->connection = new MongoClient($connectionString);
-            }
-            catch(\MongoConnectionException $e)
-            {
-                sleep(2);
-                $this->connection = new MongoClient($connectionString);
-            }
-
-            Model::$shared_connection = $this->connection;
+            $connector = new MongoDbConnector;
+            $this->connection = $connector->getConnection();
         }
 
         return $this->connection->{$this->database};
@@ -459,15 +452,31 @@ class Model
     /**
      * Returns the referenced documents as objects
      */
-    protected function referencesOne($model, $field)
+    protected function referencesOne($model, $field, $cachable = true)
     {
-        return $model::first(array('_id'=>$this->$field));
+        if($cachable)
+        {
+            $instance = $this;
+
+            $cache_key = 'reference_cache_'.$model.'_'.$this->$field;
+
+            // For the next 30 seconds (0.5 minutes), the last retrived value (for that Collection and ID)
+            // will be returned from cache =)
+            return Cache::remember($cache_key, 0.5, function() use ($model, $field, $instance)
+            {
+                return $model::first(array('_id'=>$instance->$field));
+            });
+        }
+        else
+        {
+            return $model::first(array('_id'=>$this->$field));
+        }
     }
 
     /**
      * Returns the cursor for the referenced documents as objects
      */
-    protected function referencesMany($model, $field)
+    protected function referencesMany($model, $field, $cachable = true)
     {
         $ref_ids = $this->$field;
 
@@ -481,7 +490,21 @@ class Model
             }
         }
 
-        return $model::where(array('_id'=>array('$in'=>$ref_ids)));
+        if($cachable)
+        {
+            $cache_key = 'reference_cache_'.$model.'_'.md5(serialize($ref_ids));
+
+            // For the next 6 seconds (0.1 minute), the last retrived value
+            // will be returned from cache =)
+            return Cache::remember($cache_key, 0.1, function() use ($model, $ref_ids)
+            {
+                return $model::where(array('_id'=>array('$in'=>$ref_ids)), [], true);
+            });
+        }
+        else
+        {
+            return $model::where(array('_id'=>array('$in'=>$ref_ids)));
+        }
     }
 
     /**
