@@ -13,6 +13,10 @@ class testCategoryProvider extends testObjectProvider
                 testCategoryProvider::saved('valid_parent_category')->_id 
             ],
             'description' => 'Ferramentas com finalidades específicas',
+            'characteristics' => [
+                testCharacteristicProvider::attributesFor('valid_numeric_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_option_characteristic'),
+            ]
         ];
     }
 
@@ -25,6 +29,10 @@ class testCategoryProvider extends testObjectProvider
                 testCategoryProvider::saved('valid_parent_category')->_id 
             ],
             'description' => 'Ferramentas detalhadas',
+            'characteristics' => [
+                testCharacteristicProvider::attributesFor('valid_numeric_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_decimal_characteristic'),
+            ]
         ];
     }
 
@@ -37,6 +45,10 @@ class testCategoryProvider extends testObjectProvider
                 testCategoryProvider::saved('valid_parent_category')->_id 
             ],
             'description' => 'A chave de entrade sem nome!',
+            'characteristics' => [
+                testCharacteristicProvider::attributesFor('valid_numeric_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_decimal_characteristic'),
+            ]
         ];
     }
 
@@ -80,6 +92,10 @@ class testCategoryProvider extends testObjectProvider
                 testCategoryProvider::saved('another_valid_parent_category')->_id 
             ],
             'description' => 'Brocas com finalidades específicas',
+            'characteristics' => [
+                testCharacteristicProvider::attributesFor('valid_numeric_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_option_characteristic'),
+            ],
             'hidden' => 1
         ];
     }
