@@ -138,6 +138,7 @@ class Model
         // If the response is correctly parsed return it
         if( $instance->parseDocument( $document ) )
         {
+            $instance = $this->polymorph( $instance );
             return $instance;
         }
         else
@@ -519,6 +520,7 @@ class Model
             foreach ($this->$field as $document) {
                 $instance = new $model;
                 $instance->parseDocument( $document );
+                $instance = $this->polymorph( $instance );                
                 $documents[] = $instance;
             }
         }
@@ -680,6 +682,40 @@ class Model
 
         // Update attribute
         $this->setAttribute($field, array_values($documents));
+    }
+
+    /**
+     * The polymorphic method is something that may be overwritten
+     * in order to make a model polimorphic. For example: You may have three
+     * models with the same collection: Content, ArticleContent and VideoContent.
+     * By overwriting the polymorph method is possible to make the Content
+     * to become a ArticleContent or a VideoContent object by simply
+     * selecting it from the database using first, find, where or all.
+     *
+     * Example:
+     *  protected function polymorph( $instance )
+     *  {
+     *      if ($this->video != null)
+     *      {
+     *          $obj = new VideoContent;
+     *          $obj->parseDocument( $instance->attributes );
+     *
+     *          return $obj;
+     *      }
+     *      else
+     *      {
+     *          return $instance;
+     *      }
+     *  }
+     * 
+     * In the example above, if you call Content::first() and the content
+     * returned have the key video set, then the object returned will be
+     * a VideoContent instead of a Content.
+     *
+     */
+    protected function polymorph( $instance )
+    {
+        return $instance;
     }
 
     /**
