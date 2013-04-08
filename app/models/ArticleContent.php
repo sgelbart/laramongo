@@ -1,6 +1,6 @@
 <?php
 
-abstract class ArticleContent extends Content {
+class ArticleContent extends Content {
 
     /**
      * The database collection
@@ -17,6 +17,7 @@ abstract class ArticleContent extends Content {
     public static $rules = array(
         'name' => 'required',
         'kind' => 'required',
+        'article' => 'required',
     );
 
 }

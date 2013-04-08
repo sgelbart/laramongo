@@ -22,7 +22,10 @@ abstract class testObjectProvider
     {
         if(method_exists(static::getInstance(), $template))
         {
-            return f::instance( static::$model, static::getInstance()->$template() );    
+            $obj = f::instance( static::$model, static::getInstance()->$template() );
+            $obj = $obj->polymorph( $obj );
+
+            return $obj;
         }
 
         throw new Exception("Model template '$template' for '".static::$model."' test does not exists", 666);
@@ -32,7 +35,10 @@ abstract class testObjectProvider
     {
         if(method_exists(static::getInstance(), $template))
         {
-            return f::create( static::$model, static::getInstance()->$template() );
+            $obj = f::create( static::$model, static::getInstance()->$template() );
+            $obj = $obj->polymorph( $obj );
+
+            return $obj;
         }
 
         throw new Exception("Model template '$template' for '".static::$model."' test does not exists", 666);

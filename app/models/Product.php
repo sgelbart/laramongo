@@ -186,7 +186,7 @@ class Product extends BaseModel {
      *
      * return mixed $instance
      */
-    protected function polymorph( $instance )
+    public function polymorph( $instance )
     {
         if( $instance->conjugated != null )
         {

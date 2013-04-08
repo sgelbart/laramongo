@@ -20,6 +20,15 @@ class Content extends BaseModel {
     );
 
     /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $factory = array(
+        'name' => 'text',
+    );
+
+    /**
      * The products attached to the content
      */
     public function products()
@@ -28,12 +37,41 @@ class Content extends BaseModel {
     }
 
     /**
+     * Determines if a content is visible or not. This takes a decision
+     * assembling the following facts:
+     * - hidden is not any sort of 'true'
+     * - content has an _id
+     */
+    public function isVisible()
+    {
+        return 
+            $this->hidden == false &&
+            $this->_id != false;
+    }
+
+    /**
+     * Simply set the hidden attribute to true
+     */
+    public function hide()
+    {
+        $this->hidden = true;
+    }
+
+    /**
+     * Simply unset the hidden attribute
+     */
+    public function unhide()
+    {
+        unset($this->hidden);
+    }
+
+    /**
      * Polymorph into ArticleContent if the kind is equals
      * to 'article'
      *
      * return mixed $instance
      */
-    protected function polymorph( $instance )
+    public function polymorph( $instance )
     {
         if( $instance->kind = 'article' )
         {

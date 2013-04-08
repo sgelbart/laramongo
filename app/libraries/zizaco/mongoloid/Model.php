@@ -693,7 +693,7 @@ class Model
      * selecting it from the database using first, find, where or all.
      *
      * Example:
-     *  protected function polymorph( $instance )
+     *  public function polymorph( $instance )
      *  {
      *      if ($this->video != null)
      *      {
@@ -713,7 +713,7 @@ class Model
      * a VideoContent instead of a Content.
      *
      */
-    protected function polymorph( $instance )
+    public function polymorph( $instance )
     {
         return $instance;
     }
