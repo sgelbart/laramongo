@@ -15,7 +15,7 @@ class CharacteristicTest extends TestCase
 
     public function testShouldNotSaveSinceIsEmbeddedOnly()
     {
-        $charac = f::instance( 'Characteristic' );
+        $charac = testCharacteristicProvider::instance('valid_numeric_characteristic');
         $this->assertTrue( $charac->isValid() );
 
         // Should fail because Characteristic have no
@@ -56,7 +56,7 @@ class CharacteristicTest extends TestCase
 
     public function testShouldDisplayLayout()
     {
-        $charac = f::instance( 'Characteristic' );
+        $charac = testCharacteristicProvider::instance('valid_string_characteristic');
         $value = "<span class='muted'>&ltvalor&gt</span>";
 
         // Without any layout
@@ -77,7 +77,7 @@ class CharacteristicTest extends TestCase
 
     public function testSetValuesShouldExplodeString()
     {
-        $charac = f::instance( 'Characteristic' );
+        $charac = testCharacteristicProvider::instance('valid_option_characteristic');
 
         $messed_string = 'Madeira,Metal  , Vidro, Bacon';
         $should_become = ['Madeira','Metal','Vidro','Bacon'];
@@ -88,7 +88,7 @@ class CharacteristicTest extends TestCase
 
     public function testShouldGetValuesStr()
     {
-        $charac = f::instance( 'Characteristic' );
+        $charac = testCharacteristicProvider::instance('valid_string_characteristic');
 
         $this->assertEquals('Qualquer', $charac->getValuesStr());
 
@@ -100,7 +100,7 @@ class CharacteristicTest extends TestCase
 
     public function testGetTypeStr()
     {
-        $charac = f::instance( 'Characteristic' );
+        $charac = testCharacteristicProvider::instance('valid_numeric_characteristic');
 
         $charac->type = 'int';
         $this->assertEquals('Numero', $charac->getTypeStr());
