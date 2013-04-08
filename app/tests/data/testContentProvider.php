@@ -28,7 +28,7 @@ class testContentProvider extends testObjectProvider
     {
         return [
             '_id' => new MongoId( '32f1423d8ead0e1d38000003' ),
-            'name' => 'Materia invisível',
+            'name' => 'Invisible article',
             'kind' => 'article',
             'article' => '<h1>A Very invisible article</h1>',
             'hidden' => 1,

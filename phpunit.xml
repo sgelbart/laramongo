@@ -14,6 +14,7 @@
         <testsuite name="Low Level Tests">
             <directory>./app/tests/libraries</directory>
             <directory>./app/tests/models</directory>
+            <directory>./app/tests/repositories</directory>
             <directory>./app/tests/controllers</directory>
         </testsuite>
         <testsuite name="High Level Tests">
