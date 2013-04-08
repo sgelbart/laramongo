@@ -23,4 +23,15 @@ class testProductProvider extends testObjectProvider
             'description' => 'Descrição de coisa invalida',
         ];
     }
+
+    protected function simple_deactivated_product()
+    {
+        return [
+            '_id' => 8800003,
+            'name' => 'Prod Desabilitado',
+            'category' => testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de um produto desativado',
+            'deactivated' => 1,
+        ];
+    }
 }

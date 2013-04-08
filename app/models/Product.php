@@ -108,7 +108,7 @@ class Product extends BaseModel {
         return 
             $this->state != 'invalid' &&
             $this->deactivated == false &&
-            $this->_id != false;
+            $this->lm != false;
     }
 
     /**

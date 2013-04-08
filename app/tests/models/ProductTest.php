@@ -65,11 +65,11 @@ class ProductTest extends TestCase
     public function testProductVisibility()
     {
         // A non-saved product should not be visible
-        $product = f::instance('Product');
+        $product = testProductProvider::instance('simple_valid_product');
         $this->assertFalse($product->isVisible());
 
         // A valid saved product should be visible
-        $product = f::create('Product');
+        $product = testProductProvider::saved('simple_valid_product');
         $this->assertTrue($product->isVisible());
 
         // A invalid product should not be visible
@@ -77,7 +77,7 @@ class ProductTest extends TestCase
         $this->assertFalse($product->isVisible());
 
         // A deactivated product should not be visible
-        $product = f::create('Product', ['deactivated'=>1]);
+        $product = testProductProvider::saved('simple_deactivated_product');
         $this->assertFalse($product->isVisible());
     }
 
@@ -86,7 +86,7 @@ class ProductTest extends TestCase
      */
     public function testShouldDeactivateProduct()
     {
-        $product = f::instance('Product');
+        $product = testProductProvider::instance('simple_valid_product');
         $product->deactivate();
 
         $this->assertTrue($product->deactivated);
@@ -97,7 +97,7 @@ class ProductTest extends TestCase
      */
     public function testShouldActivateProduct()
     {
-        $product = f::instance('Product', ['deactivated'=>true]);
+        $product = testProductProvider::instance('simple_deactivated_product');
         $product->activate();
 
         $this->assertNotEquals(true, $product->deactivated);
@@ -109,10 +109,7 @@ class ProductTest extends TestCase
      */
     public function testShouldSaveInvalidProductIfForced()
     {
-        $product = new Product;
-
-        $product->name = '';
-        $product->category = f::create('Category')->_id;
+        $product = testProductProvider::instance('simple_invalid_product');
 
         // Should return true, since it's a valid product
         $this->assertTrue( $product->save(true) );
@@ -132,17 +129,17 @@ class ProductTest extends TestCase
         $document = new Product;
 
         $input = array(
-            'id' => 123123,
+            '_id' => 123123,
             'name' => 'thename',
             'nonexistant' => 'avalue',
-            'category' => f::create('Category')->_id,
+            'category' => testCategoryProvider::saved('valid_leaf_category')->_id,
         );
 
         $document->fillable = array('name','category');
 
         $document->fill( $input );
 
-        $this->assertNotEquals( $input['id'], $document->getAttribute('id') );
+        $this->assertNotEquals( $input['_id'], $document->getAttribute('id') );
         $this->assertEquals   ( $input['name'], $document->getAttribute('name') );
         $this->assertNotEquals( $input['nonexistant'], $document->getAttribute('nonexistant') );
         $this->assertEquals   ( $input['category'], $document->getAttribute('category') );
