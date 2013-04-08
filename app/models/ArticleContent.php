@@ -1,6 +1,6 @@
 <?php
 
-abstract class ArticleContent extends BaseModel {
+abstract class ArticleContent extends Content {
 
     /**
      * The database collection
@@ -16,6 +16,7 @@ abstract class ArticleContent extends BaseModel {
      */
     public static $rules = array(
         'name' => 'required',
+        'kind' => 'required',
     );
 
 }

@@ -32,12 +32,9 @@ class ProductsController extends BaseController {
 
     protected function showConjugated( $product, $category )
     {
-        $conjProduct = new ConjugatedProduct;
-        $conjProduct->parseDocument( $product->toArray() );
-
         $this->layout->content = View::make('products.show_conjugated')
-            ->with( 'product', $conjProduct )
+            ->with( 'product', $product )
             ->with( 'category', $category )
-            ->with( 'conjProducts', $conjProduct->products() );
+            ->with( 'conjProducts', $product->products() );
     }
 }

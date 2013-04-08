@@ -26,6 +26,10 @@
                             {{ Html::linkAction( 'Admin\ProductsController@index', 'Produtos' ) }}
                         </li>
 
+                        <li {{ (Request::is('admin/content*')) ? 'class="active"' : '' }}>
+                            {{ Html::linkAction( 'Admin\ContentsController@index', 'Conteúdo' ) }}
+                        </li>
+
                         <li>
                             {{ Html::linkAction( 'UsersController@logout', 'Logout' ) }}
                         </li>

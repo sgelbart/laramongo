@@ -1,6 +1,6 @@
 <?php
 
-abstract class Content extends BaseModel {
+class Content extends BaseModel {
 
     /**
      * The database collection
@@ -16,6 +16,7 @@ abstract class Content extends BaseModel {
      */
     public static $rules = array(
         'name' => 'required',
+        'kind' => 'required',
     );
 
     /**
@@ -24,6 +25,27 @@ abstract class Content extends BaseModel {
     public function products()
     {
         return $this->referencesMany('Product','products');
+    }
+
+    /**
+     * Polymorph into ArticleContent if the kind is equals
+     * to 'article'
+     *
+     * return mixed $instance
+     */
+    protected function polymorph( $instance )
+    {
+        if( $instance->kind = 'article' )
+        {
+            $article = new ArticleContent;
+
+            $article->parseDocument( $instance->attributes );
+            return $article;
+        }
+        else
+        {
+            return $instance;
+        }
     }
 
 }

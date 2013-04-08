@@ -179,4 +179,25 @@ class Product extends BaseModel {
             return parent::delete();
         }
     }
+
+    /**
+     * Polymorph into ConjugatedProduct if the conjugated
+     * is defined
+     *
+     * return mixed $instance
+     */
+    protected function polymorph( $instance )
+    {
+        if( $instance->conjugated != null )
+        {
+            $conjProduct = new ConjugatedProduct;
+
+            $conjProduct->parseDocument( $instance->attributes );
+            return $conjProduct;
+        }
+        else
+        {
+            return $instance;
+        }
+    }
 }

@@ -46,6 +46,10 @@ Route::get('admin', function()
     return Redirect::action('Admin\CategoriesController@index'); 
 });
 
+// Admin\ContentsController
+Route::get(    'admin/contents',                     'Admin\ContentsController@index' );
+Route::get(    'admin/content',                      'Admin\ContentsController@index' );
+
 // Admin\CategoriesController
 Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );
 Route::get(    'admin/category',                     'Admin\CategoriesController@index' );

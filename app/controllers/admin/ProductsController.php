@@ -125,13 +125,6 @@ class ProductsController extends AdminController {
                 ->with( 'flash', 'Produto não encontrado');
         }
 
-        if($product->conjugated)
-        {
-            $conjProduct = new ConjugatedProduct;
-            $conjProduct->parseDocument( $product->toArray() );
-            $product = $conjProduct;
-        }
-
         $category = $product->category();
         $leafs = Category::toOptions( ['kind'=>'leaf'] );
 
