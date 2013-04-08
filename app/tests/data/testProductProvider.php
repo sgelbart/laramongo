@@ -34,4 +34,18 @@ class testProductProvider extends testObjectProvider
             'deactivated' => 1,
         ];
     }
+
+    protected function product_with_details()
+    {
+        return [
+            '_id' => 8800004,
+            'name' => 'Prod Detalhado',
+            'category' => testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de um produto com detalhes',
+            'details' => [
+                'capacidade' => 3,
+                'cor' => 'Verde',
+            ]
+        ];
+    }
 }

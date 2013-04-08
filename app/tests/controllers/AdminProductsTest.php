@@ -38,7 +38,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldStore(){
-        $input = f::attributesFor( 'Product' );
+        $input = testProductProvider::attributesFor( 'simple_valid_product' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
 
@@ -51,8 +51,7 @@ class AdminProductsTest extends ControllerTestCase
      * is not valid
      */
     public function testShouldNotStoreInvalid(){
-        $input = f::attributesFor( 'Product' );
-        $input['name'] = ''; // With blank name
+        $input = $input = testProductProvider::attributesFor( 'simple_invalid_product' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
 
@@ -74,7 +73,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldEditExistent(){
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
 
         /* Some laravel bug is happening here */
         $this->requestUrl('GET', URL::action('Admin\ProductsController@index', ['id'=>$product->_id]));
@@ -97,7 +96,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldUpdateExistent(){
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->withInput( $product->getAttributes() )
             ->requestAction('PUT', 'Admin\ProductsController@update', ['id'=>$product->_id]);
@@ -112,7 +111,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldNotUpdateWithInvalidInput(){
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
         $product->name = '';
 
         $this->withInput( $product->getAttributes() )
@@ -127,12 +126,9 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldUpdateCharacteristicsOfExistent(){
-        $product = f::create( 'Product' );
-        $category = $product->category();
-        $category->embedToCharacteristics( f::instance('Characteristic', ['name'=>'Size']) );
-        $category->save();
+        $product = testProductProvider::saved( 'simple_valid_product' );
 
-        $this->withInput( ['size'=>5] )
+        $this->withInput( ['capacidade'=>5] )
             ->requestAction('PUT', 'Admin\ProductsController@characteristic', ['id'=>$product->_id]);
 
         $this->assertRedirection(URL::action('Admin\ProductsController@index'));
@@ -144,7 +140,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldDestroy(){
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->requestAction('DELETE', 'Admin\ProductsController@destroy', ['id'=>$product->_id]);
 
@@ -159,10 +155,10 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldShowErrorWhenDestroyFails(){
-        $product = f::create( 'Product', ['_id'=>'C88978897'] );
-        $otherProduct = f::create( 'Product', ['_id'=>'C99972831'] );
         
-        $conjProduct = f::create( 'ConjugatedProduct', ['conjugated'=>[$product->_id, $otherProduct->_id]] );
+        $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
+
+        $product = $conjProduct->products()->first();
 
         $this->requestAction('DELETE', 'Admin\ProductsController@destroy', ['id'=>$product->_id]);
 
@@ -184,7 +180,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testDisplayInvalids(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
 
         $this->requestAction('GET', 'Admin\ProductsController@invalids', ['category_id'=>$category->_id]);
         $this->assertRequestOk();
@@ -195,7 +191,9 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldFixExistent(){
-        $product = f::create( 'Product', ['details'=>['color'=>'red']] );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+        $product->details = ['color'=>'red'];
+        $product->save(true);
 
         $this->withInput( ['color'=>'blue'] )
             ->requestAction('PUT', 'Admin\ProductsController@fix', ['id'=>$product->_id]);
@@ -220,7 +218,7 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testToggleDeactivation()
     {
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->requestAction('PUT', 'Admin\ProductsController@toggle', ['id'=>$product->_id]);
         $this->assertRequestOk();
@@ -232,11 +230,8 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testAddToConjugated()
     {
-        $product = f::create( 'Product', ['_id'=>9823938] );
-        $conjProduct = f::create(
-            'ConjugatedProduct',
-            ['conjugated'=>[f::create('Product')->_id, f::create('Product')->_id]] 
-        );
+        $product = testProductProvider::saved( 'product_with_details' );
+        $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
 
         $this->requestAction('PUT', 'Admin\ProductsController@addToConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
         $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
@@ -249,11 +244,14 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testRemoveFromConjugated()
     {
-        $product = f::create( 'Product', ['_id'=>9827778] );
-        $conjProduct = f::create(
-            'ConjugatedProduct',
-            ['conjugated'=>[$product->_id, f::create('Product')->_id, f::create('Product')->_id]] 
-        );
+        $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
+        
+        // Add a new product since a conjugated need at least 2 products
+        $conjProduct->attachToConjugated( testProductProvider::saved( 'product_with_details' )->_id );
+        $conjProduct->save();
+
+        // Remove one of the three attached products
+        $product = $conjProduct->products()->first();
 
         $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
         $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
@@ -266,11 +264,8 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testFailToRemoveFromConjugated()
     {
-        $product = f::create( 'Product', ['_id'=>9826638] );
-        $conjProduct = f::create(
-            'ConjugatedProduct',
-            ['conjugated'=>[$product->_id, f::create('Product')->_id]] // Only two products
-        );
+        $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
+        $product = $conjProduct->products()->first();
 
         $this->requestAction('PUT', 'Admin\ProductsController@removeFromConjugated', ['conj_id'=>$conjProduct->_id, 'id'=>$product->_id]);
         $this->assertRedirection(URL::action('Admin\ProductsController@edit', ['id'=>$conjProduct->_id, 'tab'=>'product-conjugation']));
