@@ -19,7 +19,7 @@ class testProductProvider extends testObjectProvider
         return [
             '_id' => 8800002,
             'name' => 'Coisa Inválida',
-            // Nenhuma categoria
+            'category' => '',
             'description' => 'Descrição de coisa invalida',
         ];
     }

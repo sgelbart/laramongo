@@ -20,10 +20,7 @@ class ProductTest extends TestCase
      */
     public function testShouldSaveValidProduct()
     {
-        $product = new Product;
-
-        $product->name = 'product';
-        $product->category = f::create('Category')->_id;
+        $product = testProductProvider::instance('simple_valid_product');
 
         // Should return true, since it's a valid product
         $this->assertTrue( $product->save() );
@@ -35,18 +32,14 @@ class ProductTest extends TestCase
      */
     public function testShouldSetLmString()
     {
-        $product = new Product;
-
-        $product->_id = '777';
-        $product->name = 'product';
-        $product->category = f::create('Category')->_id;
+        $product = testProductProvider::instance('simple_valid_product');
 
         // Save and retreive the saved product
         $product->save();
         $product = Product::first($product->_id);
 
         // Check if the lm attribute has been created
-        $this->assertEquals('777', $product->lm);
+        $this->assertEquals($product->_id, $product->lm);
         $this->assertTrue(is_string($product->lm));
     }
 
@@ -56,10 +49,7 @@ class ProductTest extends TestCase
      */
     public function testShouldNotSaveInvalidProduct()
     {
-        $product = new Product;
-
-        $product->name = '';
-        $product->category = f::create('Category')->_id;
+        $product = testProductProvider::instance('simple_invalid_product');
 
         // Should return true, since it's a valid product
         $this->assertFalse( $product->save() );

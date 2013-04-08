@@ -26,6 +26,7 @@
 			"app/tests/TestCase.php",
 			"app/tests/ControllerTestCase.php",
 			"app/tests/AcceptanceTestCase.php",
+			"app/tests/data/",
 			"app/libraries",
 			"app/jobs",
 			"app/models/traits/CategoryTree.php",
