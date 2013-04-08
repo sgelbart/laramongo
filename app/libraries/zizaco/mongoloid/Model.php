@@ -138,7 +138,7 @@ class Model
         // If the response is correctly parsed return it
         if( $instance->parseDocument( $document ) )
         {
-            $instance = $this->polymorph( $instance );
+            $instance = $instance->polymorph( $instance );
             return $instance;
         }
         else
