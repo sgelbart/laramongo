@@ -28,9 +28,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldValidateCategory()
     {
-        $category = new Category;
-
-        $category->name = 'validname';
+        $category = testCategoryProvider::instance('valid_leaf_category');
 
         // Should return true, since it's a valid category
         $this->assertTrue( $category->isValid() );
@@ -41,14 +39,14 @@ class CategoryTest extends TestCase
         $this->assertFalse( $category->isValid() );
     }
 
-    public function testShouldNotSaveDuplicated()
+    public function testShouldSaveDuplicated()
     {
-        $category = new Category;
-        $category->name = 'something';
+        $category = testCategoryProvider::instance('valid_leaf_category');
+        $category->name = 'The Name Of Category';
         $category->save();
 
-        $category = new Category;
-        $category->name = 'something';
+        $category = testCategoryProvider::instance('another_valid_leaf_category');
+        $category->name = 'The Name Of Category';
 
         // Should return false, since there is already a category with that name
         $this->assertFalse( $category->isValid() );
@@ -60,9 +58,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldSaveValidCategory()
     {
-        $category = new Category;
-
-        $category->name = 'avalidname';
+        $category = testCategoryProvider::instance('valid_leaf_category');
 
         // Should return true, since it's a valid category
         $this->assertTrue( $category->save() );
@@ -74,9 +70,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldNotSaveInvalidCategory()
     {
-        $category = new Category;
-
-        $category->name = '';
+        $category = testCategoryProvider::instance('invalid_leaf_category');
 
         // Should return true, since it's a valid category
         $this->assertFalse( $category->save() );
@@ -91,7 +85,7 @@ class CategoryTest extends TestCase
         $file = m::mock('UploadedFile');
         $file->shouldReceive('move')->once();
 
-        $category = f::create('Category');
+        $category = testCategoryProvider::saved('valid_leaf_category');
 
         $this->assertTrue( $category->attachUploadedImage( $file ) );
     }
@@ -104,7 +98,7 @@ class CategoryTest extends TestCase
     public function testShouldAttachImageAndSendToS3()
     {
         // Create category
-        $category = f::create('Category');
+        $category = testCategoryProvider::saved('valid_leaf_category');
 
         // The file that should be sent using the S3->sendFile() method
         $fileToSend = 'uploads/img/categories/'.$category->_id.'.jpg';
@@ -141,7 +135,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldGetImage()
     {
-        $category = f::create('Category');
+        $category = testCategoryProvider::saved('valid_leaf_category');
         $category->image = 'default.jpg';
         $category->save();
 
@@ -163,10 +157,10 @@ class CategoryTest extends TestCase
      */
     public function testShouldBuildAncestorsWhenSave()
     {
-        $grandParent = f::create('Category');
-        $parentA = f::create('Category');
-        $parentB = f::create('Category');
-        $child = f::create('Category', ['kind'=>'']);
+        $grandParent = testCategoryProvider::instance('valid_department');
+        $parentA = testCategoryProvider::instance('another_valid_parent_category');
+        $parentB = testCategoryProvider::instance('valid_parent_category');
+        $child = testCategoryProvider::instance('another_valid_leaf_category');
 
         $parentA->attachToParents($grandParent);
         $parentA->save();
@@ -200,15 +194,16 @@ class CategoryTest extends TestCase
     public function testCategoryVisibility()
     {
         // A non-saved category should not be visible
-        $category = f::instance('Category');
+        $category = testCategoryProvider::instance('valid_leaf_category');
+        unset($category->_id);
         $this->assertFalse($category->isVisible());
 
         // A valid saved category should be visible
-        $category = f::create('Category');
+        $category = testCategoryProvider::saved('valid_leaf_category');
         $this->assertTrue($category->isVisible());
 
         // A hidden category should not be visible
-        $category = f::create('Category', ['hidden'=>1]);
+        $category = testCategoryProvider::saved('hidden_leaf_category');
         $this->assertFalse($category->isVisible());
     }
 
@@ -217,7 +212,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldHideCategory()
     {
-        $category = f::instance('Category');
+        $category = testCategoryProvider::saved('valid_leaf_category');
         $category->hide();
 
         $this->assertTrue($category->hidden);
@@ -228,7 +223,7 @@ class CategoryTest extends TestCase
      */
     public function testShouldUnhideCategory()
     {
-        $category = f::instance('Category', ['hidden'=>true]);
+        $category = testCategoryProvider::saved('hidden_leaf_category');
         $category->unhide();
 
         $this->assertNotEquals(true, $category->hidden);
@@ -239,7 +234,7 @@ class CategoryTest extends TestCase
      */
     public function testValidateProducts()
     {
-        $category = f::create('Category', ['kind'=>'leaf']);
+        $category = testCategoryProvider::saved('valid_leaf_category');
 
         $this->assertTrue($category->validateProducts());
     }
