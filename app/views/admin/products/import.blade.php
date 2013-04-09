@@ -12,7 +12,7 @@
         {{ Form::hidden('conjugated', $conjugated) }}
 
         {{ Form::label('category', 'Chave de entrada') }}
-        {{ Form::select('category', $leafs) }}
+        {{ Form::select('category', $leafs, null, ['data-chosen'=>'true']) }}
 
         {{ Form::label('csv_file', 'Escolha um arquivo csv para importar') }}
         <div class='well'>

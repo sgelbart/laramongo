@@ -112,3 +112,6 @@ li[collapsed="true"] a .icon-chevron-right {
 li[collapsed="false"] a .icon-chevron-right {
   background-position: -313px -119px;
 }
+select[data-chosen] {
+  width: 100%;
+}

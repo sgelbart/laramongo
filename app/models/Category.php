@@ -204,6 +204,11 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         return $productCount;
     }
 
+    /**
+     * Renders the menu
+     *
+     * @return string Html code of menu tree
+     */
     public static function renderMenu()
     {
         $options = array(
@@ -212,6 +217,35 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         );
 
         return static::renderTree( array(), $options );
+    }
+
+    /**
+     * Return an array containing name, parent indexed
+     * by _id. The purpose of this is to be used with 
+     * laravel's Form::select
+     *
+     * @return array
+     */
+    public static function toOptions( $query = array() )
+    {
+        $all = static::where( $query );
+        $result = array();
+
+        foreach ($all as $item) {
+
+            $displayedName = $item->name;
+
+            $ancestor = $item;
+            while( isset($ancestor->ancestors()[0]) )
+            {
+                $ancestor = $ancestor->ancestors()[0];
+                $displayedName =  $ancestor->name.' > '.$displayedName;
+            }
+
+            $result[(string)$item->_id] = $displayedName;
+        }
+
+        return $result;
     }
 
 }
