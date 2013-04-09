@@ -59,4 +59,20 @@ class ContentRepository
         return $cursor->limit( $this->perPage )
             ->skip( ($page-1)*$this->perPage );
     }
+
+    /**
+     * Saves a new instance into the database and return
+     * the save result (that will run the isValid) since
+     * Content extends from the BaseModel.
+     *
+     * @param $instance Non saved Content instance
+     * @return Boolean The result of the instance save() method
+     */
+    public function createNew( Content $instance )
+    {
+        // Since is a NEW content. Clear the _id if it exists
+        unset($instance->_id);
+
+        return $instance->save();
+    }
 }

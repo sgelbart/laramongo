@@ -31,4 +31,18 @@ class AdminContentsTest extends ControllerTestCase
         $this->requestAction('GET', 'Admin\ContentsController@createArticle');
         $this->assertRequestOk();
     }
+
+    /**
+     * Store action should return 200 if success
+     *
+     */
+    public function testShouldStoreValidContent(){
+        $input = testContentProvider::attributesFor( 'valid_article' );
+        unset( $input['_id'] );
+
+        $this->withInput($input)->requestAction('POST', 'Admin\ContentsController@store');
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
 }

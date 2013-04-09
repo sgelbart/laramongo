@@ -106,4 +106,15 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertEquals($should_be->toArray(), $repo->paginate($result, $page)->toArray());
     }
+
+    public function testShouldCreateNew()
+    {
+        $repo = new ContentRepository;
+
+        $content = testContentProvider::instance( 'valid_article' );
+        unset( $content->_id );
+
+        $this->assertTrue($repo->createNew( $content ));
+        $this->assertNotEquals(null, $content->_id);
+    }
 }

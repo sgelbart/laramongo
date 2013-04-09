@@ -104,6 +104,7 @@ class OdmCursor implements \Iterator
 
         if( $model->parseDocument( $document ) )
         {
+            $model = $model->polymorph( $model );
             return $model;
         }
         else

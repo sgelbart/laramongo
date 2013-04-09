@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Category, Characteristic, Product;
+use Content;
 use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class ContentsController extends AdminController {
@@ -49,5 +49,32 @@ class ContentsController extends AdminController {
     public function createArticle()
     {
         $this->layout->content = View::make('admin.contents.create_article');
+    }
+
+    /**
+     * Saves a new resource
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        $content = new Content;
+
+        $content->fill( Input::all() );
+
+        if( $this->contentRepo->createNew( $content ) )
+        {
+            return Redirect::action('Admin\ContentsController@index')
+                ->with( 'flash', l('navigation.resource_created_sucessfully', ['resource'=>'conteúdo']) );
+        }
+        else
+        {
+            // Get validation errors
+            $error = $content->errors->all();
+
+            return Redirect::action('Admin\ContentsController@create'.ucfirst($content->kind))
+                ->withInput()
+                ->with( 'error', $error );
+        }
     }
 }
