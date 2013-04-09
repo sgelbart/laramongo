@@ -7,7 +7,6 @@
                 <th>Nome</th>
                 <th>Tipo</th>
                 <th>Visível</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -15,17 +14,11 @@
                 <tr id='row-{{ $content->_id }}'>
                     <td> - </td>
                     <td>
-                        {{ Html::linkAction( 'Admin\ProductsController@edit', $content->name, ['id'=>$content->_id] ) }}
+                        {{ Html::linkAction( 'Admin\ContentsController@edit', $content->name, ['id'=>$content->_id] ) }}
                     </td>
                     <td>{{ $content->kind }}</td>
-                    <td>{{ $content->isVisible }}</td>
                     <td>
-                        <a
-                            href='{{ URL::action('Admin\ProductsController@toggle', ['id'=>$content->_id]) }}'
-                            data-method="PUT" data-ajax="true"
-                        >
-                            {{ Form::checkbox('active','active', !$content->deactivated) }}
-                        </a>
+                        {{ ($content->isVisible()) ? 'Sim' : 'Não' }}
                     </td>
                 </tr>
             @endforeach

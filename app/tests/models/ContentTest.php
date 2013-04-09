@@ -39,8 +39,12 @@ class ContentTest extends TestCase
         unset($content->_id);
         $this->assertFalse($content->isVisible());
 
-        // A valid saved content should be visible
+        // A valid saved content should be not be visible if not aproved
         $content = testContentProvider::saved('valid_article');
+        $this->assertFalse($content->isVisible());
+
+        // A valid saved content should be visible if aproved
+        $content->approved = true;
         $this->assertTrue($content->isVisible());
 
         // A hidden content should not be visible

@@ -6,12 +6,12 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="btn-group pull-right">
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" id='btn-create-new-content'>
                     Novo Conteúdo
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ URL::action( 'Admin\ContentsController@createArticle' ) }}">
+                    <li><a href="{{ URL::action( 'Admin\ContentsController@createArticle' ) }}" id='btn-create-new-article'>
                         <i class="icon-file"></i> Novo artigo
                     </a></li>
 

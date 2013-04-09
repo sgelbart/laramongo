@@ -1,7 +1,5 @@
 <?php
 
-use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
-
 class AdminContentsTest extends ControllerTestCase
 {
     /**

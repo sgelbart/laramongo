@@ -16,6 +16,7 @@ class Content extends BaseModel {
      */
     public static $rules = array(
         'name' => 'required',
+        'slug' => 'required',
         'kind' => 'required',
     );
 
@@ -46,6 +47,7 @@ class Content extends BaseModel {
     {
         return 
             $this->hidden == false &&
+            $this->approved == true &&
             $this->_id != false;
     }
 
