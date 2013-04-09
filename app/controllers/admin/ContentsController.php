@@ -25,9 +25,19 @@ class ContentsController extends AdminController {
         $total_pages = $this->contentRepo->pageCount( $contents );
         $contents = $this->contentRepo->paginate( $contents, $page );
 
-        $this->layout->content = View::make('admin.contents.index')
-            ->with( 'contents', $contents )
-            ->with( 'page', $page )
-            ->with( 'total_pages', $total_pages );
+        $viewData = [
+            'contents' => $contents,
+            'page' => $page,
+            'total_pages' => $total_pages,
+        ];
+
+        if(\Request::ajax())
+        {
+            return View::make('admin.contents.quicksearch', $viewData);
+        }
+        else
+        {
+            $this->layout->content = View::make('admin.contents.index', $viewData);
+        }
     }
 }

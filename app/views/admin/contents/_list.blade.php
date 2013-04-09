@@ -7,15 +7,18 @@
                 <th>Nome</th>
                 <th>Tipo</th>
                 <th>Visível</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($contents as $content)
                 <tr id='row-{{ $content->_id }}'>
-                    <td>{{ $content->_id }}</td>
+                    <td> - </td>
                     <td>
                         {{ Html::linkAction( 'Admin\ProductsController@edit', $content->name, ['id'=>$content->_id] ) }}
                     </td>
+                    <td>{{ $content->kind }}</td>
+                    <td>{{ $content->isVisible }}</td>
                     <td>
                         <a
                             href='{{ URL::action('Admin\ProductsController@toggle', ['id'=>$content->_id]) }}'
