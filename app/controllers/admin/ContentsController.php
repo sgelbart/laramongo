@@ -19,9 +19,15 @@ class ContentsController extends AdminController {
      */
     public function index()
     {
+        $page = Input::get('page');
+
         $contents = $this->contentRepo->search( Input::get('search'), Input::get('kind') );
+        $total_pages = $this->contentRepo->pageCount( $contents );
+        $contents = $this->contentRepo->paginate( $contents, $page );
 
         $this->layout->content = View::make('admin.contents.index')
-            ->with( 'contents', $contents );
+            ->with( 'contents', $contents )
+            ->with( 'page', $page )
+            ->with( 'total_pages', $total_pages );
     }
 }

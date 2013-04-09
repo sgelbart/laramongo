@@ -41,5 +41,7 @@
         </div>
     </div>
 
-    LoLoLoL
+    <div id='content-index'>
+        @include ('admin.contents._list')
+    </div>
 @stop
