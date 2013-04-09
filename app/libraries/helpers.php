@@ -1,5 +1,22 @@
 <?php
 
+if ( ! function_exists('l'))
+{
+    /**
+     * Get the translation for the given key.
+     * PS: Alias to Lang::get
+     *
+     * @param  string  $key
+     * @param  array   $replace
+     * @param  string  $locale
+     * @return string
+     */
+    function l($key, $replace = array(), $locale = null)
+    {
+        return Lang::get($key, $replace, $locale);
+    }
+}
+
 if ( ! function_exists('escape_for_js'))
 {
     /**
