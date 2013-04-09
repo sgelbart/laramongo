@@ -88,4 +88,26 @@ class Content extends BaseModel {
         }
     }
 
+    /**
+     * Overwrites the setAttribute method in order to
+     * explode a string into array before setting the
+     * tags attribute
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function setAttribute($key, $value)
+    {
+        if($key == 'tags')
+        {
+            if(is_string($value))
+            {
+                $value = array_map('trim',explode(",",$value));
+            }
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
 }

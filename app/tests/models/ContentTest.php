@@ -83,4 +83,18 @@ class ContentTest extends TestCase
 
         $this->assertEquals( $content->article, $content->render() );
     }
+
+    /**
+     * Should explode string when setting the tags
+     */
+    public function testShouldExplodeTagString()
+    {
+        $content = testContentProvider::instance('valid_article');
+
+        $messed_string = 'Jardim,Exterior  , Ambiente';
+        $should_become = ['Jardim','Exterior','Ambiente'];
+
+        $content->tags = $messed_string;
+        $this->assertEquals($should_become, $content->tags);
+    }
 }
