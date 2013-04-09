@@ -13,6 +13,7 @@ class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
         parent::setUp();
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'products' );
+        $this->cleanCollection( 'imports' );
     }
 
     public function testShouldFixInvalidProducts()
@@ -27,7 +28,7 @@ class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
             ->select(l::IdOrName('category'), $category->name)
             ->attachFile(l::IdOrName('csv_file'), $sampleFile)
             ->click(l::id('submit-import-form'))
-            ->waitForPageToLoad(1000);
+            ->waitForPageToLoad(10000);
 
         // Create new characteristics
         $category->characteristics = $this->characteristicsSet();
