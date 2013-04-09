@@ -49,6 +49,7 @@ Route::get('admin', function()
 // Admin\ContentsController
 Route::get(    'admin/contents',                     'Admin\ContentsController@index' );
 Route::get(    'admin/content',                      'Admin\ContentsController@index' );
+Route::get(    'admin/create/article',               'Admin\ContentsController@createArticle');
 
 // Admin\CategoriesController
 Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );

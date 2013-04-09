@@ -5,8 +5,6 @@
         $f = array_merge( Input::old() );
 ?>
 
-{{-- Since multiple line brackets are not yet implemented --}}
-{{-- see: https://github.com/laravel/framework/issues/88  --}}
 {{
     Form::open([   
         'url' => URL::action(

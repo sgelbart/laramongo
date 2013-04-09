@@ -11,7 +11,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ URL::action( 'Admin\ContentsController@new_article' ) }}">
+                    <li><a href="{{ URL::action( 'Admin\ContentsController@createArticle' ) }}">
                         <i class="icon-file"></i> Novo artigo
                     </a></li>
 

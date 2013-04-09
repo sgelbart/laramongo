@@ -40,4 +40,14 @@ class ContentsController extends AdminController {
             $this->layout->content = View::make('admin.contents.index', $viewData);
         }
     }
+
+    /**
+     * Display the article creation form
+     *
+     * @return Response
+     */
+    public function createArticle()
+    {
+        $this->layout->content = View::make('admin.contents.create_article');
+    }
 }
