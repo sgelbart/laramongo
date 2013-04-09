@@ -73,4 +73,14 @@ class ContentTest extends TestCase
 
         $this->assertNotEquals(true, $content->hidden);
     }
+
+    /**
+     * Should render the content
+     */
+    public function testShouldRender()
+    {
+        $content = testcontentProvider::saved('valid_article');
+
+        $this->assertEquals( $content->article, $content->render() );
+    }
 }

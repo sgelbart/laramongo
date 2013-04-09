@@ -75,4 +75,9 @@ class ContentRepository
 
         return $instance->save();
     }
+
+    public function FindBySlug( $slug )
+    {
+        return Content::first(['slug'=>$slug]);
+    }
 }

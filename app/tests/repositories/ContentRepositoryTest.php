@@ -125,4 +125,27 @@ class ContentRepositoryTest extends TestCase
         $this->assertFalse($repo->createNew( $content ));
         $this->assertEquals(null, $content->_id);
     }
+
+    public function testShouldFindBySlug()
+    {
+        $article1 = testContentProvider::saved('valid_article');
+        $article2 = testContentProvider::saved('invalid_article');
+
+        $repo = new ContentRepository;
+
+        $this->assertEquals(
+            Content::first(['slug'=>$article1->slug]),
+            $repo->findBySlug( $article1->slug )
+        );
+
+        $this->assertEquals(
+            Content::first(['slug'=>$article2->slug]),
+            $repo->findBySlug( $article2->slug )
+        );
+
+        $this->assertEquals(
+            Content::first(['slug'=>'non_existent']),
+            $repo->findBySlug( 'non_existent' )
+        );
+    }
 }

@@ -21,4 +21,9 @@ class ArticleContent extends Content {
         'article' => 'required',
     );
 
+    public function render()
+    {
+        return $this->article;
+    }
+
 }
