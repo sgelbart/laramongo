@@ -29,14 +29,12 @@
 
     {{ Form::label('parent', 'Adicionar nova categoria pai', ['class'=>'control-label']) }}
 
-    <div class="input-append">
-        {{ Form::select('parent', $categories) }}
+    {{ Form::select('parent', $categories, null, ['data-chosen'=>'true']) }}
 
-        {{ Form::button(
-            'Adicionar categoria pai',
-            ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-attach-category'] ) 
-        }}
-    </div>
+    {{ Form::button(
+        'Adicionar categoria pai',
+        ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-attach-category'] ) 
+    }}
 
     {{ Form::close() }}
 </div>

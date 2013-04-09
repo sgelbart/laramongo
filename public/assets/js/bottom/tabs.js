@@ -62,6 +62,8 @@ $(function(){
 
         target.show();
         el.addClass('active');
+
+        setupChosen();
     }
     
     // Make <li> that have the 'data-tab-of' attibute clickable

@@ -21,7 +21,7 @@
         {{ Form::text('name', array_get( $f,'name') ) }}
 
         {{ Form::label('category', 'Chave de entrada') }}
-        {{ Form::select('category', $leafs, (string)(array_get( $f,'category')) ) }}
+        {{ Form::select('category', $leafs, (string)(array_get( $f,'category')), ['data-chosen'=>'true'] ) }}
 
         {{ Form::label('description', 'Descrição') }}
         {{ Form::textarea('description', array_get( $f,'description') ) }}

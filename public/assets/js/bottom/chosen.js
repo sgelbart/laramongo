@@ -15,7 +15,15 @@
  * 
  */
 
+ setupChosen = function(){
+    $('select[data-chosen]:visible').each(function(){
+        el = $(this);
+        el.chosen();
+    })
+ }
+
 $(function(){
 
-    $('select[data-chosen]').chosen();
+    setupChosen();
+    
 })
