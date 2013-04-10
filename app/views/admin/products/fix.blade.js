@@ -5,23 +5,26 @@ var row = $('#row-{{ $product->_id }}-fix');
     row.removeClass('error').addClass('success');
 
     // Replace input with a plain text with the input value
-    row.find('input,select').parent().html(function(){
-        return '<span class="padding-as-input">'+
-            $(this).find('input,select').val()+
-            '</span>';
-    });
+    row.find('input,select').removeClass('error');
 
-    // Remove the button
-    row.find('button').fadeOut(function(){$(this).remove();});
+    // Change the button
+    row.find('button').removeClass('btn-primary').html('<i class="icon-wrench"></i>')
 
     // Focus in other input
-    row.parent().find('input[type=text],select').first().focus();
+    row.next().find('input[type=text],select').first().focus();
 @else
     {{ '/*' }}
     <?php print_r($product->errors->all()); ?>
     {{ "\n" }}
     {{ $product }}
     {{ '*/' }}
+
+    // Replace 'success' class with 'error'
+    row.removeClass('success').addClass('error');
+    row.find('input,select').addClass('error');
+
+    // Change the button
+    row.find('button').addClass('btn-primary').html('<i class="icon-ok icon-white"></i>')
 
     // Blink the row to indicate that it still invalid
     row.hide().fadeIn().fadeOut().fadeIn();

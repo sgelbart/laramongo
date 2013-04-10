@@ -36,15 +36,15 @@
             </thead>
             <tbody>
                 @foreach ( $products as $product )
-                    {{
-                        Form::open([
-                            'url' => URL::action('Admin\ProductsController@fix', ['id'=>$product->_id]),
-                            'method' => 'PUT',
-                            'data-ajax' => 'true'
-                        ])
-                    }}
-                        <?php $product->isValid(); ?>
-                        <tr class='error' id='row-{{ $product->_id }}-fix'>
+                    <?php $product->isValid(); ?>
+                    <tr class='error' id='row-{{ $product->_id }}-fix'>
+                        {{
+                            Form::open([
+                                'url' => URL::action('Admin\ProductsController@fix', ['id'=>$product->_id]),
+                                'method' => 'PUT',
+                                'data-ajax' => 'true'
+                            ])
+                        }}
                             <td>
                                 {{ Form::hidden('_id', $product->_id, ['class'=>'disabled input-small', 'readonly'=>'readyonly']) }}
                                 <span class='padding-as-input'>{{ $product->_id }}</span>
@@ -68,8 +68,8 @@
                                     <i class="icon-ok icon-white"></i>
                                 </button>
                             </td>
-                        </tr>
-                    {{ Form::close() }}
+                        {{ Form::close() }}
+                    </tr>
                 @endforeach
             </tbody>
         </table>
