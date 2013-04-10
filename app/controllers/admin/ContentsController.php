@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Content;
+use Content, ArticleContent;
 use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class ContentsController extends AdminController {
@@ -62,11 +62,18 @@ class ContentsController extends AdminController {
 
         $viewData = [
             'content' => $content,
+            'action' => 'Admin\ContentsController@update',
+            'method' => 'PUT',
         ];
 
-        if($content instanceof ArticleContent || true )
+        if($content instanceof ArticleContent)
         {
             $this->layout->content = View::make('admin.contents.edit_article', $viewData);
+        }
+        else
+        {
+            return Redirect::action('Admin\ContentsController@index')
+                ->with( 'flash', l('navigation.the_resource_was_found', ['resource'=>'Conteúdo']) );
         }
     }
 

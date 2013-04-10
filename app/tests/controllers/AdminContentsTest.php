@@ -31,14 +31,25 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
-     * Edit Article action should return 200 if exists
+     * Edit Content action should return 200 if exists
      *
      */
-    public function testShouldEditExistingArticle(){
+    public function testShouldEditExistingContent(){
         $content = testContentProvider::saved( 'valid_article' );
 
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
         $this->assertRequestOk();
+    }
+
+    /**
+     * Edit Content action should redirect to index if content doesn't exists exists
+     *
+     */
+    public function testShouldNotEditNonExistingContent(){
+        $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>'lol']);
+        
+        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $this->assertSessionHas('flash','não encontrad');
     }
 
     /**
