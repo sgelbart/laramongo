@@ -52,6 +52,25 @@ class ContentsController extends AdminController {
     }
 
     /**
+     * Display the article update form
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $content = $this->contentRepo->first( $id );
+
+        $viewData = [
+            'content' => $content,
+        ];
+
+        if($content instanceof ArticleContent || true )
+        {
+            $this->layout->content = View::make('admin.contents.edit_article', $viewData);
+        }
+    }
+
+    /**
      * Saves a new resource
      *
      * @return Response

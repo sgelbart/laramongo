@@ -53,6 +53,7 @@ Route::get('admin', function()
 Route::get(    'admin/contents',                     'Admin\ContentsController@index' );
 Route::get(    'admin/content',                      'Admin\ContentsController@index' );
 Route::get(    'admin/create/article',               'Admin\ContentsController@createArticle');
+Route::get(    'admin/create/article/{id}/edit',     'Admin\ContentsController@edit');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
 

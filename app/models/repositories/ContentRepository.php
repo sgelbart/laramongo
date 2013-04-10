@@ -94,4 +94,9 @@ class ContentRepository
 
         return $result;
     }
+
+    public function first( $id )
+    {
+        return Content::first($id);
+    }
 }

@@ -31,6 +31,17 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Edit Article action should return 200 if exists
+     *
+     */
+    public function testShouldEditExistingArticle(){
+        $content = testContentProvider::saved( 'valid_article' );
+
+        $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
+        $this->assertRequestOk();
+    }
+
+    /**
      * Store action should return 200 if success
      *
      */

@@ -176,4 +176,12 @@ class ContentRepositoryTest extends TestCase
             $this->assertNotNull( $db->tags->findOne(['_id'=>$tag['label']]) );
         }
     }
+
+    public function testShouldGetFirst()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $repo = new ContentRepository;
+
+        $this->assertEquals(Content::first($article->_id), $repo->first($article->_id));
+    }
 }
