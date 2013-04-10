@@ -68,7 +68,7 @@ class ContentRepository
      * @param $instance Non saved Content instance
      * @return Boolean The result of the instance save() method
      */
-    public function createNew( Content $instance )
+    public function createNew( Content &$instance )
     {
         // Since is a NEW content. Clear the _id if it exists
         unset($instance->_id);

@@ -83,7 +83,7 @@
     @endif
 
     <div class='form-actions'>
-        {{ Form::button('Salvar artigo', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
+        {{ Form::button('Salvar video', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
 
         @if ( isset($content) )
             {{ Html::linkAction( 'Admin\ContentsController@destroy', 'Excluir', ['id'=>$content->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}

@@ -15,7 +15,7 @@
 Route::get('/', 'HomeController@index');
 
 // ContentsController
-Route::get(    'article/{slug}', 'ContentsController@show' );
+Route::get(    'content/{slug}', 'ContentsController@show' );
 
 // CategoriesController
 Route::get(    'category/{id}', 'CategoriesController@show' );
