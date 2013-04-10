@@ -31,4 +31,29 @@ class ManageArticleTest extends AcceptanceTestCase
 
         $this->assertElementHasText(l::id('content-index'), $attr['name']);
     }
+
+    public function testShouldEditArticle()
+    {
+        $content = testContentProvider::saved( 'valid_article' );
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::css('#row-'.$content->_id.' a'))
+            ->waitForPageToLoad(1000)
+            ->type(l::IdOrName('name'), 'Bacon')
+            ->click(l::id('submit-form'))
+            ->waitForPageToLoad(1000);
+
+        $this->assertLocation( URL::action('Admin\ContentsController@index') );
+        $this->assertElementHasText(l::id('content-index'), 'Bacon');
+
+        $this->browser
+            ->click(l::css('#row-'.$content->_id.' a'))
+            ->waitForPageToLoad(1000)
+            ->type(l::IdOrName('name'), '')
+            ->click(l::id('submit-form'))
+            ->waitForPageToLoad(1000);
+
+        $this->assertLocation( URL::action('Admin\ContentsController@edit', ['id'=>$content->_id]) );
+    }
 }
