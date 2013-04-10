@@ -67,6 +67,39 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Update action should redirect to index if success
+     *
+     */
+    public function testShouldUpdateValidContent()
+    {
+        $content = testContentProvider::saved( 'valid_article' );
+
+        $input = $content->attributes;
+
+        $this->withInput($input)->requestAction('PUT', 'Admin\ContentsController@update', ['id'=>$content->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Update action should redirect back to edit on failure
+     *
+     */
+    public function testShouldNotUpdateContentWithInvalidData()
+    {
+        $content = testContentProvider::saved( 'valid_article' );
+
+        $input = $content->attributes;
+        $input['name'] = ""; // Invalid name
+
+        $this->withInput($input)->requestAction('PUT', 'Admin\ContentsController@update', ['id'=>$content->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id]));
+        $this->assertSessionHas('error');
+    }
+
+    /**
      * Get existent tags
      *
      */

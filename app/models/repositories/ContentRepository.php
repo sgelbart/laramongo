@@ -117,4 +117,15 @@ class ContentRepository
     {
         return Content::first($id);
     }
+
+    /**
+     * Returns the result of an $instance->save()
+     *
+     * @param $instance Content instance to be saved
+     * @return Boolean save() result
+     */
+    public function update( Content $instance )
+    {
+        return $instance->save();
+    }
 }

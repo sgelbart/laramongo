@@ -85,7 +85,6 @@ class ContentsController extends AdminController {
     public function store()
     {
         $content = new Content;
-
         $content->fill( Input::all() );
 
         if( $this->contentRepo->createNew( $content ) )
@@ -99,6 +98,34 @@ class ContentsController extends AdminController {
             $error = $content->errors->all();
 
             return Redirect::action('Admin\ContentsController@create'.ucfirst($content->kind))
+                ->withInput()
+                ->with( 'error', $error );
+        }
+    }
+
+    /**
+     * Updates an existing resource
+     *
+     * @return Response
+     */
+    public function update($id)
+    {
+        $content = $this->contentRepo->first($id);
+        
+        if($content)
+            $content->fill( Input::all() );
+
+        if( $this->contentRepo->update( $content ) )
+        {
+            return Redirect::action('Admin\ContentsController@index')
+                ->with( 'flash', l('navigation.resource_updated_sucessfully', ['resource'=>'conteúdo']) );
+        }
+        else
+        {
+            // Get validation errors
+            $error = ($content) ? $content->errors->all() : array();
+
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$id])
                 ->withInput()
                 ->with( 'error', $error );
         }

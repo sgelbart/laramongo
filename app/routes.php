@@ -54,8 +54,8 @@ Route::get(    'admin/contents',                     'Admin\ContentsController@i
 Route::get(    'admin/content',                      'Admin\ContentsController@index' );
 Route::get(    'admin/content/article',              'Admin\ContentsController@createArticle');
 Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@edit');
-Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
+Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
 
 // Admin\CategoriesController

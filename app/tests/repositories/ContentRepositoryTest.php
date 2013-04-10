@@ -184,4 +184,17 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertEquals(Content::first($article->_id), $repo->first($article->_id));
     }
+
+    public function testShouldUpdateInstance()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $article->name = "Bacon";
+        $repo = new ContentRepository;
+
+        $this->assertTrue($repo->update($article));
+
+        $article = Content::first($article->_id);
+
+        $this->assertEquals("Bacon", $article->name);
+    }
 }
