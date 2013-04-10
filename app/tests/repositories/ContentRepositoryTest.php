@@ -148,4 +148,32 @@ class ContentRepositoryTest extends TestCase
             $repo->findBySlug( 'non_existent' )
         );
     }
+
+    public function testShouldGetExistentTags()
+    {
+        $article1 = testContentProvider::saved('valid_article');
+        $repo = new ContentRepository;
+
+        $connection = new Zizaco\Mongoloid\MongoDbConnector;
+        $db = $connection->getConnection()->db;
+
+        // Query for all
+        $retrievedTags = $repo->existentTags('');      
+
+        $tagCount = count($retrievedTags);
+        $this->assertGreaterThan(1, $tagCount);
+
+        foreach ($retrievedTags as $tag) {
+            $this->assertNotNull( $db->tags->findOne(['_id'=>$tag['label']]) );
+        }
+
+        // Query for some
+        $retrievedTags = $repo->existentTags('intere');
+
+        $this->assertLessThan($tagCount, count($retrievedTags));
+
+        foreach ($retrievedTags as $tag) {
+            $this->assertNotNull( $db->tags->findOne(['_id'=>$tag['label']]) );
+        }
+    }
 }

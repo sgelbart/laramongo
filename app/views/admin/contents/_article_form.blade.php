@@ -44,7 +44,7 @@
     <div class="control-group">
         {{ Form::label('tags', 'Tags', ['class'=>'control-label']) }}
         <div class="controls">
-            {{ Form::text('tags', array_get( $f,'tags'), ['tag-picker'] ) }}
+            {{ Form::text('tags', array_get( $f,'tags'), ['tag-picker'=>URL::action('Admin\ContentsController@tags')] ) }}
         </div>
     </div>
 

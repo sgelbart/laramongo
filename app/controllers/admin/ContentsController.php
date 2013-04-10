@@ -77,4 +77,15 @@ class ContentsController extends AdminController {
                 ->with( 'error', $error );
         }
     }
+
+    /**
+     * Retrieve all previously used tags that starts with
+     * term (basically a quicksearch)
+     */
+    public function tags()
+    {
+        $tags = $this->contentRepo->existentTags(Input::get('term'));
+        
+        return Response::json($tags);
+    }
 }

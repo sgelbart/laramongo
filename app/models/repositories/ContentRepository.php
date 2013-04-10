@@ -80,4 +80,18 @@ class ContentRepository
     {
         return Content::first(['slug'=>$slug]);
     }
+
+    public function existentTags( $term )
+    {
+        $connection = new Zizaco\Mongoloid\MongoDbConnector;
+        $db = $connection->getConnection()->db;
+
+        $tags = $db->tags->find( ['_id'=> new \MongoRegex('/^'.$term.'/i')] );
+
+        foreach ($tags as $tag) {
+            $result[] = ['id'=>$tag['_id'], 'label'=>$tag['_id'], 'value'=>$tag['_id']];
+        }
+
+        return $result;
+    }
 }

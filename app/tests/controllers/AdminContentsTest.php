@@ -43,4 +43,15 @@ class AdminContentsTest extends ControllerTestCase
         $this->assertRedirection(URL::action('Admin\ContentsController@index'));
         $this->assertSessionHas('flash','sucesso');
     }
+
+    /**
+     * Get existent tags
+     *
+     */
+    public function testShouldGetExistentTags(){
+        testContentProvider::saved( 'valid_article' );
+
+        $this->requestAction('GET', 'Admin\ContentsController@tags', ['term'=>'inter']);
+        $this->assertRequestOk(); 
+    }
 }
