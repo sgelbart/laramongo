@@ -115,9 +115,11 @@ return array(
 		'js_global' => function($collection)
 		{
 			$collection->add('assets/js/global/jquery.js');
+			$collection->add('assets/js/global/jquery.autocomplete.js');
 			$collection->add('assets/js/global/jquery.form.js');
 			$collection->add('assets/js/global/jquery.querystring.js');
 			$collection->add('assets/js/global/jquery.chosen.js');
+			$collection->add('assets/js/global/jquery.tagsinput.js');
 		},
 
 		'js_bottom' => function($collection)
