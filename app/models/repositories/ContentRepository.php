@@ -129,7 +129,7 @@ class ContentRepository
      * @param $instance Content instance to be saved
      * @return Boolean save() result
      */
-    public function update( Content $instance )
+    public function update( Content &$instance )
     {
         return $instance->save();
     }
