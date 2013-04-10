@@ -52,7 +52,8 @@ Route::get('admin', function()
 // Admin\ContentsController
 Route::get(    'admin/contents',                     'Admin\ContentsController@index' );
 Route::get(    'admin/content',                      'Admin\ContentsController@index' );
-Route::get(    'admin/content/article',              'Admin\ContentsController@createArticle');
+Route::get(    'admin/content/article/create',       'Admin\ContentsController@createArticle');
+Route::get(    'admin/content/video/create',         'Admin\ContentsController@createVideo');
 Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@edit');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');

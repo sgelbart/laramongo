@@ -12,6 +12,9 @@ var row = $('#row-{{ $product->_id }}-fix');
 
     // Focus in other input
     row.next().find('input[type=text],select').first().focus();
+
+    // Blink the row to indicate that it was saved
+    row.hide().fadeIn('fast');
 @else
     {{ '/*' }}
     <?php print_r($product->errors->all()); ?>
@@ -27,7 +30,7 @@ var row = $('#row-{{ $product->_id }}-fix');
     row.find('button').addClass('btn-primary').html('<i class="icon-ok icon-white"></i>')
 
     // Blink the row to indicate that it still invalid
-    row.hide().fadeIn().fadeOut().fadeIn();
+    row.hide().fadeIn('fast').fadeOut('fast').fadeIn('fast');
 @endif
     
 

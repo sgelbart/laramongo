@@ -31,6 +31,15 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Create Video action should always return 200
+     *
+     */
+    public function testShouldCreateVideo(){
+        $this->requestAction('GET', 'Admin\ContentsController@createVideo');
+        $this->assertRequestOk();
+    }
+
+    /**
      * Edit Content action should return 200 if exists
      *
      */

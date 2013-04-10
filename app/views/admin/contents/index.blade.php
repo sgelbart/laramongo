@@ -19,7 +19,7 @@
                         <i class="icon-picture"></i> Nova imagem
                     </a></li>
 
-                    <li><a href="#">
+                    <li><a href="{{ URL::action( 'Admin\ContentsController@createVideo' ) }}" id='btn-create-new-video'>
                         <i class="icon-film"></i> Novo vídeo embedado
                     </a></li>
                 </ul>

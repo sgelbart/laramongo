@@ -75,9 +75,16 @@ class Content extends BaseModel {
      */
     public function polymorph( $instance )
     {
-        if( $instance->kind = 'article' )
+        if( $instance->kind == 'article' )
         {
             $article = new ArticleContent;
+
+            $article->parseDocument( $instance->attributes );
+            return $article;
+        }
+        elseif( $instance->kind == 'video' )
+        {
+            $article = new VideoContent;
 
             $article->parseDocument( $instance->attributes );
             return $article;
