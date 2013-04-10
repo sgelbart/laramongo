@@ -18,7 +18,14 @@ class ContentsTest extends ControllerTestCase
      */
     public function testShouldShowArticle(){
 
+        //Article
         $article = testContentProvider::saved('valid_article');
+
+        $this->requestAction('GET', 'ContentsController@show', ['slug'=>$article->slug]);
+        $this->assertRequestOk();
+
+        //Video
+        $article = testContentProvider::saved('valid_video');
 
         $this->requestAction('GET', 'ContentsController@show', ['slug'=>$article->slug]);
         $this->assertRequestOk();

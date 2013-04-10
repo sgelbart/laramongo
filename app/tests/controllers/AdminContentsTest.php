@@ -44,7 +44,14 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldEditExistingContent(){
+        // Article
         $content = testContentProvider::saved( 'valid_article' );
+
+        $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
+        $this->assertRequestOk();
+
+        // Video
+        $content = testContentProvider::saved( 'valid_video' );
 
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
         $this->assertRequestOk();

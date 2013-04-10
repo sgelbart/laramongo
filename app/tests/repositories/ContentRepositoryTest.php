@@ -116,7 +116,6 @@ class ContentRepositoryTest extends TestCase
         unset( $content->_id );
 
         $this->assertTrue($repo->createNew( $content ));
-        $this->assertNotEquals(null, $content->_id);
 
         // A invalid instance
         $content = testContentProvider::instance( 'invalid_article' );

@@ -84,10 +84,10 @@ class Content extends BaseModel {
         }
         elseif( $instance->kind == 'video' )
         {
-            $article = new VideoContent;
+            $video = new VideoContent;
 
-            $article->parseDocument( $instance->attributes );
-            return $article;
+            $video->parseDocument( $instance->attributes );
+            return $video;
         }
         else
         {

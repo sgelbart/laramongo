@@ -17,7 +17,7 @@
     ])
 }}
 
-    {{ Form::hidden('kind', 'article' ) }}
+    {{ Form::hidden('kind', 'video' ) }}
     
     <div class="control-group">
         {{ Form::label('name', 'Titulo do Artigo', ['class'=>'control-label']) }}

@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Content, ArticleContent;
+use Content, ArticleContent, VideoContent;
 use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class ContentsController extends AdminController {
@@ -79,6 +79,10 @@ class ContentsController extends AdminController {
         if($content instanceof ArticleContent)
         {
             $this->layout->content = View::make('admin.contents.edit_article', $viewData);
+        }
+        elseif($content instanceof VideoContent)
+        {
+            $this->layout->content = View::make('admin.contents.edit_video', $viewData);
         }
         else
         {

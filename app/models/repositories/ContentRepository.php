@@ -72,6 +72,11 @@ class ContentRepository
     {
         // Since is a NEW content. Clear the _id if it exists
         unset($instance->_id);
+        
+        // Apply the polymorph manually before saving
+        // This way the specific validation will play their role
+        // before saving the model
+        $instance = $instance->polymorph( $instance );
 
         return $instance->save();
     }
