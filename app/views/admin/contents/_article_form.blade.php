@@ -44,7 +44,13 @@
     <div class="control-group">
         {{ Form::label('tags', 'Tags', ['class'=>'control-label']) }}
         <div class="controls">
-            {{ Form::text('tags', array_get( $f,'tags') ? implode(',', array_get( $f,'tags')) : '', ['tag-picker'=>URL::action('Admin\ContentsController@tags')] ) }}
+            <?php
+                if(is_array(array_get( $f,'tags')))
+                    $tags = implode(',', array_get( $f,'tags'));
+                else
+                    $tags = array_get( $f,'tags');
+            ?>
+            {{ Form::text('tags', $tags, ['tag-picker'=>URL::action('Admin\ContentsController@tags')] ) }}
         </div>
     </div>
 
