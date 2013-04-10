@@ -76,11 +76,23 @@ class ContentRepository
         return $instance->save();
     }
 
+    /**
+     * Find an article by slug
+     *
+     * @param $slug The slug of the article
+     * @return Content the first article found
+     */
     public function FindBySlug( $slug )
     {
         return Content::first(['slug'=>$slug]);
     }
 
+    /**
+     * Get the existing tags that begins with $term
+     *
+     * @param $term To tag to search too
+     * @return Array of terms ready to be converted as json
+     */
     public function existentTags( $term )
     {
         $connection = new Zizaco\Mongoloid\MongoDbConnector;
@@ -95,6 +107,12 @@ class ContentRepository
         return $result;
     }
 
+    /**
+     * Returns one content with the $id
+     *
+     * @param $id Id or query
+     * @return Content
+     */
     public function first( $id )
     {
         return Content::first($id);
