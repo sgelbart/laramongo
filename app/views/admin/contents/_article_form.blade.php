@@ -44,7 +44,7 @@
     <div class="control-group">
         {{ Form::label('tags', 'Tags', ['class'=>'control-label']) }}
         <div class="controls">
-            {{ Form::text('tags', array_get( $f,'tags'), ['tag-picker'=>'http://xoxco.com/projects/code/tagsinput/test/fake_json_endpoint.html'] ) }}
+            {{ Form::text('tags', array_get( $f,'tags'), ['tag-picker'] ) }}
         </div>
     </div>
 

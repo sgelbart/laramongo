@@ -12,6 +12,7 @@ class testContentProvider extends testObjectProvider
             'slug' => 'materia_interessante',
             'kind' => 'article',
             'article' => '<h1>A Very nice article</h1>',
+            'tags' => 'interessante, artigo, bom',
         ];
     }
 
@@ -23,6 +24,7 @@ class testContentProvider extends testObjectProvider
             'slug' => 'materia_sem_conteudo',
             'kind' => 'article',
             'article' => '',
+            'tags' => 'Interessante, artigo, ruim',
         ];
     }
 
@@ -35,6 +37,7 @@ class testContentProvider extends testObjectProvider
             'kind' => 'article',
             'article' => '<h1>A Very invisible article</h1>',
             'hidden' => 1,
+            'tags' => 'interessante, Artigo, invisivel',
         ];
     }
 }

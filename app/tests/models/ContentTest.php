@@ -11,6 +11,7 @@ class ContentTest extends TestCase
         $this->cleanCollection( 'products' );
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'contents' );
+        $this->cleanCollection( 'tags' );
     }
 
     public function testShouldValidateAndSaveContent()
@@ -91,10 +92,31 @@ class ContentTest extends TestCase
     {
         $content = testContentProvider::instance('valid_article');
 
-        $messed_string = 'Jardim,Exterior  , Ambiente';
-        $should_become = ['Jardim','Exterior','Ambiente'];
+        $messed_string = 'Jardim,exterior  , Ambiente';
+        $should_become = ['jardim','exterior','ambiente'];
 
         $content->tags = $messed_string;
         $this->assertEquals($should_become, $content->tags);
+    }
+
+    /**
+     * A content should at least try to insert the
+     * tags into database
+     */
+    public function testShouldInsertTagsWhenSave()
+    {
+        $content = testContentProvider::instance('valid_article');
+        $content->tags = 'jardim, exterior, ambiente';
+        $content->save();
+
+        // Creates a raw connection and search for the tags in the collection
+        $connection = new Zizaco\Mongoloid\MongoDbConnector;
+
+        foreach ($content->tags as $tag) {
+            $this->assertNotNull( $connection->getConnection()->db->tags->findOne(['_id'=>$tag]) );
+        }
+
+        // Search for a non-existent tag
+        $this->assertNull( $connection->getConnection()->db->tags->findOne(['_id'=>'a_non_existent_tag']) );
     }
 }

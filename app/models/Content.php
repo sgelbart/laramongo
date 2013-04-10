@@ -103,11 +103,55 @@ class Content extends BaseModel {
         {
             if(is_string($value))
             {
-                $value = array_map('trim',explode(",",$value));
+                $value = array_map('trim',explode(",",strtolower($value)));
             }
         }
 
         return parent::setAttribute($key, $value);
+    }
+
+    /**
+     * Overwrited save method in order to insert the
+     * tags to the tag collection
+     *
+     * @param $force Force save even if the object is invalid
+     * @return bool
+     */
+    public function save($force = false)
+    {
+        if( $this->isValid() || $force )
+        {
+            $result = parent::save();
+            
+            if( $result )
+                $this->insertTags();
+
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Perform a primitive MongoDB insert in order to
+     * be as fast as possible. If the tag is duplicated
+     * it will not be inserted, which is not a problem
+     *
+     * @return null
+     */
+    private function insertTags()
+    {
+        $tagsToInsert = array();
+
+        foreach ($this->tags as $tag) {
+            $tagsToInsert[] = ['_id'=>$tag];
+        }
+
+        // batchInsert with write concern as 'Unacknowledged' (w=0)
+        $connector = new Zizaco\Mongoloid\MongoDbConnector;
+        $connector->getConnection()->db->tags->batchInsert($tagsToInsert, ["w" => 0]);
     }
 
 }

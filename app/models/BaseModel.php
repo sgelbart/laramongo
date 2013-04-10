@@ -19,6 +19,7 @@ abstract class BaseModel extends Zizaco\Mongoloid\Model
     /**
      * Save the model to the database if it's valid
      *
+     * @param $force Force save even if the object is invalid
      * @return bool
      */
     public function save($force = false)
