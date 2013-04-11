@@ -30,6 +30,15 @@ class Content extends BaseModel {
     );
 
     /**
+     * Non-fillable attributes
+     *
+     * @var array
+     */
+    public $guarded = array(
+        'image_file'
+    );
+
+    /**
      * The products attached to the content
      */
     public function products()

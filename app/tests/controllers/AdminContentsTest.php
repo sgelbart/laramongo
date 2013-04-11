@@ -1,5 +1,7 @@
 <?php
 
+use Mockery as m;
+
 class AdminContentsTest extends ControllerTestCase
 {
     /**
@@ -10,6 +12,14 @@ class AdminContentsTest extends ControllerTestCase
         parent::setUp();
 
         $this->cleanCollection( 'contents' );
+    }
+
+    /**
+     * Mockery close
+     */
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**
@@ -92,6 +102,39 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Store action should not return if the data is invalid
+     *
+     */
+    public function testShouldNotStoreInvalidContent(){
+        $input = testContentProvider::attributesFor( 'invalid_article' );
+        unset( $input['_id'] );
+
+        $this->withInput($input)->requestAction('POST', 'Admin\ContentsController@store');
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@createArticle'));
+        $this->assertSessionHas('error');
+    }
+
+    /**
+     * Store action should try to attach file
+     *
+     */
+    public function testShouldAttachWhenStore(){
+        $input = testContentProvider::attributesFor( 'valid_image' );
+        unset( $input['_id'] );
+
+        // A mocked image that should be attached
+        $image = m::mock('UploadedFile');
+        $image->shouldReceive('move')->once();
+        $input['image_file'] = $image;
+
+        $this->withInput($input)->requestAction('POST', 'Admin\ContentsController@store');
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
      * Update action should redirect to index if success
      *
      */
@@ -100,6 +143,27 @@ class AdminContentsTest extends ControllerTestCase
         $content = testContentProvider::saved( 'valid_article' );
 
         $input = $content->attributes;
+
+        $this->withInput($input)->requestAction('PUT', 'Admin\ContentsController@update', ['id'=>$content->_id]);
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    /**
+     * Update action should attach image file if success
+     *
+     */
+    public function testShouldUpdateShouldAttachImage()
+    {
+        $content = testContentProvider::saved( 'valid_image' );
+
+        $input = $content->attributes;
+        
+        // A mocked image that should be attached
+        $image = m::mock('UploadedFile');
+        $image->shouldReceive('move')->once();
+        $input['image_file'] = $image;
 
         $this->withInput($input)->requestAction('PUT', 'Admin\ContentsController@update', ['id'=>$content->_id]);
 

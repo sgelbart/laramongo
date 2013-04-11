@@ -19,7 +19,15 @@ class ImageContent extends Content {
         'name' => 'required',
         'slug' => 'required',
         'kind' => 'required',
-        'image' => 'required',
+    );
+
+    /**
+     * Non-fillable attributes
+     *
+     * @var array
+     */
+    public $guarded = array(
+        'image_file'
     );
 
     /**
@@ -34,5 +42,23 @@ class ImageContent extends Content {
         $html = '<img alt="'.$this->name.'" src="'.$this->image.'">';
 
         return $html;
+    }
+
+    /**
+     * Overwrites the isVisible method in order to only present objects
+     * that have an Image attached.
+     * Determines if a content is visible or not. This takes a decision
+     * assembling the following facts:
+     * - hidden is not any sort of 'true'
+     * - imageContent has an _id
+     * - imageContent has an attached image
+     */
+    public function isVisible()
+    {
+        return 
+            $this->hidden == false &&
+            $this->approved == true &&
+            $this->_id != false &&
+            $this->image;
     }
 }

@@ -64,6 +64,14 @@ class Model
     public $fillable = array();
 
     /**
+     * The attributes that aren't mass assignable. The oposite
+     * to the fillable array;
+     *
+     * @var array
+     */
+    protected $guarded = array();
+
+    /**
      * Save the model to the database.
      *
      * @return bool
@@ -410,7 +418,7 @@ class Model
     public function fill( $input )
     {
         foreach ($input as $key => $value) {
-            if( empty($this->fillable) or in_array($key,$this->fillable) )
+            if( (empty($this->fillable) or in_array($key,$this->fillable)) && ! in_array($key,$this->guarded) )
             {
                 $this->setAttribute( $key, $value );
             }                

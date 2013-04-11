@@ -110,8 +110,9 @@ class ContentsController extends AdminController {
     {
         $content = new Content;
         $content->fill( Input::all() );
+        $image = Input::get('image_file');
 
-        if( $this->contentRepo->createNew( $content ) )
+        if( $this->contentRepo->createNew( $content, $image ) )
         {
             return Redirect::action('Admin\ContentsController@index')
                 ->with( 'flash', l('navigation.resource_created_sucessfully', ['resource'=>'conteúdo']) );
@@ -135,11 +136,12 @@ class ContentsController extends AdminController {
     public function update($id)
     {
         $content = $this->contentRepo->first($id);
+        $image = Input::get('image_file');
         
         if($content)
             $content->fill( Input::all() );
 
-        if( $this->contentRepo->update( $content ) )
+        if( $this->contentRepo->update( $content, $image ) )
         {
             return Redirect::action('Admin\ContentsController@index')
                 ->with( 'flash', l('navigation.resource_updated_sucessfully', ['resource'=>'conteúdo']) );
