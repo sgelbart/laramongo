@@ -34,7 +34,7 @@ Route::get(    'health/details', function(){
     return $hc->renderResults();
 } );
 
-Route::get(    'search/products', 'SearchController@products');
+Route::get(    'search/products/{view}', 'SearchController@products');
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +59,8 @@ Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@e
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
+Route::delete( 'admin/content/{id}/rel/{product_id}','Admin\ContentsController@removeProduct');
+Route::post(   'admin/content/{id}/rel/product/{product_id}','Admin\ContentsController@addProduct');
 
 // Admin\CategoriesController
 Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );

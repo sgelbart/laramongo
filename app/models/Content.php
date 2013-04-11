@@ -47,6 +47,14 @@ class Content extends BaseModel {
     }
 
     /**
+     * The categories attached to the content
+     */
+    public function category()
+    {
+        return $this->referencesMany('Category','categories');
+    }
+
+    /**
      * Determines if a content is visible or not. This takes a decision
      * assembling the following facts:
      * - hidden is not any sort of 'true'

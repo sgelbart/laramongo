@@ -2,34 +2,35 @@
 
 class SearchController extends BaseController {
 
+    protected $productRepo;
+
+    function __construct( ProductRepository $productRepo )
+    {
+        $this->productRepo = $productRepo;
+    }
+
     /**
      * Returns a Json containing a list of products following
      * the search criterea.
      *
      * @return Response
      */
-    public function products()
+    public function products($view)
     {
         $search = Input::get('search');
-        $conj_id = Input::get('conj_id');
+        $aditional_id = Input::get('aditional_id');
 
         if( strlen($search) > 0 )
         {
-            $query = [ '$or'=> [
-                ['name'=> new \MongoRegex('/^'.$search.'/i')],
-                ['lm'=> new \MongoRegex('/^'.$search.'/i')]
-            ]];
-
-            $products = Product::where($query, ['_id','name'])
-                ->limit(20);
+            $products = $this->productRepo->search( $search );
         }
         else
         {
             $products = [];
         }
 
-        return View::make('search.products')
+        return View::make('search.'.$view)
                 ->with( 'products', $products )
-                ->with( 'conj_id', $conj_id);
+                ->with( 'aditional_id', $aditional_id);
     }
 }

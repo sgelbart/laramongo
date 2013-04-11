@@ -11,10 +11,10 @@
                 <td>
                     <a
                         class="btn btn-primary" data-method="PUT"
-                        href='{{ URL::action('Admin\ProductsController@addToConjugated', ['conj_id'=>$aditional_id, 'id'=>$product->_id]) }}'
+                        href='{{ URL::action('Admin\ContentsController@addProduct', ['id'=>$aditional_id, 'product_id'=>$product->_id]) }}'
                     >
                         <i class="icon-plus icon-white"></i>
-                        <small>Adicionar</small>
+                        <small>Relacionar</small>
                     </a>
                 </td>
             </tr>

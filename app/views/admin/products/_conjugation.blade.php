@@ -29,13 +29,13 @@
 
 <h3>Adicionar produto:</h3>
 <p>Use a barra de busca abaixo para adicionar um produto a composição.</p>
-<form class="form-search" data-ajax="true" action='{{ URL::action( 'SearchController@products' ) }}'>
+<form class="form-search" data-ajax="true" action='{{ URL::action( 'SearchController@products', ['view'=>'conjugate_products'] ) }}'>
     <input 
         type="text" name="search" value="{{ Input::get('search') }}"
         class="input-block-level search-query" data-submit-on-type='true'
         placeholder="Pesquisar"
     >
-    {{ Form::hidden('conj_id', $product->_id) }}
+    {{ Form::hidden('aditional_id', $product->_id) }}
 </form>
 
 <div id='product-index' data-conjugatedId='{{ $product->_id }}'></div>
