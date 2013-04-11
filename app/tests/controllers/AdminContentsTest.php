@@ -230,4 +230,32 @@ class AdminContentsTest extends ControllerTestCase
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
         $this->assertSessionHas('flash','sucesso');
     }
+
+    public function testShouldRelateCategory(){
+        $content = testContentProvider::saved( 'valid_article' );
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
+
+        $this->requestAction(
+            'POST', 'Admin\ContentsController@addCategory',
+            ['id'=>$content->_id, 'category_id'=>$category->_id] 
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    public function testShouldRemoveRelatedCategory(){
+        $content = testContentProvider::saved( 'valid_article' );
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
+
+        $content->attachToCategorys( $category->_id );
+
+        $this->requestAction(
+            'DELETE', 'Admin\ContentsController@removeCategory',
+            ['id'=>$content->_id, 'category_id'=>$category->_id]
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash','sucesso');
+    }
 }

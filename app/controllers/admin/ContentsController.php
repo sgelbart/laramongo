@@ -210,4 +210,43 @@ class ContentsController extends AdminController {
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
             ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
     }
+
+    /**
+     * Add reference to the category_id in the content
+     *
+     * @return Response
+     */
+    public function addCategory($id, $category_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        if( $this->contentRepo->relateToCategory( $content, $category_id ) )
+        {
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+        }
+        else
+        {
+            // Get validation errors
+            $error = ($content) ? $content->errors->all() : array();
+
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'error', $error );
+        }
+    }
+
+    /**
+     * Remove reference to the category_id in the content
+     *
+     * @return Response
+     */
+    public function removeCategory($id, $category_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        $this->contentRepo->removeCategory( $content, $category_id );
+        
+        return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+            ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+    }
 }
