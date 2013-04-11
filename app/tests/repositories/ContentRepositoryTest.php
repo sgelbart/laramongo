@@ -1,5 +1,7 @@
 <?php
 
+use Mockery as m;
+
 class ContentRepositoryTest extends TestCase
 {
     /**
@@ -11,6 +13,14 @@ class ContentRepositoryTest extends TestCase
         $this->cleanCollection( 'products' );
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'contents' );
+    }
+
+    /**
+     * Mockery close
+     */
+    public function tearDown()
+    {
+        m::close();
     }
 
     public function testShouldSearch()
@@ -126,6 +136,23 @@ class ContentRepositoryTest extends TestCase
         $this->assertEquals(null, $content->_id);
     }
 
+    public function testShouldCreateNewAndAttachImage()
+    {
+        $repo = new ContentRepository;
+
+        // A valid instance
+        $content = testContentProvider::instance( 'valid_image' );
+        unset( $content->_id );
+
+        // A mocked image that should be attached
+        $image = m::mock('UploadedFile');
+        $image->shouldReceive('move')->once();
+
+        // Pass the image as the seconds parameter
+        $this->assertTrue($repo->createNew( $content, $image ));
+        $this->assertNotEquals(null, $content->_id);
+    }
+
     public function testShouldFindBySlug()
     {
         $article1 = testContentProvider::saved('valid_article');
@@ -192,6 +219,23 @@ class ContentRepositoryTest extends TestCase
         $repo = new ContentRepository;
 
         $this->assertTrue($repo->update($article));
+
+        $article = Content::first($article->_id);
+
+        $this->assertEquals("Bacon", $article->name);
+    }
+
+    public function testShouldUpdateAndAttachImageToInstance()
+    {
+        $article = testContentProvider::saved('valid_image');
+        $article->name = "Bacon";
+        $repo = new ContentRepository;
+
+        // A mocked image that should be attached
+        $image = m::mock('UploadedFile');
+        $image->shouldReceive('move')->once();
+
+        $this->assertTrue($repo->update($article, $image));
 
         $article = Content::first($article->_id);
 

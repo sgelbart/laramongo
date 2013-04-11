@@ -68,7 +68,7 @@ class ContentRepository
      * @param $instance Non saved Content instance
      * @return Boolean The result of the instance save() method
      */
-    public function createNew( Content &$instance )
+    public function createNew( Content &$instance, $image = null )
     {
         // Since is a NEW content. Clear the _id if it exists
         unset($instance->_id);
@@ -78,7 +78,16 @@ class ContentRepository
         // before saving the model
         $instance = $instance->polymorph( $instance );
 
-        return $instance->save();
+        // Save the instance
+        $result = $instance->save();
+
+        // If there is an image. Attach it!
+        if( $result && $image && $instance instanceof ImageContent )
+        {
+            $instance->attachUploadedImage( $image );
+        }
+
+        return $result;
     }
 
     /**
@@ -129,8 +138,14 @@ class ContentRepository
      * @param $instance Content instance to be saved
      * @return Boolean save() result
      */
-    public function update( Content &$instance )
+    public function update( Content &$instance, $image = null )
     {
+        // If there is an image. Attach it!
+        if( $image && $instance instanceof ImageContent )
+        {
+            $instance->attachUploadedImage( $image );
+        }
+
         return $instance->save();
     }
 }

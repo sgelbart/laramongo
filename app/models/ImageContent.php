@@ -1,6 +1,7 @@
 <?php
 
 class ImageContent extends Content {
+    use Traits\HasImage;
 
     /**
      * The database collection

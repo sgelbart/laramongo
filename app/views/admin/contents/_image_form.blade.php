@@ -16,6 +16,11 @@
         'class'=>'form-horizontal'
     ])
 }}
+    @if ( isset($category) )
+        {{ Html::image($category->imageUrl()) }}
+
+        <hr>
+    @endif
 
     {{ Form::hidden('kind', 'video' ) }}
     
