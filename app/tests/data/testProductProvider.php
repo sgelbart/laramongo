@@ -48,4 +48,14 @@ class testProductProvider extends testObjectProvider
             ]
         ];
     }
+
+    protected function another_valid_product()
+    {
+        return [
+            '_id' => 8800005,
+            'name' => 'Outra coisa valida',
+            'category' => testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de outra coisa valida',
+        ];
+    }
 }
