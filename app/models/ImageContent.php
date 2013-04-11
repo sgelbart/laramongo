@@ -39,7 +39,7 @@ class ImageContent extends Content {
      */
     public function render( $width = null, $height = null )
     {
-        $html = '<img alt="'.$this->name.'" src="'.$this->image.'">';
+        $html = '<img alt="'.$this->name.'" src="'.$this->imageUrl().'">';
 
         return $html;
     }

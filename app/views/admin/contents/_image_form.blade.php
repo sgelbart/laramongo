@@ -16,13 +16,13 @@
         'class'=>'form-horizontal'
     ])
 }}
-    @if ( isset($category) )
-        {{ Html::image($category->imageUrl()) }}
+    @if ( isset($content) )
+        {{ $content->render() }}
 
         <hr>
     @endif
 
-    {{ Form::hidden('kind', 'video' ) }}
+    {{ Form::hidden('kind', 'image' ) }}
     
     <div class="control-group">
         {{ Form::label('name', 'Titulo da Imagem', ['class'=>'control-label']) }}

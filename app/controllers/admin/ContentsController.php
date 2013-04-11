@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Content, ArticleContent, VideoContent;
+use Content, ArticleContent, ImageContent, VideoContent;
 use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class ContentsController extends AdminController {
@@ -90,6 +90,10 @@ class ContentsController extends AdminController {
         {
             $this->layout->content = View::make('admin.contents.edit_article', $viewData);
         }
+        elseif($content instanceof ImageContent)
+        {
+            $this->layout->content = View::make('admin.contents.edit_image', $viewData);
+        }
         elseif($content instanceof VideoContent)
         {
             $this->layout->content = View::make('admin.contents.edit_video', $viewData);
@@ -110,7 +114,7 @@ class ContentsController extends AdminController {
     {
         $content = new Content;
         $content->fill( Input::all() );
-        $image = Input::get('image_file');
+        $image = Input::file('image_file') ?: Input::get('image_file');
 
         if( $this->contentRepo->createNew( $content, $image ) )
         {
@@ -136,7 +140,7 @@ class ContentsController extends AdminController {
     public function update($id)
     {
         $content = $this->contentRepo->first($id);
-        $image = Input::get('image_file');
+        $image = Input::file('image_file') ?: Input::get('image_file');
         
         if($content)
             $content->fill( Input::all() );
