@@ -118,7 +118,7 @@ class ContentsController extends AdminController {
 
         if( $this->contentRepo->createNew( $content, $image ) )
         {
-            return Redirect::action('Admin\ContentsController@index')
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id])
                 ->with( 'flash', l('navigation.resource_created_sucessfully', ['resource'=>'conteúdo']) );
         }
         else

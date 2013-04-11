@@ -97,7 +97,9 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->withInput($input)->requestAction('POST', 'Admin\ContentsController@store');
 
-        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $savedContent = Content::first();
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$savedContent->_id]));
         $this->assertSessionHas('flash','sucesso');
     }
 
@@ -130,7 +132,9 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->withInput($input)->requestAction('POST', 'Admin\ContentsController@store');
 
-        $this->assertRedirection(URL::action('Admin\ContentsController@index'));
+        $savedContent = Content::first();
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$savedContent->_id]));
         $this->assertSessionHas('flash','sucesso');
     }
 
