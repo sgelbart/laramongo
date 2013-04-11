@@ -89,6 +89,13 @@ class Content extends BaseModel {
             $video->parseDocument( $instance->attributes );
             return $video;
         }
+        elseif( $instance->kind == 'image' )
+        {
+            $image = new ImageContent;
+
+            $image->parseDocument( $instance->attributes );
+            return $image;
+        }
         else
         {
             return $instance;

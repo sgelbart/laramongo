@@ -52,4 +52,16 @@ class testContentProvider extends testObjectProvider
             'tags' => 'interessante, video, mostra casa,',
         ];
     }
+
+    protected function valid_image()
+    {
+        return [
+            '_id' => new MongoId( '32f1423d8ead0e1d38000005' ),
+            'name' => 'Chegou a Leroy Merlin BH Norte',
+            'slug' => 'leroy_merlin_bh_norte',
+            'kind' => 'image',
+            'image' => '32f1423d8ead0e1d38000005.jpg',
+            'tags' => 'interessante, leroy, bh, belo horizonte',
+        ];
+    }
 }

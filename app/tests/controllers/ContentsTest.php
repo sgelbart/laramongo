@@ -20,14 +20,18 @@ class ContentsTest extends ControllerTestCase
 
         //Article
         $article = testContentProvider::saved('valid_article');
+        $article->approved = true;
+        $article->save();
 
         $this->requestAction('GET', 'ContentsController@show', ['slug'=>$article->slug]);
         $this->assertRequestOk();
 
         //Video
-        $article = testContentProvider::saved('valid_video');
+        $video = testContentProvider::saved('valid_video');
+        $video->approved = true;
+        $video->save();
 
-        $this->requestAction('GET', 'ContentsController@show', ['slug'=>$article->slug]);
+        $this->requestAction('GET', 'ContentsController@show', ['slug'=>$video->slug]);
         $this->assertRequestOk();
     }
 
