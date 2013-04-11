@@ -1,7 +1,7 @@
 <h3>{{ l('content.related_to') }}</h3>
 <p>{{ l('content.related_to_explaination') }}</p>
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="content-relations-table">
     @foreach ($content->categories() as $relatedCat)
         <tr>
             <td colspan="2">
@@ -76,9 +76,9 @@
     <input 
         type="text" name="search" value="{{ Input::get('search') }}"
         class="input-block-level search-query" data-submit-on-type='true'
-        placeholder="Pesquisar"
+        placeholder="Pesquisar" id="product-relation-quicksearch"
     >
     {{ Form::hidden('aditional_id', $content->_id) }}
 </form>
 
-<div id='product-index' data-conjugatedId='{{ $content->_id }}'></div>
+<div id='product-index' data-relationId='{{ $content->_id }}'></div>

@@ -33,6 +33,29 @@ class ManageArticleTest extends AcceptanceTestCase
         $this->assertElementHasText(l::id('content-index'), $attr['name']);
     }
 
+    public function testShouldCreateAndUploadImage()
+    {
+        $attr = testContentProvider::attributesFor( 'valid_image' );
+
+        $imageFile = 'file://'.__DIR__.'/../assets/image.jpg';
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::id('btn-create-new-content'))
+            ->click(l::id('btn-create-new-image'))
+            ->waitForPageToLoad(1000)
+            ->type(l::IdOrName('name'), $attr['name'])
+            ->type(l::IdOrName('slug'), $attr['slug'])
+            ->attachFile(l::IdOrName('image_file'), $imageFile)
+            ->click(l::id('submit-form'))
+            ->open('/admin/contents')
+            ->waitForPageToLoad(1000);
+
+        $this->assertElementHasText(l::id('content-index'), $attr['name']);
+        $imageContent = ImageContent::first();
+        $this->assertNotNull($imageContent->image);
+    }
+
     public function testShouldEditArticle()
     {
         $content = testContentProvider::saved( 'valid_article' );
@@ -56,5 +79,49 @@ class ManageArticleTest extends AcceptanceTestCase
             ->waitForPageToLoad(1000);
 
         $this->assertLocation( URL::action('Admin\ContentsController@edit', ['id'=>$content->_id]) );
+    }
+
+    public function testShouldRelateContentToProducts()
+    {
+        $content = testContentProvider::saved( 'valid_article' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::css('#row-'.$content->_id.' a'))
+            ->waitForPageToLoad(1000)
+            ->click(l::css('[data-tab-of=content-relations]'))
+            ->type(l::id('product-relation-quicksearch'), substr($product->name,0,5) )
+            ->typeKeys(l::id('product-relation-quicksearch'), substr($product->name,0,5) );
+            sleep(1); // Wait for ajax :(
+
+        $this->browser
+            ->click(l::css('#product-index a.btn-relate-product'))
+            ->waitForPageToLoad(1000);
+
+        $this->assertElementHasText(l::id('content-relations-table'), (string)$product->_id);
+
+        $content = Content::first($content->_id);
+        $this->assertContains($product->_id, $content->products);
+    }
+
+    public function testShouldRelateContentToCategories()
+    {
+        $content = testContentProvider::saved( 'valid_article' );
+        $category = testCategoryProvider::saved( 'valid_parent_category' );
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::css('#row-'.$content->_id.' a'))
+            ->waitForPageToLoad(1000)
+            ->click(l::css('[data-tab-of=content-relations]'))
+            ->select(l::IdOrName('category_id'), $category->name)
+            ->click(l::id('submit-attach-category'))
+            ->waitForPageToLoad(1000);
+
+        $this->assertElementHasText(l::id('content-relations-table'), (string)$category->name);
+
+        $content = Content::first($content->_id);
+        $this->assertContains((string)$category->_id, $content->categories);
     }
 }
