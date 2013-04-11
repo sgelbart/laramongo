@@ -13,8 +13,8 @@
                         class="btn btn-primary" data-method="POST"
                         href='{{ URL::action('Admin\ContentsController@addProduct', ['id'=>$aditional_id, 'product_id'=>$product->_id]) }}'
                     >
-                        <i class="icon-plus icon-white"></i>
-                        <small>Relacionar</small>
+                        <i class="icon-magnet icon-white"></i>
+                        <small>{{ l('content.relate_button') }}</small>
                     </a>
                 </td>
             </tr>

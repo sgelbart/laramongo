@@ -166,4 +166,20 @@ class ContentRepository
         $instance->attachToProducts($product);
         return $instance->save();
     }
+
+    /**
+     * Simply detach a product of a Content instance
+     *
+     * @param $instance Content instance
+     * @param $product The Product instance or id
+     * @return Boolean Success
+     */
+    public function removeProduct( Content &$instance, $product )
+    {
+        if(is_numeric($product))
+            $product = (int)$product;
+        
+        $instance->detach('products', $product);
+        return $instance->save();
+    }
 }

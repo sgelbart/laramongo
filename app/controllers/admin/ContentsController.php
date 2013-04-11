@@ -195,4 +195,19 @@ class ContentsController extends AdminController {
                 ->with( 'error', $error );
         }
     }
+
+    /**
+     * Remove reference to the product_id in the content
+     *
+     * @return Response
+     */
+    public function removeProduct($id, $product_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        $this->contentRepo->removeProduct( $content, $product_id );
+        
+        return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+            ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+    }
 }

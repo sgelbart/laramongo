@@ -255,4 +255,19 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertContains($product->_id, $article->products);
     }
+
+    public function testShouldUnRelateToProduct()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $repo = new ContentRepository;
+
+        $repo->relateToProduct( $article, $product->_id );
+        $this->assertTrue($repo->removeProduct( $article, $product->_id ));
+
+        $article = Content::first($article->_id);
+
+        $this->assertNotContains($product->_id, $article->products);
+    }
 }

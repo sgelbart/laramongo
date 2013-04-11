@@ -7,6 +7,7 @@ return array(
     'add_product' => 'Adicionar um produto:',
     'add_product_explaination' => 'Use a barra de busca abaixo para relacionar um produto ao conteúdo.',
 
+    'relate_button' => 'Relacionar',
     'relation_created_sucessfully' => 'Relação criada com sucesso',
 
 );
