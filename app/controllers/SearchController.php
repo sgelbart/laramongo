@@ -22,7 +22,7 @@ class SearchController extends BaseController {
 
         if( strlen($search) > 0 )
         {
-            $products = $this->productRepo->search( $search );
+            $products = $this->productRepo->search( $search )->limit(10);
         }
         else
         {

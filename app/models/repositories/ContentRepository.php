@@ -66,6 +66,7 @@ class ContentRepository
      * Content extends from the BaseModel.
      *
      * @param $instance Non saved Content instance
+     * @param $image A image that has been uploaded PS: Get it with Input::file('name')
      * @return Boolean The result of the instance save() method
      */
     public function createNew( Content &$instance, $image = null )
@@ -136,6 +137,7 @@ class ContentRepository
      * Returns the result of an $instance->save()
      *
      * @param $instance Content instance to be saved
+     * @param $image A image that has been uploaded PS: Get it with Input::file('name')
      * @return Boolean save() result
      */
     public function update( Content &$instance, $image = null )
@@ -146,6 +148,22 @@ class ContentRepository
             $instance->attachUploadedImage( $image );
         }
 
+        return $instance->save();
+    }
+
+    /**
+     * Simply attach a product to a Content instance
+     *
+     * @param $instance Content instance
+     * @param $product The Product instance or id
+     * @return Boolean Success
+     */
+    public function relateToProduct( Content &$instance, $product )
+    {
+        if(is_numeric($product))
+            $product = (int)$product;
+        
+        $instance->attachToProducts($product);
         return $instance->save();
     }
 }

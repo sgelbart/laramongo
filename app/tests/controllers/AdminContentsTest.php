@@ -202,4 +202,17 @@ class AdminContentsTest extends ControllerTestCase
         $this->requestAction('GET', 'Admin\ContentsController@tags', ['term'=>'inter']);
         $this->assertRequestOk(); 
     }
+
+    public function testShouldRelateProduct(){
+        $content = testContentProvider::saved( 'valid_article' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $this->requestAction(
+            'POST', 'Admin\ContentsController@addProduct',
+            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash','sucesso');
+    }
 }

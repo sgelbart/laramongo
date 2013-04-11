@@ -10,7 +10,7 @@
                 </td>
                 <td>
                     <a
-                        class="btn btn-primary" data-method="PUT"
+                        class="btn btn-primary" data-method="POST"
                         href='{{ URL::action('Admin\ContentsController@addProduct', ['id'=>$aditional_id, 'product_id'=>$product->_id]) }}'
                     >
                         <i class="icon-plus icon-white"></i>

@@ -171,4 +171,28 @@ class ContentsController extends AdminController {
         
         return Response::json($tags);
     }
+
+    /**
+     * Add reference to the product_id in the content
+     *
+     * @return Response
+     */
+    public function addProduct($id, $product_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        if( $this->contentRepo->relateToProduct( $content, $product_id ) )
+        {
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+        }
+        else
+        {
+            // Get validation errors
+            $error = ($content) ? $content->errors->all() : array();
+
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'error', $error );
+        }
+    }
 }

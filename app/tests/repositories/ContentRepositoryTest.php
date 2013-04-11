@@ -241,4 +241,18 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertEquals("Bacon", $article->name);
     }
+
+    public function testShouldRelateToProduct()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $repo = new ContentRepository;
+
+        $this->assertTrue($repo->relateToProduct( $article, $product->_id ));
+
+        $article = Content::first($article->_id);
+
+        $this->assertContains($product->_id, $article->products);
+    }
 }
