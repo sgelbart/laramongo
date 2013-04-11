@@ -270,4 +270,33 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertNotContains($product->_id, $article->products);
     }
+
+    public function testShouldRelateToCategory()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
+
+        $repo = new ContentRepository;
+
+        $this->assertTrue($repo->relateToCategory( $article, $category->_id ));
+
+        $article = Content::first($article->_id);
+
+        $this->assertContains((string)$category->_id, $article->categories);
+    }
+
+    public function testShouldUnRelateToCategory()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
+
+        $repo = new ContentRepository;
+
+        $repo->relateToCategory( $article, $category->_id );
+        $this->assertTrue($repo->removeCategory( $article, $category->_id ));
+
+        $article = Content::first($article->_id);
+
+        $this->assertNotContains((string)$category->_id, $article->categories);
+    }
 }

@@ -182,4 +182,30 @@ class ContentRepository
         $instance->detach('products', $product);
         return $instance->save();
     }
+
+    /**
+     * Simply attach a category to a Content instance
+     *
+     * @param $instance Content instance
+     * @param $category The Category instance or id
+     * @return Boolean Success
+     */
+    public function relateToCategory( Content &$instance, $category )
+    {   
+        $instance->attachToCategories($category);
+        return $instance->save();
+    }
+
+    /**
+     * Simply detach a category of a Content instance
+     *
+     * @param $instance Content instance
+     * @param $category The Category instance or id
+     * @return Boolean Success
+     */
+    public function removeCategory( Content &$instance, $category )
+    {   
+        $instance->detach('categories', $category);
+        return $instance->save();
+    }
 }
