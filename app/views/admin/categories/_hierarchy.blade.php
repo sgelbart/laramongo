@@ -27,8 +27,6 @@
         ])
     }}
 
-    {{ Form::label('parent', 'Adicionar nova categoria pai', ['class'=>'control-label']) }}
-
     {{ Form::select('parent', $categories, null, ['data-chosen'=>'true']) }}
 
     {{ Form::button(

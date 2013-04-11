@@ -115,3 +115,6 @@ li[collapsed="false"] a .icon-chevron-right {
 select[data-chosen] {
   width: 100%;
 }
+.chzn-container {
+  margin-bottom: 10px;
+}

@@ -49,7 +49,7 @@ class Content extends BaseModel {
     /**
      * The categories attached to the content
      */
-    public function category()
+    public function categories()
     {
         return $this->referencesMany('Category','categories');
     }

@@ -2,6 +2,27 @@
 <p>{{ l('content.related_to_explaination') }}</p>
 
 <table class="table table-bordered table-striped">
+    @foreach ($content->categories() as $relatedCat)
+        <tr>
+            <td colspan="2">
+                {{ $relatedCat->name }}
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a class='btn' href='{{ URL::action('Admin\CategoriesController@show', ['id'=>$relatedCat->_id]) }}'>
+                        <i class='icon-share-alt'></i>
+                    </a>
+                    <a
+                        class='btn btn-danger' data-method="DELETE"
+                        href='{{ URL::action('Admin\ContentsController@removeCategory', ['id'=>$content->_id, 'category_id'=>$relatedCat->_id]) }}'
+                    >
+                        <i class='icon-remove icon-white'></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    @endforeach
+
     @foreach ($content->products() as $relatedProd)
         <tr>
             <td>
@@ -28,6 +49,26 @@
 </table>
 
 <hr>
+
+<h3>{{ l('content.add_category') }}</h3>
+<p>{{ l('content.add_category_explaination') }}</p>
+<div class='well'>
+    {{
+        Form::open([   
+            'url' => URL::action('Admin\ContentsController@addCategory', ['id'=>$content->_id]),
+            'method'=>'POST'
+        ])
+    }}
+
+        {{ Form::select('category_id', $categories, null, ['data-chosen'=>'true']) }}
+
+        <button type="submit" class="btn btn-primary" id="submit-attach-category">
+            <i class="icon-magnet icon-white"></i>
+            <small>Relacionar</small>
+        </button>
+
+    {{ Form::close() }}
+</div>
 
 <h3>{{ l('content.add_product') }}</h3>
 <p>{{ l('content.add_product_explaination') }}</p>

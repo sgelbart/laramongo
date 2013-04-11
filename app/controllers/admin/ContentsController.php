@@ -82,6 +82,7 @@ class ContentsController extends AdminController {
 
         $viewData = [
             'content' => $content,
+            'categories' => \Category::toOptions( ['kind'=>['$ne'=>'leaf']] ),
             'action' => 'Admin\ContentsController@update',
             'method' => 'PUT',
         ];
@@ -216,8 +217,11 @@ class ContentsController extends AdminController {
      *
      * @return Response
      */
-    public function addCategory($id, $category_id)
+    public function addCategory($id, $category_id = null)
     {
+        if(! $category_id)
+            $category_id = Input::get('category_id');
+
         $content = $this->contentRepo->first($id);
 
         if( $this->contentRepo->relateToCategory( $content, $category_id ) )

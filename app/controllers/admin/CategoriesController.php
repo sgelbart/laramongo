@@ -97,16 +97,7 @@ class CategoriesController extends AdminController {
      */
     public function show($id)
     {
-        $category = Category::first($id);
-
-        if(! $category)
-        {
-            return Redirect::action('Admin\CategoriesController@index')
-                ->with( 'flash', 'Categoria não encontrada' );
-        }
-
-        $this->layout->content = View::make('admin.categories.hierarchy')
-            ->with( 'category', $category );
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id]);
     }
 
 	/**
