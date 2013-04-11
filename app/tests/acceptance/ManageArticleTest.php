@@ -27,6 +27,7 @@ class ManageArticleTest extends AcceptanceTestCase
             ->type(l::IdOrName('slug'), $attr['slug'])
             ->type(l::IdOrName('article'), $attr['article'])
             ->click(l::id('submit-form'))
+            ->open('/admin/contents')
             ->waitForPageToLoad(1000);
 
         $this->assertElementHasText(l::id('content-index'), $attr['name']);
