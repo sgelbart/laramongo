@@ -52,6 +52,16 @@ class ContentsController extends AdminController {
     }
 
     /**
+     * Display the image creation form
+     *
+     * @return Response
+     */
+    public function createImage()
+    {
+        $this->layout->content = View::make('admin.contents.create_image');
+    }
+
+    /**
      * Display the video creation form
      *
      * @return Response

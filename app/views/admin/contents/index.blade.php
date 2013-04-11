@@ -15,7 +15,7 @@
                         <i class="icon-file"></i> Novo artigo
                     </a></li>
 
-                    <li><a href="#">
+                    <li><a href="{{ URL::action( 'Admin\ContentsController@createImage' ) }}" id='btn-create-new-image'>
                         <i class="icon-picture"></i> Nova imagem
                     </a></li>
 

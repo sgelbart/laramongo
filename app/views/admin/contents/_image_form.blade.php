@@ -20,25 +20,24 @@
     {{ Form::hidden('kind', 'video' ) }}
     
     <div class="control-group">
-        {{ Form::label('name', 'Titulo do Video', ['class'=>'control-label']) }}
+        {{ Form::label('name', 'Titulo da Imagem', ['class'=>'control-label']) }}
         <div class="controls">
             {{ Form::text('name', array_get( $f,'name') ) }}
         </div>
     </div>
 
     <div class="control-group">
-        {{ Form::label('slug', 'Slug do Video', ['class'=>'control-label']) }}
+        {{ Form::label('slug', 'Slug da Imagem', ['class'=>'control-label']) }}
         <div class="controls">
             {{ Form::text('slug', array_get( $f,'slug') ) }}
-            <span class="help-block">Url para acessar o video</span>
+            <span class="help-block">Url para acessar a imagem</span>
         </div>
     </div>
 
     <div class="control-group">
-        {{ Form::label('youTubeId', 'Link do YouTube', ['class'=>'control-label']) }}
+        {{ Form::label('image_file', 'Escolha uma imagem', ['class'=>'control-label']) }}
         <div class="controls">
-            {{ Form::text('youTubeId', array_get( $f,'youTubeId'), ['placeholder'=>'Ex: www.youtube.com/watch?v=BNQFsKCuwAc'] ) }}
-            <span class="help-block">Link do vídeo no YouTube</span>
+            {{ Form::file('image_file') }}
         </div>
     </div>
 
@@ -83,7 +82,7 @@
     @endif
 
     <div class='form-actions'>
-        {{ Form::button('Salvar video', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
+        {{ Form::button('Salvar imagem', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-form'] ) }}
 
         @if ( isset($content) )
             {{ Html::linkAction( 'Admin\ContentsController@destroy', 'Excluir', ['id'=>$content->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
