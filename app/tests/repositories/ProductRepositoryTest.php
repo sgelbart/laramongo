@@ -137,22 +137,22 @@ class ProductRepositoryTest extends TestCase
     
     public function testShouldGetFirst()
     {
-        $article = testProductProvider::saved('simple_valid_product');
+        $product = testProductProvider::saved('simple_valid_product');
         $repo = new ProductRepository;
 
-        $this->assertEquals(Product::first($article->_id), $repo->first($article->_id));
+        $this->assertEquals(Product::first($product->_id), $repo->first($product->_id));
     }
 
     public function testShouldUpdateInstance()
     {
-        $article = testProductProvider::saved('simple_valid_product');
-        $article->name = "Bacon";
+        $product = testProductProvider::saved('simple_valid_product');
+        $product->name = "Bacon";
         $repo = new ProductRepository;
 
-        $this->assertTrue($repo->update($article));
+        $this->assertTrue($repo->update($product));
 
-        $article = Product::first($article->_id);
+        $product = Product::first($product->_id);
 
-        $this->assertEquals("Bacon", $article->name);
+        $this->assertEquals("Bacon", $product->name);
     }
 }
