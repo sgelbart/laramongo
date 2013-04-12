@@ -54,6 +54,12 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldStore(){
+
+        // Make sure that createNew will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('createNew')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $input = testProductProvider::attributesFor( 'simple_valid_product' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
@@ -67,6 +73,12 @@ class AdminProductsTest extends ControllerTestCase
      * is not valid
      */
     public function testShouldNotStoreInvalid(){
+
+        // Make sure that createNew will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('createNew')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $input = $input = testProductProvider::attributesFor( 'simple_invalid_product' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\ProductsController@store');
@@ -89,10 +101,15 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldEditExistent(){
+
+        // Make sure that first will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('first')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $product = testProductProvider::saved( 'simple_valid_product' );
 
-        /* Some laravel bug is happening here */
-        $this->requestUrl('GET', URL::action('Admin\ProductsController@index', ['id'=>$product->_id]));
+        $this->requestUrl('GET', URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]));
         $this->assertRequestOk();
     }
 
@@ -101,6 +118,12 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldNotEditNull(){
+
+        // Make sure that first will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('first')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $this->requestAction('GET', 'Admin\ProductsController@edit', ['id'=>'123']);
 
         $this->assertRedirection(URL::action('Admin\ProductsController@index'));
@@ -112,6 +135,13 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldUpdateExistent(){
+
+        // Make sure that first and update will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('first')->once()->passthru();
+        $productRepo->shouldReceive('update')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->withInput( $product->getAttributes() )
@@ -127,6 +157,13 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldNotUpdateWithInvalidInput(){
+
+        // Make sure that first and update will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('first')->once()->passthru();
+        $productRepo->shouldReceive('update')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $product = testProductProvider::saved( 'simple_valid_product' );
         $product->name = '';
 
@@ -142,6 +179,13 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldUpdateCharacteristicsOfExistent(){
+
+        // Make sure that first and update will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('first')->once()->passthru();
+        $productRepo->shouldReceive('updateCharacteristics')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+        
         $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->withInput( ['capacidade'=>5] )

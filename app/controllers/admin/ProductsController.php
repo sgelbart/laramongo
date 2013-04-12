@@ -64,14 +64,11 @@ class ProductsController extends AdminController {
     public function store()
     {
         $product = new Product;
-
         $product->fill( Input::all() );
 
         // Save if valid
-        if ( $product->isValid() )
+        if ( $this->productRepo->createNew( $product ) )
         {
-            $product->save();
-
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Novo produto incluído com sucesso' );
         }
@@ -103,7 +100,7 @@ class ProductsController extends AdminController {
      */
     public function edit($id)
     {
-        $product = Product::first($id);
+        $product = $this->productRepo->first($id);
 
         if(! $product)
         {
@@ -129,28 +126,20 @@ class ProductsController extends AdminController {
      */
     public function update($id)
     {
-        $product = Product::first($id);
+        $product = $this->productRepo->first($id);
 
-        if(! $product)
+        if($product)
+            $product->fill( Input::all() );
+
+        if ( $this->productRepo->update( $product ) )
         {
-            return Redirect::action('Admin\ProductsController@index')
-                ->with( 'flash', 'Produto não encontrado');
-        }
-
-        $product->fill( Input::all() );
-
-        // Save if valid
-        if ( $product->isValid() )
-        {
-            $product->save();
-
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'Alterações salvas com sucesso' );
         }
         else
         {
             // Get validation errors
-            $error = $product->errors->all();
+            $error = ($product) ? $product->errors->all() : array();
 
             return Redirect::action('Admin\ProductsController@edit', ['id'=>$id])
                 ->withInput()
@@ -165,27 +154,9 @@ class ProductsController extends AdminController {
      */
     public function characteristic($id)
     {
-        $product = Product::first($id);
-        $category = $product->category();
+        $product = $this->productRepo->first($id);
 
-        if(! $product)
-        {
-            return Redirect::action('Admin\ProductsController@index')
-                ->with( 'flash', 'Produto não encontrado');
-        }
-
-        $details = array();
-        foreach ($category->characteristics() as $charac) {
-            $details[clean_case($charac->name)] = Input::get(clean_case($charac->name));
-
-            if(! $details[clean_case($charac->name)])
-                $details[clean_case($charac->name)] = Input::get(str_replace(' ', '_', clean_case($charac->name)));
-        }
-        
-        $product->details = $details;
-
-        // Save if valid
-        if ( $product->save() )
+        if($product && $this->productRepo->updateCharacteristics( $product, Input::all() ) )
         {
             return Redirect::action('Admin\ProductsController@index')
                 ->with( 'flash', 'As caracteristicas do produto foram salvas com sucesso' );
@@ -195,7 +166,7 @@ class ProductsController extends AdminController {
             // Get validation errors
             $error = $product->errors->all();
 
-            return Redirect::action('Admin\ProductsController@edit', ['id'=>$id])
+            return Redirect::action('Admin\ProductsController@edit', ['id'=>$id, 'tab'=>'product-characteristcs'])
                 ->withInput()
                 ->with( 'error', $error );
         }

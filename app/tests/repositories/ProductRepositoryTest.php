@@ -155,4 +155,25 @@ class ProductRepositoryTest extends TestCase
 
         $this->assertEquals("Bacon", $product->name);
     }
+
+    public function testShouldUpdateCharacteristicsOfInstance()
+    {
+        $product = testProductProvider::saved('simple_valid_product');
+        
+        // These are the characteristics defined into the category of
+        // the 'simple_valid_product'. See the providers for more detail
+        $input = [
+            'capacidade' => 25,
+            'cor' => 'Preto',
+        ];
+
+        $repo = new ProductRepository;
+
+        $this->assertTrue($repo->updateCharacteristics($product, $input));
+
+        $product = Product::first($product->_id);
+
+        $this->assertEquals(25, array_get($product->details, 'capacidade'));
+        $this->assertEquals('Preto', array_get($product->details, 'cor'));
+    }
 }

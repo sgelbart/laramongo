@@ -106,11 +106,11 @@ class Characteristic extends BaseModel {
     {
         switch ($this->type) {
             case 'int':
-                return is_numeric($value);
+                return is_numeric($value) || $value == '';
                 break;
 
             case 'float':
-                return is_numeric($value);
+                return is_numeric($value) || $value == '';
                 break;
 
             case 'option':

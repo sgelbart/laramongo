@@ -31,10 +31,8 @@ class AdminContentsTest extends ControllerTestCase
         // Make sure that search and paginate will be called at leas
         // once
         $contentRepo = m::mock(new ContentRepository);
-
         $contentRepo->shouldReceive('search')->once()->passthru();
         $contentRepo->shouldReceive('paginate')->once()->passthru();
-
         App::instance("ContentRepository", $contentRepo);
 
         // Do request

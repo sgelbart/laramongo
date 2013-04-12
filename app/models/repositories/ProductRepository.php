@@ -114,4 +114,35 @@ class ProductRepository
     {
         return $instance->save();
     }
+
+    /**
+     * Validates and update the characteristics of a product
+     * following the validation for each tipe of characteristic
+     * present in the product category.
+     *
+     * @param $instance Product instance to be updated
+     * @param $characValues Array containing the values to be set into the Product details
+     * @return Boolean save() result
+     */
+    public function updateCharacteristics( Product &$instance, $characValues = array() )
+    {
+        // Product details attribute
+        $details = array();
+
+        // For each characteristic in the category
+        foreach ($instance->category()->characteristics() as $charac) {
+
+            // Get input
+            $details[clean_case($charac->name)] = array_get( $characValues, clean_case($charac->name));
+
+            if(! $details[clean_case($charac->name)])
+                $details[clean_case($charac->name)] = array_get( $characValues, str_replace(' ', '_', clean_case($charac->name)));
+        }
+        
+        // Finally set the details attribute
+        $instance->details = $details;
+
+        // Saves
+        return $instance->save();
+    }
 }
