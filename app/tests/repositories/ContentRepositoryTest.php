@@ -256,6 +256,27 @@ class ContentRepositoryTest extends TestCase
         $this->assertContains($product->_id, $article->products);
     }
 
+    public function testShouldRelateToProductList()
+    {
+        $article = testContentProvider::saved('valid_article');
+        $product1 = testProductProvider::saved( 'simple_valid_product' );
+        $product2 = testProductProvider::saved( 'simple_deactivated_product' );
+        $product3 = testProductProvider::saved( 'product_with_details' );
+
+        // Makes a string of ids: "8314242,8377324,8342242"
+        $productList = $product1->_id.','.$product2->_id.','.$product3->_id;
+
+        $repo = new ContentRepository;
+
+        $this->assertTrue($repo->relateToProduct( $article, $productList ));
+
+        $article = Content::first($article->_id);
+
+        $this->assertContains($product1->_id, $article->products);
+        $this->assertContains($product2->_id, $article->products);
+        $this->assertContains($product3->_id, $article->products);
+    }
+
     public function testShouldUnRelateToProduct()
     {
         $article = testContentProvider::saved('valid_article');

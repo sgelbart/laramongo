@@ -162,8 +162,23 @@ class ContentRepository
     {
         if(is_numeric($product))
             $product = (int)$product;
+
+        if(is_string($product) && strstr($product,','))
+        {
+            $products = array_map('trim',explode(",",$product));
+        }
+        else
+        {
+            $products = (array)$product;
+        }
         
-        $instance->attachToProducts($product);
+        foreach ($products as $product) {
+            if(is_numeric($product))
+                $product = (int)$product;
+
+            $instance->attachToProducts($product);
+        }
+
         return $instance->save();
     }
 

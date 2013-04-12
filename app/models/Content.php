@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\MessageBag;
+
 class Content extends BaseModel {
 
     /**
@@ -158,6 +160,46 @@ class Content extends BaseModel {
                 $this->insertTags();
 
             return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Overwrites the isValid method in order to check if
+     * the related products and categories exists
+     *
+     * @return Boolean
+     */
+    public function isValid()
+    {
+        if( parent::isValid() )
+        {
+            // Check if all the product lms are valid.
+            if(
+                ($this->products() ? $this->products()->count() : 0) != count($this->products)
+            )
+            {
+                $this->errors = new MessageBag(
+                    ['LM Inválido', "Um ou mais LMs são invalidos. Verifique se não existem LMs duplicados ou incorretos na relação."]
+                );
+                return false;
+            }
+
+            // Check if all the category _ids are valid.
+            if(
+                ($this->categories() ? $this->categories()->count() : 0) != count($this->categories)
+            )
+            {
+                $this->errors = new MessageBag(
+                    ['Categoria Inválida', "Um ou mais categorias são invalidas. Verifique se não existem categorias duplicadas ou incorretos na relação."]
+                );
+                return false;
+            }
+
+            return true;
         }
         else
         {
