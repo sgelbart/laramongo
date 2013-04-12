@@ -44,6 +44,17 @@
             </div>
         @endif
 
+        @if (Session::get('flash_error'))
+            <div class='alert alert-error flash'>
+                @if (is_array(Session::get('flash_error')))
+                    <b>{{ Session::get('flash_error')[0] }}</b>
+                    {{ (isset(Session::get('flash_error')[1]) ? Session::get('flash_error')[1] : '' ) }}
+                @else
+                    {{ Session::get('flash_error') }}
+                @endif
+            </div>
+        @endif
+
         <div class='maincontent'>
             @yield('content')
         </div>

@@ -216,6 +216,19 @@ class AdminContentsTest extends ControllerTestCase
         $this->assertSessionHas('flash','sucesso');
     }
 
+    public function testShouldntRelateInvalidProducts(){
+        $content = testContentProvider::saved( 'valid_article' );
+        $lms = 'NONEXISTINGLM, ANOTHERLM, LMDOESNTEXIST';
+
+        $this->requestAction(
+            'POST', 'Admin\ContentsController@addProduct',
+            ['id'=>$content->_id, 'product_id'=>$lms] 
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash_error');
+    }
+
     public function testShouldRemoveRelatedProduct(){
         $content = testContentProvider::saved( 'valid_article' );
         $product = testProductProvider::saved( 'simple_valid_product' );

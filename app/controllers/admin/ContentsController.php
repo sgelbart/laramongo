@@ -193,7 +193,7 @@ class ContentsController extends AdminController {
             $error = ($content) ? $content->errors->all() : array();
 
             return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
-                ->with( 'error', $error );
+                ->with( 'flash_error', $error );
         }
     }
 
