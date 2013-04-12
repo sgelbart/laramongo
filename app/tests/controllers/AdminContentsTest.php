@@ -27,6 +27,17 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldIndex(){
+
+        // Make sure that search and paginate will be called at leas
+        // once
+        $contentRepo = m::mock(new ContentRepository);
+
+        $contentRepo->shouldReceive('search')->once()->passthru();
+        $contentRepo->shouldReceive('paginate')->once()->passthru();
+
+        App::instance("ContentRepository", $contentRepo);
+
+        // Do request
         $this->requestAction('GET', 'Admin\ContentsController@index');
         $this->assertRequestOk();
     }
@@ -63,6 +74,12 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldEditExistingContent(){
+
+        // Make sure that first is called twice
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('first')->twice()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         // Article
         $content = testContentProvider::saved( 'valid_article' );
 
@@ -81,6 +98,13 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldNotEditNonExistingContent(){
+
+        // Make sure that repo->first is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('first')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
+        // Request
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>'lol']);
         
         $this->assertRedirection(URL::action('Admin\ContentsController@index'));
@@ -92,6 +116,12 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldStoreValidContent(){
+        
+        // Make sure that repo->createNew is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('createNew')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $input = testContentProvider::attributesFor( 'valid_article' );
         unset( $input['_id'] );
 
@@ -108,6 +138,12 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldNotStoreInvalidContent(){
+        
+        // Make sure that repo->createNew is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('createNew')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $input = testContentProvider::attributesFor( 'invalid_article' );
         unset( $input['_id'] );
 
@@ -122,6 +158,12 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldAttachWhenStore(){
+
+        // Make sure that repo->createNew is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('createNew')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $input = testContentProvider::attributesFor( 'valid_image' );
         unset( $input['_id'] );
 
@@ -144,6 +186,12 @@ class AdminContentsTest extends ControllerTestCase
      */
     public function testShouldUpdateValidContent()
     {
+        // Make sure that repo->first and repo->update is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('first')->once()->passthru();
+        $contentRepo->shouldReceive('update')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
 
         $input = $content->attributes;
@@ -160,6 +208,12 @@ class AdminContentsTest extends ControllerTestCase
      */
     public function testShouldUpdateShouldAttachImage()
     {
+        // Make sure that repo->first and repo->update is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('first')->once()->passthru();
+        $contentRepo->shouldReceive('update')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_image' );
 
         $input = $content->attributes;
@@ -181,6 +235,12 @@ class AdminContentsTest extends ControllerTestCase
      */
     public function testShouldNotUpdateContentWithInvalidData()
     {
+        // Make sure that repo->first and repo->update is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('first')->once()->passthru();
+        $contentRepo->shouldReceive('update')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
 
         $input = $content->attributes;
@@ -197,6 +257,11 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldGetExistentTags(){
+        // Make sure that repo->existentTags is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('existentTags')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         testContentProvider::saved( 'valid_article' );
 
         $this->requestAction('GET', 'Admin\ContentsController@tags', ['term'=>'inter']);
@@ -204,6 +269,12 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     public function testShouldRelateProduct(){
+
+        // Make sure that repo->relateToProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('relateToProduct')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
         $product = testProductProvider::saved( 'simple_valid_product' );
 
@@ -217,6 +288,12 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     public function testShouldntRelateInvalidProducts(){
+
+        // Make sure that repo->relateToProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('relateToProduct')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
         $lms = 'NONEXISTINGLM, ANOTHERLM, LMDOESNTEXIST';
 
@@ -230,6 +307,12 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     public function testShouldRemoveRelatedProduct(){
+
+        // Make sure that repo->removeProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('removeProduct')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
         $product = testProductProvider::saved( 'simple_valid_product' );
 
@@ -245,6 +328,12 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     public function testShouldRelateCategory(){
+
+        // Make sure that repo->relateToCategory is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('relateToCategory')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
         $content = testContentProvider::saved( 'valid_article' );
         $category = testCategoryProvider::saved( 'valid_leaf_category' );
 
@@ -258,6 +347,12 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     public function testShouldRemoveRelatedCategory(){
+
+        // Make sure that repo->removeCategory is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('removeCategory')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+        
         $content = testContentProvider::saved( 'valid_article' );
         $category = testCategoryProvider::saved( 'valid_leaf_category' );
 

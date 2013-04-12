@@ -1,5 +1,7 @@
 <?php
 
+use Mockery as m;
+
 class ContentsTest extends ControllerTestCase
 {
     /**
@@ -17,6 +19,11 @@ class ContentsTest extends ControllerTestCase
      *
      */
     public function testShouldShowArticle(){
+
+        // Make sure that repo->findBySlug is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('findBySlug')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
 
         //Article
         $article = testContentProvider::saved('valid_article');
@@ -40,6 +47,11 @@ class ContentsTest extends ControllerTestCase
      *
      */
     public function testShouldNotShowNonExistentArticle(){
+
+        // Make sure that repo->findBySlug is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('findBySlug')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
 
         $this->requestAction('GET', 'ContentsController@show', ['slug'=>'not_existent']);
         $this->assertRedirection(URL::action('ContentsController@index'));
