@@ -16,45 +16,45 @@ class ManageContentTest extends AcceptanceTestCase
 
     public function testShouldCreateArticle()
     {
-        $attr = testContentProvider::attributesFor( 'valid_article' );
+        $attributes = testContentProvider::attributesFor( 'valid_article' );
 
         $this->browser
             ->open('/admin/contents')
             ->click(l::id('btn-create-new-content'))
             ->click(l::id('btn-create-new-article'))
             ->waitForPageToLoad(1000)
-            ->type(l::IdOrName('name'), $attr['name'])
-            ->type(l::IdOrName('slug'), $attr['slug'])
-            ->type(l::IdOrName('article'), $attr['article'])
+            ->type(l::IdOrName('name'), $attributes['name'])
+            ->type(l::IdOrName('slug'), $attributes['slug'])
+            ->type(l::IdOrName('article'), $attributes['article'])
             ->click(l::id('submit-form'))
             ->open('/admin/contents')
             ->waitForPageToLoad(1000);
 
-        $this->assertElementHasText(l::id('content-index'), $attr['name']);
+        $this->assertElementHasText(l::id('content-index'), $attributes['name']);
     }
 
     public function testShouldCreateVideo()
     {
-        $attr = testContentProvider::attributesFor( 'valid_video' );
+        $attributes = testContentProvider::attributesFor( 'valid_video' );
 
         $this->browser
             ->open('/admin/contents')
             ->click(l::id('btn-create-new-content'))
             ->click(l::id('btn-create-new-video'))
             ->waitForPageToLoad(1000)
-            ->type(l::IdOrName('name'), $attr['name'])
-            ->type(l::IdOrName('slug'), $attr['slug'])
-            ->type(l::IdOrName('youTubeId'), $attr['youTubeId'])
+            ->type(l::IdOrName('name'), $attributes['name'])
+            ->type(l::IdOrName('slug'), $attributes['slug'])
+            ->type(l::IdOrName('youTubeId'), $attributes['youTubeId'])
             ->click(l::id('submit-form'))
             ->open('/admin/contents')
             ->waitForPageToLoad(1000);
 
-        $this->assertElementHasText(l::id('content-index'), $attr['name']);
+        $this->assertElementHasText(l::id('content-index'), $attributes['name']);
     }
 
     public function testShouldCreateImageAndUploadImage()
     {
-        $attr = testContentProvider::attributesFor( 'valid_image' );
+        $attributes = testContentProvider::attributesFor( 'valid_image' );
 
         $imageFile = 'file://'.__DIR__.'/../assets/image.jpg';
 
@@ -63,14 +63,14 @@ class ManageContentTest extends AcceptanceTestCase
             ->click(l::id('btn-create-new-content'))
             ->click(l::id('btn-create-new-image'))
             ->waitForPageToLoad(1000)
-            ->type(l::IdOrName('name'), $attr['name'])
-            ->type(l::IdOrName('slug'), $attr['slug'])
+            ->type(l::IdOrName('name'), $attributes['name'])
+            ->type(l::IdOrName('slug'), $attributes['slug'])
             ->attachFile(l::IdOrName('image_file'), $imageFile)
             ->click(l::id('submit-form'))
             ->open('/admin/contents')
             ->waitForPageToLoad(1000);
 
-        $this->assertElementHasText(l::id('content-index'), $attr['name']);
+        $this->assertElementHasText(l::id('content-index'), $attributes['name']);
         $imageContent = ImageContent::first();
         $this->assertNotNull($imageContent->image);
     }
