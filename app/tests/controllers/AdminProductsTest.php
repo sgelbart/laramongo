@@ -1,5 +1,6 @@
 <?php
 
+use Mockery as m;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
 class AdminProductsTest extends ControllerTestCase
@@ -16,10 +17,25 @@ class AdminProductsTest extends ControllerTestCase
     }
 
     /**
+     * Mockery close
+     */
+    public function tearDown()
+    {
+        m::close();
+    }
+
+    /**
      * Index action should always return 200
      *
      */
     public function testShouldIndex(){
+
+        // Make sure that search and paginate will be called at least once
+        $productRepo = m::mock(new ProductRepository);
+        $productRepo->shouldReceive('search')->once()->passthru();
+        $productRepo->shouldReceive('paginate')->once()->passthru();
+        App::instance("ProductRepository", $productRepo);
+
         $this->requestAction('GET', 'Admin\ProductsController@index');
         $this->assertRequestOk();
     }

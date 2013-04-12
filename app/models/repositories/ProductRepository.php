@@ -15,7 +15,7 @@ class ProductRepository
      * @param $deactivated Display deactivated products
      * @return OdmCursor The results
      */
-    public function search( $terms = null, $deactivated = true )
+    public function search( $terms = null, $deactivated = null )
     {
         if(! $terms)
         {
@@ -29,7 +29,7 @@ class ProductRepository
             ]];            
         }
 
-        if($deactivated)
+        if($deactivated != 'true')
         {
             $query = array_merge($query,['deactivated'=>null]);
         }

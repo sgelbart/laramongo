@@ -7,6 +7,13 @@ use Zizaco\CsvToMongo\ImageUnzipper;
 
 class ProductsController extends AdminController {
 
+    protected $productRepo;
+
+    function __construct( \ProductRepository $productRepo )
+    {
+        $this->productRepo = $productRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,46 +21,25 @@ class ProductsController extends AdminController {
      */
     public function index()
     {
-        $search = Input::get('search');
-        $deactivated = Input::get('deactivated') != 'true';
+        $page = Input::get('page');
 
-        $page = Input::get('page') ?: 1;
+        $products = $this->productRepo->search( Input::get('search'), Input::get('deactivated') );
+        $total_pages = $this->productRepo->pageCount( $products );
+        $products = $this->productRepo->paginate( $products, $page );
 
-        if($search)
-        {
-            $query = [ '$or'=> [
-                ['name'=> new \MongoRegex('/^'.$search.'/i')],
-                ['lm'=> new \MongoRegex('/^'.$search.'/i')]
-            ]];
-        }
-        else
-        {
-            $query = array();
-        }
-
-        if($deactivated)
-        {
-            $query = array_merge($query,['deactivated'=>null]);
-        }
-
-        $products = Product::where($query)
-            ->sort(['_id'=>1])
-            ->limit(6)
-            ->skip( ($page-1)*6 );
+        $viewData = [
+            'products' => $products,
+            'page' => $page,
+            'total_pages' => $total_pages,
+        ];
 
         if( \Input::get('ajax') || \Request::ajax() )
         {
-            return View::make('admin.products.quicksearch')
-                ->with( 'total_pages', round($products->count()/6) )
-                ->with( 'page', $page )
-                ->with( 'products', $products );
+            return View::make('admin.products.quicksearch', $viewData);
         }
         else
         {
-            $this->layout->content = View::make('admin.products.index')
-                ->with( 'total_pages', round($products->count()/6) )
-                ->with( 'page', $page )
-                ->with( 'products', $products );
+            $this->layout->content = View::make('admin.products.index', $viewData);
         }
     }
 
