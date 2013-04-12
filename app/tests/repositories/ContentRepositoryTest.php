@@ -263,7 +263,7 @@ class ContentRepositoryTest extends TestCase
         $product2 = testProductProvider::saved( 'simple_deactivated_product' );
         $product3 = testProductProvider::saved( 'product_with_details' );
 
-        // Makes a string of ids: "8314242,8377324,8342242"
+        // Makes a string of ids. Ex: "8314242,8377324,8342242"
         $productList = $product1->_id.','.$product2->_id.','.$product3->_id;
 
         $repo = new ContentRepository;

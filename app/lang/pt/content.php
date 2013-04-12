@@ -10,6 +10,7 @@ return array(
     'add_category_explaination' => 'Selecione uma categoria abaixo para relacionar com o conteúdo.',
 
     'relate_button' => 'Relacionar',
+    'mass_relate_button' => 'Relacionar todos',
     'relation_created_sucessfully' => 'Relação criada com sucesso',
 
 );

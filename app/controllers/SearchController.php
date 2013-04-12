@@ -20,7 +20,13 @@ class SearchController extends BaseController {
         $search = Input::get('search');
         $aditional_id = Input::get('aditional_id');
 
-        if( strlen($search) > 0 )
+        if( $view == 'relate_products' && strlen($search) > 5 && strstr($search,',') )
+        {
+            return View::make('search.mass_relate')
+                ->with( 'search', $search )
+                ->with( 'aditional_id', $aditional_id);
+        }
+        elseif( strlen($search) > 0 )
         {
             $products = $this->productRepo->search( $search )->limit(10);
         }
