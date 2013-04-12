@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ManageArticleTest extends AcceptanceTestCase
+class ManageContentTest extends AcceptanceTestCase
 {
     /**
      * Clean collection between every test
@@ -33,7 +33,26 @@ class ManageArticleTest extends AcceptanceTestCase
         $this->assertElementHasText(l::id('content-index'), $attr['name']);
     }
 
-    public function testShouldCreateAndUploadImage()
+    public function testShouldCreateVideo()
+    {
+        $attr = testContentProvider::attributesFor( 'valid_video' );
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::id('btn-create-new-content'))
+            ->click(l::id('btn-create-new-video'))
+            ->waitForPageToLoad(1000)
+            ->type(l::IdOrName('name'), $attr['name'])
+            ->type(l::IdOrName('slug'), $attr['slug'])
+            ->type(l::IdOrName('youTubeId'), $attr['youTubeId'])
+            ->click(l::id('submit-form'))
+            ->open('/admin/contents')
+            ->waitForPageToLoad(1000);
+
+        $this->assertElementHasText(l::id('content-index'), $attr['name']);
+    }
+
+    public function testShouldCreateImageAndUploadImage()
     {
         $attr = testContentProvider::attributesFor( 'valid_image' );
 
