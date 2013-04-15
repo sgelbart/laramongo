@@ -28,10 +28,7 @@
 			"app/tests/AcceptanceTestCase.php",
 			"app/tests/data/",
 			"app/libraries",
-			"app/jobs",
-			"app/models/traits/CategoryTree.php",
-			"app/models/traits/HasImage.php",
-			"app/models/traits/ToSelect.php"
+			"app/jobs"
 		]
 	},
 	"scripts": {

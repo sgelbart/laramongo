@@ -33,6 +33,9 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         'productTemplate' => 'default'
     );
 
+    /**
+     * These attributes will not be mass set
+     */
     protected $guarded = array(
         'image_file',
         '_id',
@@ -152,7 +155,8 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
             $this->buildAncestors();
             return parent::save( $force );
 
-            foreach ($this->childs() as $child) {
+            foreach ($this->childs() as $child)
+            {
                 $child->buildAncestors();
                 $child->save( $force );
             }

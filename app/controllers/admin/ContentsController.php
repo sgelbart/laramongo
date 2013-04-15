@@ -209,7 +209,7 @@ class ContentsController extends AdminController {
         $this->contentRepo->removeProduct( $content, $product_id );
         
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
-            ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+            ->with( 'flash', l('content.relation_removed_sucessfully', ['resource'=>'conteúdo']) );
     }
 
     /**
@@ -251,6 +251,6 @@ class ContentsController extends AdminController {
         $this->contentRepo->removeCategory( $content, $category_id );
         
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
-            ->with( 'flash', l('content.relation_created_sucessfully', ['resource'=>'conteúdo']) );
+            ->with( 'flash', l('content.relation_removed_sucessfully', ['resource'=>'conteúdo']) );
     }
 }

@@ -12,5 +12,6 @@ return array(
     'relate_button' => 'Relacionar',
     'mass_relate_button' => 'Relacionar todos',
     'relation_created_sucessfully' => 'Relação criada com sucesso',
+    'relation_removed_sucessfully' => 'Relação removida com sucesso',
 
 );

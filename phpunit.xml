@@ -11,13 +11,13 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Low Level Tests">
+        <testsuite name="l">
             <directory>./app/tests/libraries</directory>
             <directory>./app/tests/models</directory>
             <directory>./app/tests/repositories</directory>
             <directory>./app/tests/controllers</directory>
         </testsuite>
-        <testsuite name="High Level Tests">
+        <testsuite name="h">
             <directory>./app/tests/acceptance</directory>
         </testsuite>
     </testsuites>
