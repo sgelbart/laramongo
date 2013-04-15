@@ -153,5 +153,7 @@ class ProductTest extends TestCase
         $product = testProductProvider::instance('simple_valid_product');
 
         $this->assertContains('<div',$product->renderPopover());
+        $this->assertContains('<span',$product->renderPopover());
+        $this->assertContains('bacon',$product->renderPopover('bacon'));
     }
 }

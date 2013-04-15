@@ -9,9 +9,10 @@ trait ToPopover
      * especified in $popoverView.
      * The rendered view the instance variable will be avaliable
      * with the object $instance.
+     * @param  $content content display the popover on hover
      * @return string html_code_popover
      */
-    public function renderPopover()
+    public function renderPopover($content = '')
     {
         if(! $this->popoverView)
         {
@@ -23,14 +24,16 @@ trait ToPopover
 
         $popoverContent = View::make($this->popoverView, ['instance' => $this])->render();
 
-        $popoverHtml = 
-        '<div class="popover top" style="display:block; position: relative;"><div class="arrow"></div>'.
+        $popoverHtml =
+        '<span data-with-popover>'.
+            $content .
+        '<div class="popover top"><div class="arrow"></div>'.
             '<h3 class="popover-title">Title</h3>'.
             '<div class="popover-content">'.
                 $popoverContent.
             '</div>'.
-        '</div>';
-
+        '</div>'.
+        '</span>';
         return $popoverHtml;
     }
 }
