@@ -3,6 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Product extends BaseModel {
+    use Trait\ToPopover;
 
     /**
      * The database collection
@@ -105,7 +106,7 @@ class Product extends BaseModel {
      */
     public function isVisible()
     {
-        return 
+        return
             $this->state != 'invalid' &&
             $this->deactivated == false &&
             $this->lm != false;
