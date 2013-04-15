@@ -28,7 +28,7 @@ trait ToPopover
         '<span data-with-popover>'.
             $content .
         '<div class="popover top"><div class="arrow"></div>'.
-            '<h3 class="popover-title">Title</h3>'.
+            '<h3 class="popover-title">'. $this->name .'</h3>'.
             '<div class="popover-content">'.
                 $popoverContent.
             '</div>'.
