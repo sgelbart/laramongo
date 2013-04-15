@@ -3,7 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Product extends BaseModel {
-    use Trait\ToPopover;
+    use Traits\ToPopover;
 
     /**
      * The database collection
@@ -37,6 +37,11 @@ class Product extends BaseModel {
         'description' => 'text',
         'active' => true,
     );
+
+    /**
+     * View that are gonna be rendered by the ToPopover trait
+     */
+    protected $popoverView = 'admin.products._popover';
 
     /**
      * Reference to category

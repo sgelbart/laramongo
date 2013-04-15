@@ -9,7 +9,10 @@
     <tbody>
         @foreach ($products as $product)
             <tr id='row-{{ $product->_id }}'>
-                <td>{{ $product->_id }}</td>
+                <td>
+                    {{ $product->_id }}
+                    {{ $product->renderPopover() }}
+                </td>
                 <td>
                     {{ Html::linkAction( 'Admin\ProductsController@edit', $product->name, ['id'=>$product->_id] ) }}
                 </td>

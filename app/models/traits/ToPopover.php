@@ -1,4 +1,6 @@
-<?php namespaces Trait;
+<?php namespace Traits;
+
+use View;
 
 trait ToPopover
 {
@@ -11,6 +13,24 @@ trait ToPopover
      */
     public function renderPopover()
     {
-        return View::make($this->popoverView, ['instance' => $this])->render();
+        if(! $this->popoverView)
+        {
+            trigger_error(
+                'The $popoverView attribute is not set into this model. '.
+                'The ToPopover trait needs this attribute to exist.'
+            );
+        }
+
+        $popoverContent = View::make($this->popoverView, ['instance' => $this])->render();
+
+        $popoverHtml = 
+        '<div class="popover top" style="display:block; position: relative;"><div class="arrow"></div>'.
+            '<h3 class="popover-title">Title</h3>'.
+            '<div class="popover-content">'.
+                $popoverContent.
+            '</div>'.
+        '</div>';
+
+        return $popoverHtml;
     }
 }

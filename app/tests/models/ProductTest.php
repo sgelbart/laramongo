@@ -144,4 +144,14 @@ class ProductTest extends TestCase
         $this->assertNotEquals( $input['nonexistant'], $document->getAttribute('nonexistant') );
         $this->assertEquals   ( $input['category'], $document->getAttribute('category') );
     }
+
+    /**
+     * Tests if a product renders a pop over
+     */
+    public function testShouldRenderPopover()
+    {
+        $product = testProductProvider::instance('simple_valid_product');
+
+        $this->assertContains('<div',$product->renderPopover());
+    }
 }
