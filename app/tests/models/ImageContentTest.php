@@ -81,6 +81,70 @@ class ImageContentTest extends TestCase
     }
 
     /**
+     * the untagProduct method should remove the entry from the tagged attribute
+     * 
+     */
+    public function testShouldUntagProduct()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $productA = testProductProvider::saved('simple_valid_product');
+        $productB = testProductProvider::saved('product_with_details');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $productA );
+        $content->attachToProducts( $productB );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($productA, 50,60));
+        $this->assertTrue($content->tagProduct($productB, 20,30));
+
+        // Untag the product
+        $content->untagProduct($productA);
+
+        // Check if the product was not tagged
+        $this->assertEquals(1, count($content->tagged));
+
+        // Check if the product tagged is the ProductB
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        $this->assertEquals($should_be, $real);
+    }
+
+    /**
+     * When detaching a product the tag should be removed
+     * 
+     */
+    public function testShouldRemoveTagWhenDetachProduct()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $productA = testProductProvider::saved('simple_valid_product');
+        $productB = testProductProvider::saved('product_with_details');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $productA );
+        $content->attachToProducts( $productB );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($productA, 50,60));
+        $this->assertTrue($content->tagProduct($productB, 20,30));
+
+        // Dettach the product (break the relation)
+        $content->detach('products',$productA);
+
+        // Check if the product was not tagged
+        $this->assertEquals(1, count($content->tagged));
+
+        // Check if the product tagged is the ProductB
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        $this->assertEquals($should_be, $real);
+    }
+
+    /**
      * Should attach uploaded image to content
      *
      */

@@ -74,6 +74,7 @@ class ImageContent extends Content {
     /**
      * Tags an product that is already related with this content
      * into the picture to used with a facebook like image tagging
+     * 
      * @param  mixed $product Object or id of the product (This product should already be referenced in the products attribute)
      * @param  int   $x       x Position of the tag in the image
      * @param  int   $y       y Position of the tag in the image
@@ -90,18 +91,43 @@ class ImageContent extends Content {
             $product_id = $product;
         }
 
-        // Checks if the product is previously related with the content.
+        // If the product is previously related with the content.
         if(in_array($product_id, (array)$this->products))
         {
-            $taggedProducts = $this->tagged;
-            $taggedProducts[] = ['_id'=>$product_id, 'x'=>$x, 'y'=>$y];
-            $this->tagged = $taggedProducts;
-
+            $this->embedToTagged(['_id'=>$product_id, 'x'=>$x, 'y'=>$y]);
             return true; // Product tagged successfully
         }
         else
         {
             return false; // The product is not related. Call 'attachToProducts' before.
+        }
+    }
+
+    /**
+     * Removes a tagged product from the tagged attribute
+     * @param  mixed  $product Product object or id
+     * @return null
+     */
+    public function untagProduct($product)
+    {
+        $this->unembed('tagged',$product);
+    }
+
+    /**
+     * Overwrites the detach method in order to remove any tagged
+     * Product from the tagged attribute
+     * 
+     * @param string $field
+     * @param mixed $obj _id, document or model instance
+     * @return void
+     */
+    public function detach($field, $obj)
+    {
+        parent::detach($field, $obj);
+
+        if($field == 'products')
+        {       
+            $this->untagProduct($obj);
         }
     }
 }
