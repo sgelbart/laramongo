@@ -39,14 +39,109 @@ class ImageContentTest extends TestCase
     }
 
     /**
-     * Should get the video ID when setting the youTubeId
-     * attribute
+     * Should tag in the image a product that is related to the content
+     *
      */
-    public function testShouldGetVideoCodeWhenSettingVideo()
+    public function testShouldTagProductToImage()
     {
-        $video = new VideoContent;
-        $video->youTubeId = 'http://www.youtube.com/watch?v=BNQFsKCuwAcxY&bacon=lol';
-        $this->assertEquals('BNQFsKCuwAcxY', $video->youTubeId );
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved('simple_valid_product');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $product );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($product, 50,60));
+
+        // Check if the product was tagged correctly
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$product->_id, 'x'=>50, 'y'=>60];
+        $this->assertEquals($should_be, $real);
+    }
+
+    /**
+     * Should NOT tag in the image a product that is NOT related to the content
+     *
+     */
+    public function testShouldNotTagUnrelatedProductToImage()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved('simple_valid_product');
+
+        // Don't attach the product to the image
+
+        // tagProduct in Content
+        $this->assertFalse($content->tagProduct($product, 50,60));
+
+        // Check if the product was not tagged
+        $this->assertEquals(0, count($content->tagged));
+    }
+
+    /**
+     * the untagProduct method should remove the entry from the tagged attribute
+     * 
+     */
+    public function testShouldUntagProduct()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $productA = testProductProvider::saved('simple_valid_product');
+        $productB = testProductProvider::saved('product_with_details');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $productA );
+        $content->attachToProducts( $productB );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($productA, 50,60));
+        $this->assertTrue($content->tagProduct($productB, 20,30));
+
+        // Untag the product
+        $content->untagProduct($productA);
+
+        // Check if the product was not tagged
+        $this->assertEquals(1, count($content->tagged));
+
+        // Check if the product tagged is the ProductB
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        $this->assertEquals($should_be, $real);
+    }
+
+    /**
+     * When detaching a product the tag should be removed
+     * 
+     */
+    public function testShouldRemoveTagWhenDetachProduct()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $productA = testProductProvider::saved('simple_valid_product');
+        $productB = testProductProvider::saved('product_with_details');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $productA );
+        $content->attachToProducts( $productB );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($productA, 50,60));
+        $this->assertTrue($content->tagProduct($productB, 20,30));
+
+        // Dettach the product (break the relation)
+        $content->detach('products',$productA);
+
+        // Check if the product was not tagged
+        $this->assertEquals(1, count($content->tagged));
+
+        // Check if the product tagged is the ProductB
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        $this->assertEquals($should_be, $real);
     }
 
     /**
