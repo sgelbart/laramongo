@@ -1,4 +1,4 @@
-<img src="{{$instance->imageUrl()}}"/>
+<img src="{{ $instance->imageUrl() }}"/>
 
 <div class="technical-features">
   <p>
