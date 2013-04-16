@@ -5,7 +5,7 @@
  * on hover, position and display the .popover div within it
  *
  * Ex:
- *   <spam data-with-popover>
+ *   <span data-with-popover>
  *       <h1>Hover me!</h1>
  *       <div class='popover'>
  *           <p>This is the popover</p>
