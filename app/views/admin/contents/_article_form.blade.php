@@ -6,7 +6,7 @@
 ?>
 
 {{
-    Form::open([   
+    Form::open([
         'url' => URL::action(
             isset( $action ) ? $action : 'Admin\ContentsController@store',
             isset( $content ) ? ['id'=>$content->_id] : []
@@ -18,7 +18,7 @@
 }}
 
     {{ Form::hidden('kind', 'article' ) }}
-    
+
     <div class="control-group">
         {{ Form::label('name', 'Titulo do Artigo', ['class'=>'control-label']) }}
         <div class="controls">

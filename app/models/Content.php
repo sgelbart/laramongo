@@ -3,6 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Content extends BaseModel {
+    use Traits\ToPopover;
 
     /**
      * The database collection
@@ -40,6 +41,8 @@ class Content extends BaseModel {
         'image_file'
     );
 
+    protected $popoverView = 'admin.categories._popover';
+
     /**
      * The products attached to the content
      */
@@ -64,7 +67,7 @@ class Content extends BaseModel {
      */
     public function isVisible()
     {
-        return 
+        return
             $this->hidden == false &&
             $this->approved == true &&
             $this->_id != false;
@@ -155,7 +158,7 @@ class Content extends BaseModel {
         if( $this->isValid() || $force )
         {
             $result = parent::save();
-            
+
             if( $result )
                 $this->insertTags();
 
