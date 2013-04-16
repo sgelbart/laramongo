@@ -48,7 +48,7 @@ class ImageContent extends Content {
             $style .= '" ';
         }
 
-        $html = '<img alt="'.$this->name.'" src="'.$this->imageUrl().'" '.$style.'>';
+        $html = '<img class="tagged-image" alt="'.$this->name.'" src="'.$this->imageUrl().'" '.$style.'>';
 
         return $html;
     }
