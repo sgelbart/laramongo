@@ -67,6 +67,9 @@ class ImageContent extends Content {
     {
         $rendered = '';
 
+        if(! $this->tagged)
+            return '';
+
         foreach ($this->products() as $product) {
             foreach ($this->tagged as $tag) {
                 if($tag['_id'] == $product->_id)

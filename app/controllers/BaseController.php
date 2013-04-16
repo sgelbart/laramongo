@@ -11,13 +11,8 @@ class BaseController extends Controller {
      */
     protected function setupLayout()
     {
-        if ( ! is_null($this->layout))
+        if ($this->layout)
         {
-            if( \Input::get('ajax') || \Request::ajax() )
-            {
-                $this->layout = 'layouts.ajax';
-            }
-
             $this->layout = \View::make($this->layout);
         }
     }
