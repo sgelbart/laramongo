@@ -71,7 +71,7 @@
     <div class="control-group">
         <span class='control-label'>Template</span>
         <div class="controls">
-            {{ Form::select('template', ['default' => 'Default', 'responsive' => 'Responsivo'] ) }}
+            {{ Form::select('template', ['default' => 'Default', 'responsive' => 'Responsivo'], array_get( $f,'template') ) }}
         </div>
     </div>
 
