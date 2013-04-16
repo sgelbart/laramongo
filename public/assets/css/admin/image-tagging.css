@@ -19,5 +19,6 @@
   opacity: 0.4;
 }
 .tagged-image:hover .tag:hover {
+  background-color: rgba(255,255,255,0.2);
   opacity: 0.8;
 }

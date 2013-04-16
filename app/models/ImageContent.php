@@ -48,9 +48,38 @@ class ImageContent extends Content {
             $style .= '" ';
         }
 
-        $html = '<img class="tagged-image" alt="'.$this->name.'" src="'.$this->imageUrl().'" '.$style.'>';
+        $productTags = $this->renderTags();
+
+        $html = '<span class="tagged-image">'.
+            '<img class="tagged-image" alt="'.$this->name.'" src="'.$this->imageUrl().'" '.$style.'>'.
+            $productTags.
+        '</span>';
 
         return $html;
+    }
+
+    /**
+     * Return the html code of the products that ate tagged in the
+     * image
+     * @return string Html code of the rendered tags
+     */
+    private function renderTags()
+    {
+        $rendered = '';
+
+        foreach ($this->products() as $product) {
+            foreach ($this->tagged as $tag) {
+                if($tag['_id'] == $product->_id)
+                {
+                    $rendered .=
+                    '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'">'.
+                    '<span class="tag" title="'.$product->name.'" style="left:'.$tag['x'].'%; top:'.$tag['y'].'%"></span>'.
+                    '</a>';
+                }
+            }
+        }
+
+        return $rendered;
     }
 
     /**
