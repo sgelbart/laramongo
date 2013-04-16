@@ -86,3 +86,13 @@ require __DIR__.'/../libraries/helpers.php';
 
 View::addExtension('blade.js','blade');
 View::addExtension('js','blade');
+
+/*
+|--------------------------------------------------------------------------
+| Default Application Template
+|--------------------------------------------------------------------------
+| When resolving template class return the template builder.
+|
+*/
+
+App::bind('Template', 'Laramongo\TemplateBuilder\TemplateBuilder', true);
