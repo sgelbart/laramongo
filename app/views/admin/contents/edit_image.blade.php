@@ -13,4 +13,8 @@
         @include ('admin.contents._relations')
     </div>
 
+    <div id='content-image-tagging'>
+        @include ('admin.contents._image_tagging')
+    </div>
+
 @stop
