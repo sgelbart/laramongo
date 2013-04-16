@@ -8,6 +8,6 @@
 
   <p>
     <b>Categoria:</b>
-    {{ $instance->category()->name }}
+        {{ $instance->category()->name }}
   </p>
 </div>
