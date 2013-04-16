@@ -9,7 +9,7 @@
  * Ex:
  *     <a href="post/1" data-method="delete">destroy</a>
  *     // Will trigger the route Route::delete('post/(:id)')
- * 
+ *
  */
 
 restfulizer = function(){
@@ -17,7 +17,7 @@ restfulizer = function(){
         return "\n"+
         "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
         "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
-        "</form>\n"
+        "</form>\n";
     })
     .removeAttr('href')
     .attr('style','cursor:pointer;')
@@ -33,7 +33,7 @@ restfulizer = function(){
             $(this).find("form").submit();
         }
     });
-}
+};
 
 $(function(){
     restfulizer();

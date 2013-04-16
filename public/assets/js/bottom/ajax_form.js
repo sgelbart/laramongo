@@ -13,15 +13,15 @@
  *       <input type="text" name="username">
  *       ...
  *   </form>
- *   
+ *
  *   //somewhere.php
  *   <?php
  *      if($_POST['username']) {
  *          echo "alert('Form submitted!'); //Javascript code";
  *      }else{
- *          echo "alert('Username missing'); //Javascript code";    
+ *          echo "alert('Username missing'); //Javascript code";
  *      }
- * 
+ *
  */
 
 $(function(){
@@ -30,9 +30,9 @@ $(function(){
 
     $('input[data-submit-on-type=true]').keyup(function(){
         $(this).closest('form[data-ajax=true]').ajaxSubmit();
-    })
+    });
 
     $('input[data-submit-on-click=true]').click(function(){
         $(this).closest('form[data-ajax=true]').ajaxSubmit();
-    })
-})
+    });
+});

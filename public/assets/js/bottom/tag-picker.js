@@ -12,7 +12,7 @@
  *
  * PS:
  *   Requires: jquery.tokeninput.js
- * 
+ *
  */
 
  setupTagPicker = function(){
@@ -21,11 +21,9 @@
         el.tagsInput({
             autocomplete_url: el.attr('tag-picker')
         });
-    })
- }
+    });
+};
 
 $(function(){
-
     setupTagPicker();
-    
-})
+});

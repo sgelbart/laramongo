@@ -22,9 +22,9 @@ $(function(){
 
         el.data('timeout', t);
 
-    }, function() { 
+    }, function() {
         $(this).find('ul').first().fadeOut('fast');
 
         clearTimeout($(this).data('timeout'));
     });
-})
+});

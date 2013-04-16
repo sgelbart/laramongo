@@ -118,3 +118,18 @@ select[data-chosen] {
 .chzn-container {
   margin-bottom: 10px;
 }
+.popover {
+  width: 415px;
+}
+.popover .popover-content {
+  display: inline-block;
+  vertical-align: top;
+}
+.popover .popover-content img {
+  display: inline-block;
+  width: 100px;
+  padding: 10px;
+}
+.popover .popover-content .attributes {
+  display: inline-block;
+}
