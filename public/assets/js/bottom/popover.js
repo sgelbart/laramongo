@@ -13,7 +13,7 @@
  *   </span>
  *
  * PS: It's a good idea to use it with the "ToPopover" trait ;)
- * 
+ *
  */
 
 var Popover = function() {
@@ -42,6 +42,6 @@ var Popover = function() {
 };
 
 $(function(){
-    new Popover();    
+    new Popover();
 });
 

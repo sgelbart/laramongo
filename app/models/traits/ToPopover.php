@@ -29,6 +29,7 @@ trait ToPopover
             $content .
         '<div class="popover top"><div class="arrow"></div>'.
             '<h3 class="popover-title">'. $this->name .'</h3>'.
+            '<img src="' . $this->imageUrl() . '"/>'.
             '<div class="popover-content">'.
                 $popoverContent.
             '</div>'.
