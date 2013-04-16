@@ -304,6 +304,50 @@ class AdminContentsTest extends ControllerTestCase
         $this->assertSessionHas('flash_error');
     }
 
+    public function testShouldTagProductToImage(){
+
+        // Make sure that repo->tagToProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('tagToProduct')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
+        // attach Product to ImageContent
+        $content = testContentProvider::saved( 'valid_image' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+        $content->attachToProducts( $product );
+        $content->save();
+
+        // Request
+        $this->withInput(['x'=>20,'y'=>30])->requestAction(
+            'POST', 'Admin\ContentsController@tagProduct',
+            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
+    public function testShouldNotTagNonRelatedProductToImage(){
+
+        // Make sure that repo->tagToProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('tagToProduct')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
+        // Don't attach product to ImageContent
+        $content = testContentProvider::saved( 'valid_image' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        // Request
+        $this->withInput(['x'=>20,'y'=>30])->requestAction(
+            'POST', 'Admin\ContentsController@tagProduct',
+            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertSessionHas('flash_error');
+    }
+
     public function testShouldRemoveRelatedProduct(){
 
         // Make sure that repo->removeProduct is called once

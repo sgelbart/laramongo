@@ -13,5 +13,7 @@ return array(
     'mass_relate_button' => 'Relacionar todos',
     'relation_created_sucessfully' => 'Relação criada com sucesso',
     'relation_removed_sucessfully' => 'Relação removida com sucesso',
+    'tag_created_sucessfully' => 'Produto marcado com sucesso',
+    'tag_not_sucessfully' => 'Falha ao marcar produto. Verifique se o produto esta relacionado com o Conteúdo',
 
 );

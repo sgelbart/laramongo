@@ -59,10 +59,11 @@ Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@e
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
-Route::delete( 'admin/content/{id}/rel/product/{product_id}','Admin\ContentsController@removeProduct');
-Route::post(   'admin/content/{id}/rel/product/{product_id}','Admin\ContentsController@addProduct');
-Route::delete( 'admin/content/{id}/rel/category/{category_id}','Admin\ContentsController@removeCategory');
+Route::delete( 'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@removeProduct');
+Route::post(   'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@addProduct');
+Route::delete( 'admin/content/{id}/rel/category/{category_id}', 'Admin\ContentsController@removeCategory');
 Route::post(   'admin/content/{id}/rel/category/{category_id?}','Admin\ContentsController@addCategory');
+Route::post(   'admin/content/{id}/tag/{product_id}','Admin\ContentsController@tagProduct');
 
 // Admin\CategoriesController
 Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );

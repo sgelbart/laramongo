@@ -198,6 +198,32 @@ class ContentsController extends AdminController {
     }
 
     /**
+     * Should tag a product into an ImageContent
+     * @param  int    $id         ImageContent id
+     * @param  int    $product_id id of the Product that are gonna be tagged
+     * @return Response
+     */
+    public function tagProduct($id, $product_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        if(
+            $this->contentRepo->tagToProduct(
+                $content, $product_id, Input::get('x'), Input::get('y')
+            )
+        )
+        {
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'flash', l('content.tag_created_sucessfully') );
+        }
+        else
+        {
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+                ->with( 'flash_error', l('content.tag_not_sucessfully') );
+        }
+    }
+
+    /**
      * Remove reference to the product_id in the content
      *
      * @return Response
