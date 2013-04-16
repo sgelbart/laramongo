@@ -5,7 +5,7 @@
     @foreach ($content->categories() as $relatedCat)
         <tr>
             <td colspan="2">
-                {{ $relatedCat->name }}
+                {{ $relatedCat->renderPopover($relatedCat->name) }}
             </td>
             <td>
                 <div class="btn-group">
@@ -26,7 +26,7 @@
     @foreach ($content->products() as $relatedProd)
         <tr>
             <td>
-                {{ $relatedProd->_id }}
+                {{ $relatedProd->renderPopover($relatedProd->_id) }}
             </td>
             <td>
                 {{ $relatedProd->name }}
@@ -54,7 +54,7 @@
 <p>{{ l('content.add_category_explaination') }}</p>
 <div class='well'>
     {{
-        Form::open([   
+        Form::open([
             'url' => URL::action('Admin\ContentsController@addCategory', ['id'=>$content->_id]),
             'method'=>'POST'
         ])
@@ -73,7 +73,7 @@
 <h3>{{ l('content.add_product') }}</h3>
 <p>{{ l('content.add_product_explaination') }}</p>
 <form class="form-search" data-ajax="true" action='{{ URL::action( 'SearchController@products', ['view'=>'relate_products'] ) }}'>
-    <input 
+    <input
         type="text" name="search" value="{{ Input::get('search') }}"
         class="input-block-level search-query" data-submit-on-type='true'
         placeholder="Pesquisar" id="product-relation-quicksearch"

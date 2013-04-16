@@ -1,5 +1,3 @@
-<img src="{{ $instance->imageUrl() }}"/>
-
 <div class="technical-features">
   <p>
     <b>LM:</b>
@@ -8,6 +6,6 @@
 
   <p>
     <b>Categoria:</b>
-    {{ $instance->category()->name }}
+    {{ $instance->_id }}
   </p>
 </div>

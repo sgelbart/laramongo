@@ -119,4 +119,13 @@ class ContentTest extends TestCase
         // Search for a non-existent tag
         $this->assertNull( $connection->getConnection()->db->tags->findOne(['_id'=>'a_non_existent_tag']) );
     }
+
+    public function testShouldRenderPopover()
+    {
+        $content = testContentProvider::instance('valid_article');
+
+        $this->assertContains('<div',$content->renderPopover());
+        $this->assertContains('<span',$content->renderPopover());
+        $this->assertContains('bacon',$content->renderPopover('bacon'));
+    }
 }
