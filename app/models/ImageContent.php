@@ -70,4 +70,38 @@ class ImageContent extends Content {
             $this->_id != false &&
             $this->image;
     }
+
+    /**
+     * Tags an product that is already related with this content
+     * into the picture to used with a facebook like image tagging
+     * @param  mixed $product Object or id of the product (This product should already be referenced in the products attribute)
+     * @param  int   $x       x Position of the tag in the image
+     * @param  int   $y       y Position of the tag in the image
+     * @return bool           Returns true if the product was created successfuly.
+     */
+    public function tagProduct( $product, $x, $y )
+    {
+        if($product instanceOf Product)
+        {
+            $product_id = $product->_id;
+        }
+        else
+        {
+            $product_id = $product;
+        }
+
+        // Checks if the product is previously related with the content.
+        if(in_array($product_id, (array)$this->products))
+        {
+            $taggedProducts = $this->tagged;
+            $taggedProducts[] = ['_id'=>$product_id, 'x'=>$x, 'y'=>$y];
+            $this->tagged = $taggedProducts;
+
+            return true; // Product tagged successfully
+        }
+        else
+        {
+            return false; // The product is not related. Call 'attachToProducts' before.
+        }
+    }
 }

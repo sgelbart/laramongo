@@ -39,14 +39,45 @@ class ImageContentTest extends TestCase
     }
 
     /**
-     * Should get the video ID when setting the youTubeId
-     * attribute
+     * Should tag in the image a product that is related to the content
+     *
      */
-    public function testShouldGetVideoCodeWhenSettingVideo()
+    public function testShouldTagProductToImage()
     {
-        $video = new VideoContent;
-        $video->youTubeId = 'http://www.youtube.com/watch?v=BNQFsKCuwAcxY&bacon=lol';
-        $this->assertEquals('BNQFsKCuwAcxY', $video->youTubeId );
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved('simple_valid_product');
+
+        // Attach the product to the ImageContent
+        $content->attachToProducts( $product );
+        $content->save();
+
+        // tagProduct in Content
+        $this->assertTrue($content->tagProduct($product, 50,60));
+
+        // Check if the product was tagged correctly
+        $real = $content->tagged[0];
+        $should_be = ['_id'=>$product->_id, 'x'=>50, 'y'=>60];
+        $this->assertEquals($should_be, $real);
+    }
+
+    /**
+     * Should NOT tag in the image a product that is NOT related to the content
+     *
+     */
+    public function testShouldNotTagUnrelatedProductToImage()
+    {
+        // Creates an ImageContent and a Product
+        $content = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved('simple_valid_product');
+
+        // Don't attach the product to the image
+
+        // tagProduct in Content
+        $this->assertFalse($content->tagProduct($product, 50,60));
+
+        // Check if the product was not tagged
+        $this->assertEquals(0, count($content->tagged));
     }
 
     /**
