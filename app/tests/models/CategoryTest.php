@@ -238,4 +238,13 @@ class CategoryTest extends TestCase
 
         $this->assertTrue($category->validateProducts());
     }
+
+    public function testShouldRenderPopover()
+    {
+        $category = testCategoryProvider::instance('valid_leaf_category');
+
+        $this->assertContains('<div',$category->renderPopover());
+        $this->assertContains('<span',$category->renderPopover());
+        $this->assertContains('bacon',$category->renderPopover('bacon'));
+    }
 }

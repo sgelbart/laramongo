@@ -3,7 +3,7 @@
 use Illuminate\Support\MessageBag;
 
 class Category extends BaseModel implements Traits\ToTreeInterface {
-    use Traits\HasImage, Traits\ToTree, Traits\ToSelect;
+    use Traits\HasImage, Traits\ToTree, Traits\ToSelect, Traits\ToPopover;
 
     /**
      * The database collection
@@ -50,6 +50,8 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         'nodeView' => 'admin.categories._tree_node',
         'nodeName' => 'category'
     );
+
+    protected $popoverView = 'admin.categories._popover';
 
     /**
      * Reference to parent
@@ -120,7 +122,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
      */
     public function isVisible()
     {
-        return 
+        return
             $this->hidden == false &&
             $this->_id != false;
     }
@@ -225,7 +227,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
 
     /**
      * Return an array containing name, parent indexed
-     * by _id. The purpose of this is to be used with 
+     * by _id. The purpose of this is to be used with
      * laravel's Form::select
      *
      * @return array

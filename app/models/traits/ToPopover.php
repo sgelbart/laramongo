@@ -22,7 +22,11 @@ trait ToPopover
             );
         }
 
-        $popoverContent = View::make($this->popoverView, ['instance' => $this])->render();
+        $ancestor = null;
+        if(method_exists($this, 'ancestors'))
+            $ancestor = array_get($this->ancestors(),0, null);
+
+        $popoverContent = View::make($this->popoverView, ['instance' => $this,  'ancestor' => $ancestor])->render();
 
         $popoverHtml =
         '<span data-with-popover>'.

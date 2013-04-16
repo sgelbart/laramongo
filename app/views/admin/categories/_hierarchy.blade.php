@@ -9,10 +9,21 @@
         @foreach ( $category->parents() as $parent )
             <tr>
                 <td>
-                    {{ Html::linkAction('Admin\CategoriesController@edit', $parent->name, ['id'=>$parent->_id]) }}
+                    {{ $parent->renderPopover(
+                        Html::linkAction('Admin\CategoriesController@edit', $parent->name, ['id'=>$parent->_id])
+                        );
+                    }}
                 </td>
+
                 <td>
-                    <a href='{{ URL::action('Admin\CategoriesController@detach', ['id'=>$category->_id, 'parent'=>$parent->_id]) }}' class='btn btn-danger btn-small' data-method='delete'>Remover relação</a>
+                    {{
+                       Html::linkAction(
+                        'Admin\CategoriesController@detach',
+                           'Remover relação',
+                           ['id'=>$category->_id, 'parent'=>$parent->_id],
+                           ['class'=>'btn btn-danger btn-small', 'data-method'=>'delete']
+                       )
+                    }}
                 </td>
             <tr>
         @endforeach
@@ -21,7 +32,7 @@
 
 <div class='well'>
     {{
-        Form::open([   
+        Form::open([
             'url' => URL::action('Admin\CategoriesController@attach', ['id'=>$category->_id]),
             'method'=>'POST'
         ])
@@ -31,7 +42,7 @@
 
     {{ Form::button(
         'Adicionar categoria pai',
-        ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-attach-category'] ) 
+        ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-attach-category'] )
     }}
 
     {{ Form::close() }}
