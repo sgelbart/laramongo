@@ -7,7 +7,7 @@
  * Ex:
  *     <ul data-tree="true">...
  *     // Will turn this ul into a collapsable tree
- * 
+ *
  * If a "data-tree-session-url" attribute is provided  that url
  * will be called for each node oppening/closing in order to save
  * the tree state in session.
@@ -37,7 +37,7 @@ $(function(){
                     $(this).removeClass('not-important');
                     unfoldLeaf( $(this) );
                 }
-            })
+            });
         }
         else
         {
@@ -72,7 +72,7 @@ $(function(){
                 node.attr('collapsed', false);
                 node.find('ul').first().css('display','block');
             }
-        })
+        });
     }
 
     function processChildOf( el )
@@ -93,19 +93,19 @@ $(function(){
             processChildOf( child );
         }
     }
-    
+
     // Make <li> elements collapsable
     $('[data-tree=true]').find('li').find('a').click(function(){
         var el = $(this).closest('li');
 
         if(el.attr('collapsed') == "true")
         {
-            el.attr('collapsed',"false")
+            el.attr('collapsed',"false");
             el.find('ul').first().fadeIn(100);
         }
         else
         {
-            el.attr('collapsed',"true")
+            el.attr('collapsed',"true");
             el.find('ul').first().fadeOut(100);
         }
 
@@ -122,7 +122,7 @@ $(function(){
 
         if($(this).attr('collapsed') == 'true')
         {
-            $(this).find('ul').css('display','none');    
+            $(this).find('ul').css('display','none');
         }
     })
 
@@ -130,4 +130,4 @@ $(function(){
     $('[data-tree-search=true] input[data-submit-on-type=true]').keyup(function(){
         searchFor($(this).val());
     })
-})
+});

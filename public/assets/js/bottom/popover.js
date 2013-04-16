@@ -17,31 +17,26 @@
  */
 
 var Popover = function() {
+    $('[data-with-popover]').hover(function() {
+        var el = $(this);
+        var popover = el.find('.popover');
 
-    this.init = function() {
-        $('[data-with-popover]').hover(function() {
-            var el = $(this);
-            var popover = el.find('.popover');
+        var x = el.offset().left;
+        var y = el.offset().top;
 
-            var x = el.offset().left;
-            var y = el.offset().top;
+        popover
+            .css('left', x - popover.width()/2 + el.width()/2)
+            .css('top', y - popover.height())
+            .show();
 
-            popover
-                .css('left', x - popover.width()/2 + el.width()/2)
-                .css('top', y - popover.height())
-                .show();
+    }, function() {
+        var el = $(this);
 
-        }, function() {
-            var el = $(this);
-
-            el.find('.popover').hide();
-        });
-    };
-
-    this.init();
+        el.find('.popover').hide();
+    });
 };
 
 $(function(){
-    new Popover();
+    Popover();
 });
 

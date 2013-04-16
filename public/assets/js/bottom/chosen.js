@@ -12,18 +12,16 @@
  *
  * PS:
  *   Requires: jquery.chosen.js
- * 
+ *
  */
 
  setupChosen = function(){
     $('select[data-chosen]:visible').each(function(){
         el = $(this);
         el.chosen();
-    })
- }
+    });
+ };
 
 $(function(){
-
     setupChosen();
-    
-})
+});
