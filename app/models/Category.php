@@ -18,7 +18,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
      * @var array
      */
     public static $rules = array(
-        'name' => 'required',
+        'name' => 'required'
     );
 
     /**
@@ -39,6 +39,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
     protected $guarded = array(
         'image_file',
         '_id',
+        '_method'
     );
 
     /**

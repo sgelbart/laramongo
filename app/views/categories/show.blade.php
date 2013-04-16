@@ -1,7 +1,7 @@
 @section ('content')
 
     <p>
-        Seu caminho foi: 
+        Seu caminho foi:
         {{ Html::link( '/', 'Home' ) }} >
         {{ $category->name }}
     </p>

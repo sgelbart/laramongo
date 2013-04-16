@@ -28,13 +28,13 @@ class CategoriesController extends AdminController {
 
         // Merge with the actual data
         $tree_state = array_merge(
-            Session::get('category-tree-state', array()), 
+            Session::get('category-tree-state', array()),
             $node_state
         );
 
         // Save in session
         Session::put('category-tree-state',$tree_state);
-        
+
         // Return an empty 'success'
         return Response::make('',200);
     }
@@ -149,7 +149,7 @@ class CategoriesController extends AdminController {
             {
                 $category->attachUploadedImage( Input::file('image_file') );
             }
-            
+
             return Redirect::action('Admin\CategoriesController@index')
                 ->with( 'flash', 'Alterações salvas com sucesso' );
         }
@@ -183,7 +183,7 @@ class CategoriesController extends AdminController {
         // Attach parent and save
         $category->attachToParents($parent);
         $category->save();
-        
+
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Alterações salvas com sucesso' );
     }
@@ -200,7 +200,7 @@ class CategoriesController extends AdminController {
         // Detach parent and save
         $category->detach('parents', $parent_id);
         $category->save();
-        
+
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Alterações salvas com sucesso' );
     }
@@ -239,7 +239,7 @@ class CategoriesController extends AdminController {
             return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
                 ->withInput()
                 ->with( 'error', $error );
-        }            
+        }
     }
 
     /**

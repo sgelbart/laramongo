@@ -6,7 +6,7 @@
 ?>
 
 {{
-    Form::open([   
+    Form::open([
         'url' => URL::action(
             isset( $action ) ? $action : 'Admin\CategoriesController@store',
             isset( $category ) ? ['id'=>$category->_id] : []
@@ -21,7 +21,7 @@
 
         <hr>
     @endif
-    
+
     <div class="control-group">
         {{ Form::label('name', 'Nome da Categoria', ['class'=>'control-label']) }}
         <div class="controls">
@@ -65,6 +65,13 @@
                 {{ Form::hidden('hidden', false ) }}
                 {{ Form::checkbox('hidden', 'true', array_get( $f,'hidden'), ['id'=>'checkbox-hidden']) }}
             </label>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <span class='control-label'>Template</span>
+        <div class="controls">
+            {{ Form::select('template', ['default' => 'Default', 'responsive' => 'Responsivo'] ) }}
         </div>
     </div>
 

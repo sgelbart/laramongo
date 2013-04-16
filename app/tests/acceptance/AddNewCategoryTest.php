@@ -24,10 +24,13 @@ class AddNewCategoryTest extends AcceptanceTestCase
             ->waitForPageToLoad(1000)
             ->type(l::IdOrName('name'), $attr['name'])
             ->type(l::IdOrName('description'), $attr['description'])
+            ->type(l::IdOrName('template'), 'responsive')
             ->click(l::id('submit-form'))
             ->waitForPageToLoad(1000);
 
         $this->assertElementHasText(l::id('categories-table'), $attr['name']);
+        $category = Category::first();
+        $this->assertEquals('responsive', $category->template );
     }
 
     public function testShouldNotCreateInvalidCategory()
