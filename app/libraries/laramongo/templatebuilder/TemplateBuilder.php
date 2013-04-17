@@ -4,7 +4,7 @@ use App;
 
 class TemplateBuilder
 {
-    protected $name = 'default';
+    protected $name = 'base';
 
     /**
      * Get the template name.
@@ -26,11 +26,11 @@ class TemplateBuilder
      * @param  mixed   $data
      * @return Illuminate\View\View
      */
-    public function make( $view, $params )
+    public function make( $view, $params = array() )
     {
         $template = $this->setTemplateFor($params);
 
-        return App::make('view')->make( /*$template.'.'.*/$view, $params);
+        return App::make('view')->make( 'templates.' .$template.'.'.$view, $params );
     }
 
     /**
@@ -61,9 +61,11 @@ class TemplateBuilder
         }
 
         if(! $templateName)
-            $templateName = 'default';
+            $templateName = 'base';
 
         // This way, each template should have a Templates\Templatename\TemplateBuildler class
         App::bind('Template', 'Templates\\'.ucfirst($templateName).'\TemplateBuilder');
+
+        return $templateName;
     }
 }
