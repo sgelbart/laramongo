@@ -7,9 +7,9 @@ class TemplateBuilder
     protected $name = 'default';
 
     /**
-     * Get the template name. 
+     * Get the template name.
      * Important: The name is lowercase as if it was a directory
-     * 
+     *
      * @return string Template name
      */
     public function getName()
@@ -35,13 +35,13 @@ class TemplateBuilder
 
     /**
      * This function will bind a TemplateBuilder to the Template
-     * facade based in the $params array. 
-     * 
+     * facade based in the $params array.
+     *
      * For example:
      *     If the params array contains a key called 'product'
      *     and the value is a instanceOf Product. The template will
      *     be set based in the $product->category()->template
-     * 
+     *
      * @param array $params A set of variables that were passed to the view
      */
     public function setTemplateFor( $params )
@@ -50,14 +50,14 @@ class TemplateBuilder
 
         foreach ($params as $param) {
 
-            if($param instanceOf Category)
+            if($param instanceOf \Category)
             {
                 $templateName = $param->template;
             }
-            elseif( $param instanceOf Product)
+            elseif( $param instanceOf \Product)
             {
                 $templateName = $param->category()->template;
-            }        
+            }
         }
 
         if(! $templateName)

@@ -10,7 +10,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000001' ),
             'name' => 'Ferramentas específicas',
             'parents' => [
-                testCategoryProvider::saved('valid_parent_category')->_id 
+                testCategoryProvider::saved('valid_parent_category')->_id
             ],
             'description' => 'Ferramentas com finalidades específicas',
             'characteristics' => [
@@ -26,7 +26,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000002' ),
             'name' => 'Ferramentas detalhadas',
             'parents' => [
-                testCategoryProvider::saved('valid_parent_category')->_id 
+                testCategoryProvider::saved('valid_parent_category')->_id
             ],
             'description' => 'Ferramentas detalhadas',
             'characteristics' => [
@@ -42,7 +42,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000003' ),
             'name' => '',
             'parents' => [
-                testCategoryProvider::saved('valid_parent_category')->_id 
+                testCategoryProvider::saved('valid_parent_category')->_id
             ],
             'description' => 'A chave de entrade sem nome!',
             'characteristics' => [
@@ -89,7 +89,7 @@ class testCategoryProvider extends testObjectProvider
             'name' => 'Brocas',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id,
-                testCategoryProvider::saved('another_valid_parent_category')->_id 
+                testCategoryProvider::saved('another_valid_parent_category')->_id
             ],
             'description' => 'Brocas com finalidades específicas',
             'characteristics' => [
