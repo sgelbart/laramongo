@@ -28,7 +28,8 @@
 			"app/tests/AcceptanceTestCase.php",
 			"app/tests/data/",
 			"app/libraries",
-			"app/jobs"
+			"app/jobs",
+			"app/views"
 		]
 	},
 	"scripts": {
