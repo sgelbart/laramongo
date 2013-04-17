@@ -1,7 +1,7 @@
 @section ('content')
 
     <p>
-        Seu caminho foi: 
+        Seu caminho foi:
         {{ Html::link( '/', 'Home' ) }} >
         {{ Html::linkAction( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
         {{ $product->name }}
@@ -15,7 +15,7 @@
         <p>{{ $product->description }}</p>
 
 
-        @include('products._product_characteristics')
+        @include('templates.base.products._product_characteristics')
 
     </div>
 

@@ -6,7 +6,7 @@
                     {{ $charac->name }}
                 </td>
                 <td>
-                    {{ 
+                    {{
                         $charac->displayLayout($product->details[clean_case($charac->name)])
                     }}
                 </td>
