@@ -1,3 +1,11 @@
+// image_tagging.js
+
+/**
+ * For a .tagged-image inside a element containing .image-tagging class
+ * on click position and display the form (within a popover) in order to
+ * tag products to the image.
+ *
+ */
 
 imageTagging = function(){
 
