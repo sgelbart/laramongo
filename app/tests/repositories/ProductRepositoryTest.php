@@ -176,4 +176,22 @@ class ProductRepositoryTest extends TestCase
         $this->assertEquals(25, array_get($product->details, 'capacidade'));
         $this->assertEquals('Preto', array_get($product->details, 'cor'));
     }
+
+    public function testShouldReturnProductsToOption()
+    {
+        testProductProvider::saved('simple_valid_product');
+        testProductProvider::saved('product_with_details');
+
+        $repo = new ProductRepository;
+        $cursor = Product::all();
+
+        $result = $repo->toOptions( $cursor );
+
+        $should_be = array();
+        foreach ($cursor as $product) {
+            $should_be[$product->_id] = $product->_id.' - '.$product->name;
+        }
+
+        $this->assertEquals($should_be, $result);
+    }
 }

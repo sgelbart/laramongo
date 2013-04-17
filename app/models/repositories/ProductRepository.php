@@ -145,4 +145,23 @@ class ProductRepository
         // Saves
         return $instance->save();
     }
+
+    /**
+     * Returns an array containing the _id of each Product
+     * as the key and the "LM - ProductName".
+     * The purpose of this method is to prepare a parameter
+     * to be passed to a Form::select
+     * 
+     * @param  Zizaco\Mongoloid\OdmCursor $cursor The result of a Product query
+     * @return array The options array
+     */
+    public function toOptions( $cursor )
+    {
+        $result = array();
+        foreach ($cursor as $product) {
+            $result[$product->_id] = $product->_id.' - '.$product->name;
+        }
+
+        return $result;
+    }
 }
