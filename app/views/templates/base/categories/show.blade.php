@@ -21,7 +21,7 @@
         <h2>Resultados</h2>
 
         <div class='products'>
-            @include('categories._products')
+            @include('templates.base.categories._products')
 
             <div data-nextpage="2" >
                 {{ Html::image('assets/img/loading.gif') }}

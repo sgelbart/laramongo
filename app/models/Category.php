@@ -29,8 +29,8 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         'parents' => array(),
         'shortDesc' => 'text',
         'description' => 'text',
-        'template' => 'default',
-        'productTemplate' => 'default'
+        'template' => 'base',
+        'productTemplate' => 'base'
     );
 
     /**

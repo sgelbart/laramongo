@@ -1,7 +1,7 @@
 @section ('content')
 
     <p>
-        Seu caminho foi: 
+        Seu caminho foi:
         {{ Html::link( '/', 'Home' ) }} >
         {{ Html::linkAction( 'CategoriesController@show', $category->name, ['id'=>$category->_id] ) }} >
         {{ $product->name }}
@@ -14,7 +14,7 @@
 
         <p>{{ $product->description }}</p>
 
-        @include('products._product_characteristics')
+        @include('templates.base.products._product_characteristics')
 
         <h2>Composto por</h2>
         @foreach($conjProducts as $product)
@@ -22,7 +22,7 @@
             <h3>{{ Html::linkAction('ProductsController@show', $product->name, ['id'=>$product->_id] ) }}</h3>
 
             <?php $category = $product->category(); ?>
-            @include('products._product_characteristics')
+            @include('templates.base.products._product_characteristics')
 
         @endforeach
 

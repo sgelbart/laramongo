@@ -20,8 +20,8 @@ class ContentsController extends BaseController {
 
         if( $content && $content->isVisible() )
         {
-            $this->layout->content = View::make('contents.show_'.$content->kind)
-                ->with( 'content', $content );
+            $this->layout->content =
+                Template::make('contents.show_'.$content->kind, ['content' => $content ]);
         }
         else
         {

@@ -25,16 +25,24 @@ class ProductsController extends BaseController {
         }
 
         // For non ajax requests, return the layout with the view embeded
-        $this->layout->content = View::make('products.show')
-            ->with( 'product', $product )
-            ->with( 'category', $category );
+        $this->layout->content =
+            Template::make('products.show',
+                array (
+                    'product' => $product,
+                    'category'=> $category
+                )
+            );
     }
 
     protected function showConjugated( $product, $category )
     {
-        $this->layout->content = View::make('products.show_conjugated')
-            ->with( 'product', $product )
-            ->with( 'category', $category )
-            ->with( 'conjProducts', $product->products() );
+        $this->layout->content =
+            Template::make('products.show_conjugated',
+                array(
+                    'product' => $product,
+                    'category'=> $category,
+                    'conjProducts' => $product->products()
+                )
+            );
     }
 }
