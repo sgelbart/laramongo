@@ -186,6 +186,7 @@ return array(
         'LMongo'          => 'LMongo\Facades\LMongo',
         'EloquentMongo'   => 'LMongo\Eloquent\Model',
         'Basset'          => 'Basset\Facades\Basset',
+        'Lessy'           => 'Zizaco\Lessy\Facade',
         'Asset'           => 'Laramongo\Nas\Asset',
         'Template'        => 'Laramongo\TemplateBuilder\Facade'
     ),
