@@ -12,13 +12,13 @@ class TemplateBuilderTest extends TestCase
 
         $viewMock = m::mock('ViewEnvironment');
         $viewMock->shouldReceive('make')
-            ->with('name.of.view', ['param'=>1])
+            ->with('templates.base.name.of.view', ['param'=>1])
             ->once()
             ->andReturn('Rendered view');
 
         App::instance('view', $viewMock);
 
-        $result = $templateBuilder->make('name.of.view', ['param'=>1]);
+        $result = $templateBuilder->make('name.of.view', ['param'=> 1]);
         $this->assertEquals('Rendered view', $result);
     }
 
@@ -74,6 +74,6 @@ class TemplateBuilderTest extends TestCase
             $result = $e->getMessage();
         }
 
-        $this->assertContains('Templates\Default\TemplateBuilder', $result);
+        $this->assertContains('Templates\Base\TemplateBuilder', $result);
     }
 }
