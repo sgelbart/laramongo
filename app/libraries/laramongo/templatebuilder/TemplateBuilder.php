@@ -1,10 +1,24 @@
 <?php namespace Laramongo\TemplateBuilder;
 
-use App;
+use App, Lessy, Basset;
 
 class TemplateBuilder
 {
     protected $name = 'base';
+
+    function __construct()
+    {
+        if( app()->environment() != 'production' )
+        {
+            Lessy::compileTree(
+                'views/templates/'.$this->name.'/css',
+                '../public/assets/css/templates/'.$this->name
+            );
+        }
+
+        Basset::collection('website')
+            ->requireTree('assets/css/templates/'.$this->name);
+    }
 
     /**
      * Get the template name.
