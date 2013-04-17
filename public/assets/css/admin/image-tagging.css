@@ -1,6 +1,7 @@
 .tagged-image {
   display: inline-block;
   position: relative;
+  overflow: hidden;
 }
 .tagged-image .tag {
   display: none;
@@ -21,4 +22,10 @@
 .tagged-image:hover .tag:hover {
   background-color: rgba(255,255,255,0.2);
   opacity: 0.8;
+}
+.image-tagging {
+  position: relative;
+}
+.image-tagging .image-tag-form {
+  width: 387px;
 }

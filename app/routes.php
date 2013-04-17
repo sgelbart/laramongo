@@ -63,7 +63,7 @@ Route::delete( 'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsC
 Route::post(   'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@addProduct');
 Route::delete( 'admin/content/{id}/rel/category/{category_id}', 'Admin\ContentsController@removeCategory');
 Route::post(   'admin/content/{id}/rel/category/{category_id?}','Admin\ContentsController@addCategory');
-Route::post(   'admin/content/{id}/tag/{product_id}','Admin\ContentsController@tagProduct');
+Route::post(   'admin/content/{id}/tag',             'Admin\ContentsController@tagProduct');
 
 // Admin\CategoriesController
 Route::get(    'admin/categories',                   'Admin\CategoriesController@index' );

@@ -318,9 +318,9 @@ class AdminContentsTest extends ControllerTestCase
         $content->save();
 
         // Request
-        $this->withInput(['x'=>20,'y'=>30])->requestAction(
+        $this->withInput(['x'=>20,'y'=>30,'product_id'=>$product->_id])->requestAction(
             'POST', 'Admin\ContentsController@tagProduct',
-            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+            ['id'=>$content->_id] 
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
@@ -339,9 +339,9 @@ class AdminContentsTest extends ControllerTestCase
         $product = testProductProvider::saved( 'simple_valid_product' );
 
         // Request
-        $this->withInput(['x'=>20,'y'=>30])->requestAction(
+        $this->withInput(['x'=>20,'y'=>30, 'product_id'=>$product->_id])->requestAction(
             'POST', 'Admin\ContentsController@tagProduct',
-            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+            ['id'=>$content->_id] 
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));

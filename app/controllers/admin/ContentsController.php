@@ -1,7 +1,7 @@
 <?php namespace Admin;
 
 use Content, ArticleContent, ImageContent, VideoContent;
-use View, Input, Redirect, URL, MongoId, Session, Response;
+use View, Input, Redirect, URL, MongoId, Session, Response, App;
 
 class ContentsController extends AdminController {
 
@@ -93,6 +93,9 @@ class ContentsController extends AdminController {
         }
         elseif($content instanceof ImageContent)
         {
+            $productRepo = App::make('ProductRepository');
+            $viewData['productsOption'] = $productRepo->toOptions($content->products());
+
             $this->layout->content = View::make('admin.contents.edit_image', $viewData);
         }
         elseif($content instanceof VideoContent)
@@ -200,16 +203,15 @@ class ContentsController extends AdminController {
     /**
      * Should tag a product into an ImageContent
      * @param  int    $id         ImageContent id
-     * @param  int    $product_id id of the Product that are gonna be tagged
      * @return Response
      */
-    public function tagProduct($id, $product_id)
+    public function tagProduct($id)
     {
         $content = $this->contentRepo->first($id);
 
         if(
             $this->contentRepo->tagToProduct(
-                $content, $product_id, Input::get('x'), Input::get('y')
+                $content, Input::get('product_id'), Input::get('x'), Input::get('y')
             )
         )
         {

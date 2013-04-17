@@ -16,4 +16,6 @@ return array(
     'tag_created_sucessfully' => 'Produto marcado com sucesso',
     'tag_not_sucessfully' => 'Falha ao marcar produto. Verifique se o produto esta relacionado com o Conteúdo',
 
+    'tag_image' => 'Marcar imagem',
+
 );

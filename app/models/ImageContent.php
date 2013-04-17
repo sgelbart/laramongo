@@ -74,9 +74,18 @@ class ImageContent extends Content {
             foreach ($this->tagged as $tag) {
                 if($tag['_id'] == $product->_id)
                 {
+                    $placement = 'top';
+                    if($tag['x'] <= 15)
+                        $placement = 'right';
+                    elseif($tag['x'] >= 85)
+                        $placement = 'left';
+                    if($tag['y'] <= 15)
+                        $placement = 'bottom';
+
                     $rendered .=
                     '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'">'.
-                    '<span class="tag" title="'.$product->name.'" style="left:'.$tag['x'].'%; top:'.$tag['y'].'%"></span>'.
+                    '<span class="tag" title="'.$product->name.'" data-placement="'.$placement.'" '.
+                    'style="left:'.$tag['x'].'%; top:'.$tag['y'].'%"></span>'.
                     '</a>';
                 }
             }
