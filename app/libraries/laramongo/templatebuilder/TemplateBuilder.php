@@ -11,8 +11,13 @@ class TemplateBuilder
         if( app()->environment() != 'production' )
         {
             Lessy::compileTree(
-                'views/templates/'.$this->name.'/css',
+                'views/templates/'.$this->name.'/assets/css',
                 '../public/assets/css/templates/'.$this->name
+            );
+
+            Lessy::compileTree(
+                'views/templates/'.$this->name.'/assets/img',
+                '../public/assets/img/templates/'.$this->name
             );
         }
 
