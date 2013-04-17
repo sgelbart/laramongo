@@ -215,12 +215,12 @@ class ContentsController extends AdminController {
             )
         )
         {
-            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-image-tagging'])
                 ->with( 'flash', l('content.tag_created_sucessfully') );
         }
         else
         {
-            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
+            return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-image-tagging'])
                 ->with( 'flash_error', l('content.tag_not_sucessfully') );
         }
     }
