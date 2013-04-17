@@ -14,6 +14,11 @@ class TemplateBuilder
                 'views/templates/'.$this->name.'/css',
                 '../public/assets/css/templates/'.$this->name
             );
+
+            Lessy::compileTree(
+                'views/templates/'.$this->name.'/img',
+                '../public/assets/img/templates/'.$this->name
+            );
         }
 
         Basset::collection('website')

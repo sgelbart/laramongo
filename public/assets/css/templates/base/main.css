@@ -4,7 +4,7 @@
 body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 13px;
-  background: url("../../img/layout/bg-body.png") no-repeat scroll center 0 #FEFEFD;
+  background: url("../../../img/templates/base/bg-body.png") no-repeat scroll center 0 #FEFEFD;
   margin: 0px;
   color: #707070;
 }
@@ -32,7 +32,7 @@ div.topbar a {
 div.topbar a.bullet {
   margin-left: 18px;
   padding-left: 10px;
-  background: url("../../img/layout/bullet_topmenu.gif") no-repeat;
+  background: url("../../../img/templates/base/bullet_topmenu.gif") no-repeat;
   background-position: 0px 6px;
   background-size: 3px;
 }
@@ -70,14 +70,14 @@ div.topbar span.tab {
   text-indent: -9999px !important;
 }
 div.topbar span.tab.phonesales {
-  background: url("../../img/layout/tab_televendas.gif") no-repeat;
+  background: url("../../../img/templates/base/tab_televendas.gif") no-repeat;
 }
 div.topbar span.tab.findstore {
-  background: url("../../img/layout/tab_encontreloja.gif") no-repeat;
+  background: url("../../../img/templates/base/tab_encontreloja.gif") no-repeat;
   right: 125px;
 }
 h1.logo {
-  background: url("../../img/layout/logo.png") no-repeat;
+  background: url("../../../img/templates/base/logo.png") no-repeat;
   background-position: top;
   display: block;
   width: 222px;
@@ -114,13 +114,13 @@ div.accountbox .account_buttons a {
   margin-left: 5px;
   font-size: 12px;
   text-align: center;
-  background: url("../../img/layout/bt_account_list.png") no-repeat;
+  background: url("../../../img/templates/base/bt_account_list.png") no-repeat;
   background-position: top;
   color: #DDFF82;
   line-height: 28px;
 }
 div.accountbox .account_buttons a.account {
-  background: url("../../img/layout/bt_account_leroy.png") no-repeat top;
+  background: url("../../../img/templates/base/bt_account_leroy.png") no-repeat top;
   width: 100px;
 }
 div.accountbox .account_buttons a:hover {
@@ -139,7 +139,7 @@ div.sidebar .side_menu {
   -webkit-border-radius: 3px 3px 3px 3px;
 }
 div.sidebar .side_menu h3 {
-  background: url("../../img/layout/nav_menu_bg.png") no-repeat -430px 4px;
+  background: url("../../../img/templates/base/nav_menu_bg.png") no-repeat -430px 4px;
   width: 154px;
   height: 14px;
   overflow: hidden;
@@ -157,7 +157,7 @@ div.sidebar .side_menu ul {
 }
 div.sidebar .side_menu ul a {
   display: block;
-  background: url("../../img/layout/sidemenu_bullet.png") no-repeat 168px 3px;
+  background: url("../../../img/templates/base/sidemenu_bullet.png") no-repeat 168px 3px;
   background-size: 12px;
   background-color: #465f31;
   color: #ddff82;
@@ -225,7 +225,7 @@ div.main ul.horizon_menu {
   overflow: hidden;
 }
 div.main ul.horizon_menu li {
-  background: url("../../img/layout/orange_button_bg.gif") repeat-x;
+  background: url("../../../img/templates/base/orange_button_bg.gif") repeat-x;
   width: 74px;
   height: 32px;
   display: block;
@@ -236,21 +236,21 @@ div.main ul.horizon_menu li {
 }
 div.main ul.horizon_menu li span {
   display: block;
-  background: url("../../img/layout/horizon_menu/bt_construcao.png") no-repeat center;
+  background: url("../../../img/templates/base/horizon_menu/bt_construcao.png") no-repeat center;
   height: 100%;
   text-indent: -9999px !important;
 }
 div.main ul.horizon_menu li span.acabamento {
-  background-image: url("../../img/layout/horizon_menu/bt_acabamento.png");
+  background-image: url("../../../img/templates/base/horizon_menu/bt_acabamento.png");
 }
 div.main ul.horizon_menu li span.bricolagem {
-  background-image: url("../../img/layout/horizon_menu/bt_bricolagem.png");
+  background-image: url("../../../img/templates/base/horizon_menu/bt_bricolagem.png");
 }
 div.main ul.horizon_menu li span.decoracao {
-  background-image: url("../../img/layout/horizon_menu/bt_decoracao.png");
+  background-image: url("../../../img/templates/base/horizon_menu/bt_decoracao.png");
 }
 div.main ul.horizon_menu li span.jardinagem {
-  background-image: url("../../img/layout/horizon_menu/bt_jardinagem.png");
+  background-image: url("../../../img/templates/base/horizon_menu/bt_jardinagem.png");
 }
 div.main ul.horizon_menu li:hover {
   opacity: 0.7;
@@ -285,7 +285,7 @@ div.main div.search_box input {
 }
 div.main div.search_box input[type=submit] {
   float: right;
-  background: url("../../img/layout/btn_search.gif") repeat-x;
+  background: url("../../../img/templates/base/btn_search.gif") repeat-x;
   border: none;
   background-color: transparent;
   border-radius: 4px 4px 4px 4px;
