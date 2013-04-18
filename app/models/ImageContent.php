@@ -78,7 +78,7 @@ class ImageContent extends Content {
                 if($tag['product'] == $product->_id)
                 {
                     $rendered .=
-                    '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'">'.
+                    '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'" data-tag-id="'.$tag['_id'].'">'.
                     '<span class="tag" data-tag-for-popover="tagged-product-popover_'.$product->_id.'" '.
                     'style="left:'.$tag['x'].'%; top:'.$tag['y'].'%"></span>'.
                     '</a>';
