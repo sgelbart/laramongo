@@ -53,6 +53,21 @@ imageTagging = function(){
 
         popover.find('[name=x]').val(positionPercentage.x);
         popover.find('[name=y]').val(positionPercentage.y);
+
+        if(tag_id)
+        {
+            popover.find('[name=_id]').val(tag_id);
+            popover.find('.btn.delete-tag').show();
+            var action = popover.find('.btn.delete-tag form').attr('action');
+            var lastSlash = action.lastIndexOf('/');
+            var action = action.substr(0,lastSlash)+'/'+tag_id;
+            popover.find('.btn.delete-tag form').attr('action', action);
+        }
+        else
+        {
+            popover.find('[name=_id]').val('');
+            popover.find('.btn.delete-tag').hide();
+        }
     }
 
     /**
@@ -73,9 +88,27 @@ imageTagging = function(){
             var el = $(this);
             var mousePos = getPos(event, el, false);
             var coord = getPos(event, el, true);
+            var clickedTag = null;
+
+            // Checks if the mouse is over a previously created tag
+            el.find('[data-tag-id]').each(function(){
+                var tag = $(this);
+
+                var offset = tag.find('.tag').offset();
+                var width = tag.find('.tag').outerWidth();
+                var height = tag.find('.tag').outerHeight();
+
+                if(
+                    event.pageX > offset.left && event.pageX < offset.left + width &&
+                    event.pageY > offset.top && event.pageY < offset.top + width
+                )
+                {
+                    clickedTag = tag.attr('data-tag-id');
+                }
+            })
 
             // Prepare the Popover form
-            preparePopover( el, mousePos, coord);
+            preparePopover( el, mousePos, coord, clickedTag);
         });
 
         // Close the tagging popover
@@ -84,9 +117,7 @@ imageTagging = function(){
         })
 
         // To remove an existing tag
-        $('.image-tagging .tagged-image a').removeAttr('href').click(function(){
-            alert('remove');
-        })
+        $('.image-tagging .tagged-image a').removeAttr('href');
     }
 
     init();

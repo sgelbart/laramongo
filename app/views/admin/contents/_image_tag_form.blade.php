@@ -16,6 +16,8 @@
 
     {{ Form::button('Marcar produto', ['type'=>'submit', 'id'=>'submit-save-product', 'class'=>'btn btn-primary'] ) }}
     <a class='btn' data-close-popover='true'>Cancelar</a>
-    <a class='btn btn-danger delete-tag'><i class='icon-white icon-'</a>
+    <a class='btn btn-danger delete-tag' href='{{ URL::action('Admin\ContentsController@untagProduct',['id'=>$content->_id, 'tag_id'=>0]) }}' data-method='DELETE'>
+        <i class='icon-trash icon-white'></i>
+    </a>
 
 {{ Form::close() }}
