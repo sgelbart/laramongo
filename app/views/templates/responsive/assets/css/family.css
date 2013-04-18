@@ -1,7 +1,7 @@
 /* this module is used to display the current family filtered */
 .family {
   position: relative;
-  width: 93.1%;
+  width: 95.5%;
   margin-top: 1%;
   margin: 0.9375%;
   padding: 2%;
@@ -36,10 +36,6 @@
   .family {
     margin-left: 0;
     margin-right: 0;
-  }
-
-  .family .photo img {
-    width: 50%;
   }
 
   .family .description {

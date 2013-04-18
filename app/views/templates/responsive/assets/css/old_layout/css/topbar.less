@@ -1,0 +1,149 @@
+@import url('variables');
+
+/**
+    Topbar styling
+**/
+
+div.topbar{
+    background: #e8f0d1;
+    height: 33px;
+    line-height: 31px;
+    color: #7b824b;
+    .font-size(12);
+
+    a{
+        opacity: 0.8;
+
+        &.bullet{
+            margin-left: 18px;
+            padding-left: 10px;
+            background: url("@{layout-url}/bullet_topmenu.gif") no-repeat;
+            background-position: 0px 6px;
+            background-size: 3px;
+
+            &:first-child{
+                margin-left: 0px;
+            }
+        }
+
+        &:hover{
+            opacity: 1;
+            text-decoration: underline;
+        }
+    }
+
+    // Region selection box
+    div.region{
+        display:inline-block;
+        height: 33px;
+        border-left: 1px solid #e3e8cd;
+        background: #e8f0d1;
+        padding: 0px 10px;
+        margin-left: 40px;
+
+        select{
+            height: 23px;
+            color: #ACB597;
+            background-color: #FFF;
+            border: 1px solid #DEDEDE;
+            font: 1em Arial,Helvetica,Verdana,sans-serif;
+            margin-left: 20px;
+            width: 180px;
+        }
+    }
+
+    // Image tabs
+    span.tab{
+        position: absolute;
+        width: 109px;
+        height: 41px;
+        right: 13px;
+        top: 0px;
+        .image-replacement;
+
+        &.phonesales{
+            background: url("@{layout-url}/tab_televendas.gif") no-repeat;
+        }
+
+        &.findstore{
+            background: url("@{layout-url}/tab_encontreloja.gif") no-repeat;
+            right: 125px;
+        }
+    }
+}
+
+@media screen and (min-width:800px) and (max-width: 1275px) {
+    span.tab {
+        display: block;
+        position: absolute;
+        top: 0px;
+    }
+}
+
+@media screen and (min-width:801px) and (max-width: 950px) {
+    div.topbar div.region {
+        display:block;
+        margin-top: 2px;
+        margin-left: 0;
+    }
+}
+
+@media screen and (min-width:401px) and (max-width: 799px) {
+    span.tab {
+        display:none;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    div.topbar div.region select {
+        display:block;
+        margin-left: 38%;
+        text-align: center;
+    }
+
+    div.topbar div.region label {
+        text-align: center;
+        display:block;
+    }
+
+    div.topbar div.region {
+        height: 70px;
+        display:block;
+        margin-left: 0;
+    }
+}
+
+@media screen and (min-width:200px) and (max-width: 400px) {
+    div.topbar div.region select {
+        display:block;
+        margin-left: 18%;
+        text-align: center;
+    }
+
+    .content {
+        width: 100%;
+    }
+
+    span.tab {
+        display:none;
+    }
+
+    div.topbar div.region select {
+        display:block;
+        margin-left: 26%;
+        text-align: center;
+    }
+
+    div.topbar div.region label {
+        text-align: center;
+        display:block;
+    }
+
+    div.topbar div.region {
+        height: 70px;
+        display:block;
+        margin-left: 0;
+    }
+}

@@ -1,9 +1,9 @@
 <div class='topbar'>
-    
+
     <a href='#' class='bullet'>A Laramongo</a>
     <a href='#' class='bullet'>Sustentabilidade</a>
     <a href='#' class='bullet'>Central de Atendimento</a>
-    
+
     <div class='region'>
         <label for='region_select'>Você está na região:</label>
         <select id='region_select'>
@@ -12,14 +12,13 @@
             <option value="sp">SP | Grande São Paulo</option>
             <option value="sp">SP | Grande São Paulo</option>
         </select>
+
+        <a href='#'>
+            <span class='tab findstore'>Encontre uma loja</span>
+        </a>
+
+        <span class='tab phonesales'>Televendas: 4007 1380</span>
     </div>
-
-    <a href='#'>
-        <span class='tab findstore'>Encontre uma loja</span>
-    </a>
-
-    <span class='tab phonesales'>Televendas: 4007 1380</span>
-
 </div>
 
 <h1 class='logo'>Laramongo</h1>
