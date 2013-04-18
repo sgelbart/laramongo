@@ -57,7 +57,8 @@ class ImageContentTest extends TestCase
 
         // Check if the product was tagged correctly
         $real = $content->tagged[0];
-        $should_be = ['_id'=>$product->_id, 'x'=>50, 'y'=>60];
+        unset($real['_id']); // Unset the _id for testing purposes;
+        $should_be = ['product'=>$product->_id, 'x'=>50, 'y'=>60];
         $this->assertEquals($should_be, $real);
     }
 
@@ -108,7 +109,8 @@ class ImageContentTest extends TestCase
 
         // Check if the product tagged is the ProductB
         $real = $content->tagged[0];
-        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        unset($real['_id']); // Unset the _id for testing purposes;
+        $should_be = ['product'=>$productB->_id, 'x'=>20, 'y'=>30];
         $this->assertEquals($should_be, $real);
     }
 
@@ -140,7 +142,8 @@ class ImageContentTest extends TestCase
 
         // Check if the product tagged is the ProductB
         $real = $content->tagged[0];
-        $should_be = ['_id'=>$productB->_id, 'x'=>20, 'y'=>30];
+        unset($real['_id']); // Unset the _id for testing purposes;
+        $should_be = ['product'=>$productB->_id, 'x'=>20, 'y'=>30];
         $this->assertEquals($should_be, $real);
     }
 
