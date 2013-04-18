@@ -247,7 +247,25 @@ class ContentRepository
         else
         {
             return false;
+        }  
+    }
+
+    /**
+     * Removes a tagged product of a ImageContent
+     *
+     * @param $instance Content instance
+     * @param $tag_id
+     * @return Boolean Success
+     */
+    public function removeTagged( Content &$instance, $tag_id )
+    {
+        if(! $instance instanceOf ImageContent)
+        {
+            trigger_error("A instancia enviada a tagToProduct não é um ImageContent");
         }
-            
+
+        $instance->unembed('tagged',['_id'=>$tag_id]);
+
+        return $instance->save();
     }
 }

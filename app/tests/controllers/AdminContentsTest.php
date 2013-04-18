@@ -348,6 +348,32 @@ class AdminContentsTest extends ControllerTestCase
         $this->assertSessionHas('flash_error');
     }
 
+    public function testShouldUntagProductInImage(){
+
+        // Make sure that repo->tagToProduct is called once
+        $contentRepo = m::mock(new ContentRepository);
+        $contentRepo->shouldReceive('removeTagged')->once()->passthru();
+        App::instance("ContentRepository", $contentRepo);
+
+        // attach Product to ImageContent
+        $content = testContentProvider::saved( 'valid_image' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+        $content->attachToProducts( $product );
+
+        $tagged = ['x'=>10,'y'=>20,'product'=>$product->_id,'_id'=>123];
+        $content->embedToTagged($tagged);
+        $content->save();
+
+        // Request
+        $this->requestAction(
+            'DELETE', 'Admin\ContentsController@untagProduct',
+            ['id'=>$content->_id, 'tag_id'=>123]
+        );
+
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']));
+        $this->assertSessionHas('flash','sucesso');
+    }
+
     public function testShouldRemoveRelatedProduct(){
 
         // Make sure that repo->removeProduct is called once
