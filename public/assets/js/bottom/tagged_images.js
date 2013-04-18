@@ -9,13 +9,26 @@ taggedImages = function(){
 
     var init = function()
     {
+        $('.tagged-product-popover').each(function(){
+            var el = $(this).detach();
+            $('body').append(el);
+        });
+
         $('span.tagged-image [data-tag-for-popover]').hover(
         function(){ // Mouse in
             var el = $(this);
             var popover = $('#'+el.attr('data-tag-for-popover'));
+            var tagXPercent = parseFloat(el[0].style.left);
 
-            var posX = el.offset().left + el.outerWidth() + 2;
-            var posY = el.offset().top + el.outerHeight() + 2;
+            if(tagXPercent > 75)
+            {
+                var posX = el.offset().left - el.outerWidth()*0.8 - popover.width();
+            }
+            else
+            {
+                var posX = el.offset().left + el.outerWidth() + 18;
+            }
+            var posY = el.offset().top - popover.width()/2 + 2;
 
             popover.addClass('visible');
             popover.css('left', posX).css('top', posY);

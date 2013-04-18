@@ -323,7 +323,7 @@ class AdminContentsTest extends ControllerTestCase
             ['id'=>$content->_id] 
         );
 
-        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']));
         $this->assertSessionHas('flash','sucesso');
     }
 
@@ -344,7 +344,7 @@ class AdminContentsTest extends ControllerTestCase
             ['id'=>$content->_id] 
         );
 
-        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
+        $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']));
         $this->assertSessionHas('flash_error');
     }
 
