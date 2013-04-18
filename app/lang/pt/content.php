@@ -18,5 +18,6 @@ return array(
     'tag_removed_sucessfully' => 'Marcação removida com sucesso',
 
     'tag_image' => 'Marcar imagem',
+    'save_tag_image' => 'Salvar marcação',
 
 );
