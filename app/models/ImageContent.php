@@ -178,6 +178,9 @@ class ImageContent extends Content {
      */
     public function untagProduct($product)
     {
+        if(! is_array($product))
+            $product = ['_id'=>$product];
+
         $this->unembed('tagged',$product);
     }
 
