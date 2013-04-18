@@ -1,0 +1,24 @@
+// Variables
+@layout-url: "../img";
+
+// Hides the text within element
+.image-replacement{
+    text-indent: -9999px !important;
+}
+
+// Border radius with vendors
+.border-radius (@a, @a, @a, @a) {
+    border-radius: @arguments;
+    -moz-border-radius: @arguments;
+    -webkit-border-radius: @arguments;
+}
+
+.border-radius (@a) {
+    .border-radius(@a,@a,@a,@a);
+}
+
+.font-size(@pxWidth) {
+    font-size: (@pxWidth / 16) * 1em;
+}
+
+@em-base: 16px;

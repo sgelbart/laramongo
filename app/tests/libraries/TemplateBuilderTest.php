@@ -73,7 +73,7 @@ class TemplateBuilderTest extends TestCase
         $result = '';
 
         try {
-            App::make('Template');
+            $result = get_class(App::make('Template'));
         } catch (Exception $e) {
             $result = $e->getMessage();
         }
