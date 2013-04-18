@@ -1,0 +1,16 @@
+@em-base: 16px;
+
+.emCalc (@pxWidth) {
+  @pxWidth / @em-base * 1em;
+}
+
+@small-screen: (768px / @em-base * 1em);
+@medium-screen: (1280px / @em-base * 1em);
+@large-screen: (1440px / @em-base * 1em);
+
+@screen: ~"only screen";
+@small: ~"only screen and (min-width:@{small-screen})";
+@medium: ~"only screen and (min-width:@{medium-screen})";
+@large: ~"only screen and (min-width:@{@large-screen})";
+@landscape: ~"only screen and (orientation: landscape)";
+@portrait: ~"only screen and (orientation: portrait)";

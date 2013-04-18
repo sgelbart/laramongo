@@ -4,6 +4,9 @@
   padding: 0;
   margin-top: 0;
 }
+.thumbnails img {
+  width: 100%;
+}
 .thumbnails li {
   display: inline-block;
   width: 31%;
@@ -72,7 +75,7 @@
 }
 @media screen and (min-width: 455px) and (max-width: 697px) {
   .thumbnails {
-    width: 100%;
+    width: 50%;
   }
   .thumbnails li {
     width: 47%;
@@ -82,7 +85,7 @@
     width: 47%;
   }
   .thumbnails li.technique .thumbnail img {
-    width: 100%;
+    width: 50%;
   }
   .thumbnails li.technique .caption {
     float: none;

@@ -9,8 +9,8 @@
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-.family .photo {
-  width: 50%;
+.family .photo img {
+  width: 100%;
   display: inline-block;
   padding-top: 1.4%;
 }
@@ -31,16 +31,16 @@
     margin-left: 0;
     margin-right: 0;
   }
-  .family .photo {
-    width: 100%;
+  .family .photo img {
+    width: 50%;
   }
   .family .description {
     width: 100%;
   }
 }
 @media screen and (min-width: 455px) and (max-width: 697px) {
-  .family .photo {
-    width: 100%;
+  .family .photo img {
+    width: 50%;
   }
   .family .description {
     width: 100%;

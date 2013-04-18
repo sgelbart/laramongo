@@ -1,5 +1,5 @@
-/* 
-  CSS for thumbnails 
+/*
+  CSS for thumbnails
   width: 295px;
   height: 381px;
 */
@@ -11,9 +11,13 @@
     margin-top: 0;
 }
 
+.thumbnails img {
+  width: 100%;
+}
+
 .thumbnails li {
   display: inline-block;
-  width:  31%; 
+  width:  31%;
   margin: 0.9375%; /* 9px / 960px */
   min-width: 16.875%; /* 162px / 960px */
 }
@@ -23,7 +27,7 @@
   display: block;
   line-height: 85%; /* 20px / 295px */
   padding: 5.2493%; /* 20px / 381px */
-  
+
   -webkit-border-radius:  1.0498%; /* 4px / 381px */
   -moz-border-radius:  1.0498%; /* 4px / 381px */
   border-radius:  1.0498%; /* 4px / 381px */
@@ -96,7 +100,7 @@
 
 @media screen and (min-width:455px) and (max-width: 697px) {
   .thumbnails {
-    width: 100%;
+    width: 50%;
   }
 
   .thumbnails li {
@@ -109,7 +113,7 @@
   }
 
   .thumbnails li.technique .thumbnail img {
-    width: 100%;
+    width: 50%;
   }
 
   .thumbnails li.technique .caption {
@@ -130,5 +134,5 @@
 @media screen and (min-width:698px) and (max-width: 769px) {
    .thumbnails li.technique .thumbnail img {
     width: 36%;
-  }  
+  }
 }
