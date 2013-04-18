@@ -1,3 +1,11 @@
+// image_tagging.js
+
+/**
+ * For a .tagged-image inside a element containing .image-tagging class
+ * on click position and display the form (within a popover) in order to
+ * tag products to the image.
+ *
+ */
 
 imageTagging = function(){
 
@@ -28,7 +36,7 @@ imageTagging = function(){
 
     /**
      * Set the position and display the Popover for product tagging
-     * 
+     *
      * @param  {DOM Element} element       The taggable image element
      * @param  {json} positionPixel        Containing x and y in PIXELS
      * @param  {json} positionPercentage   Containing x and y in Percentage
@@ -46,8 +54,20 @@ imageTagging = function(){
         popover.find('[name=y]').val(positionPercentage.y);
     }
 
+    /**
+     * Hide a popover
+     *
+     * @param  {DOM Element} element       Popover element
+     * @return {null}
+     */
+    var closePopover = function( element )
+    {
+        element.fadeOut();
+    }
+
     var init = function()
     {
+        // Clicking to add a new tag
         $('.image-tagging span.tagged-image').click(function(event){
             var el = $(this);
             var mousePos = getPos(event, el, false);
@@ -56,6 +76,16 @@ imageTagging = function(){
             // Prepare the Popover form
             preparePopover( el, mousePos, coord);
         });
+
+        // Close the tagging popover
+        $('.image-tagging a[data-close-popover]').click(function(){
+            closePopover($(this).closest('.popover-tagging'));
+        })
+
+        // To remove an existing tag
+        $('.image-tagging .tagged-image a').removeAttr('href').click(function(){
+            alert('remove');
+        })
     }
 
     init();

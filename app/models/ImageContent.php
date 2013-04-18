@@ -55,12 +55,15 @@ class ImageContent extends Content {
             $productTags.
         '</span>';
 
+        $html .= $this->renderPopovers();
+
         return $html;
     }
 
     /**
-     * Return the html code of the products that ate tagged in the
+     * Return the html code of the products that are tagged in the
      * image
+     * 
      * @return string Html code of the rendered tags
      */
     private function renderTags()
@@ -72,21 +75,44 @@ class ImageContent extends Content {
 
         foreach ($this->products() as $product) {
             foreach ($this->tagged as $tag) {
-                if($tag['_id'] == $product->_id)
+                if($tag['product'] == $product->_id)
                 {
-                    $placement = 'top';
-                    if($tag['x'] <= 15)
-                        $placement = 'right';
-                    elseif($tag['x'] >= 85)
-                        $placement = 'left';
-                    if($tag['y'] <= 15)
-                        $placement = 'bottom';
-
                     $rendered .=
                     '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'">'.
-                    '<span class="tag" title="'.$product->name.'" data-placement="'.$placement.'" '.
+                    '<span class="tag" data-tag-for-popover="tagged-product-popover_'.$product->_id.'" '.
                     'style="left:'.$tag['x'].'%; top:'.$tag['y'].'%"></span>'.
                     '</a>';
+                }
+            }
+        }
+
+        return $rendered;
+    }
+
+    /**
+     * Return the html code of the popovers of each product that
+     * was tagged.
+     * 
+     * @return string Html code of the rendered popovers
+     */
+    private function renderPopovers()
+    {
+        $rendered = '';
+
+        if(! $this->tagged)
+            return '';
+
+        foreach ($this->products() as $product) {
+            foreach ($this->tagged as $tag) {
+
+                // If product is tagged, render popup
+                if($tag['product'] == $product->_id)
+                {
+                    $rendered .=
+                    View::make('templates.'.Template::getName().'.contents._tagged_popover')
+                        ->with(['product'=>$product])->render();
+
+                    break; // One popup per product, not per tag
                 }
             }
         }
@@ -135,7 +161,7 @@ class ImageContent extends Content {
         // If the product is previously related with the content.
         if(in_array($product_id, (array)$this->products))
         {
-            $this->embedToTagged(['_id'=>$product_id, 'x'=>$x, 'y'=>$y]);
+            $this->embedToTagged(['_id'=>date('U'), 'product'=>$product_id, 'x'=>$x, 'y'=>$y, ]);
             return true; // Product tagged successfully
         }
         else

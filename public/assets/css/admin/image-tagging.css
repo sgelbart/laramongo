@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 .tagged-image .tag {
-  display: none;
+  opacity: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -14,10 +14,25 @@
   margin-top: -30px;
   cursor: pointer;
   border: dotted 4px #FFF;
+  z-index: 999;
+  transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5);
+  -webkit-transform: scale(1.5,1.5);
+  -o-transform: scale(1.5,1.5);
+  -moz-transform: scale(1.5,1.5);
 }
 .tagged-image:hover .tag {
   display: block;
   opacity: 0.4;
+  transform: scale(1,1);
+  -ms-transform: scale(1,1);
+  -webkit-transform: scale(1,1);
+  -o-transform: scale(1,1);
+  -moz-transform: scale(1,1);
 }
 .tagged-image:hover .tag:hover {
   background-color: rgba(255,255,255,0.2);
@@ -28,4 +43,27 @@
 }
 .image-tagging .image-tag-form {
   width: 387px;
+}
+.tagged-product-popover {
+  position: absolute;
+  opacity: 0;
+  background-color: #FFF;
+  border: solid 1px #ddd;
+  width: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 25px rgba(0,0,0,0.3);
+  transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transform: translate(0,-5);
+  -ms-transform: translate(0,-5);
+  -webkit-transform: translate(0,-5);
+  -o-transform: translate(0,-5);
+  -moz-transform: translate(0,-5);
+}
+.tagged-product-popover.visible {
+  opacity: 1;
+  display: block;
 }

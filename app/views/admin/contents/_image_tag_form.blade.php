@@ -1,6 +1,6 @@
 {{
     Form::open([
-        'url' => URL::action( 
+        'url' => URL::action(
             'Admin\ContentsController@tagProduct',
             ['id'=>$content->_id]
         ),
@@ -14,6 +14,6 @@
     {{ Form::select('product_id', $productsOption, false, ['data-chosen'=>'true'] ) }}
 
     {{ Form::button('Marcar produto', ['type'=>'submit', 'id'=>'submit-save-product', 'class'=>'btn btn-primary'] ) }}
-    {{ Html::linkAction( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+    <a class='btn' data-close-popover='true'>Cancelar</a>
 
 {{ Form::close() }}
