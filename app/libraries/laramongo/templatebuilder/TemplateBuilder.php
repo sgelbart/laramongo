@@ -5,26 +5,6 @@ use App, Lessy, Basset;
 class TemplateBuilder
 {
     protected $name = 'base';
-
-    function __construct()
-    {
-        if( app()->environment() != 'production' )
-        {
-            Lessy::compileTree(
-                'views/templates/'.$this->name.'/assets/css',
-                '../public/assets/css/templates/'.$this->name
-            );
-
-            Lessy::compileTree(
-                'views/templates/'.$this->name.'/assets/img',
-                '../public/assets/img/templates/'.$this->name
-            );
-        }
-
-        Basset::collection('website')
-            ->requireTree('assets/css/templates/'.$this->name);
-    }
-
     /**
      * Get the template name.
      * Important: The name is lowercase as if it was a directory
@@ -47,9 +27,31 @@ class TemplateBuilder
      */
     public function make( $view, $params = array() )
     {
+
         $template = $this->setTemplateFor($params);
+        App::make('Template')->compileAssets();
 
         return App::make('view')->make( 'templates.' .$template.'.'.$view, $params );
+    }
+
+    protected function compileAssets()
+    {
+        echo get_class($this);
+        if( app()->environment() != 'production' )
+        {
+            Lessy::compileTree(
+                'views/templates/'.$this->getName().'/assets/css',
+                '../public/assets/css/templates/'.$this->getName()
+            );
+
+            Lessy::compileTree(
+                'views/templates/'.$this->getName().'/assets/img',
+                '../public/assets/img/templates/'.$this->getName()
+            );
+        }
+
+        Basset::collection('website')
+            ->requireTree('assets/css/templates/'.$this->getName());
     }
 
     /**
@@ -83,8 +85,10 @@ class TemplateBuilder
             $templateName = 'base';
 
         // This way, each template should have a Templates\Templatename\TemplateBuildler class
-        App::bind('Template', 'Templates\\'.ucfirst($templateName).'\TemplateBuilder');
 
+        App::bind('Template', 'Templates\\'.ucfirst($templateName).'\TemplateBuilder', true);
+
+        echo get_class(App::make('Template'));
         return $templateName;
     }
 }
