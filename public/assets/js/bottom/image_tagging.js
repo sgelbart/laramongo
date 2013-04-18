@@ -40,9 +40,10 @@ imageTagging = function(){
      * @param  {DOM Element} element       The taggable image element
      * @param  {json} positionPixel        Containing x and y in PIXELS
      * @param  {json} positionPercentage   Containing x and y in Percentage
+     * @param  {int}  tag_id               The id of an existing tag to be edited or removed
      * @return {null}
      */
-    var preparePopover = function( element, positionPixel, positionPercentage )
+    var preparePopover = function( element, positionPixel, positionPercentage, tag_id )
     {
         var popover = element.parent().find('.popover-tagging');
 
