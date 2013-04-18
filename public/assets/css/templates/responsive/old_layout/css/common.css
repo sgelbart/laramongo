@@ -7,7 +7,7 @@ h1.logo {
   display: block;
   width: 222px;
   height: 103px;
-  margin: 15px auto 20px auto;
+  margin: -15px 0 0px 120px;
   text-indent: -9999px !important;
   cursor: pointer;
 }
@@ -17,7 +17,7 @@ h1.logo:hover {
 div.accountbox {
   position: absolute;
   right: 183px;
-  top: 100px;
+  top: 40px;
   width: 260px;
   height: 75px;
   line-height: 33px;
@@ -51,9 +51,20 @@ div.accountbox .account_buttons a.account {
 div.accountbox .account_buttons a:hover {
   background-position: bottom;
 }
+@media screen and (min-width: 800px) and (max-width: 1275px) {
+  div.accountbox {
+    top: 65px;
+  }
+  h1.logo {
+    margin-left: -40px;
+    margin-right: 0;
+    margin-top: 10px;
+  }
+}
 @media screen and (min-width: 401px) and (max-width: 799px) {
   div.accountbox {
     right: 0;
+    top: 100px;
   }
   h1.logo {
     margin-left: -40px;
@@ -64,6 +75,7 @@ div.accountbox .account_buttons a:hover {
 @media screen and (min-width: 200px) and (max-width: 400px) {
   div.accountbox {
     right: 0;
+    top: 100px;
   }
   h1.logo {
     margin-left: -40px;
