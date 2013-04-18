@@ -67,6 +67,7 @@ imageTagging = function(){
 
     var init = function()
     {
+        // Clicking to add a new tag
         $('.image-tagging span.tagged-image').click(function(event){
             var el = $(this);
             var mousePos = getPos(event, el, false);
@@ -76,8 +77,14 @@ imageTagging = function(){
             preparePopover( el, mousePos, coord);
         });
 
+        // Close the tagging popover
         $('.image-tagging a[data-close-popover]').click(function(){
             closePopover($(this).closest('.popover-tagging'));
+        })
+
+        // To remove an existing tag
+        $('.image-tagging .tagged-image a').removeAttr('href').click(function(){
+            alert('remove');
         })
     }
 

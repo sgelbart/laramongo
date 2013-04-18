@@ -75,7 +75,7 @@ class ImageContent extends Content {
 
         foreach ($this->products() as $product) {
             foreach ($this->tagged as $tag) {
-                if($tag['_id'] == $product->_id)
+                if($tag['product'] == $product->_id)
                 {
                     $rendered .=
                     '<a href="'.URL::action('ProductsController@show', ['id'=>$product->_id]).'">'.
@@ -106,7 +106,7 @@ class ImageContent extends Content {
             foreach ($this->tagged as $tag) {
 
                 // If product is tagged, render popup
-                if($tag['_id'] == $product->_id)
+                if($tag['product'] == $product->_id)
                 {
                     $rendered .=
                     View::make('templates.'.Template::getName().'.contents._tagged_popover')
@@ -161,7 +161,7 @@ class ImageContent extends Content {
         // If the product is previously related with the content.
         if(in_array($product_id, (array)$this->products))
         {
-            $this->embedToTagged(['_id'=>$product_id, 'x'=>$x, 'y'=>$y]);
+            $this->embedToTagged(['_id'=>date('U'), 'product'=>$product_id, 'x'=>$x, 'y'=>$y, ]);
             return true; // Product tagged successfully
         }
         else
