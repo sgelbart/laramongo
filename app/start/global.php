@@ -95,4 +95,4 @@ View::addExtension('js','blade');
 |
 */
 
-App::bind('Template', 'Laramongo\TemplateBuilder\TemplateBuilder', true);
+App::bind('Template', 'Laramongo\TemplateBuilder\TemplateBuilder');
