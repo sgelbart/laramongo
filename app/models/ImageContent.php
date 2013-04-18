@@ -148,7 +148,7 @@ class ImageContent extends Content {
      * @param $tag_id Id of an existing tag. This will update instead of creating a new one
      * @return bool           Returns true if the product was created successfuly.
      */
-    public function tagProduct( $product, $x, $y, $tag_id )
+    public function tagProduct( $product, $x, $y, $tag_id = null )
     {
         if($product instanceOf Product)
         {

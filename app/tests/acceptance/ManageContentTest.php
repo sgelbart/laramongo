@@ -134,7 +134,7 @@ class ManageContentTest extends AcceptanceTestCase
             ->click(l::css('#row-'.$content->_id.' a'))
             ->waitForPageToLoad(1000)
             ->click(l::css('[data-tab-of=content-relations]'))
-            ->select(l::IdOrName('category_id'), $category->name)
+            ->select(l::IdOrName('category_id'), $category->_id)
             ->click(l::id('submit-attach-category'))
             ->waitForPageToLoad(1000);
 
@@ -142,5 +142,48 @@ class ManageContentTest extends AcceptanceTestCase
 
         $content = Content::first($content->_id);
         $this->assertContains((string)$category->_id, $content->categories);
+    }
+
+    public function testShouldTagProductsToImage()
+    {
+        $attributes = testContentProvider::attributesFor( 'valid_image' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $imageFile = 'file://'.__DIR__.'/../assets/image.jpg';
+
+        $this->browser
+            ->open('/admin/contents')
+            ->click(l::id('btn-create-new-content'))
+            ->click(l::id('btn-create-new-image'))
+            ->waitForPageToLoad(1000)
+            ->type(l::IdOrName('name'), $attributes['name'])
+            ->type(l::IdOrName('slug'), $attributes['slug'])
+            ->attachFile(l::IdOrName('image_file'), $imageFile)
+            ->click(l::id('submit-form'))
+            ->open('/admin/contents')
+            ->waitForPageToLoad(1000);
+
+        $content = ImageContent::first(['slug'=>$attributes['slug']]);
+
+        $content->attachToProducts($product);
+        $content->save();
+
+        $this->browser
+            ->open(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id]))
+            ->click(l::css('[data-tab-of=content-image-tagging]'))
+            ->runScript("$('span.tagged-image').trigger('click');")
+            ->select( l::IdOrName('product_id'), $product->_id )
+            ->submit( l::css('.popover-tagging form') )
+            ->waitForPageToLoad(2000);
+
+        $this->assertLocation( URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']) );
+
+        $this->browser
+            // Hover in the tag
+            ->runScript("$('[data-tag-for-popover]').trigger('mouseover');") 
+            // The .tagged-product-popover SHOULD HAVE the visible
+            // class by now (when hovering in the tag).
+            // An error will occur if the element is not found
+            ->click(l::css('.tagged-product-popover.visible'));
     }
 }

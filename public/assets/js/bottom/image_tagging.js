@@ -54,17 +54,22 @@ imageTagging = function(){
         popover.find('[name=x]').val(positionPercentage.x);
         popover.find('[name=y]').val(positionPercentage.y);
 
+        // If an id of an existing tag is provided
         if(tag_id)
         {
-            popover.find('[name=_id]').val(tag_id);
-            popover.find('.btn.delete-tag').show();
+            // Set the id in the form
+            popover.find('[name=_id]').val(tag_id); 
+
+            // Edit the action of the delete button and display it
             var action = popover.find('.btn.delete-tag form').attr('action');
             var lastSlash = action.lastIndexOf('/');
             var action = action.substr(0,lastSlash)+'/'+tag_id;
             popover.find('.btn.delete-tag form').attr('action', action);
+            popover.find('.btn.delete-tag').show();
         }
         else
         {
+            // Clean the _id and hide the delete button
             popover.find('[name=_id]').val('');
             popover.find('.btn.delete-tag').hide();
         }
@@ -81,6 +86,38 @@ imageTagging = function(){
         element.fadeOut();
     }
 
+    /**
+     * Returns the data-tag-id of the tag that the mouse is
+     * over
+     * 
+     * @param  {DOM Element} element The element containing the tags
+     * @param  {jQueryEvent} event   A jQuery event
+     * @return {int}         The data-tag-id of the hovered tag or null
+     */
+    var hoveredTag = function( element, event )
+    {
+        var result = null;
+
+        // Checks if the mouse is over a previously created tag
+        element.find('[data-tag-id]').each(function(){
+            var tag = $(this);
+
+            var offset = tag.find('.tag').offset();
+            var width = tag.find('.tag').outerWidth();
+            var height = tag.find('.tag').outerHeight();
+
+            if(
+                event.pageX > offset.left && event.pageX < offset.left + width &&
+                event.pageY > offset.top && event.pageY < offset.top + width
+            )
+            {
+                result = tag.attr('data-tag-id');
+            }
+        })
+
+        return result;
+    }
+
     var init = function()
     {
         // Clicking to add a new tag
@@ -88,24 +125,8 @@ imageTagging = function(){
             var el = $(this);
             var mousePos = getPos(event, el, false);
             var coord = getPos(event, el, true);
-            var clickedTag = null;
 
-            // Checks if the mouse is over a previously created tag
-            el.find('[data-tag-id]').each(function(){
-                var tag = $(this);
-
-                var offset = tag.find('.tag').offset();
-                var width = tag.find('.tag').outerWidth();
-                var height = tag.find('.tag').outerHeight();
-
-                if(
-                    event.pageX > offset.left && event.pageX < offset.left + width &&
-                    event.pageY > offset.top && event.pageY < offset.top + width
-                )
-                {
-                    clickedTag = tag.attr('data-tag-id');
-                }
-            })
+            var clickedTag = hoveredTag( el, event );
 
             // Prepare the Popover form
             preparePopover( el, mousePos, coord, clickedTag);
