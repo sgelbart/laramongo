@@ -22,13 +22,12 @@
                 @yield('content')
             </div>
 
-            
             <div class='footer'>
                 Copyright © {{ date('Y') }} Laramongo, todos os direitos Reservados
             </div>
 
         </div>
-        
+
         {{ Basset::show('js_global.js') }}
         {{ Basset::show('js_bottom.js') }}
 

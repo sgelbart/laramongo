@@ -1,0 +1,68 @@
+.nav-bar {
+  background-color: #FAF7F7;
+  border-top: 1px solid #CFCACA;
+  box-shadow: inset 0 1px #FFF, 0 1px 3px rgba(34,25,25,0.4);
+  -moz-box-shadow: inset 0 1px #FFF, 0 1px 3px rgba(34,25,25,0.4);
+  -webkit-box-shadow: inset 0 1px #FFF, 0 1px 3px rgba(34,25,25,0.4);
+  font-size: 1em;
+}
+.nav-bar.fixed {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  z-index: 1030;
+}
+.nav-bar.spaced {
+  padding: 0.7% 0;
+  top: 49px;
+}
+.nav-bar .container {
+  text-align: center;
+}
+.nav-bar .brand {
+  display: inline-block;
+  font-family: 'Kaushan';
+  font-size: 1.8em;
+  line-height: 1.7em;
+  text-align: left;
+  float: left;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.nav-bar .brand {
+  text-decoration: none;
+  color: #3E3E3E;
+}
+.nav-bar .brand:link {
+  text-decoration: none;
+}
+.nav-bar .brand:visited {
+  text-decoration: none;
+}
+.nav-bar .brand:hover {
+  text-decoration: none;
+}
+.nav-bar .brand:active {
+  text-decoration: none;
+}
+.nav {
+  font-size: 1em;
+  padding: 0;
+  display: inline-block;
+  list-style: none;
+}
+.nav li {
+  padding: 0 1%;
+  display: inline-block;
+}
+@media screen and (min-width: 240px) and (max-width: 454px) {
+  .nav-bar.spaced {
+    display: none;
+    float: none;
+  }
+}
+@media screen and (min-width: 455px) and (max-width: 697px) {
+  .nav-bar.spaced {
+    display: none;
+  }
+}

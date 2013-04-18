@@ -1,6 +1,6 @@
-<?php namespace Templates\Base;
+<?php namespace Templates\Responsive;
 
 class TemplateBuilder extends \Laramongo\TemplateBuilder\TemplateBuilder
 {
-    protected $name = 'base';
+    protected $name = 'responsive';
 }
