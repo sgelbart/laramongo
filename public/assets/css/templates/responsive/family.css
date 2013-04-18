@@ -36,9 +36,6 @@
   }
 }
 @media screen and (min-width: 455px) and (max-width: 697px) {
-  .family .photo img {
-    width: 50%;
-  }
   .family .description {
     width: 100%;
   }

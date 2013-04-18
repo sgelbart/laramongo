@@ -99,12 +99,8 @@
 
 
 @media screen and (min-width:455px) and (max-width: 697px) {
-  .thumbnails {
-    width: 50%;
-  }
-
   .thumbnails li {
-    width: 47%;
+    width: 100%;
   }
 
   .thumbnails li.technique {
@@ -132,7 +128,13 @@
 }
 
 @media screen and (min-width:698px) and (max-width: 769px) {
-   .thumbnails li.technique .thumbnail img {
-    width: 36%;
+   .thumbnails li  {
+    width: 47.5%;
+  }
+}
+
+@media screen and (min-width:770px) and (max-width: 1200px) {
+  .thumbnails li {
+    width: 47.6%;
   }
 }
