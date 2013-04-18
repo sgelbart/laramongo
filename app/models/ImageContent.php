@@ -145,9 +145,10 @@ class ImageContent extends Content {
      * @param  mixed $product Object or id of the product (This product should already be referenced in the products attribute)
      * @param  int   $x       x Position of the tag in the image
      * @param  int   $y       y Position of the tag in the image
+     * @param $tag_id Id of an existing tag. This will update instead of creating a new one
      * @return bool           Returns true if the product was created successfuly.
      */
-    public function tagProduct( $product, $x, $y )
+    public function tagProduct( $product, $x, $y, $tag_id )
     {
         if($product instanceOf Product)
         {
@@ -161,7 +162,7 @@ class ImageContent extends Content {
         // If the product is previously related with the content.
         if(in_array($product_id, (array)$this->products))
         {
-            $this->embedToTagged(['_id'=>date('U'), 'product'=>$product_id, 'x'=>$x, 'y'=>$y, ]);
+            $this->embedToTagged(['_id'=>($tag_id ?: date('U')), 'product'=>$product_id, 'x'=>$x, 'y'=>$y, ]);
             return true; // Product tagged successfully
         }
         else

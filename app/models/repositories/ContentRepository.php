@@ -231,16 +231,17 @@ class ContentRepository
      * @param $product The Product instance or id
      * @param $x The x position of the tag in the image
      * @param $y The y position of the tag in the image
+     * @param $tag_id Id of an existing tag. This will update instead of creating a new one
      * @return Boolean Success
      */
-    public function tagToProduct( Content &$instance, $product, $x, $y )
+    public function tagToProduct( Content &$instance, $product, $x, $y, $tag_id = null )
     {
         if(! $instance instanceOf ImageContent)
         {
             trigger_error("A instancia enviada a tagToProduct não é um ImageContent");
         }
 
-        if($instance->tagProduct($product, $x, $y))
+        if($instance->tagProduct($product, $x, $y, $tag_id))
         {
             return $instance->save();
         }
