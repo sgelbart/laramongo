@@ -15,7 +15,7 @@
                 @include('layouts.website._sidebar')
             </div>
 
-            <div class='main' style='width: 75%;'>
+            <div class='main'>
                 @include('layouts.website._horizontalbar')
 
                 @yield('content')

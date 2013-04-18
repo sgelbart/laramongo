@@ -1,0 +1,111 @@
+@import url('variables');
+
+ul.horizon_menu{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    width: 439px;
+    height: 32px;
+    overflow: hidden; // Clears the float of li itens
+
+    li{
+        background: url("@{layout-url}/orange_button_bg.gif") repeat-x;
+        width: 74px;
+        height: 32px;
+        display: block;
+        float:left;
+        margin-right: 1px;
+        padding: 0px 6px;
+        cursor: pointer;
+
+        span{
+            display: block;
+            background: url("@{layout-url}/horizon_menu/bt_construcao.png") no-repeat center;
+            height: 100%;
+            .image-replacement;
+
+            &.acabamento{ background-image: url("@{layout-url}/horizon_menu/bt_acabamento.png"); }
+            &.bricolagem{ background-image: url("@{layout-url}/horizon_menu/bt_bricolagem.png"); }
+            &.decoracao{ background-image: url("@{layout-url}/horizon_menu/bt_decoracao.png"); }
+            &.jardinagem{ background-image: url("@{layout-url}/horizon_menu/bt_jardinagem.png"); }
+        }
+
+        &:hover{
+            opacity: 0.7;
+        }
+
+        &:first-child{
+            .border-radius(4px, 0px, 0px, 4px);
+        }
+
+        &:last-child{
+            .border-radius(0px, 4px, 4px, 0px);
+        }
+    }
+}
+
+div.search_box{
+    background-color: #FFF;
+    border: 1px solid #DEDEDE;
+    float: right;
+    width: 242px;
+    height: 30px;
+    line-height: 29px;
+    .border-radius(3px);
+
+    input{
+        border: none;
+        height: 29px;
+        background-color: transparent;
+        padding: 0px 11px;
+        width: 180px;
+    }
+
+    input[type=submit]{
+        float: right;
+        background: url("@{layout-url}/btn_search.gif") repeat-x;
+        border: none;
+        background-color: transparent;
+        .border-radius(4px);
+        height: 30px;
+        width: 34px;
+        .image-replacement;
+    }
+}
+
+@media screen and (min-width:800px) and (max-width: 1275px) {
+    div.search_box {
+        width: 100%;
+        float: none;
+        display:block;
+        margin-bottom: 20px;
+    }
+
+    ul.horizon_menu {
+        margin: auto;
+    }
+}
+
+@media screen and (min-width:401px) and (max-width: 799px) {
+    .horizon_menu {
+        display: none;
+    }
+
+    div.search_box {
+        width: 100%;
+        float: none;
+        display:block;
+    }
+}
+
+@media screen and (min-width:200px) and (max-width: 400px) {
+    .horizon_menu {
+        display: none;
+    }
+
+    div.search_box {
+        width: 100%;
+        float: none;
+        display:block;
+    }
+}
