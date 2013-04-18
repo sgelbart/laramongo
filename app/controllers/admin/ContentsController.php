@@ -211,7 +211,7 @@ class ContentsController extends AdminController {
 
         if(
             $this->contentRepo->tagToProduct(
-                $content, Input::get('product_id'), Input::get('x'), Input::get('y')
+                $content, Input::get('product_id'), Input::get('x'), Input::get('y'), Input::get('_id')
             )
         )
         {

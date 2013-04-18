@@ -637,7 +637,20 @@ class Model
         if($document != null)
         {
             $attr = (array)$this->getAttribute($field);
+
+            if(isset($document['_id']))
+            {
+                foreach ($attr as $key => $existingDoc) {
+                    if(isset($existingDoc['_id']) && $existingDoc['_id'] == $document['_id'])
+                    {
+                        unset($attr[$key]);
+                        break;
+                    }
+                }
+            }
+
             $attr[] = $document;
+
             $this->setAttribute($field, $attr);
         }
     }
