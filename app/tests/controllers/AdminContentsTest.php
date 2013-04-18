@@ -104,7 +104,7 @@ class AdminContentsTest extends ControllerTestCase
 
         // Request
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>'lol']);
-        
+
         $this->assertRedirection(URL::action('Admin\ContentsController@index'));
         $this->assertSessionHas('flash','não encontrad');
     }
@@ -114,7 +114,7 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldStoreValidContent(){
-        
+
         // Make sure that repo->createNew is called once
         $contentRepo = m::mock(new ContentRepository);
         $contentRepo->shouldReceive('createNew')->once()->passthru();
@@ -136,7 +136,7 @@ class AdminContentsTest extends ControllerTestCase
      *
      */
     public function testShouldNotStoreInvalidContent(){
-        
+
         // Make sure that repo->createNew is called once
         $contentRepo = m::mock(new ContentRepository);
         $contentRepo->shouldReceive('createNew')->once()->passthru();
@@ -215,7 +215,7 @@ class AdminContentsTest extends ControllerTestCase
         $content = testContentProvider::saved( 'valid_image' );
 
         $input = $content->attributes;
-        
+
         // A mocked image that should be attached
         $image = m::mock('UploadedFile');
         $image->shouldReceive('move')->once();
@@ -263,7 +263,7 @@ class AdminContentsTest extends ControllerTestCase
         testContentProvider::saved( 'valid_article' );
 
         $this->requestAction('GET', 'Admin\ContentsController@tags', ['term'=>'inter']);
-        $this->assertRequestOk(); 
+        $this->assertRequestOk();
     }
 
     public function testShouldRelateProduct(){
@@ -278,7 +278,7 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->requestAction(
             'POST', 'Admin\ContentsController@addProduct',
-            ['id'=>$content->_id, 'product_id'=>$product->_id] 
+            ['id'=>$content->_id, 'product_id'=>$product->_id]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
@@ -297,7 +297,7 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->requestAction(
             'POST', 'Admin\ContentsController@addProduct',
-            ['id'=>$content->_id, 'product_id'=>$lms] 
+            ['id'=>$content->_id, 'product_id'=>$lms]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));
@@ -320,7 +320,7 @@ class AdminContentsTest extends ControllerTestCase
         // Request
         $this->withInput(['x'=>20,'y'=>30,'product_id'=>$product->_id])->requestAction(
             'POST', 'Admin\ContentsController@tagProduct',
-            ['id'=>$content->_id] 
+            ['id'=>$content->_id]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']));
@@ -341,7 +341,7 @@ class AdminContentsTest extends ControllerTestCase
         // Request
         $this->withInput(['x'=>20,'y'=>30, 'product_id'=>$product->_id])->requestAction(
             'POST', 'Admin\ContentsController@tagProduct',
-            ['id'=>$content->_id] 
+            ['id'=>$content->_id]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-image-tagging']));
@@ -394,7 +394,7 @@ class AdminContentsTest extends ControllerTestCase
         $contentRepo = m::mock(new ContentRepository);
         $contentRepo->shouldReceive('removeCategory')->once()->passthru();
         App::instance("ContentRepository", $contentRepo);
-        
+
         $content = testContentProvider::saved( 'valid_article' );
         $category = testCategoryProvider::saved( 'valid_leaf_category' );
 

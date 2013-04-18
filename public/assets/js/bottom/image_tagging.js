@@ -36,7 +36,7 @@ imageTagging = function(){
 
     /**
      * Set the position and display the Popover for product tagging
-     * 
+     *
      * @param  {DOM Element} element       The taggable image element
      * @param  {json} positionPixel        Containing x and y in PIXELS
      * @param  {json} positionPercentage   Containing x and y in Percentage
@@ -54,6 +54,17 @@ imageTagging = function(){
         popover.find('[name=y]').val(positionPercentage.y);
     }
 
+    /**
+     * Hide a popover
+     *
+     * @param  {DOM Element} element       Popover element
+     * @return {null}
+     */
+    var closePopover = function( element )
+    {
+        element.fadeOut();
+    }
+
     var init = function()
     {
         $('.image-tagging span.tagged-image').click(function(event){
@@ -64,6 +75,10 @@ imageTagging = function(){
             // Prepare the Popover form
             preparePopover( el, mousePos, coord);
         });
+
+        $('.image-tagging a[data-close-popover]').click(function(){
+            closePopover($(this).closest('.popover-tagging'));
+        })
     }
 
     init();

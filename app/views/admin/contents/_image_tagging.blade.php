@@ -1,7 +1,7 @@
 <div class='image-tagging' data-image-tagging='{{ $content->_id }}'>
 
     {{ $content->render() }}
-    
+
     {{-- The form bellow will be placed over the image dinamically, thanks to image_tagging.js --}}
     <div class="popover-tagging popover top">
         <div class="arrow"></div>
