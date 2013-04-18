@@ -226,6 +226,22 @@ class ContentsController extends AdminController {
     }
 
     /**
+     * Should remove an existing tag of a product
+     * @param  int    $id         ImageContent id
+     * @param  int    $tag_id     Id of the tag that will be removed
+     * @return Response
+     */
+    public function untagProduct($id, $tag_id)
+    {
+        $content = $this->contentRepo->first($id);
+
+        $this->contentRepo->removeTagged( $content, $tag_id );
+        
+        return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-image-tagging'])
+            ->with( 'flash', l('content.tag_removed_sucessfully') );
+    }
+
+    /**
      * Remove reference to the product_id in the content
      *
      * @return Response

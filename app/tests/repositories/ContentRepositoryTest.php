@@ -320,4 +320,38 @@ class ContentRepositoryTest extends TestCase
 
         $this->assertNotContains((string)$category->_id, $article->categories);
     }
+
+    public function testShouldTagProductToImage()
+    {
+        $image = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $repo = new ContentRepository;
+        $repo->relateToProduct( $image, $product->_id );
+        $image = Content::first($image->_id);
+
+        $this->assertTrue($repo->tagToProduct( $image, $product, 10, 20));
+        $image = Content::first($image->_id);
+
+        // Asserts if the tag was created
+        $this->assertEquals($image->tagged[0]['x'], 10);
+        $this->assertEquals($image->tagged[0]['y'], 20);
+        $this->assertEquals($image->tagged[0]['product'], $product->_id);
+    }
+
+    public function testShouldUntagProductOfImage()
+    {
+        $image = testContentProvider::saved('valid_image');
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $repo = new ContentRepository;
+        $repo->relateToProduct( $image, $product->_id );
+        $repo->tagToProduct( $image, $product, 10, 20);
+        $image = Content::first($image->_id);
+
+        $this->assertTrue($repo->removeTagged( $image, $image->tagged[0]['_id']));
+
+        // Asserts if the tag was removed
+        $this->assertFalse(isset( $image->tagged[0] ));
+    }
 }
