@@ -8,10 +8,9 @@
         {{ Basset::show('website.css') }}
     </head>
     <body>
+        @include('layouts.website._header')
 
         <div class='content'>
-            @include('layouts.website._header')
-
             <div class='sidebar'>
                 @include('layouts.website._sidebar')
             </div>

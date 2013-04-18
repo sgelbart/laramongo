@@ -9,7 +9,6 @@
 body{
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     .font-size(13);
-    background: url("@{layout-url}/bg-body.png") no-repeat scroll center 0 #FEFEFD;
     margin: 0;
     color: #707070;
 }
@@ -32,62 +31,6 @@ a{
 /**
     Common
 **/
-
-h1.logo{
-    background: url("@{layout-url}/logo.png") no-repeat;
-    background-position: top;
-    display: block;
-    width: 222px;
-    height: 103px;
-    margin: 15px auto 20px auto;
-    .image-replacement;
-    cursor: pointer;
-
-    &:hover{
-        background-position: bottom;
-    };
-}
-
-div.accountbox{
-    position: absolute;
-    right: 0px;
-    top: 100px;
-    width: 260px;
-    height: 75px;
-    line-height: 33px;
-    text-align: right;
-    padding-right: 3px;
-    font-size: 12px;
-
-    a{
-        color: #FF9900;
-        &:hover{ text-decoration: underline; }
-    }
-
-    .account_buttons a{
-
-        display: inline-block;
-        height: 29px;
-        width: 110px;
-        padding-left: 12px;
-        margin-left: 5px;
-        font-size: 12px;
-        text-align: center;
-        background: url("@{layout-url}/bt_account_list.png") no-repeat;
-        background-position: top;
-        color: #DDFF82;
-        line-height: 28px;
-
-        &.account{
-            background: url("@{layout-url}/bt_account_leroy.png") no-repeat top;
-            width: 100px;
-        }
-
-        &:hover{
-            background-position: bottom;
-        }
-    }
-}
 
 /**
     Sidebar

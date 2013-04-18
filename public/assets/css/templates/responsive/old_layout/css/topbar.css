@@ -2,6 +2,7 @@
   text-indent: -9999px !important;
 }
 div.topbar {
+  background: #e8f0d1;
   height: 33px;
   line-height: 31px;
   color: #7b824b;
@@ -62,6 +63,8 @@ div.topbar span.tab.findstore {
     position: absolute;
     top: 0px;
   }
+}
+@media screen and (min-width: 801px) and (max-width: 950px) {
   div.topbar div.region {
     display: block;
     margin-top: 2px;
@@ -71,9 +74,6 @@ div.topbar span.tab.findstore {
 @media screen and (min-width: 401px) and (max-width: 799px) {
   .content {
     width: 100%;
-  }
-  span.tab {
-    display: none;
   }
   div.topbar div.region select {
     display: block;
@@ -98,9 +98,6 @@ div.topbar span.tab.findstore {
   }
   .content {
     width: 100%;
-  }
-  span.tab {
-    display: none;
   }
   div.topbar div.region select {
     display: block;
