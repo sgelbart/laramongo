@@ -1,10 +1,8 @@
-/* is used at forms */
 .form-inline {
   display: block;
   width: 100%;
   padding-top: 20px;
 }
-
 .form-inline select {
   width: 220px;
   background-color: #FFFFFF;
@@ -22,11 +20,9 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
 .form-inline label {
   padding-right: 10px;
 }
-
 .form-inline input[type='submit'] {
   width: 30%;
   text-align: center;

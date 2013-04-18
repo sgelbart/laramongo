@@ -1,0 +1,33 @@
+#sugestions {
+  border: 1px solid #CCC;
+  padding: 1%;
+  margin-top: 0.5%;
+  vertical-align: middle;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+#sugestions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#sugestions li {
+  width: 15%;
+  display: inline-block;
+}
+@media screen and (min-width: 240px) and (max-width: 454px) {
+  #sugestions li {
+    width: 32.4%;
+  }
+}
+@media screen and (min-width: 240px) and (max-width: 454px) and (orientation: portrait) {
+  #sugestions li {
+    width: 48.5%;
+  }
+}
+@media screen and (min-width: 455px) and (max-width: 697px) {
+  #sugestions li {
+    width: 32.4%;
+  }
+}

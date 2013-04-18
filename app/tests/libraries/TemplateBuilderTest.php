@@ -53,6 +53,8 @@ class TemplateBuilderTest extends TestCase
 
         $templateBuilder->setTemplateFor(['category' => $category]);
 
+        $result = '';
+
         try {
             App::make('Template');
         } catch (Exception $e) {
@@ -67,6 +69,8 @@ class TemplateBuilderTest extends TestCase
         $templateBuilder = new TemplateBuilder;
 
         $templateBuilder->setTemplateFor(['category' => 'bob', 'product' => 'foo']);
+
+        $result = '';
 
         try {
             App::make('Template');

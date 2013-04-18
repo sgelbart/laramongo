@@ -36,7 +36,6 @@ class TemplateBuilder
 
     protected function compileAssets()
     {
-        echo get_class($this);
         if( app()->environment() != 'production' )
         {
             Lessy::compileTree(
@@ -88,7 +87,6 @@ class TemplateBuilder
 
         App::bind('Template', 'Templates\\'.ucfirst($templateName).'\TemplateBuilder', true);
 
-        echo get_class(App::make('Template'));
         return $templateName;
     }
 }
