@@ -10,14 +10,7 @@ class Model
      *
      * @var MongoDB
      */
-    protected $connection;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var MongoDB
-     */
-    public static $shared_connection;
+    public static $connection;
 
     /**
      * The collection associated with the model.
@@ -162,9 +155,10 @@ class Model
      *
      * @param  mixed  $id
      * @param  array  $fields
+     * @param  boolean  $cachable
      * @return mixed
      */
-    public static function find($id = array(), $fields = array())
+    public static function find($id = array(), $fields = array(), $cachable = false)
     {
         $result = static::where( $id, $fields );
         if( $result->count() == 1 )
@@ -182,6 +176,7 @@ class Model
      *
      * @param  array  $query
      * @param  array  $fields
+     * @param  boolean  $cachable
      * @return Zizaco\LmongoOdm\OdmCursor
      */
     public static function where($query = array(), $fields = array(), $cachable = false)
@@ -334,13 +329,13 @@ class Model
      */
     protected function db()
     {
-        if(! $this->connection )
+        if(! static::$connection )
         {
             $connector = new MongoDbConnector;
-            $this->connection = $connector->getConnection();
+            static::$connection = $connector->getConnection();
         }
 
-        return $this->connection->{$this->database};
+        return static::$connection->{$this->database};
     }
 
     /**

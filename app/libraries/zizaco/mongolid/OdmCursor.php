@@ -96,8 +96,6 @@ class OdmCursor implements \Iterator
      */
     function current()
     {
-        $document = $this->cursor->current();
-
         $model = new $this->model();
 
         $document = $this->cursor->current();
@@ -172,6 +170,14 @@ class OdmCursor implements \Iterator
      */
     function valid() {
         return $this->cursor->valid();
+    }
+
+    /**
+     * Iterator count method
+     *
+     */
+    function count() {
+        return $this->cursor->count();
     }
 
     function sort( $fields )
