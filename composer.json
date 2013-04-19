@@ -9,7 +9,8 @@
 		"jasonlewis/basset": "dev-master",
 		"vipsoft/unzip": "dev-master",
 		"oyatel/amazon-s3-php-class": "dev-master",
-		"pda/pheanstalk": "dev-master"
+		"pda/pheanstalk": "dev-master",
+		"phpexcel/phpexcel": "v1.7.7"
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",
