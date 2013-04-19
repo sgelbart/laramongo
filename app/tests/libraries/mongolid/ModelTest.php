@@ -312,6 +312,10 @@ class ModelTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * TODO: referencesOne() and beyond
+     */
+
+    /**
      * Prepare attributes to be used in MongoDb.
      * especially the _id.
      *
