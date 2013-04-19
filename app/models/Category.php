@@ -36,7 +36,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
     /**
      * These attributes will not be mass set
      */
-    protected $guarded = array(
+    public $guarded = array(
         'image_file',
         '_id',
         '_method'

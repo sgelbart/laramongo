@@ -62,7 +62,7 @@ class Model
      *
      * @var array
      */
-    protected $guarded = array();
+    public $guarded = array();
 
     /**
      * Save the model to the database.

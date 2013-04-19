@@ -28,6 +28,9 @@ class ModelTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         m::close();
+
+        _stubProduct::$connection = null;
+        _stubCategories::$connection = null;
     }
 
     public function testShouldSave()
@@ -212,6 +215,100 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $prod->parseDocument( $document );
 
         $this->assertEquals($document, $prod->attributes);
+    }
+
+    public function testGetAndSetAttribute()
+    {
+        $prod = new _stubProduct;
+        $prod->name = 'Bacon';
+        $prod->setAttribute('price', 10.50);
+
+        $this->assertEquals('Bacon',$prod->getAttribute('name'));
+        $this->assertEquals(10.50,$prod->price);
+    }
+
+    public function testGetAtributes()
+    {
+        $prod = new _stubProduct;
+        $prod->name = 'Bacon';
+        $prod->price = 10.50;
+
+        $this->assertEquals(
+            ['name'=>'Bacon','price'=>10.50],
+            $prod->getAttributes()
+        );
+
+        $this->assertEquals(
+            ['name'=>'Bacon','price'=>10.50],
+            $prod->attributes
+        );
+    }
+
+    public function testGetMongoId()
+    {
+        $prod = new _stubProduct;
+        $prod->_id = 'theId';
+
+        $this->assertEquals(
+            'theId',
+            $prod->getMongoId()
+        );
+    }
+
+    public function testShouldFill()
+    {
+        $document = [
+            '_id'=>new MongoId,
+            'name'=>'Bacon',
+            'price'=>10.50,
+        ];
+
+        // Empty fillable
+        $prod = new _stubProduct;
+        $prod->fill( $document );
+        $this->assertEquals($document, $prod->attributes);
+
+        // Defined fillable
+        $prod = new _stubProduct;
+        $prod->fillable = ['name'];
+        $prod->fill( $document );
+        $this->assertEquals(['name'=>'Bacon'], $prod->attributes);
+
+        // Defined guarded
+        $prod = new _stubProduct;
+        $prod->guarded = ['name'];
+        $prod->fill( $document );
+        $this->assertEquals(['_id'=>$document['_id'],'price'=>10.50], $prod->attributes);
+    }
+
+    public function testShouldCleanAttribute()
+    {
+        $prod = new _stubProduct;
+        $prod->name = "Bacon";
+        $prod->price = 10.50;
+
+        $prod->cleanAttribute('name');
+        unset($prod->price);
+
+        $this->assertEquals([],$prod->attributes);
+    }
+
+    public function testShouldConvertToJson()
+    {
+        $prod = new _stubProduct;
+        $prod->name = "Bacon";
+        $prod->price = 10.50;
+
+        $this->assertEquals(json_encode($prod->attributes), $prod->toJson());
+    }
+
+    public function testShouldConvertToArray()
+    {
+        $prod = new _stubProduct;
+        $prod->name = "Bacon";
+        $prod->price = 10.50;
+
+        $this->assertEquals(['name'=>'Bacon','price'=>10.50], $prod->toArray());
     }
 
     /**
