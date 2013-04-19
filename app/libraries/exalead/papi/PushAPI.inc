@@ -12,10 +12,10 @@
 /* TODO: reconnect */
 
 /** Strict error reporting. **/
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 /** No time limit **/
-set_time_limit(0);
+//set_time_limit(0);
 
 /** Includes **/
 require_once('com/exalead/papi/helper/Document.inc');

@@ -159,7 +159,7 @@ class Product extends BaseModel {
     }
 
     /**
-     * Overwrites the Mongoloid\Model delete method in order
+     * Overwrites the Mongolid\Model delete method in order
      * to clean references to the resource
      */
     public function delete()

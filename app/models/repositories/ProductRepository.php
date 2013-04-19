@@ -152,7 +152,7 @@ class ProductRepository
      * The purpose of this method is to prepare a parameter
      * to be passed to a Form::select
      * 
-     * @param  Zizaco\Mongoloid\OdmCursor $cursor The result of a Product query
+     * @param  Zizaco\Mongolid\OdmCursor $cursor The result of a Product query
      * @return array The options array
      */
     public function toOptions( $cursor )

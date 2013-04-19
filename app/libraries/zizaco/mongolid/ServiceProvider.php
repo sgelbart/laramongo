@@ -1,4 +1,4 @@
-<?php namespace Zizaco\Mongoloid;
+<?php namespace Zizaco\Mongolid;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +18,7 @@ class ServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('zizaco/mongoloid');
+		$this->package('zizaco/mongolid');
 	}
 
 	/**

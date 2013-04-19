@@ -181,7 +181,7 @@ class ContentRepositoryTest extends TestCase
         $article1 = testContentProvider::saved('valid_article');
         $repo = new ContentRepository;
 
-        $connection = new Zizaco\Mongoloid\MongoDbConnector;
+        $connection = new Zizaco\Mongolid\MongoDbConnector;
         $db = $connection->getConnection()->db;
 
         // Query for all

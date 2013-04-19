@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseModel extends Zizaco\Mongoloid\Model
+abstract class BaseModel extends Zizaco\Mongolid\Model
 {
     /**
      * Validation rules

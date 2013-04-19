@@ -1,4 +1,4 @@
-<?php namespace Zizaco\Mongoloid;
+<?php namespace Zizaco\Mongolid;
 
 use MongoClient;
 

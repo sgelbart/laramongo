@@ -1,4 +1,4 @@
-<?php namespace Zizaco\Mongoloid;
+<?php namespace Zizaco\Mongolid;
 
 use MongoClient;
 use Cache;
@@ -31,7 +31,7 @@ class Model
      *
      * @var string
      */
-    protected $database = 'mongoloid';
+    protected $database = 'mongolid';
 
     /**
      * Indicates if the model should be timestamped.
@@ -545,7 +545,7 @@ class Model
      */
     public function attach($field, $obj)
     {
-        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        if( is_a($obj,'Zizaco\Mongolid\Model') )
         {
             $mongoId = $obj->getMongoId();
         }
@@ -582,7 +582,7 @@ class Model
      */
     public function detach($field, $obj)
     {
-        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        if( is_a($obj,'Zizaco\Mongolid\Model') )
         {
             $mongoId = $obj->getMongoId();
         }
@@ -625,7 +625,7 @@ class Model
      */
     public function embed($field, $obj)
     {
-        if( is_a($obj,'Zizaco\Mongoloid\Model') )
+        if( is_a($obj,'Zizaco\Mongolid\Model') )
         {
             $document = $obj->toArray();
         }
@@ -664,7 +664,7 @@ class Model
      */
     public function unembed($field, $target)
     {
-        if( is_a($target,'Zizaco\Mongoloid\Model') )
+        if( is_a($target,'Zizaco\Mongolid\Model') )
         {
             $target = $target->toArray();
         }

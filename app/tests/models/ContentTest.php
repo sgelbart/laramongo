@@ -110,7 +110,7 @@ class ContentTest extends TestCase
         $content->save();
 
         // Creates a raw connection and search for the tags in the collection
-        $connection = new Zizaco\Mongoloid\MongoDbConnector;
+        $connection = new Zizaco\Mongolid\MongoDbConnector;
 
         foreach ($content->tags as $tag) {
             $this->assertNotNull( $connection->getConnection()->db->tags->findOne(['_id'=>$tag]) );
