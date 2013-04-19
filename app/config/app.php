@@ -188,7 +188,8 @@ return array(
         'Basset'          => 'Basset\Facades\Basset',
         'Lessy'           => 'Zizaco\Lessy\Facade',
         'Asset'           => 'Laramongo\Nas\Asset',
-        'Template'        => 'Laramongo\TemplateBuilder\Facade'
+        'Template'        => 'Laramongo\TemplateBuilder\Facade',
+        'ExcelIo'         => 'Laramongo\ExcelIo\Facade'
     ),
 
 );
