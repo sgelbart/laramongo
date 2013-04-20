@@ -1,5 +1,7 @@
 <?php
 
+define('LARAVEL_START', microtime(true));
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
@@ -27,8 +29,21 @@ require __DIR__.'/../vendor/autoload.php';
 
 if (file_exists($compiled = __DIR__.'/compiled.php'))
 {
-    require $compiled;
+	require $compiled;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Setup Patchwork UTF-8 Handling
+|--------------------------------------------------------------------------
+|
+| The Patchwork library provides solid handling of UTF-8 strings as well
+| as provides replacements for all mb_* and iconv type functions that
+| are not available by default in PHP. We'll setup this stuff here.
+|
+*/
+
+Patchwork\Utf8\Bootup::initAll();
 
 /*
 |--------------------------------------------------------------------------
@@ -56,5 +71,5 @@ Illuminate\Support\ClassLoader::register();
 
 if (is_dir($workbench = __DIR__.'/../workbench'))
 {
-    Illuminate\Workbench\Starter::start($workbench);
+	Illuminate\Workbench\Starter::start($workbench);
 }

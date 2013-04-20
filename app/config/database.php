@@ -2,7 +2,7 @@
 
 return array(
 
-    /*
+	/*
 	|--------------------------------------------------------------------------
 	| PDO Fetch Style
 	|--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return array(
 			'password' => '',
 			'charset'  => 'utf8',
 			'prefix'   => '',
-            'schema'   => 'public',
+			'schema'   => 'public',
 		),
 
 		'sqlsrv' => array(
@@ -110,6 +110,8 @@ return array(
 	*/
 
 	'redis' => array(
+
+		'cluster' => true,
 
 		'default' => array(
 			'host'     => isset($_SERVER['PARAM4']) ? $_SERVER['PARAM4'] : '127.0.0.1',

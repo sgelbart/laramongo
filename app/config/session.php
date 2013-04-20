@@ -11,7 +11,7 @@ return array(
 	| requests. By default we will use the light-weight cookie driver but
 	| you may specify any of the other wonderful drivers provided here.
 	|
-	| Supported: "cookie", file", "database", "apc",
+	| Supported: "native", "cookie", "database", "apc",
 	|            "memcached", "redis", "array"
 	|
 	*/
@@ -36,13 +36,13 @@ return array(
 	| Session File Location
 	|--------------------------------------------------------------------------
 	|
-	| When using the "file" session driver, we need a location where session
+	| When using the native session driver, we need a location where session
 	| files may be stored. A default has been set for you but a different
 	| location may be specified. This is only needed for file sessions.
 	|
 	*/
 
-	'path' => __DIR__.'/../storage/sessions',
+	'files' => storage_path().'/sessions',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -132,7 +132,7 @@ return array(
 	| the encrypted session data stored within it for the application.
 	|
 	*/
-	
+
 	'payload' => 'laravel_payload',
 
 );

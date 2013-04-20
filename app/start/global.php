@@ -13,6 +13,7 @@
 
 ClassLoader::addDirectories(array(
 
+	app_path().'/commands',
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
@@ -52,7 +53,9 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 
     if(App::environment() != 'local')
+    {
         return Response::make(View::make('errors.runtime'), 500);
+    }
 });
 
 /*
