@@ -26,9 +26,9 @@
 
               <div class="caption">
                 <p><b>Nome:</b> {{ $product->name }}</p>
-                <p><b>Descrição:</b> {{ $product->description }}</p>
+                <p><b>Descrição:</b> {{ substr($product->description, 0, 120) . ' ...' }}</p>
 
-                <a href="/product/{{$product->_id}}" class="button button-block">See more</a>
+                <a href="/product/{{$product->_id}}" class="button button-block">Veja sobre o produto</a>
               </div>
             </div>
           </li>
