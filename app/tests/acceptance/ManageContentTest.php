@@ -134,7 +134,7 @@ class ManageContentTest extends AcceptanceTestCase
             ->click(l::css('#row-'.$content->_id.' a'))
             ->waitForPageToLoad(1000)
             ->click(l::css('[data-tab-of=content-relations]'))
-            ->select(l::IdOrName('category_id'), $category->_id)
+            ->select(l::IdOrName('category_id'), $category->name)
             ->click(l::id('submit-attach-category'))
             ->waitForPageToLoad(1000);
 
@@ -172,7 +172,7 @@ class ManageContentTest extends AcceptanceTestCase
             ->open(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id]))
             ->click(l::css('[data-tab-of=content-image-tagging]'))
             ->runScript("$('span.tagged-image').trigger('click');")
-            ->select( l::IdOrName('product_id'), $product->_id )
+            ->select( l::IdOrName('product_id'), $product->_id.' - '.$product->name )
             ->submit( l::css('.popover-tagging form') )
             ->waitForPageToLoad(2000);
 
