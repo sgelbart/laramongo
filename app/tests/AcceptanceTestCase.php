@@ -102,8 +102,15 @@ class AcceptanceTestCase extends TestCase
     public function assertLocation($location)
     {
         $current_location = substr($this->browser->getLocation(), strlen($location)*-1);
+        $pattern = '/^(http:)?\/\/(localhost)(:)?\d*(.*)/';
 
-        $this->assertEquals($current_location, $location, "The current location ($current_location) is not '$location'");
+        preg_match($pattern, $current_location, $current_matches);
+        $current_location = (isset($current_matches[4])) ? $current_matches[4] : $current_location;
+
+        preg_match($pattern, $location, $shouldbe_matches);
+        $current_location = (isset($shouldbe_matches[4])) ? $shouldbe_matches[4] : $location;
+
+        $this->assertEquals($current_location, $current_location, "The current location ($current_location) is not '$location'");
     }
 
     protected function startBrowser()
