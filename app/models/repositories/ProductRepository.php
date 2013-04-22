@@ -48,7 +48,12 @@ class ProductRepository
      */
     public function pageCount( $cursor )
     {
-        return round($cursor->count()/$this->perPage);
+        $count = $cursor->count();
+
+        if(is_numeric($count) && $count > 0)
+            return round($cursor->count()/$this->perPage);
+
+        return 0;
     }
 
     /**
