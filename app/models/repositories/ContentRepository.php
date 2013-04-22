@@ -116,7 +116,10 @@ class ContentRepository
     public function existentTags( $term )
     {
         $connection = new Zizaco\Mongolid\MongoDbConnector;
-        $db = $connection->getConnection()->db;
+
+        $database = Config::get('lmongo::connections.default.database');
+
+        $db = $connection->getConnection()->$database;
 
         $tags = $db->tags->find( ['_id'=> new \MongoRegex('/^'.$term.'/i')] );
 

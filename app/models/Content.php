@@ -227,7 +227,10 @@ class Content extends BaseModel {
 
         // batchInsert with write concern as 'Unacknowledged' (w=0)
         $connector = new Zizaco\Mongolid\MongoDbConnector;
-        $connector->getConnection()->db->tags->batchInsert($tagsToInsert, ["w" => 0]);
+
+        $database = Config::get('lmongo::connections.default.database');
+
+        $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
     }
 
 }
