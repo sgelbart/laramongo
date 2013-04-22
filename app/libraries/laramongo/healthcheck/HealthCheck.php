@@ -19,7 +19,8 @@ class HealthCheck
             ':'.
             Config::get('lmongo::connections.default.port').
             '/'.
-            Config::get('lmongo::connections.default.database')
+            Config::get('lmongo::connections.default.database').
+            '?readPreference=primary'
         );
 
         $database = Config::get('lmongo::connections.default.database');

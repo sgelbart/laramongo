@@ -34,7 +34,7 @@ class MongoDbConnector{
                 \Config::get('lmongo::connections.default.database');
 
             // Replica set preference
-            $connectionString .= '?readPreference=primaryPreferred';
+            $connectionString .= '?readPreference=primary';
 
             try{
                 $connection = new MongoClient($connectionString);
