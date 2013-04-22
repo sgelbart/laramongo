@@ -1,6 +1,6 @@
 <?php namespace Laramongo\ExcelIo;
 
-use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color;
+use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Reader_Excel2007;
 use PHPExcel_Style_Border;
 
 class ExcelIo {
@@ -32,6 +32,69 @@ class ExcelIo {
 
         $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $writer->save( app_path().'/'.$output );
+
+        return true;
+    }
+
+    /**
+     * Imports an excel file in the new format (Containing "Category: MongoId")
+     * or in the vintage format (Containing "Chave de entrada", "Familia", etc)
+     * If the file is being imported in the vintage format, the Chave de entrada
+     * name will be used to determine to what category the file is being uploaded
+     * @param  string $path File to be imported
+     * @return bool Success
+     */
+    public function importFile( $path )
+    {        
+        $reader = new PHPExcel_Reader_Excel2007();
+
+        if( $reader->canRead(app_path().'/'.$path) )
+        {
+            $excel = $reader->load( app_path().'/'.$path );
+            return $this->parseFile( $excel );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected function parseFile( $excel )
+    {
+        $vintage = false; // Vintage means that the excel file is provenient of
+                          // the old website.
+
+        $aba1 = $excel->setActiveSheetIndex(0);
+
+        // Enable vintage mode if the A2 content is not 'Categoria'
+
+        $vintage =
+            $aba1->getCell('A2')->getCalculatedValue() != 'Categoria';
+
+        $attributesRow = ($vintage) ? 7 : 4;
+
+        // Read schema
+
+        $schema = array();
+
+        $x = 0;
+        while($aba1->getCellByColumnAndRow($x, $attributesRow)->getValue())
+        {
+            $schema[] = $aba1->getCellByColumnAndRow($x, $attributesRow)->getValue()."\n";
+            $x++;
+        }
+
+        // Import lines
+
+        $y = $attributesRow+1;
+        while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
+        {   
+            foreach ($schema as $x => $attribute) {
+                
+            }
+
+            $y++;
+        }
 
         return true;
     }
