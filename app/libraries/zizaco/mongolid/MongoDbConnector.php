@@ -33,8 +33,13 @@ class MongoDbConnector{
                 '/'.
                 \Config::get('lmongo::connections.default.database');
 
+            $options = [
+                ['connect' => TRUE],
+                ['readPreference'=> MongoClient::RP_PRIMARY_PREFERRED ]
+            ];
+
             try{
-                $connection = new MongoClient($connectionString);
+                $connection = new MongoClient($connectionString, $options);
             }
             catch(\MongoConnectionException $e)
             {
