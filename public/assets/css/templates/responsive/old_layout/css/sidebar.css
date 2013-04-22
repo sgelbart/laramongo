@@ -94,11 +94,12 @@ div.sidebar .side_menu ul.roots li ul ul a:hover {
 }
 @media screen and (min-width: 401px) and (max-width: 799px) {
   div.sidebar {
-    width: 28%;
+    width: 31%;
     margin: 1%;
   }
   div.sidebar div.side_menu {
-    width: 141%;
+    display: block;
+    width: 98%;
   }
   div.sidebar div.side_menu.roots {
     width: 100%;
