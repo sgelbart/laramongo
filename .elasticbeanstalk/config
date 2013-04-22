@@ -2,7 +2,7 @@
 ApplicationName=laramongo
 DevToolsEndpoint=git.elasticbeanstalk.sa-east-1.amazonaws.com
 EnvironmentName=develop
-OptionSettingFile=optionsettings.laramongo-env
+OptionSettingFile=/home/zizaco/Projetos/php_projects/leroy-merlin/.elasticbeanstalk/optionsettings.develop
 RdsEnabled=No
 Region=sa-east-1
 ServiceEndpoint=https://elasticbeanstalk.sa-east-1.amazonaws.com
@@ -16,9 +16,3 @@ master=production
 EnvironmentName=develop
 OptionSettingFile=/home/zizaco/Projetos/php_projects/leroy-merlin/.elasticbeanstalk/optionsettings.develop
 RdsEnabled=No
-
-[branch:master]
-EnvironmentName=production
-OptionSettingFile=/home/zizaco/Projetos/php_projects/leroy-merlin/.elasticbeanstalk/optionsettings.production
-RdsEnabled=No
-
