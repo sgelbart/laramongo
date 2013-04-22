@@ -15,7 +15,8 @@
 	"require-dev": {
 		"zizaco/factory-muff": "*",
 		"mockery/mockery": "*",
-		"alexandresalome/php-selenium": "1.0.1"
+		"alexandresalome/php-selenium": "1.0.1",
+		"behat/behat": "2.4.*@dev"
 	},
 	"autoload": {
 		"classmap": [
