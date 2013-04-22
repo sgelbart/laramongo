@@ -88,18 +88,17 @@ div.sidebar .side_menu ul.roots li ul ul a:hover {
 }
 @media screen and (min-width: 800px) and (max-width: 1275px) {
   div.sidebar {
-    width: 98%;
+    width: 28%;
     margin: 1%;
   }
 }
 @media screen and (min-width: 401px) and (max-width: 799px) {
   div.sidebar {
-    width: 98%;
+    width: 28%;
     margin: 1%;
   }
   div.sidebar div.side_menu {
-    display: block;
-    width: 98%;
+    width: 141%;
   }
   div.sidebar div.side_menu.roots {
     width: 100%;
