@@ -39,7 +39,12 @@ class ContentRepository
      */
     public function pageCount( $cursor )
     {
-        return round($cursor->count()/$this->perPage);
+        $count = $cursor->count();
+
+        if(is_numeric($count) && $count > 0)
+            return round($cursor->count()/$this->perPage);
+
+        return 0;
     }
 
     /**
@@ -111,7 +116,10 @@ class ContentRepository
     public function existentTags( $term )
     {
         $connection = new Zizaco\Mongolid\MongoDbConnector;
-        $db = $connection->getConnection()->db;
+
+        $database = Config::get('lmongo::connections.default.database');
+
+        $db = $connection->getConnection()->$database;
 
         $tags = $db->tags->find( ['_id'=> new \MongoRegex('/^'.$term.'/i')] );
 

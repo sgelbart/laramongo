@@ -19,10 +19,13 @@ class HealthCheck
             ':'.
             Config::get('lmongo::connections.default.port').
             '/'.
-            Config::get('lmongo::connections.default.database')
+            Config::get('lmongo::connections.default.database').
+            '?readPreference=primary'
         );
 
-        $db = $connection->laramongo;
+        $database = Config::get('lmongo::connections.default.database');
+
+        $db = $connection->$database;
 
         $test_array = ['test'=>'result'];
         $db->test->save(['test'=>'result']);

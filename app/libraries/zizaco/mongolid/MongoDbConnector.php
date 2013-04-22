@@ -33,13 +33,15 @@ class MongoDbConnector{
                 '/'.
                 \Config::get('lmongo::connections.default.database');
 
+            // Replica set preference
+            $connectionString .= '?readPreference=primary';
+
             try{
                 $connection = new MongoClient($connectionString);
             }
             catch(\MongoConnectionException $e)
             {
-                sleep(1);
-                $connection = new MongoClient($connectionString);
+                trigger_error("Failed to connect with string: \"".$connectionString."\"");
             }
 
             MongoDbConnector::$shared_connection = $connection;
