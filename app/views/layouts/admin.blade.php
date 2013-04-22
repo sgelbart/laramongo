@@ -19,15 +19,19 @@
                     <ul class="nav">
 
                         <li {{ (Request::is('admin/categor*')) ? 'class="active"' : '' }}>
-                            {{ HTML::action( 'Admin\CategoriesController@index', 'Categorias' ) }}
+                            {{ Html::linkAction( 'Admin\CategoriesController@index', 'Categorias' ) }}
                         </li>
 
                         <li {{ (Request::is('admin/product*')) ? 'class="active"' : '' }}>
-                            {{ HTML::action( 'Admin\ProductsController@index', 'Produtos' ) }}
+                            {{ Html::linkAction( 'Admin\ProductsController@index', 'Produtos' ) }}
+                        </li>
+
+                        <li {{ (Request::is('admin/content*')) ? 'class="active"' : '' }}>
+                            {{ Html::linkAction( 'Admin\ContentsController@index', 'Conteúdo' ) }}
                         </li>
 
                         <li>
-                            {{ HTML::action( 'UsersController@logout', 'Logout' ) }}
+                            {{ Html::linkAction( 'UsersController@logout', 'Logout' ) }}
                         </li>
                     </ul>
                 @endif
@@ -40,10 +44,22 @@
             </div>
         @endif
 
+        @if (Session::get('flash_error'))
+            <div class='alert alert-error flash'>
+                @if (is_array(Session::get('flash_error')))
+                    <b>{{ Session::get('flash_error')[0] }}</b>
+                    {{ (isset(Session::get('flash_error')[1]) ? Session::get('flash_error')[1] : '' ) }}
+                @else
+                    {{ Session::get('flash_error') }}
+                @endif
+            </div>
+        @endif
+
         <div class='maincontent'>
             @yield('content')
         </div>
         
+        {{ Basset::show('js_global.js') }}
         {{ Basset::show('js_bottom.js') }}
     </body>
 </html>

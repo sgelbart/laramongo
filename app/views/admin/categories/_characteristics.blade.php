@@ -26,7 +26,7 @@
                 <td>
                     <div class='btn-group'>
                         <a class='btn btn-mini'>Modificar</a>
-                        {{ HTML::action(
+                        {{ Html::linkAction(
                             'Admin\CategoriesController@destroy_characteristic', 
                             'Excluir',
                             ['id'=>$category->_id, 'charac_name'=>$charac->name],
@@ -38,6 +38,10 @@
         @endforeach
     </tbody>
 </table>
+
+{{ Html::linkAction('Admin\CategoriesController@validate_products', "Validar Produtos", ['id'=>$category->_id], ['class'=>'btn btn-inverse']) }}
+
+<hr>
 
 <div class='well'>
     {{

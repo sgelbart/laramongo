@@ -1,25 +1,7 @@
 <?php namespace Admin;
 
-abstract class AdminController extends \Controller {
+abstract class AdminController extends \BaseController {
 
     protected $layout = 'layouts.admin';
-
-    /**
-     * Setup the layout used by the controller.
-     *
-     * @return void
-     */
-    protected function setupLayout()
-    {
-        if ( ! is_null($this->layout))
-        {
-            if( \Input::get('ajax') || \Request::ajax() )
-            {
-                $this->layout = 'layouts.ajax';
-            }
-
-            $this->layout = \View::make($this->layout);
-        }
-    }
-
+    
 }

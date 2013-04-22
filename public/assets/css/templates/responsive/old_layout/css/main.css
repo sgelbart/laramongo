@@ -1,0 +1,33 @@
+.image-replacement {
+  text-indent: -9999px !important;
+}
+body {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 0.8125em;
+  margin: 0;
+  color: #707070;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  color: #ff7700;
+}
+.content {
+  width: 72.5%;
+  margin: auto;
+  position: relative;
+}
+div.main {
+  float: left;
+  width: 74%;
+  margin-left: 20px;
+}
+.footer {
+  font-size: 11px;
+  clear: both;
+  height: 35px;
+  line-height: 35px;
+  border-top: solid 1px #DDD;
+}

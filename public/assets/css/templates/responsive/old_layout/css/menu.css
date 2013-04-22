@@ -1,0 +1,115 @@
+.image-replacement {
+  text-indent: -9999px !important;
+}
+ul.horizon_menu {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 10px;
+  width: 439px;
+  height: 32px;
+  overflow: hidden;
+}
+ul.horizon_menu li {
+  background: url("../img/orange_button_bg.gif") repeat-x;
+  width: 74px;
+  height: 32px;
+  display: block;
+  float: left;
+  margin-right: 1px;
+  padding: 0px 6px;
+  cursor: pointer;
+}
+ul.horizon_menu li span {
+  display: block;
+  background: url("../img/horizon_menu/bt_construcao.png") no-repeat center;
+  height: 100%;
+  text-indent: -9999px !important;
+}
+ul.horizon_menu li span.acabamento {
+  background-image: url("../img/horizon_menu/bt_acabamento.png");
+}
+ul.horizon_menu li span.bricolagem {
+  background-image: url("../img/horizon_menu/bt_bricolagem.png");
+}
+ul.horizon_menu li span.decoracao {
+  background-image: url("../img/horizon_menu/bt_decoracao.png");
+}
+ul.horizon_menu li span.jardinagem {
+  background-image: url("../img/horizon_menu/bt_jardinagem.png");
+}
+ul.horizon_menu li:hover {
+  opacity: 0.7;
+}
+ul.horizon_menu li:first-child {
+  border-radius: 4px 0px 0px 4px;
+  -moz-border-radius: 4px 0px 0px 4px;
+  -webkit-border-radius: 4px 0px 0px 4px;
+}
+ul.horizon_menu li:last-child {
+  border-radius: 0px 4px 4px 0px;
+  -moz-border-radius: 0px 4px 4px 0px;
+  -webkit-border-radius: 0px 4px 4px 0px;
+}
+div.search_box {
+  background-color: #FFF;
+  border: 1px solid #DEDEDE;
+  float: right;
+  width: 242px;
+  height: 30px;
+  line-height: 29px;
+  margin-bottom: 29px;
+  border-radius: 3px 3px 3px 3px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-radius: 3px 3px 3px 3px;
+}
+div.search_box input {
+  border: none;
+  height: 29px;
+  background-color: transparent;
+  padding: 0px 11px;
+  width: 180px;
+}
+div.search_box input[type=submit] {
+  float: right;
+  background: url("../img/btn_search.gif") repeat-x;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  height: 30px;
+  width: 34px;
+  text-indent: -9999px !important;
+}
+@media screen and (min-width: 800px) and (max-width: 1275px) {
+  ul.horizon_menu {
+    display: block;
+    margin: 0 auto;
+    margin-top: -30px !important;
+  }
+  div.search_box {
+    position: absolute;
+    top: 14px;
+    left: 70.4%;
+  }
+}
+@media screen and (min-width: 401px) and (max-width: 799px) {
+  div.search_box {
+    width: 39%;
+    float: none;
+    display: block;
+    position: relative;
+    left: 74%;
+  }
+}
+@media screen and (min-width: 200px) and (max-width: 400px) {
+  .horizon_menu {
+    display: none;
+  }
+  div.search_box {
+    width: 100%;
+    float: none;
+    display: block;
+  }
+}

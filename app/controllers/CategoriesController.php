@@ -11,36 +11,49 @@ class CategoriesController extends BaseController {
     {
         $category = Category::first($id);
 
-        if(! $category)
+        if(! $category || ! $category->isVisible())
         {
             return Redirect::action('HomeController@index')
                 ->with( 'flash', 'Categoria não encontrada' );
         }
 
-        $page = Input::get('page') ?: 1;
-
-        $products = Product::where(['category'=>(string)$category->_id])
-            ->sort(array('_id'=>'1'))
-            ->limit(12)
-            ->skip( ($page-1)*12 );
-
-        if( Input::get('ajax') || Request::ajax() )
+        if($category->kind == 'leaf')
         {
-            // For ajax request, don't return the layout or the complete view
-            return View::make('categories._products')
-                ->with( 'category', $category )
-                ->with( 'products', $products )
-                ->with( 'total_pages', round($products->count()/12) )
-                ->with( 'page', $page );
+            $page = Input::get('page') ?: 1;
+
+            $products = Product::where(['category'=>(string)$category->_id, 'deactivated'=>null])
+                ->limit(12)
+                ->skip( ($page-1)*12 );
+
+            $parameters = array(
+                'category' => $category,
+                'products'=> $products,
+                'total_pages'=> round($products->count()/12),
+                'page'=> $page
+            );
+
+            if( Input::get('ajax') || Request::ajax() )
+            {
+                // For ajax request, don't return the layout or the complete view
+                return Template::make('categories._products', $parameters);
+            }
+            else
+            {
+                // For non ajax requests, return the layout with the view embeded
+                $this->layout->content = Template::make('categories.show', $parameters);
+            }
         }
         else
         {
-            // For non ajax requests, return the layout with the view embeded
-            $this->layout->content = View::make('categories.show')
-                ->with( 'category', $category )
-                ->with( 'products', $products )
-                ->with( 'total_pages', round($products->count()/12) )
-                ->with( 'page', $page );
+            $subCategories = Category::where(['parents'=>$category->_id, 'hidden'=>['$ne'=>'true']]);
+
+            $this->layout->content =
+                Template::make('categories.subcategories',
+                    array(
+                        'category' => $category,
+                        'subCategories' => $subCategories
+                    )
+                );
         }
     }
 }

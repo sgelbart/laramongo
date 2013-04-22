@@ -1,0 +1,95 @@
+/* Mixins */
+
+.transition(@seconds, @effect: all){
+    transition: @effect @seconds;
+    -moz-transition: @effect @seconds;
+    -webkit-transition: @effect @seconds;
+    -o-transition: @effect @seconds;
+}
+
+.translate(@x, @y){
+    transform: translate(@x, @y);
+    -ms-transform: translate(@x, @y); /* IE 9 */
+    -webkit-transform: translate(@x, @y); /* Safari and Chrome */
+    -o-transform: translate(@x, @y); /* Opera */
+    -moz-transform: translate(@x, @y); /* Firefox */
+}
+
+.scale(@x, @y){
+    transform: scale(@x, @y);
+    -ms-transform: scale(@x, @y); /* IE 9 */
+    -webkit-transform: scale(@x, @y); /* Safari and Chrome */
+    -o-transform: scale(@x, @y); /* Opera */
+    -moz-transform: scale(@x, @y); /* Firefox */
+}
+
+/*  */
+
+.tagged-image{
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+
+    .tag{
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 250px;
+        padding: 25px;
+        margin-left: -30px;
+        margin-top: -30px;
+        cursor: pointer;
+        border: solid 4px transparent;
+        z-index: 999;
+        background: rgba(255,255,255,0.7) url('../../../img/templates/base/plus.png') no-repeat center;
+
+
+        .transition(0.3s, all);
+        .translate(0,20px);
+    }
+
+    &:hover{
+        .tag{
+            display: block;
+            opacity: 0.9;
+            .scale(1,1);
+
+            &:hover{
+                border: solid 4px #FFF;
+                background-color: rgba(255,255,255,0.4);
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.image-tagging{
+    position: relative;
+
+    .image-tag-form{
+        width: 387px;
+    }
+}
+
+.tagged-product-popover
+{
+    position: absolute;
+    opacity: 0;
+    
+    background-color: #FFF;
+    border: solid 1px #ddd;
+    width: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 25px rgba(0,0,0,0.3);
+    z-index: 999;
+
+    .transition(0.5s, opacity);
+    .translate(0,-5);
+
+    &.visible{
+        opacity: 1;
+        display: block;
+    }
+}

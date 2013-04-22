@@ -1,4 +1,11 @@
+/bootstrap/compiled.php
 /vendor
 composer.phar
 composer.lock
 .DS_Store.elasticbeanstalk/.elasticbeanstalk/
+app/storage/csv*
+app/storage/zip_*
+public/assets/img/categories/*
+public/assets/img/products/*
+public/uploads/*
+.elasticbeanstalk/

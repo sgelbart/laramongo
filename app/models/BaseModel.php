@@ -1,6 +1,6 @@
 <?php
 
-abstract class BaseModel extends Zizaco\Mongoloid\Model
+abstract class BaseModel extends Zizaco\Mongolid\Model
 {
     /**
      * Validation rules
@@ -19,12 +19,13 @@ abstract class BaseModel extends Zizaco\Mongoloid\Model
     /**
      * Save the model to the database if it's valid
      *
+     * @param $force Force save even if the object is invalid
      * @return bool
      */
-    public function save()
+    public function save($force = false)
     {
 
-        if( $this->isValid() )
+        if( $this->isValid() || $force )
         {
             return parent::save();
         }

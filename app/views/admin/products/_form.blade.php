@@ -21,7 +21,7 @@
         {{ Form::text('name', array_get( $f,'name') ) }}
 
         {{ Form::label('category', 'Chave de entrada') }}
-        {{ Form::select('category', $leafs, (string)(array_get( $f,'category')) ) }}
+        {{ Form::select('category', $leafs, (string)(array_get( $f,'category')), ['data-chosen'=>'true'] ) }}
 
         {{ Form::label('description', 'Descrição') }}
         {{ Form::textarea('description', array_get( $f,'description') ) }}
@@ -44,10 +44,10 @@
             {{ Form::button('Salvar produto', ['type'=>'submit', 'id'=>'submit-save-product', 'class'=>'btn btn-primary'] ) }}
 
             @if ( isset($product) )
-                {{ HTML::action( 'Admin\ProductsController@destroy', 'Excluir', ['id'=>$product->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
+                {{ Html::linkAction( 'Admin\ProductsController@destroy', 'Excluir', ['id'=>$product->_id], ['data-method'=>'delete', 'class'=>'btn btn-danger'] ) }}
             @endif
 
-            {{ HTML::action( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+            {{ Html::linkAction( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
 
         </div>
     </fieldset>

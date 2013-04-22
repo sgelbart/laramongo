@@ -1,6 +1,6 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*",
+		"laravel/framework": "dev-master#fc9760ad63e2421e484410394fd97e393fb21962",
 		"way/generators": "dev-master",
 		"navruzm/lmongo": "dev-master#d673d7762028ab53a54f227caa8882830e80c427",
 		"keboola/csv": "1.0.9",
@@ -8,7 +8,9 @@
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
 		"vipsoft/unzip": "dev-master",
-		"jonob/html": "dev-master"
+		"oyatel/amazon-s3-php-class": "dev-master",
+		"pda/pheanstalk": "dev-master",
+		"phpexcel/phpexcel": "v1.7.7"
 	},
 	"require-dev": {
 		"zizaco/factory-muff": "*",
@@ -25,11 +27,18 @@
 			"app/tests/TestCase.php",
 			"app/tests/ControllerTestCase.php",
 			"app/tests/AcceptanceTestCase.php",
+			"app/tests/data/",
 			"app/libraries",
-			"app/models/traits/CategoryTree.php",
-			"app/models/traits/HasImage.php",
-			"app/models/traits/ToSelect.php"
+			"app/jobs",
+			"app/views"
 		]
+	},
+	"scripts": {
+		"pre-update-cmd": "php -r \"@unlink('bootstrap/compiled.php');\"",
+	    "post-update-cmd": "php artisan optimize"
+	},
+	"config": {
+		"preferred-install": "dist"
 	},
 	"minimum-stability": "dev"
 }

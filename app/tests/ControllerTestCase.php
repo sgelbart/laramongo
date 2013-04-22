@@ -28,6 +28,9 @@ class ControllerTestCase extends TestCase{
 
         // Enable filters
         Route::enableFilters();
+
+        // Set session driver as array
+        Config::set('session.driver', 'array');
     }
 
     /**

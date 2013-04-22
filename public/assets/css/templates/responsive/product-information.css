@@ -1,0 +1,52 @@
+#product-container {
+  width: 100%;
+}
+#product-container .thumbnail {
+  width: 33.33%;
+  float: left;
+}
+#product-container #informations {
+  width: 59.66%;
+  float: right;
+  padding: 1%;
+  text-align: top;
+}
+#product-container #informations h2 {
+  margin: 0;
+}
+#product-container #informations .name {
+  font-size: 1.4em;
+  padding-left: 3px;
+  font-weight: bold;
+  color: #FF5F00;
+}
+#product-container #informations .description {
+  font-size: 1.0em;
+  line-height: 1.4em;
+  padding-left: 3px;
+  margin-bottom: 6.5%;
+}
+@media screen and (min-width: 240px) and (max-width: 454px) {
+  #product-container .thumbnail {
+    width: 100%;
+  }
+  #product-container #informations {
+    width: 100%;
+  }
+  #product-container #informations .button {
+    display: block;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 455px) and (max-width: 697px) {
+  #product-container .thumbnail {
+    width: 100%;
+  }
+  #product-container #informations {
+    width: 100%;
+  }
+  #product-container #informations .button {
+    display: block;
+    text-align: center;
+  }
+}

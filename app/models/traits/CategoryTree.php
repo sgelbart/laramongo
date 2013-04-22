@@ -1,8 +1,9 @@
 <?php namespace Traits;
 
-use HTML;
+use Html;
 
-trait CategoryTree{
+trait CategoryTree
+{
 
     protected $treeUnderBuild;
 
@@ -33,7 +34,7 @@ trait CategoryTree{
         $childs = $branch->childs();
         $is_leaf = $branch->kind == 'leaf';
 
-        $html .= "<li id='$branch->_id' class='$branch->kind' data-name='$branch->name'>\n";
+        $html .= "<li id=category-'$branch->_id' class='$branch->kind' data-name='$branch->name'>\n";
             $html .= "<a>".
                         $branch->name.
                         (($is_leaf) ? " <i class='icon-leaf'></i>" : "").
@@ -42,18 +43,18 @@ trait CategoryTree{
             $html .="<div class='btn-group'>\n";
             if($is_leaf)
             {
-                $html .= HTML::action(
+                $html .= Html::action(
                     'Admin\CategoriesController@products',
                     'Produtos',
                     ['id'=>$branch->_id],
-                    ['class'=>'btn btn-primary btn-mini']
+                    ['class'=>'btn btn-primary btn-mini', 'id'=>'products-cat-'.$branch->_id]
                 );
             }
-            $html .= HTML::action(
+            $html .= Html::action(
                 'Admin\CategoriesController@edit',
                 'Editar',
                 ['id'=>$branch->_id],
-                ['class'=>'btn btn-mini']
+                ['class'=>'btn btn-mini', 'id'=>'edit-cat-'.$branch->_id]
             );
             $html .="</div>\n";
 

@@ -22,7 +22,7 @@ class EditCategoryTest extends AcceptanceTestCase
 
         $this->browser
             ->open('/admin/categories')
-            ->click(l::linkContaining($category->name))
+            ->click(l::css('#edit-cat-'.$category->_id))
             ->waitForPageToLoad(1000)
             ->type(l::IdOrName('name'), $new_name)
             ->click(l::id('submit-form'))
@@ -39,7 +39,7 @@ class EditCategoryTest extends AcceptanceTestCase
 
         $this->browser
             ->open('/admin/categories')
-            ->click(l::linkContaining($category->name))
+            ->click(l::css('#edit-cat-'.$category->_id))
             ->waitForPageToLoad(1000)
             ->type(l::IdOrName('name'), $invalid_name)
             ->click(l::id('submit-form'))

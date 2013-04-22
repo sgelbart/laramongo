@@ -28,7 +28,7 @@ if( isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == 4443 ) // For s
 {
     $env = $app['env'] = 'testing';
 }
-elseif( isset($_SERVER['PARAM3']) )
+elseif( isset($_SERVER['PARAM3']) && $_SERVER['PARAM3'] )
 {
     $env = $app['env'] = $_SERVER['PARAM3'];
 }
@@ -36,8 +36,6 @@ else
 {
     $env = $app['env'] = 'local';
 }
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +61,9 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 |
 */
 
-require $app->getBootstrapFile();
+$framework = __DIR__.'/../vendor/laravel/framework/src';
+
+require $framework.'/Illuminate/Foundation/start.php';
 
 /*
 |--------------------------------------------------------------------------

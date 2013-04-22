@@ -101,20 +101,27 @@ return array(
 	*/
 
 	'collections' => array(
-		
-		'website' => function($collection)
-		{
-			$collection->requireTree('assets/css/website');
-		},
+
+		// Set dinamically
+		'website' => function($collection){},
 
 		'admin' => function($collection)
 		{
 			$collection->requireTree('assets/css/admin');
 		},
 
+		'js_global' => function($collection)
+		{
+			$collection->add('assets/js/global/jquery.js');
+			$collection->add('assets/js/global/jquery.autocomplete.js');
+			$collection->add('assets/js/global/jquery.form.js');
+			$collection->add('assets/js/global/jquery.querystring.js');
+			$collection->add('assets/js/global/jquery.chosen.js');
+			$collection->add('assets/js/global/jquery.tagsinput.js');
+		},
+
 		'js_bottom' => function($collection)
 		{
-			$collection->add('assets/js/bottom/jquery.js');
 			$collection->requireTree('assets/js/bottom');
 		},
 	),
@@ -142,7 +149,7 @@ return array(
 	|
 	*/
 
-	'production_environment' => '',
+	'production_environment' => isset($_SERVER['AWS_ACCESS_KEY_ID']),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -151,7 +158,7 @@ return array(
 	|
 	| A named filter can be used to quickly apply a filter to a collection of
 	| assets.
-	| 
+	|
 	|	'YuiCss' => 'Yui\CssCompressorFilter'
 	|
 	| If you'd like to specify options for a named filter you can define the

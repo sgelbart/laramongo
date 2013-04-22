@@ -101,4 +101,24 @@ class Characteristic extends BaseModel {
                 break;
         }
     }
+
+    public function validate($value)
+    {
+        switch ($this->type) {
+            case 'int':
+                return is_numeric($value) || $value == '';
+                break;
+
+            case 'float':
+                return is_numeric($value) || $value == '';
+                break;
+
+            case 'option':
+                return in_array($value, $this->values);
+                break;
+            
+            default:
+                return true;
+        }
+    }
 }

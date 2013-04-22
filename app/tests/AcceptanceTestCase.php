@@ -29,6 +29,7 @@ class AcceptanceTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
+
         $this->startbrowser();
     }
 
@@ -36,39 +37,91 @@ class AcceptanceTestCase extends TestCase
     {
         $text = $this->browser->getBodyText();
 
-        $this->assertContains($needle, $text, "Body text does not contain '$needle'");
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertContains($singleNiddle, $text, "Body text does not contain '$singleNiddle'");
+        }
+    }
+
+    public function assertBodyHasNotText($needle)
+    {
+        $text = $this->browser->getBodyText();
+
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertNotContains($singleNiddle, $text, "Body text does not contain '$singleNiddle'");
+        }
     }
 
     public function assertElementHasText($locator, $needle)
     {
         $text = $this->browser->getText($locator);
 
-        $this->assertContains($needle, $text, "Given element does not contain '$needle'");
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertContains($singleNiddle, $text, "Body text does not contain '$singleNiddle'");
+        }
     }
 
     public function assertElementHasNotText($locator, $needle)
     {
         $text = $this->browser->getText($locator);
 
-        $this->assertNotContains($needle, $text, "Given element do contain '$needle' but it shoudn't");
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertNotContains($singleNiddle, $text, "Given element do contain '$singleNiddle' but it shoudn't");
+        }
     }
 
     public function assertBodyHasHtml($needle)
     {
         $html = str_replace("\n", '', $this->browser->getHtmlSource());
 
-        $this->assertContains($needle, $html, "Body html does not contain '$needle'");
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertContains($singleNiddle, $html, "Body html does not contain '$singleNiddle'");
+        }
+    }
+
+    public function assertBodyHasNotHtml($needle)
+    {
+        $html = str_replace("\n", '', $this->browser->getHtmlSource());
+
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertNotContains($singleNiddle, $html, "Body html does not contain '$singleNiddle'");
+        }
     }
 
     public function assertLocation($location)
     {
         $current_location = substr($this->browser->getLocation(), strlen($location)*-1);
+        $pattern = '/^(http:)?\/\/(localhost)(:)?\d*(.*)/';
 
-        $this->assertEquals($current_location, $location, "The current location ($current_location) is not '$location'");
+        preg_match($pattern, $current_location, $current_matches);
+        $current_location = (isset($current_matches[4])) ? $current_matches[4] : $current_location;
+
+        preg_match($pattern, $location, $shouldbe_matches);
+        $current_location = (isset($shouldbe_matches[4])) ? $shouldbe_matches[4] : $location;
+
+        $this->assertEquals($current_location, $current_location, "The current location ($current_location) is not '$location'");
     }
 
     protected function startBrowser()
     {
+        // Set the Application URL containing the port of the test server
+        Config::set(
+            'app.url',
+            Config::get('app.url').':4443'
+        );
+        App::setRequestForConsoleEnvironment(); // This is a must
+
         if(! AcceptanceTestCase::$loadedBrowser)
         {
             $client  = new Selenium\Client('localhost', 4444);

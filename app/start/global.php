@@ -13,6 +13,7 @@
 
 ClassLoader::addDirectories(array(
 
+	app_path().'/commands',
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
@@ -32,7 +33,7 @@ ClassLoader::addDirectories(array(
 
 $logFile = 'log-'.php_sapi_name().'.txt';
 
-Log::useDailyFiles(__DIR__.'/../storage/logs/'.$logFile);
+Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,11 @@ Log::useDailyFiles(__DIR__.'/../storage/logs/'.$logFile);
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+
+    if(App::environment() != 'local')
+    {
+        return Response::make(View::make('errors.runtime'), 500);
+    }
 });
 
 /*
@@ -64,3 +70,41 @@ App::error(function(Exception $exception, $code)
 */
 
 require __DIR__.'/../filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require The Helpers File
+|--------------------------------------------------------------------------
+|
+*/
+
+require __DIR__.'/../libraries/helpers.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require Exalead API
+|--------------------------------------------------------------------------
+|
+*/
+
+require __DIR__.'/../libraries/exalead/papi/PushAPI.inc';
+
+/*
+|--------------------------------------------------------------------------
+| Additional View extensions
+|--------------------------------------------------------------------------
+|
+*/
+
+View::addExtension('blade.js','blade');
+View::addExtension('js','blade');
+
+/*
+|--------------------------------------------------------------------------
+| Default Application Template
+|--------------------------------------------------------------------------
+| When resolving template class return the template builder.
+|
+*/
+
+App::bind('Template', 'Laramongo\TemplateBuilder\TemplateBuilder');

@@ -18,7 +18,7 @@
     @foreach( $category->characteristics() as $charac )
 
         <div class="control-group">
-            {{ Form::label(snake_case($charac->name), $charac->name, ['class'=>'control-label']) }}
+            {{ Form::label(clean_case($charac->name), $charac->name, ['class'=>'control-label']) }}
             <div class="controls">
                 <div class="{{ ($charac->getAttribute("layout-pre")) ? 'input-prepend ' : ''}}{{ ($charac->getAttribute("layout-pos")) ? 'input-append' : '' }}">
                     @if ($charac->getAttribute("layout-pre"))
@@ -26,9 +26,9 @@
                     @endif
 
                     @if ($charac->type == 'option')
-                        {{ Form::select(snake_case($charac->name), array_combine($charac->values, $charac->values), (string)(array_get( $f,snake_case($charac->name))) ) }}
+                        {{ Form::select(clean_case($charac->name), array_combine($charac->values, $charac->values), (string)(array_get( $f,clean_case($charac->name))) ) }}
                     @else
-                        {{ Form::text(snake_case($charac->name), array_get( $f, snake_case($charac->name)) ) }}
+                        {{ Form::text(clean_case($charac->name), array_get( $f, clean_case($charac->name)) ) }}
                     @endif
 
                     @if ($charac->getAttribute("layout-pos"))
@@ -54,7 +54,7 @@
 
         {{ Form::button('Salvar caracteristicas', ['type'=>'submit', 'id'=>'submit-save-product-characteristics', 'class'=>'btn btn-primary'] ) }}
 
-        {{ HTML::action( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
+        {{ Html::linkAction( 'Admin\ProductsController@index', 'Cancelar', [], ['class'=>'btn'] ) }}
 
     </div>
 {{ Form::close() }}

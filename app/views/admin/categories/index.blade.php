@@ -1,31 +1,26 @@
 @section ('content')
-    <h2>
-        Categorias
-    </h2>
 
-    @include('admin.categories._tabs')
+    <h2>Categorias</h2>
 
-    <p>
-        <a href='{{ URL::action( 'Admin\CategoriesController@create' ) }}' class='btn btn-primary' id='btn-create-new-category'>
-            Nova Categoria
-        </a>
-    </p>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="btn-group pull-right">
+                <a href='{{ URL::action( 'Admin\CategoriesController@create' ) }}' class='btn btn-primary' id='btn-create-new-category'>
+                    Nova Categoria
+                </a>
+            </div>
 
-    <table class='table table-stripped' id='categories-table'>
-        <thead>
-            <tr>
-                <th>Categoria</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($categories as $category)
-                <tr>
-                    <td>
-                        {{ HTML::action( 'Admin\CategoriesController@edit', $category->name, ['id'=>$category->_id] ) }}
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-    
+            <form class="form-search navbar-form pull-left" data-tree-search="true">
+                <input 
+                    type="text" name="search" value="" placeholder="Pesquisar"
+                    class="input-medium search-query" data-submit-on-type='true'
+                >
+                {{-- <button type="submit" class="btn">Buscar</button> --}}
+            </form>
+        </div>
+    </div>
+
+    <div id='categories-tree'>
+        @include ('admin.categories._tree')
+    </div>
 @stop

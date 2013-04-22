@@ -1,6 +1,6 @@
 @section ('content')
     <h2>
-        Importar produtos
+        Importar produtos{{ ($conjugated) ? ' conjugados' : '' }}
     </h2>
 
     {{ Form::open([
@@ -9,8 +9,10 @@
         'files' => true
     ]) }}
 
+        {{ Form::hidden('conjugated', $conjugated) }}
+
         {{ Form::label('category', 'Chave de entrada') }}
-        {{ Form::select('category', $leafs) }}
+        {{ Form::select('category', $leafs, null, ['data-chosen'=>'true']) }}
 
         {{ Form::label('csv_file', 'Escolha um arquivo csv para importar') }}
         <div class='well'>
@@ -33,7 +35,7 @@
         @endif
 
         <div class='form-actions'>
-            {{ Form::button('Importar', ['type'=>'submit', 'class'=>'btn btn-primary'] ) }}
+            {{ Form::button('Importar', ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-import-form'] ) }}
         </div>
 
     {{ Form::close() }}

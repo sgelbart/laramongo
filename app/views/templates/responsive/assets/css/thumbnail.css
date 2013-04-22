@@ -1,0 +1,140 @@
+/*
+  CSS for thumbnails
+  width: 295px;
+  height: 381px;
+*/
+
+.thumbnails {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+}
+
+.thumbnails img {
+  width: 100%;
+}
+
+.thumbnails li {
+  display: inline-block;
+  width:  31%;
+  margin: 0.9375%; /* 9px / 960px */
+  min-width: 16.875%; /* 162px / 960px */
+}
+
+.thumbnail {
+  border: 1px solid #CCC;
+  display: block;
+  line-height: 85%; /* 20px / 295px */
+  padding: 5.2493%; /* 20px / 381px */
+
+  -webkit-border-radius:  1.0498%; /* 4px / 381px */
+  -moz-border-radius:  1.0498%; /* 4px / 381px */
+  border-radius:  1.0498%; /* 4px / 381px */
+}
+
+.thumbnail .caption  { line-height: 1em; }
+.thumbnail.min-thumbnail  { padding: 2%; }
+
+.thumbnail .caption p {
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+}
+
+
+/* For tecnique display */
+
+.thumbnails li.technique {
+  display: block;
+  width: 97.2%;
+}
+
+.thumbnails li.technique .thumbnail img {
+  width: 27%;
+}
+
+.thumbnails li.technique .caption {
+  float: right;
+  width: 63%;
+}
+
+.thumbnails li.technique .thumbnail {
+  padding: 2%;
+}
+
+.thumbnails li.technique .caption .button.button-block {
+  display: inline-block;
+}
+
+/* Media queries */
+@media screen and (min-width:240px) and (max-width: 454px) {
+  .thumbnails {
+    width: 100%;
+  }
+
+  .thumbnails li {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .thumbnails li.technique .thumbnail img {
+    width: 93%;
+  }
+
+  .thumbnails li.technique .caption {
+    float: none;
+    width: 100%;
+    line-height: 20px;
+  }
+
+  .thumbnails li.technique .caption p:nth-of-type(n+4) {
+    display: none;
+  }
+
+  .thumbnails li.technique .caption .button.button-block {
+    display: block;
+  }
+}
+
+
+@media screen and (min-width:455px) and (max-width: 697px) {
+  .thumbnails li {
+    width: 100%;
+  }
+
+  .thumbnails li.technique {
+    display: inline-block;
+    width: 47%;
+  }
+
+  .thumbnails li.technique .thumbnail img {
+    width: 50%;
+  }
+
+  .thumbnails li.technique .caption {
+    float: none;
+    width: 100%;
+    line-height: 20px;
+  }
+
+  .thumbnails li.technique .caption p:nth-of-type(n+3) {
+    display: none;
+  }
+
+  .thumbnails li.technique .caption .button.button-block {
+    display: block;
+  }
+}
+
+@media screen and (min-width:698px) and (max-width: 769px) {
+   .thumbnails li  {
+    width: 47.5%;
+  }
+}
+
+@media screen and (min-width:770px) and (max-width: 1200px) {
+  .thumbnails li {
+    width: 47.6%;
+  }
+}

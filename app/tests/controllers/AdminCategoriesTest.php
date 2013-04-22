@@ -33,11 +33,21 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
+     * Tree action should always return 200
+     *
+     */
+    public function testShouldSaveTreeChangesInSession(){
+        $this->withInput(['id'=>'123','state'=>'true'])->requestAction('POST', 'Admin\CategoriesController@tree');
+        $this->assertRequestOk();
+        $this->assertEquals(array_values(['123'=>'true']), array_values(Session::get('category-tree-state')));
+    }
+
+    /**
      * Store action should redirect to index on success
      *
      */
     public function testShouldStore(){
-        $input = f::attributesFor( 'Category' );
+        $input = testCategoryProvider::attributesFor( 'valid_leaf_category' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\CategoriesController@store');
 
@@ -50,8 +60,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testNotShouldStoreInvalid(){
-        $input = f::attributesFor( 'Category' );
-        $input['name'] = ''; // With blank name
+        $input = testCategoryProvider::attributesFor( 'invalid_leaf_category' );
 
         $this->withInput($input)->requestAction('POST', 'Admin\CategoriesController@store');
 
@@ -64,7 +73,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldEdit(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
 
         $this->requestAction('GET', 'Admin\CategoriesController@edit', ['id'=>$category->_id]);
         $this->assertRequestOk();
@@ -87,7 +96,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldUpdateExistent(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
 
         $this->withInput( $category->getAttributes() )
             ->requestAction('PUT', 'Admin\CategoriesController@update', ['id'=>$category->_id]);
@@ -102,7 +111,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldNotUpdateWithInvalidInput(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
         $category->name = '';
 
         $this->withInput( $category->getAttributes() )
@@ -113,21 +122,12 @@ class AdminCategoriesTest extends ControllerTestCase
     }
 
     /**
-     * Index action should always return 200
-     *
-     */
-    public function testShouldDisplayTree(){
-        $this->requestAction('GET', 'Admin\CategoriesController@tree');
-        $this->assertRequestOk();
-    }
-
-    /**
      * Attach action should redirect to edit of the same resource
      *
      */
     public function testShouldAttachExistent(){
-        $category = f::create( 'Category' );
-        $parent = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
+        $parent = testCategoryProvider::saved( 'another_valid_parent_category' );
 
         $this->withInput( ['parent'=>(string)$parent->_id] )
             ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
@@ -141,7 +141,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldNotAttachWithInvalidInput(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
 
         $this->withInput( ['parent'=>'123123'] )
             ->requestAction('POST', 'Admin\CategoriesController@attach', ['id'=>$category->_id]);
@@ -155,10 +155,8 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldDetach(){
-        $parent = f::create( 'Category' );
-        $category = f::create( 'Category' );
-        $category->attachToParents($parent);
-        $category->save();
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
+        $parent = $category->parents()->first();
 
         $this->withInput( ['parent'=>(string)$parent->_id] );
         
@@ -176,9 +174,9 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldAddCharacteristicExistent(){
-        $category = f::create( 'Category' );
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
 
-        $this->withInput( f::attributesFor( 'Characteristic' ) )
+        $this->withInput( testCharacteristicProvider::attributesFor( 'valid_option_characteristic' ) )
             ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
@@ -191,8 +189,7 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldNotAddCharacteristicWithInvalidInput(){
-        $category = f::create( 'Category' );
-        $category->name = '';
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
 
         $this->withInput( $category->getAttributes() )
             ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
@@ -206,16 +203,21 @@ class AdminCategoriesTest extends ControllerTestCase
      *
      */
     public function testShouldDestroyCharacteristicExistent(){
-        $category = f::create( 'Category' );
-        $charac = f::instance( 'Characteristic' );
-
-        $category->embedToCharacteristics( $charac );
-        $category->save();
+        $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
+        $charac = $category->characteristics()[0];
 
         $this->requestAction('DELETE', 'Admin\CategoriesController@destroy_characteristic', ['id'=>$category->_id, 'charac_name'=>$charac->name]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));
         $this->assertSessionHas('flash','sucesso');
+    }
+
+    public function testShouldValidateAllProductsForCharacteristics(){
+        $category = testCategoryProvider::saved( 'valid_leaf_category' );
+        $product = testProductProvider::saved( 'simple_valid_product' );
+
+        $this->requestAction('GET', 'Admin\CategoriesController@validate_products', ['id'=>$category->_id]);
+        $this->assertRedirection(URL::action('Admin\ProductsController@invalids', ['category_id'=>$category->_id]));
     }
 
 }

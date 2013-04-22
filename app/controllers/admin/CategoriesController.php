@@ -1,22 +1,43 @@
 <?php namespace Admin;
 
-use Category, Characteristic;
-use View, Input, Redirect, URL, MongoId;
+use Category, Characteristic, Product;
+use View, Input, Redirect, URL, MongoId, Session, Response;
 
 class CategoriesController extends AdminController {
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$categories = Category::all();
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $this->layout->content = View::make('admin.categories.index')
+            ->with('treeState', Session::get('category-tree-state', array()));
+    }
 
-		$this->layout->content = View::make('admin.categories.index')
-			->with( 'categories', $categories );
-	}
+    /**
+     * Called whenever a node has been opened in the tree.
+     *
+     * @return Response
+     */
+    public function tree()
+    {
+        // Get the id and the state of the node
+        $node_state = [Input::get( 'id' ) => Input::get( 'state' )];
+
+        // Merge with the actual data
+        $tree_state = array_merge(
+            Session::get('category-tree-state', array()),
+            $node_state
+        );
+
+        // Save in session
+        Session::put('category-tree-state',$tree_state);
+
+        // Return an empty 'success'
+        return Response::make('',200);
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -76,26 +97,7 @@ class CategoriesController extends AdminController {
      */
     public function show($id)
     {
-        $category = Category::first($id);
-
-        if(! $category)
-        {
-            return Redirect::action('Admin\CategoriesController@index')
-                ->with( 'flash', 'Categoria não encontrada' );
-        }
-
-        $this->layout->content = View::make('admin.categories.hierarchy')
-            ->with( 'category', $category );
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return Response
-     */
-    public function tree()
-    {
-        $this->layout->content = View::make('admin.categories.tree');
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id]);
     }
 
 	/**
@@ -137,6 +139,7 @@ class CategoriesController extends AdminController {
         }
 
         $category->fill( Input::all() );
+        unset($category->image_file);
 
         // Save if valid
         if ( $category->save() )
@@ -146,7 +149,7 @@ class CategoriesController extends AdminController {
             {
                 $category->attachUploadedImage( Input::file('image_file') );
             }
-            
+
             return Redirect::action('Admin\CategoriesController@index')
                 ->with( 'flash', 'Alterações salvas com sucesso' );
         }
@@ -180,7 +183,7 @@ class CategoriesController extends AdminController {
         // Attach parent and save
         $category->attachToParents($parent);
         $category->save();
-        
+
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Alterações salvas com sucesso' );
     }
@@ -197,7 +200,7 @@ class CategoriesController extends AdminController {
         // Detach parent and save
         $category->detach('parents', $parent_id);
         $category->save();
-        
+
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Alterações salvas com sucesso' );
     }
@@ -236,7 +239,7 @@ class CategoriesController extends AdminController {
             return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
                 ->withInput()
                 ->with( 'error', $error );
-        }            
+        }
     }
 
     /**
@@ -259,6 +262,25 @@ class CategoriesController extends AdminController {
 
         return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id])
             ->with( 'flash', 'Caracteristica removida com sucesso' );
+    }
+
+    /**
+     * Validates all the products within a category
+     * to see if their characteristics are valid
+     */
+    public function validate_products($id)
+    {
+        $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        $category->validateProducts();
+
+        return Redirect::action('Admin\ProductsController@invalids', ['category_id'=>$category->_id]);
     }
 
 	/**

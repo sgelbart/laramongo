@@ -74,14 +74,14 @@ class CategoryCharacteristicsTest extends AcceptanceTestCase
         $this->browser
             ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))
             ->click(l::linkContaining('Caracteristicas'))
-            ->type(l::IdOrName(snake_case($characA->name)), '1')
-            ->type(l::IdOrName(snake_case($characB->name)), '2')
+            ->type(l::IdOrName(clean_case($characA->name)), '1')
+            ->type(l::IdOrName(clean_case($characB->name)), '2')
             ->click(l::id('submit-save-product-characteristics'))
             ->waitForPageToLoad(1000);
 
         $product = Product::first($product->_id);
 
-        $this->assertEquals('1', $product->details[snake_case($characA->name)]);
-        $this->assertEquals('2', $product->details[snake_case($characB->name)]);
+        $this->assertEquals('1', $product->details[clean_case($characA->name)]);
+        $this->assertEquals('2', $product->details[clean_case($characB->name)]);
     }
 }

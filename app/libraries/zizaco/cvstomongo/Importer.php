@@ -1,6 +1,7 @@
 <?php namespace Zizaco\CsvToMongo;
 
 use Keboola\Csv\CsvFile;
+use Illuminate\Support\MessageBag;
 
 class Importer
 {
@@ -33,6 +34,14 @@ class Importer
     protected $success;
 
     /**
+     * Array of attributes that are not characteristics. This attributes
+     * will not be embedded in the details attribute.
+     */
+    protected $non_characteristic_keys = [
+        '_id','name','description','small_description','category','products',
+    ];
+
+    /**
      * The file and the model/collection that should be imported
      *
      * @param $file string
@@ -53,9 +62,15 @@ class Importer
      *
      * @return void
      */
-    public function import( $category )
+    public function import( $category, $conjugated = false )
     {
         $headers = array();
+        $conjugatedCount = 1;
+
+        // Increase the time limit
+        set_time_limit(500);
+        \Log::info("Importing Start: ".date('H:m:s'));
+
 
         foreach( $this->keboola as $line )
         {
@@ -66,26 +81,94 @@ class Importer
             else
             {
                 $instance = new $this->model();
-                if( $instance->parseDocument(
-                    array_combine( $headers, $this->treatLine($line) )
-                ))
-                {
-                    $instance->details = array_combine( $headers, $this->treatLine($line) );
+                $attributes = array_combine( $headers, $this->treatLine($line) );
 
-                    // Set the leaf category where that product belongs
+                try{
+
+                    foreach ($attributes as $key => $value) {
+
+                        if(! in_array($key, $this->non_characteristic_keys))
+                        {
+                            $attributes['details'][$key] = $value;
+                            unset($attributes[$key]);
+                        }
+
+                        // Conjugated
+                        if($key == 'products')
+                        {
+                            unset($attributes[$key]);
+                            $conjugatedArray = array_map('trim',explode(",",$value));
+
+                            foreach ($conjugatedArray as $i => $lm) {
+                                if(is_numeric($lm))
+                                {
+                                    $conjugatedArray[$i] = (int)$lm;
+                                }
+                            }
+
+                            $attributes['conjugated'] = $conjugatedArray;
+                        }
+                    }
+
+                    if( $instance->parseDocument(
+                        $attributes
+                    ))
+                    {
+                        // Set the leaf category where that product belongs
+                        $instance->category = $category;
+
+                        if($instance->_id)
+                        {
+                            $instance->save(true);
+                        }
+                        elseif($conjugated)
+                        {
+                            $generatedId = 'CJ'.
+                                substr(microtime(),-8).
+                                str_pad($conjugatedCount,3,'0',STR_PAD_LEFT);
+
+                            $conjugatedCount++;
+
+                            $instance->_id = $generatedId;
+
+                            $instance->save();
+                        }
+                        else
+                        {
+                            $instance->errors = new MessageBag(['_id','Produto sem LM']);
+                        }
+
+                        if( ! $instance->errors )
+                        {
+                            $this->success[] = $instance->_id;
+                        }
+                        else
+                        {
+                            $this->errors[] = ['_id'=>$instance->_id, 'name'=>$instance->name, 'error'=>$instance->errors->all()];
+                        }
+                    }
+                }
+                catch(\Exception $e)
+                {
+                    $instance = new $this->model();
+
                     $instance->category = $category;
 
-                    if( $instance->save() )
-                    {
-                        $this->success[] = $instance;
-                    }
-                    else
-                    {
-                        $this->errors[] = $instance;
-                    }
+                    if($attributes['_id'])
+                        $instance->_id = $attributes['_id'];
+
+                    if($attributes['name'])
+                        $instance->name = $attributes['name'];
+
+                    $instance->errors = new MessageBag(['Product is invalid:', 'Exception - '.$e->getMessage() ]);
+
+                    $this->errors[] = $instance;
+                        
                 }
             }
         }
+
+        \Log::info("Importing Finished: ".date('H:m:s'));
     }
 
     /**
@@ -100,8 +183,10 @@ class Importer
 
             $value = trim( $value );
 
-            // Replaces brazilian , to .
-            if( $this->keboola->getDelimiter() != ',' )
+            // Replaces brazilian ',' to '.'
+            // But if there is 7 or more units before ',' (I.E 1 million or more)
+            // don't. Because probably thats is some values separated by comma
+            if( $this->keboola->getDelimiter() != ',' && strpos($value,',') < 7 )
             {
                 $value = str_replace( ',','.',$value );
             }
@@ -114,8 +199,12 @@ class Importer
             {
                 $value = (float)$value;
             }
+            else
+            {
+                $value = ucfirst($value);
+            }
 
-            $line[$key] = $value;
+            $line[$key] = utf8_encode($value);
         }
 
         return $line;
