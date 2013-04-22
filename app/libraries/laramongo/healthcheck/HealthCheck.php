@@ -22,7 +22,9 @@ class HealthCheck
             Config::get('lmongo::connections.default.database')
         );
 
-        $db = $connection->laramongo;
+        $database = Config::get('lmongo::connections.default.database');
+
+        $db = $connection->$database;
 
         $test_array = ['test'=>'result'];
         $db->test->save(['test'=>'result']);
