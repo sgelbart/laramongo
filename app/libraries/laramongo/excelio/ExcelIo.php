@@ -58,7 +58,7 @@ class ExcelIo {
 
         // Render headers
 
-        $products = \Product::where(['category'=>$category->_id]);
+        $products = \Product::where(['category'=>(string)$category->_id]);
         $schema = $this->buildSchema( $category, $products );
 
         $x = 0;
