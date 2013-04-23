@@ -4,7 +4,6 @@ use Zizaco\CsvToMongo\ImageUnzipper;
 use Mockery as m;
 
 class ImageUnzipperTest extends TestCase {
-    
     /**
      * Directory where the product images will be extracted
      */
