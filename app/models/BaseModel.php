@@ -65,4 +65,9 @@ abstract class BaseModel extends Zizaco\Mongolid\Model
     {
         $this->database = Config::get('lmongo::connections.default.database');
     }
+
+    public function getCollectioName()
+    {
+        return $this->collection;
+    }
 }
