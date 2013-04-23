@@ -2,10 +2,20 @@
 
 class ImageGrabber {
 
+    /**
+     * Store the object passed at grab method.
+     * @var Product, Category
+     */
     protected $object;
+    public $imageImporter;
 
+    /**
+     * Grab the images from website
+     * @param   $obj Product,Category
+     */
     public function grab($obj)
     {
+
         $this->object = $obj;
 
         $origin_url = \Config::get('image_grabber.origin_url');
@@ -17,25 +27,25 @@ class ImageGrabber {
         foreach ($sizes as $size) {
             foreach ($angles as $angle) {
                 // replacing with angle and sizes
+                $origin = $this->prepareUrlOrigin($origin_url, $angle, $size);
+                $destination = $this->prepareUrlDestination( app_path() . '/../' .  $destination_url, $angle, $size);
 
-                $origin_url = $this->prepareUrlOrigin($origin_url, $angle, $size);
-                $destination_url = $this->prepareUrlDestination( app_path() . '/../' .  $destination_url, $angle, $size);
+                $result = $this->get_image($origin, $destination);
 
-                // getting image
-
-                echo "initial setup:\n";
-
-                print_r($destination_url . "\n");
-                print_r($origin_url . "\n");
-
-                echo "final prepare \n";
-
-                $this->get_image( $origin_url, $destination_url );
+                if (! $result) {
+                    break;
+                }
             }
         }
     }
 
 
+    /**
+     * Create image file
+     * @param  [type] $origin_url      origin url image
+     * @param  [type] $destination_url destination url
+     * @return [type]                  the response
+     */
     protected function get_image($origin_url, $destination_url)
     {
         $tmp = $this->get_url($origin_url);
@@ -45,68 +55,60 @@ class ImageGrabber {
             fwrite($fp, $tmp);
             fclose($fp);
         }
+
+        return $tmp;
     }
 
+    /**
+     * Get the content for url
+     * @param  $url
+     * @return [type]      [description]
+     */
     protected function get_url($url)
     {
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,     // return web page
-            CURLOPT_HEADER         => false,    // don't return headers
-            CURLOPT_FOLLOWLOCATION => true,     // follow redirects
-            CURLOPT_ENCODING       => "",       // handle all encodings
-            CURLOPT_USERAGENT      => "spider", // who am i
-            CURLOPT_AUTOREFERER    => true,     // set referer on redirect
-            CURLOPT_CONNECTTIMEOUT => 5,      // timeout on connect
-            CURLOPT_TIMEOUT        => 5,      // timeout on response
-            CURLOPT_MAXREDIRS      => 10,
-            CURLOPT_PROXY          => \Config::get('image_grabber.proxy'),
-            CURLOPT_PROXYPORT      => \Config::get('image_grabber.proxy_port'),
-            CURLOPT_PROXYUSERPWD   => \Config::get('image_brabber.user')
-        );
+        $importer = \App::make('ImageImporter');
+        $response = $importer->import($url);
 
-        $ch      = curl_init($url);
-        curl_setopt_array( $ch, $options );
-        $content = curl_exec( $ch );
-
-        if (curl_getinfo($ch)['http_code'] != "404") {
-            return $content;
-        } else {
-            return false;
+        if ($response) {
+            return $response;
         }
 
-        curl_close( $ch );
+        return false;
     }
 
+    /**
+     * Prepare the url Origin, replacing the parameters
+     * @return the url to get images
+     */
     protected function prepareUrlOrigin($url, $angle, $size)
     {
-        $string_replaced = '';
         $string_to_replace = '';
 
-        if ($url['product'] && $this->object instanceof \Product) {
-            $string_to_replace = $url['product'];
-        }
-        else {
-            $string_to_replace = $url['chave_entrada'];
-        }
-
         if ($this->object instanceof \Product) {
-            $string_replaced = str_replace('{angle}', $angle, $string_to_replace);
-            $string_replaced = str_replace('{size}', $size, $string_replaced);
-            $string_replaced = str_replace('{lm}', $this->object->_id, $string_replaced);
+            $string_to_replace = $url['product'];
+
+            $string_to_replace = str_replace('{angle}', $angle, $string_to_replace);
+            $string_to_replace = str_replace('{size}', $size, $string_to_replace);
+            $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
 
         } else {
-            $string_replaced = str_replace('{lm}', $this->object->_id, $string_to_replace);
+            $string_to_replace = $url['chave_entrada'];
+            $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
         }
 
-        return $string_replaced;
+        return $string_to_replace;
     }
 
+    /**
+     * Prepare the url Destination, replacing the parameters
+     * @return the url to put images
+     */
     protected function prepareUrlDestination($url, $angle, $size)
     {
         $string_to_replace = $url;
 
         $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
-        $string_to_replace = str_replace('{collection}', $this->object->getCollectioName(), $string_to_replace);
+        $string_to_replace = str_replace('{collection}', $this->object->getCollectionName(), $string_to_replace);
         $string_to_replace = str_replace('{angle}', $angle, $string_to_replace);
         $string_to_replace = str_replace('{size}', $size, $string_to_replace);
 
