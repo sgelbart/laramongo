@@ -92,10 +92,28 @@ class ExcelIo {
             $product = new Product;
 
             foreach ($schema as $x => $attribute) {
-                $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $y)->getValue());
+
+                $attrName = substr($attribute,0,-1);
+
+                if(in_array($attrName, $this->non_characteristic_keys))
+                {
+                    $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $y)->getValue());
+                }
+                else
+                {
+                    $value = $aba1->getCellByColumnAndRow($x, $y)->getValue();
+
+                    if($value)
+                    {
+                        $details = $product->getAttribute('details');
+                        $details[$attrName] = $value;
+                        $product->setAttribute('details', $details);
+                    }
+                }
             }
 
             $product->save();
+            print_r($product->errors);
 
             $y++;
         }

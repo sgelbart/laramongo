@@ -40,7 +40,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     /**
      * Clean database collection
      */
-    protected function cleanCollection( $collection )
+    public function cleanCollection( $collection )
     {
         $db = LMongo::connection();
         $db->$collection->drop();
