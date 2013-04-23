@@ -11,6 +11,6 @@ return array(
     'user' => 'central\lalves:leroymerlin1',
     'image' => array(
         'sizes' => array('150', '300', '600'),
-        'angles' => array('1', '2', '3')
+        'angles' => array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')
     )
 );
