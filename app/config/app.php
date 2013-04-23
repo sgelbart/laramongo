@@ -118,6 +118,7 @@ return array(
 		'Zizaco\Lessy\LessyServiceProvider',
 		'Basset\BassetServiceProvider',
 		'Laramongo\Nas\S3ServiceProvider',
+		'Laramongo\ImageGrabber\ImageGrabberServiceProvider',
 
 	),
 
@@ -189,7 +190,8 @@ return array(
 		'Lessy'           => 'Zizaco\Lessy\Facade',
 		'Asset'           => 'Laramongo\Nas\Asset',
 		'Template'        => 'Laramongo\TemplateBuilder\Facade',
-		'ExcelIo'         => 'Laramongo\ExcelIo\Facade'
+		'ExcelIo'         => 'Laramongo\ExcelIo\Facade',
+		'ImageGrabber'	  => 'Laramongo\ImageGrabber\Facade'
 
 	),
 

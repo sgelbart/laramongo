@@ -145,12 +145,16 @@ class Product extends BaseModel {
         if( $this->isValid() )
         {
             unset($this->state);
-            return parent::save();
+            $result = parent::save();
+            $this->grabImages();
+            return $result;
         }
         elseif( $force )
         {
             $this->state = 'invalid';
-            return parent::save( true );
+            $result = parent::save( true );
+            $this->grabImages();
+            return $result;
         }
         else
         {
@@ -205,5 +209,11 @@ class Product extends BaseModel {
         {
             return $instance;
         }
+    }
+
+    protected function graImages()
+    {
+        if(! isset($this->image ))
+            ImageGrabber::grab($this);
     }
 }
