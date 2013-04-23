@@ -14,6 +14,20 @@ class ExcelIo {
     ];
 
     /**
+     * Errors that happened during the import
+     *
+     * @var array
+     */
+    protected $errors;
+
+    /**
+     * Successfuly imported models
+     *
+     * @var array
+     */
+    protected $success;
+
+    /**
      * Export the given $category to an excel file saved as $output
      * @param  Category $category Leaf category to be exported
      * @param  string   $output   Destination file relative to the app directory
@@ -59,6 +73,12 @@ class ExcelIo {
         }
     }
 
+    /**
+     * Read, isntantiate Products for each line and save then into database
+     * 
+     * @param  PHPExcel $excel    Openned excel file
+     * @return bool Success
+     */
     protected function parseFile( $excel )
     {
         $vintage = false; // Vintage means that the excel file is provenient of
@@ -112,8 +132,16 @@ class ExcelIo {
                 }
             }
 
-            $product->save();
-            print_r($product->errors);
+            if( $product->save() )
+            {
+                $this->success[] = $product->_id;
+            }
+            else
+            {
+                $failedProduct = $product->toArray();
+                $failedProduct['error'] = isset($product->errors) ? $product->errors->all() : 'Erro fatal';
+                $this->errors[] = $failedProduct;
+            }
 
             $y++;
         }
@@ -228,6 +256,27 @@ class ExcelIo {
         }
 
         return $result;
+    }
+
+    /**
+     * Retrieve the models that coudn't be imported. All of then
+     * are filled with an ErrorBag in error attribute
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Retrieve the models that have been imported
+     *
+     * @return array
+     */
+    public function getSuccess()
+    {
+        return $this->success;
     }
 
     /**
