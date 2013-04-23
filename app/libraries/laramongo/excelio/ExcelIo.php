@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
-use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Reader_Excel2007;
-use PHPExcel_Style_Border;
+use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
+use Product;
 
 class ExcelIo {
 
@@ -89,9 +89,13 @@ class ExcelIo {
         $y = $attributesRow+1;
         while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
         {   
+            $product = new Product;
+
             foreach ($schema as $x => $attribute) {
-                
+                $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $y)->getValue());
             }
+
+            $product->save();
 
             $y++;
         }
