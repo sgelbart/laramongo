@@ -39,9 +39,9 @@ class FeatureContext extends BaseContext {
     }
 
     /**
-     * @When /^I am importing the "([^"]*)"$/
+     * @When /^I import the "([^"]*)"$/
      */
-    public function iAmImportingThe($file)
+    public function iImportThe($file)
     {
         $path = 'tests/assets/'.$file;
 
@@ -71,5 +71,14 @@ class FeatureContext extends BaseContext {
 
         // Check if there are 4 products into the database
         $this->testCase()->assertEquals(4, Product::all()->count());
+    }
+
+    /**
+     * @Then /^I should get no products into database$/
+     */
+    public function iShouldGetNoProductsIntoDatabase()
+    {
+        // Check if there is no products in the database
+        $this->testCase()->assertEquals(0, Product::all()->count());
     }
 }

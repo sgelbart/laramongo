@@ -5,11 +5,11 @@ Feature: Import excel file
 
 Scenario: Import new products to category
     Given I have the category "valid_leaf_category"
-    When I am importing the "new_products.xlsx"
+    When I import the "new_products.xlsx"
     Then I should get the four new producs into database
 
 Scenario: Import and update existent products
     Given I have the category "valid_leaf_category"
     And I have the product "simple_valid_product"
-    When I am importing the "new_products.xlsx"
+    When I import the "new_products.xlsx"
     Then I should get the four new producs into database
