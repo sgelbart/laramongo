@@ -39,8 +39,8 @@ class Import extends DelayedTask {
             $this->excelIo->importFile($this->filename);
 
             // Retreive results
-            $this->success = array();
-            $this->fail = array();
+            $this->success = $this->excelIo->getSuccess();
+            $this->fail = $this->excelIo->getErrors();
 
             // Remove temporary file
             if (file_exists(app_path().$this->filename))
