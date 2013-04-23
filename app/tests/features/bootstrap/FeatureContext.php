@@ -15,15 +15,27 @@ use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
 class FeatureContext extends BaseContext {
 
+    public function __construct()
+    {
+        $this->testCase()->cleanCollection( 'categories' );
+        $this->testCase()->cleanCollection( 'products' );
+    }
+
     /**
      * @Given /^I have the category "([^"]*)"$/
      */
     public function iHaveTheCategory($category_name)
     {
-        $this->testCase()->cleanCollection( 'categories' );
-        $this->testCase()->cleanCollection( 'products' );
-
         $this->category = testCategoryProvider::saved($category_name);
+    }
+
+    /**
+     * @Given /^I have the product "([^"]*)"$/
+     */
+    public function iHaveTheProduct($product_name)
+    {
+
+        $this->$product_name = testProductProvider::saved($product_name);
     }
 
     /**
@@ -38,9 +50,9 @@ class FeatureContext extends BaseContext {
     }
 
     /**
-     * @Then /^I should get the new producs into database$/
+     * @Then /^I should get the four new producs into database$/
      */
-    public function iShouldGetTheNewProducsIntoDatabase()
+    public function iShouldGetTheFourNewProducsIntoDatabase()
     {
         // Mimics the values from the "new_products.xlsx"
         $products[0] = testProductProvider::instance('simple_valid_product');
@@ -56,5 +68,8 @@ class FeatureContext extends BaseContext {
             $this->testCase()->assertEquals((string)$this->category->_id, Product::first($product->_id)->category);
             $this->testCase()->assertEquals((array)$product->details, (array)Product::first($product->_id)->details);
         }
+
+        // Check if there are 4 products into the database
+        $this->testCase()->assertEquals(4, Product::all()->count());
     }
 }
