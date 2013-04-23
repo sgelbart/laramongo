@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\MessageBag;
-use Zizaco\CsvToMongo\Importer;
+use Laramongo\ExcelIo\ExcelIo;
 
 class Import extends BaseModel {
 
@@ -19,16 +19,7 @@ class Import extends BaseModel {
      */
     public static $rules = array(
         'filename'     => 'required',
-        'category'     => 'required',
     );
-
-    /**
-     * Reference to category
-     */
-    public function category()
-    {
-        return $this->referencesOne('Category','category');
-    }
 
     /**
      * Process the batchFile
@@ -38,15 +29,15 @@ class Import extends BaseModel {
         if(! $this->isDone() )
         {
             // Import file
-            $importer = new Importer($this->filename,'Product');
-            $importer->import( $this->category, $this->isConjugated );
+            $io = new ExcelIo;
+            $io->importFile($this->filename);
 
             // Retreive results
-            $this->success = $importer->getSuccess();
-            $this->fail = $importer->getErrors();
+            $this->success = array();
+            $this->fail = array();
 
             // Remove temporary file
-            unlink($this->filename);
+            unlink(app_path().$this->filename);
 
             $this->done = true;
 

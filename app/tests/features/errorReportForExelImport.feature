@@ -1,7 +1,6 @@
 Feature: Error reporting for exel import
     As an Administrator
     I would like to see an error reporting after importing an excel file
-    And roll back in case of error
     In order to know how to fix and improve the file that is being imported
 
 Scenario: After fine importing

@@ -250,16 +250,15 @@ class ProductsController extends AdminController {
         if(Input::hasFile('csv_file'))
         {
             $csv_file = Input::file('csv_file');
-            $path = app_path().'/storage/';
-            $filename = 'csv_file'.time().'.csv';
+            $path = '/../public/uploads/';
+            $filename = 'excel_file'.time().'.xlsx';
 
             // Place file in storage
-            $csv_file->move($path, $filename);
+            $csv_file->move(app_path().$path, $filename);
 
             // Creates the import object
             $import = new Import;
             $import->filename = $path.$filename;
-            $import->category = Input::get('category');
             $import->isConjugated = Input::get('conjugated');
             $import->save();
 
