@@ -3,14 +3,7 @@
 use Illuminate\Support\MessageBag;
 use Laramongo\ExcelIo\ExcelIo;
 
-class Import extends BaseModel {
-
-    /**
-     * The database collection
-     *
-     * @var string
-     */
-    protected $collection = 'imports';
+class Import extends DelayedTask {
 
     /**
      * Validation rules
@@ -21,6 +14,17 @@ class Import extends BaseModel {
         'filename'     => 'required',
     );
 
+    public $excelIo = null;
+
+    /**
+     * __construct defines the kind attribute to 'import'
+     * in order do polymorphise later
+     */
+    function __construct()
+    {
+        $this->setAttribute('kind','import');
+    }
+
     /**
      * Process the batchFile
      */
@@ -29,37 +33,24 @@ class Import extends BaseModel {
         if(! $this->isDone() )
         {
             // Import file
-            $io = new ExcelIo;
-            $io->importFile($this->filename);
+            if(! $this->excelIo)
+                $this->excelIo = new ExcelIo;
+
+            $this->excelIo->importFile($this->filename);
 
             // Retreive results
             $this->success = array();
             $this->fail = array();
 
             // Remove temporary file
-            unlink(app_path().$this->filename);
+            if (file_exists(app_path().$this->filename))
+            {
+                unlink(app_path().$this->filename);
+            }
 
             $this->done = true;
 
             return $this->save();
         }
     }
-
-    /**
-     * Returns true if the import is complete
-     */
-    public function isDone()
-    {
-        return $this->done == true;
-    }
-
-    public function save($force = false)
-    {
-        $result = parent::save($force);
-
-        Queue::push('ProcessImports');
-
-        return $result;
-    }
-
 }

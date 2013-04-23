@@ -50,4 +50,14 @@ class DelayedTaskTest extends TestCase
         $task = DelayedTask::first(['name'=>'Sometask']);
         $this->assertTrue($task->isDone());
     }
+
+    public function testShouldPolymorph()
+    {
+        $task = new DelayedTask;
+        $task->name = 'Sometask';
+        $task->kind = 'import';
+        $task = $task->polymorph( $task );
+
+        $this->assertTrue($task instanceOf Import);
+    }
 }
