@@ -20,7 +20,6 @@ class ImageGrabber {
      */
     public function grab($obj)
     {
-
         $this->object = $obj;
 
         $this->origin_url = \Config::get('image_grabber.origin_url');
@@ -115,6 +114,7 @@ class ImageGrabber {
 
             $string_to_replace = str_replace('{angle}', $angle, $string_to_replace);
             $string_to_replace = str_replace('{size}', $size, $string_to_replace);
+            $string_to_replace = str_replace('{collection}', $this->object->getCollectionName(), $string_to_replace);
             $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
 
         } else {

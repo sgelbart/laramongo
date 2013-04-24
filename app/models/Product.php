@@ -58,7 +58,7 @@ class Product extends BaseModel {
      */
     public function imageUrl( $img = 1, $size = 300 )
     {
-        if( false )
+        if( true )
         {
             return URL::to(Asset::url('uploads/img/products/'.$this->_id.'_'.$img.'_'.$size.'.jpg'));
         }
