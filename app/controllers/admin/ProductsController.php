@@ -284,7 +284,7 @@ class ProductsController extends AdminController {
             $this->layout->content = View::make('admin.products.import_report')
                 ->with( 'success', $import->success )
                 ->with( 'failed', $import->fail )
-                ->with( 'category_id', $import->category );
+                ->with( 'category_id', '$import->category' );
         }
         else
         {

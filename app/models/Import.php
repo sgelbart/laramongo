@@ -6,6 +6,13 @@ use Laramongo\ExcelIo\ExcelIo;
 class Import extends DelayedTask {
 
     /**
+     * The database collection
+     *
+     * @var string
+     */
+    protected $collection = 'delayedTasks';
+
+    /**
      * Validation rules
      *
      * @var array
@@ -14,6 +21,10 @@ class Import extends DelayedTask {
         'filename'     => 'required',
     );
 
+    /**
+     * Stores the ExcelIo instantiated
+     * @var Laramongo\ExcelIo\ExcelIo
+     */
     public $excelIo = null;
 
     /**
@@ -22,6 +33,8 @@ class Import extends DelayedTask {
      */
     function __construct()
     {
+        parent::__construct();
+        
         $this->setAttribute('kind','import');
     }
 

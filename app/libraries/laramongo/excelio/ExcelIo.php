@@ -126,13 +126,30 @@ class ExcelIo {
                     if($value)
                     {
                         $details = $product->getAttribute('details');
-                        $details[$attrName] = $value;
+                        $details[$attrName] = ucfirst($value);
                         $product->setAttribute('details', $details);
                     }
                 }
             }
 
-            if( $product->save() )
+            if(! $vintage)
+            {
+                if(! isset($targetCategory))
+                    $targetCategory = $aba1->getCell('B2')->getCalculatedValue();
+
+                $product->category = $targetCategory;
+            }
+
+            if($product->_id)
+            {
+                $product->save( true );
+            }
+            else
+            {
+                $product->errors = new MessageBag(['_id','Produto sem LM']);
+            }
+
+            if( ! $product->errors )
             {
                 $this->success[] = $product->_id;
             }
@@ -266,7 +283,7 @@ class ExcelIo {
      */
     public function getErrors()
     {
-        return $this->errors;
+        return (array)$this->errors;
     }
 
     /**
@@ -276,7 +293,7 @@ class ExcelIo {
      */
     public function getSuccess()
     {
-        return $this->success;
+        return (array)$this->success;
     }
 
     /**

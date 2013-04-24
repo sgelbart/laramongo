@@ -19,7 +19,7 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
     {
         $category = $this->aCategoryWithRules();
 
-        $sampleFile = 'file://'.__DIR__.'/../assets/lixeirasAlgumasErradas.csv';
+        $sampleFile = 'file://'.__DIR__.'/../assets/lixeirasAlgumasErradas.xlsx';
 
         $this->browser
             ->open(URL::action('Admin\ProductsController@import'))
@@ -34,7 +34,6 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
             'Lixeira Erronea',
             'Cor','Tampa','Diâmetro',
             'Lixeira sem LM',
-            'Produto sem LM',
         ];
 
         $this->assertBodyHasText( $expectedResult );
@@ -64,7 +63,7 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
 
     private function aCategoryWithRules()
     {
-        $category = f::instance( 'Category', ['kind'=>'leaf'] );
+        $category = testCategoryProvider::saved('valid_lixeiras_category');
 
         $charac_array = [
             [

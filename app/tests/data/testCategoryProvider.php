@@ -9,6 +9,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000001' ),
             'name' => 'Ferramentas específicas',
+            'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -25,6 +26,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000002' ),
             'name' => 'Ferramentas detalhadas',
+            'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -41,6 +43,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000003' ),
             'name' => '',
+            'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -87,6 +90,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000007' ),
             'name' => 'Brocas',
+            'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id,
                 testCategoryProvider::saved('another_valid_parent_category')->_id
@@ -97,6 +101,17 @@ class testCategoryProvider extends testObjectProvider
                 testCharacteristicProvider::attributesFor('valid_option_characteristic'),
             ],
             'hidden' => 1
+        ];
+    }
+
+    protected function valid_lixeiras_category()
+    {
+        return [
+            '_id' => new MongoId( '4af9f23d8ead0e1d32000008' ),
+            'name' => 'Lixeiras',
+            'kind' => 'leaf',
+            'parents' => [],
+            'description' => 'Lixeiras e etc',
         ];
     }
 }

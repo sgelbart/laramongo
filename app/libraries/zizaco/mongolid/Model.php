@@ -27,6 +27,14 @@ class Model
     protected $database = 'mongolid';
 
     /**
+     * The Laravel's cache component. Or other cache manager that
+     * receives the same parameters.
+     *
+     * @var CacheComponent
+     */
+    protected $laravelCache = null;
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -458,7 +466,7 @@ class Model
      */
     protected function referencesOne($model, $field, $cachable = true)
     {
-        if($cachable)
+        if($cachable && $this->laravelCache)
         {
             $instance = $this;
 
@@ -494,7 +502,7 @@ class Model
             }
         }
 
-        if($cachable)
+        if($cachable && $this->laravelCache)
         {
             $cache_key = 'reference_cache_'.$model.'_'.md5(serialize($ref_ids));
 
@@ -504,6 +512,10 @@ class Model
             {
                 return $model::where(array('_id'=>array('$in'=>$ref_ids)), [], true);
             });
+        }
+        elseif($cachable)
+        {
+            return $model::where(array('_id'=>array('$in'=>$ref_ids)), [], true);
         }
         else
         {
@@ -663,9 +675,7 @@ class Model
         {
             $target = $target->toArray();
         }
-        else
-        
-        if(! is_array($target) )
+        elseif(! is_array($target) )
         {
             trigger_error( get_class($this)." unembed Method second parameter should be an array." );
         }

@@ -20,7 +20,7 @@
             </div>
         @endforeach
 
-        {{ Html::linkAction('Admin\CategoriesController@validate_products', "Corrigir produtos com erro", ['id'=>$category_id], ['class'=>'btn btn-inverse btn-large btn-block']) }}
+        {{-- Html::linkAction('Admin\CategoriesController@validate_products', "Corrigir produtos com erro", ['id'=>$category_id], ['class'=>'btn btn-inverse btn-large btn-block']) --}}
     @else
         <div class="alert alert-success">
             Nenhuma falha foi encontrada

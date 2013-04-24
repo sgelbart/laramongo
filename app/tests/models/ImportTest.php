@@ -40,6 +40,14 @@ class ImportTest extends TestCase
             ->with($filename)
             ->andReturn(true);
 
+        $mockedExcelIo
+            ->shouldReceive('getSuccess')
+            ->andReturn(['123123']);
+
+        $mockedExcelIo
+            ->shouldReceive('getErrors')
+            ->andReturn([]);
+
         $import = new Import;
         $import->name = 'An importation';
         $import->filename = $filename;

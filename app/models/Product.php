@@ -18,8 +18,9 @@ class Product extends BaseModel {
      * @var array
      */
     public static $rules = array(
+        '_id'       => 'required',
         'name'      => 'required',
-        'category'     => 'required',
+        'category'  => 'required',
     );
 
     /**

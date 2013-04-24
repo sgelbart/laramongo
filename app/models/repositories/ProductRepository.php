@@ -83,10 +83,7 @@ class ProductRepository
      * @return Boolean The result of the instance save() method
      */
     public function createNew( Product &$instance )
-    {
-        // Since is a NEW product. Clear the _id if it exists
-        unset($instance->_id);
-        
+    {        
         // Apply the polymorph manually before saving
         // This way the specific validation will play their role
         // before saving the model
