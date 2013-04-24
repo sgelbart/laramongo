@@ -10,7 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class FeatureContext extends BaseContext {
+class ProductImportContext extends BaseContext {
 
     public function __construct()
     {
@@ -61,7 +61,7 @@ class FeatureContext extends BaseContext {
     {
         // Mimics the values from the "new_products.xlsx"
         $products[0] = testProductProvider::instance('simple_valid_product');
-        $products[0]->details = ['alguma coisa'=>'algum valor'];
+        $products[0]->details = ['alguma coisa'=>'Algum valor'];
         $products[] = testProductProvider::instance('simple_deactivated_product');
         $products[] = testProductProvider::instance('product_with_details');
         $products[] = testProductProvider::instance('another_valid_product');
