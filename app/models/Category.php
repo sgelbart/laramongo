@@ -162,7 +162,6 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
             {
                 $child->buildAncestors();
                 $child->save( $force );
-                $child->grabImages();
             }
         }
         else
@@ -254,12 +253,5 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
         }
 
         return $result;
-    }
-
-
-    public function grabImages()
-    {
-        if(! isset($this->image ))
-            ImageGrabber::grab($this);
     }
 }

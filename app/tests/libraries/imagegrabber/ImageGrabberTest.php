@@ -63,26 +63,6 @@ class ImageGrabberTest extends TestCase {
         $product->grabImages();
     }
 
-    public function testShouldImportImageToCategories()
-    {
-        $category = testCategoryProvider::instance('valid_leaf_category');
-        $category->_id = '003501';
-        $test = $this;
-
-        $image_importer = m::mock(new RemoteImporter);
-        $image_importer
-            ->shouldReceive('import')
-            ->andReturnUsing(function($arg) use ($test)
-            {
-                return $test->curl_file($arg);
-            });
-
-        App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
-
-        $category->grabImages();
-    }
-
-
     // just to mock the request image
     public function curl_file($url)
     {
