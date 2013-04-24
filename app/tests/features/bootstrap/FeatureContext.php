@@ -22,6 +22,14 @@ class FeatureContext extends BaseContext {
     }
 
     /**
+     * @Then /^I should see the import report of "([^"]*)"$/
+     */
+    public function iShouldSeeTheImportReportOf($category)
+    {
+        throw new PendingException();
+    }
+
+    /**
      * @Given /^I have the category "([^"]*)"$/
      */
     public function iHaveTheCategory($category_name)

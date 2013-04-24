@@ -17,9 +17,9 @@ class RunValidationWithAButtonTest extends AcceptanceTestCase
 
     public function testShouldDisplayErrorsWhenImporting()
     {
-        $category = f::create('Category', ['kind'=>'leaf']);
+        $category = testCategoryProvider::saved('valid_lixeiras_category');
 
-        $sampleFile = 'file://'.__DIR__.'/../assets/lixeirasAlgumasErradas.csv';
+        $sampleFile = 'file://'.__DIR__.'/../assets/lixeirasAlgumasErradas.xlsx';
 
         // Import file
         $this->browser

@@ -44,6 +44,7 @@ class ExcelIoTest extends TestCase {
         // Clean prducts
         foreach( Product::all() as $product ) { $product->delete(); }
 
+        $io = new ExcelIo;
         $result = $io->importFile($output);
         $this->assertTrue($result);
 
@@ -51,6 +52,9 @@ class ExcelIoTest extends TestCase {
             // Should find the imported products
             $this->assertEquals(1, Product::where($product->_id)->count());
             $this->assertEquals((string)$category->_id, Product::first($product->_id)->category);
+
+            // Verify if getSuccess() returns the correct values
+            $this->assertContains($product->_id, $io->getSuccess());
         }
     }
 
@@ -81,4 +85,8 @@ class ExcelIoTest extends TestCase {
         $this->assertEquals($should_be, $result);
     }
 
+    public function testShouldReportErrorOnImport()
+    {
+        
+    }
 }
