@@ -18,27 +18,19 @@ class PhotosImportContext extends BaseContext {
         $this->testCase()->cleanCollection( 'products' );
     }
 
-        /**
-         * @When /^I save the product$/
-         */
-        public function iSaveTheProduct()
-        {
-            exit;
-        }
+    /**
+     * @When /^I save the product$/
+     */
+    public function iSaveTheProduct()
+    {
+        throw new PendingException();
+    }
 
-        /**
-         * @Then /^should get (\d+) photos$/
-         */
-        public function shouldGetPhotos($arg1)
-        {
-            throw new PendingException();
-        }
-
-        /**
-         * @Then /^I should see the import report of "([^"]*)"$/
-         */
-        public function iShouldSeeTheImportReportOf($arg1)
-        {
-            throw new PendingException();
-        }
+    /**
+     * @Then /^should get (\d+) photos$/
+     */
+    public function shouldGetPhotos($arg1)
+    {
+        throw new PendingException();
+    }
 }

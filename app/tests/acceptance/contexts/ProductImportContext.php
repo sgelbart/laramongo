@@ -10,7 +10,7 @@ use Behat\Gherkin\Node\PyStringNode,
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class FeatureContext extends BaseContext {
+class ProductImportContext extends BaseContext {
 
     public function __construct()
     {
@@ -50,8 +50,10 @@ class FeatureContext extends BaseContext {
     {
         $path = 'tests/assets/'.$file;
 
-        $io = new Laramongo\ExcelIo\ExcelIo;
-        $io->importFile($path);
+        $this->lastImport = new Import;
+        $this->lastImport->filename = $path;
+        $this->lastImport->save();
+        $this->lastImport = Import::first($this->lastImport->_id);
     }
 
     /**
@@ -61,7 +63,7 @@ class FeatureContext extends BaseContext {
     {
         // Mimics the values from the "new_products.xlsx"
         $products[0] = testProductProvider::instance('simple_valid_product');
-        $products[0]->details = ['alguma coisa'=>'algum valor'];
+        $products[0]->details = ['alguma coisa'=>'Algum valor'];
         $products[] = testProductProvider::instance('simple_deactivated_product');
         $products[] = testProductProvider::instance('product_with_details');
         $products[] = testProductProvider::instance('another_valid_product');
@@ -79,11 +81,30 @@ class FeatureContext extends BaseContext {
     }
 
     /**
-     * @Then /^I should get no products into database$/
+     * @Then /^I should see the import report with "([^"]*)" errors$/
      */
-    public function iShouldGetNoProductsIntoDatabase()
+    public function iShouldSeeTheImportReportWithErrors($amount)
     {
-        // Check if there is no products in the database
-        $this->testCase()->assertEquals(0, Product::all()->count());
+        $this->testCase()->requestAction(
+            'GET', 'Admin\ProductsController@importResult',
+            ['id'=>$this->lastImport->_id]
+        );
+
+        $this->testCase()->assertRequestOk();
+        $this->testCase()->assertBodyHasText('Produtos com erro '.$amount);
+    }
+
+    /**
+     * @Then /^I should see the import report with "([^"]*)" success$/
+     */
+    public function iShouldSeeTheImportReportWithSuccess($amount)
+    {
+        $this->testCase()->requestAction(
+            'GET', 'Admin\ProductsController@importResult',
+            ['id'=>$this->lastImport->_id]
+        );
+
+        $this->testCase()->assertRequestOk();
+        $this->testCase()->assertBodyHasText('importados com sucesso '.$amount);
     }
 }

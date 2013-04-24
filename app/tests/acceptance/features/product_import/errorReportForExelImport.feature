@@ -6,11 +6,9 @@ Feature: Error reporting for exel import
 Scenario: After fine importing
     Given I have the category "valid_leaf_category"
     When I import the "new_products.xlsx"
-    Then I should see the import report of "new_products"
-    Then I should get the four new producs into database
+    Then I should see the import report with "0" errors
 
 Scenario: After failed importing
     Given I have the category "valid_leaf_category"
     When I import the "messed_up_products.xlsx"
-    Then I should see the import report of "messed_up_products"
-    Then I should get no products into database
+    Then I should see the import report with "2" errors
