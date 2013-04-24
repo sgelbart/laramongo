@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product;
+use Product, Illuminate\Support\MessageBag;
 
 class ExcelIo {
 
