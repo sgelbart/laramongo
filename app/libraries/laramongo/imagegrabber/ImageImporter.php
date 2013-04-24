@@ -12,6 +12,11 @@ class RemoteImporter
      */
     public function import($url)
     {
+        // In order to speed test, don`t make real request at
+        // testing environment
+        if (app()->environment() == 'testing')
+            return false;
+
         // Creating options for cURL.
         $options = array(
             CURLOPT_RETURNTRANSFER => true,     // return web page
