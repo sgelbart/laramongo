@@ -69,7 +69,9 @@ class CategoryCharacteristicsTest extends AcceptanceTestCase
         $category->embedToCharacteristics( $characB );
         $category->save();
 
-        $product = f::create( 'Product', ['category'=>$category->_id] );
+        $product = testProductProvider::instance('simple_valid_product');
+        $product->category = $category->_id;
+        $product->save();
 
         $this->browser
             ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))
