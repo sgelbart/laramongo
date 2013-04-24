@@ -94,6 +94,12 @@ class ExcelIoTest extends TestCase {
         $io = new ExcelIo;
         $io->importFile($path);
 
-        
+        $this->assertEquals(6, count($io->getSuccess()));
+        $this->assertEquals(1, count($io->getErrors()));
+
+        // Each error found should have an 'error' key containing
+        // the reason
+        $errors = $io->getErrors();
+        $this->assertNotNull($errors[0]['error']);
     }
 }
