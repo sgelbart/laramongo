@@ -143,6 +143,7 @@ class ExcelIo {
             if($product->_id)
             {
                 $product->save( true );
+                $product->isValid(); // Fill the errors of the object
             }
             else
             {

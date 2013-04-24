@@ -19,6 +19,13 @@ class ControllerTestCase extends TestCase{
     protected $lastException;
 
     /**
+     * The Synfony's DomCrawler of the last request
+     *
+     * @var Symfony\Component\DomCrawler\Crawler
+     */
+    protected $crawler;
+
+    /**
      * Set session and enable Laravel filters
      *
      */
@@ -62,8 +69,8 @@ class ControllerTestCase extends TestCase{
         try
         {
             // The following method returns Synfony's DomCrawler
-            // but it will not be used when testing controllers
-            $this->client->request( $method, $url, array_merge($params, $this->requestInput) );
+            $this->crawler =
+                $this->client->request( $method, $url, array_merge($params, $this->requestInput) );
         }
         catch(HttpException $e)
         {
@@ -169,6 +176,31 @@ class ControllerTestCase extends TestCase{
         if( $value )
         {
             $this->assertContains( $value, Session::get($name), "Session '$name' are not equal to $value" );
+        }
+    }
+
+    public function assertBodyHasHtml($needle)
+    {
+        $html = $this->crawler->html();
+
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertContains($singleNiddle, $html, "Body text does not contain '$singleNiddle'");
+        }
+    }
+
+    public function assertBodyHasText($needle)
+    {
+        $text = $this->crawler->html();
+        $text = strip_tags($text); // Strip tags
+        $text = str_replace("\n", " ", $text); // Replaces newline with space
+        $text = preg_replace('/\s\s+/', ' ', $text);// Trim spaces bewtween words
+
+        $needle = (array)$needle;
+
+        foreach ($needle as $singleNiddle) {
+            $this->assertContains($singleNiddle, $text, "Body text does not contain '$singleNiddle'");
         }
     }
 }

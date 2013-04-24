@@ -50,8 +50,10 @@ class ProductImportContext extends BaseContext {
     {
         $path = 'tests/assets/'.$file;
 
-        $io = new Laramongo\ExcelIo\ExcelIo;
-        $io->importFile($path);
+        $this->lastImport = new Import;
+        $this->lastImport->filename = $path;
+        $this->lastImport->save();
+        $this->lastImport = Import::first($this->lastImport->_id);
     }
 
     /**
@@ -79,11 +81,16 @@ class ProductImportContext extends BaseContext {
     }
 
     /**
-     * @Then /^I should get no products into database$/
+     * @Then /^I should see the import report with "([^"]*)" errors$/
      */
-    public function iShouldGetNoProductsIntoDatabase()
+    public function iShouldSeeTheImportReportWithErrors($amount)
     {
-        // Check if there is no products in the database
-        $this->testCase()->assertEquals(0, Product::all()->count());
+        $this->testCase()->requestAction(
+            'GET', 'Admin\ProductsController@importResult',
+            ['id'=>$this->lastImport->_id]
+        );
+
+        $this->testCase()->assertRequestOk();
+        $this->testCase()->assertBodyHasText('Produtos com erro '.$amount);
     }
 }
