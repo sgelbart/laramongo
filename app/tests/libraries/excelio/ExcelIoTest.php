@@ -87,6 +87,13 @@ class ExcelIoTest extends TestCase {
 
     public function testShouldReportErrorOnImport()
     {
+        $category = testCategoryProvider::saved('valid_lixeiras_category');
+
+        $path = 'tests/assets/lixeirasAlgumasErradas.xlsx';
+
+        $io = new ExcelIo;
+        $io->importFile($path);
+
         
     }
 }
