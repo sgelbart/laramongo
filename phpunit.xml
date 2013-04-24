@@ -18,7 +18,7 @@
             <directory>./app/tests/controllers</directory>
         </testsuite>
         <testsuite name="h">
-            <directory>./app/tests/acceptance</directory>
+            <directory>./app/tests/front_end</directory>
         </testsuite>
     </testsuites>
 </phpunit>

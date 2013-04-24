@@ -9,8 +9,8 @@ default:
                 output_path:            null
                 multiline_arguments:    true
     paths:
-        features: app/tests/features
-        bootstrap: app/tests/features/bootstrap
+        features: app/tests/acceptance
+        bootstrap: app/tests/acceptance/contexts
     context:
         parameters:
             base_url: http://foo.local

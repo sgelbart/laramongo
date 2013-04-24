@@ -10,9 +10,6 @@ use Behat\Gherkin\Node\PyStringNode,
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-    require_once 'PHPUnit/Autoload.php';
-    require_once 'PHPUnit/Framework/Assert/Functions.php';
-
 class FeatureContext extends BaseContext {
 
     public function __construct()

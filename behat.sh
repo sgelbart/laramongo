@@ -1,3 +1,3 @@
 #!/bin/bash
 
-vendor/bin/behat 'app/tests/features'
+vendor/bin/behat 'app/tests/acceptance'
