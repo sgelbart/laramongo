@@ -3,58 +3,54 @@
 class Validator
 {
 
-    protected $evaluation = false;
-    protected $image_properties = '';
-    protected $image = '';
+    /**
+     * Contains the last validation error
+     * 
+     * @var string
+     */
+    protected $lastInvalid = '';
 
     /**
      * This method returns if the image is a valid characteristics
      * @return boolean
      */
-    public function validate($image, $class_object, $config=array())
+    public function validate($imagePath, $params)
     {
-        $this->$image = $image;
+        // Return false if file doesn't exists
+        if(! file_exists($imagePath))
+            return false;
 
-        if ($class_object == 'Product') {
-            validateForProduct($characteristics);
+        // Get the image size and check if it meets the parameters
+        $size = getimagesize($imagePath);
 
-        } elseif ($class_object == 'Category') {
-            validateForCategory($characteristics);
+        if( isset($params['width']) && $size[0] != $params['width'] )
+        {
+            $this->lastInvalid .= "Width $size[0] is out of the permited size (".$params['width'].")";
+            return false;
         }
 
-        $this->$image_properties = getimagesize($image);
-
-        $this->loggingFile($image, $evaluation);
-
-        return $evaluation;
-    }
-
-    /**
-     * Write at log the images that don`t pass at validation
-     * @param  boolean $evaluation [description]
-     * @param  string $image [description]
-     */
-    protected function loggingFile($image, $evaluation)
-    {
-        Log::warning('The image: ' . $image . ' don`t pass');
-    }
-
-    protected function validateForProduct($characteristics)
-    {
-        foreach ($characteristics['product']['max-size'] as $key => $value) {
-            if (filesize($this->$image) > $value) {
-                return false;
-            }
-
-            if ($image_properties[0] == $value) {
-                return false;
-            }
-
-            if ($image_properties[1] == $value) {
-                return false;
-            }
-
-            return true;
+        if( isset($params['height']) && $size[1] != $params['height'] )
+        {
+            $this->lastInvalid .= "Height $size[1] is out of the permited size (".$params['height'].")";
+            return false;
         }
+
+        // Get the filesize and check if it meets the parameter
+        if( isset($params['weight']) && filesize($imagePath) > $params['weight']*1000 )
+        {
+            $this->lastInvalid .= "Weight ".filesize($imagePath)." is out of the permited size (".($params['weight']*1000).")";
+            return false;
+        }
+
+        $this->lastInvalid = '';
+        return true;
+    }
+
+    public function getLastInvalid()
+    {
+        if($this->lastInvalid)
+            return $this->lastInvalid;
+
+        return false;
     }
 }
