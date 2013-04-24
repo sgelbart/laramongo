@@ -1,5 +1,7 @@
 <?php
 
+use Mockery as m;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
     /**
@@ -44,6 +46,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     {
         $db = LMongo::connection();
         $db->$collection->drop();
-    }    
+    }
 
 }

@@ -18,7 +18,7 @@ class ImageGrabber {
 
     /**
      * Grab the images from website
-     * 
+     *
      * @param   $obj Product,Category
      */
     public function grab($obj)
@@ -51,7 +51,7 @@ class ImageGrabber {
     /**
      * Runs accross some angles an size of images of an Product which is
      * in the $this->object attribute.
-     * 
+     *
      * @param  array $sizes
      * @param  array $angles
      * @return  null
@@ -75,6 +75,9 @@ class ImageGrabber {
                 // in order to check for the next size.
                 if (! $result) {
                     break;
+                } else {
+                    // verifying if valid
+                    $this->isValid($destination, $size);
                 }
             }
         }
@@ -82,7 +85,7 @@ class ImageGrabber {
 
     /**
      * Retrieve the image of the Category contained in $this->object
-     * 
+     *
      * @return  null
      */
     protected function retrieveCategoryImages()
@@ -92,12 +95,15 @@ class ImageGrabber {
 
         // getting result of get image
         $this->getImage($origin, $destination);
+
+        // verifying if valid
+        $this->isValid($destination, 550, 360);
     }
 
     /**
      * Actually creates the image file (i.e: write the contents retrieved from
      * curl into a file)
-     * 
+     *
      * @param  string $origin_url      origin url image
      * @param  string $destination_url destination url
      * @return boolean Success
@@ -132,7 +138,7 @@ class ImageGrabber {
     /**
      * Get the content for url. I.E: Curl. Returns false if the
      * url cannot be reached.
-     * 
+     *
      * @param  $url
      * @return string Binary content of the file
      */
@@ -150,7 +156,7 @@ class ImageGrabber {
 
     /**
      * Prepare the url Origin, replacing the parameters
-     * 
+     *
      * @return the url to get images
      */
     protected function prepareUrl($url = array(), $angle = '1', $size = '150')
@@ -193,7 +199,7 @@ class ImageGrabber {
             $height = $width;
 
         // Some estimations about the image weight (may be adjusted later)
-        if( $width == 550 && height == 360)
+        if( $width == 550 && $height == 360)
             $weight = 150; // KB
         elseif( $width <= 280 )
             $weight = 20; // KB
@@ -208,7 +214,7 @@ class ImageGrabber {
             'weight' => $weight,
         ];
 
-        $validator = new Validator;
+        $validator = \App::make('ImageGrabber\Validator');
         return $validator->validate( $imagePath, $params );
     }
 }

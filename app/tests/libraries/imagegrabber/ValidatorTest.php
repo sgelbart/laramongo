@@ -1,7 +1,7 @@
 <?php
 
 class ValidatorTest extends TestCase {
-    
+
     public function testShouldValidate()
     {
         $validator = new Laramongo\ImageGrabber\Validator;
@@ -103,5 +103,4 @@ class ValidatorTest extends TestCase {
             $validator->validate($imagePath, $params)
         );
     }
-
 }

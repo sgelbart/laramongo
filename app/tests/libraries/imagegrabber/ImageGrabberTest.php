@@ -31,8 +31,21 @@ class ImageGrabberTest extends TestCase {
         $this->cleanCollection( 'products' );
     }
 
+    /**
+     * Mockery close
+     */
+    public function tearDown()
+    {
+        m::close();
+    }
+
     public function testShouldImportImageToProduct()
     {
+        // Make sure the validator is calling validate method
+        $validatorMock = m::mock('newVADSADSADSASADSAD');
+        $validatorMock->shouldReceive('validate')->atLeast(1)->andReturn(true);
+        \App::instance('ImageGrabber\Validator', $validatorMock);
+
         $product = testProductProvider::instance('simple_valid_product');
         $product->_id = 100;
         $test = $this;

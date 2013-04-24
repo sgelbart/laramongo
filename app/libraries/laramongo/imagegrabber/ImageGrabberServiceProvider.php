@@ -27,5 +27,10 @@ class ImageGrabberServiceProvider extends ServiceProvider {
         {
             return new RemoteImporter;
         });
+
+        $this->app['ImageGrabber\Validator'] = $this->app->share(function()
+        {
+            return new Validator;
+        });
     }
 }
