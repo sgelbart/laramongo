@@ -140,7 +140,14 @@ class ExcelIo {
                 $product->category = $targetCategory;
             }
 
-            $product->save( true );
+            if($product->_id)
+            {
+                $product->save( true );
+            }
+            else
+            {
+                $product->errors = new MessageBag(['_id','Produto sem LM']);
+            }
 
             if( ! $product->errors )
             {
