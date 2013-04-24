@@ -1,6 +1,7 @@
 <?php 
 
-use Laramongo\ExcelIo\ExcelIo;
+use Laramongo\ExcelIo\ExcelExporter;
+use Laramongo\ExcelIo\ExcelImporter;
 
 class ExcelIoTest extends TestCase {
 
@@ -34,7 +35,7 @@ class ExcelIoTest extends TestCase {
 
         $output = '../public/uploads/'.clean_case($category->name).'.xlsx';
 
-        $io = new ExcelIo;
+        $io = new ExcelExporter;
         $result = $io->exportCategory($category, $output);
 
         // Check if the File has been exported
@@ -44,7 +45,7 @@ class ExcelIoTest extends TestCase {
         // Clean prducts
         foreach( Product::all() as $product ) { $product->delete(); }
 
-        $io = new ExcelIo;
+        $io = new ExcelImporter;
         $result = $io->importFile($output);
         $this->assertTrue($result);
 
@@ -69,7 +70,7 @@ class ExcelIoTest extends TestCase {
         $prod->details = ['alguma coisa'=>'algum valor'];
         $prod->save();
 
-        $io = new ExcelIo;
+        $io = new ExcelExporter;
 
         $result = $io->buildSchema($category); // Without products cursor
         $should_be = array_merge(
@@ -91,7 +92,7 @@ class ExcelIoTest extends TestCase {
 
         $path = 'tests/assets/lixeirasAlgumasErradas.xlsx';
 
-        $io = new ExcelIo;
+        $io = new ExcelImporter;
         $io->importFile($path);
 
         $this->assertEquals(6, count($io->getSuccess()));
