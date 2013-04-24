@@ -36,4 +36,25 @@ class BaseContext extends BehatContext
 
         return $this->acceptanceCase;
     }
+
+    public function __construct(array $parameters) {
+
+        // import all context classes from context directory, except the abstract one
+
+        $filesToSkip = array('AbstractContext.php', 'BaseContext.php');
+
+        $path = dirname(__FILE__);
+        $it = new RecursiveDirectoryIterator($path);
+        /** @var $file  SplFileInfo */
+        foreach ($it as $file) {
+            if (!$file->isDir()) {
+               $name = $file->getFilename();
+               if (!in_array($name, $filesToSkip)) {
+                   $class = pathinfo($name, PATHINFO_FILENAME);
+                   require_once dirname(__FILE__) . '/' . $name;
+                   $this->useContext($class, new $class($parameters));
+               }
+            }
+        }
+    }
 }
