@@ -7,14 +7,15 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-    require_once 'PHPUnit/Autoload.php';
-    require_once 'PHPUnit/Framework/Assert/Functions.php';
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 class BaseContext extends BehatContext
 {
     protected $testCase;
     protected $acceptanceCase;
 
+    // Adding ability to run assertions at TestCase
     public function testCase()
     {
         if (! isset($this->testCase)) {
@@ -25,6 +26,7 @@ class BaseContext extends BehatContext
         return $this->testCase;
     }
 
+    // Adding ability to run assertions at fron_end test
     public function acceptanceCase()
     {
         if (! isset($this->acceptanceCase)) {
