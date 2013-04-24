@@ -7,6 +7,11 @@ class ImageGrabber {
      * @var Product, Category
      */
     protected $object;
+
+    protected $origin_url;
+
+    protected $destination_url;
+
     public $imageImporter;
 
     /**
@@ -18,27 +23,48 @@ class ImageGrabber {
 
         $this->object = $obj;
 
-        $origin_url = \Config::get('image_grabber.origin_url');
-        $destination_url = \Config::get('image_grabber.destination_url');
+        $this->origin_url = \Config::get('image_grabber.origin_url');
+        $this->destination_url = \Config::get('image_grabber.destination_url');
 
         $sizes = \Config::get('image_grabber.image.sizes');
         $angles = \Config::get('image_grabber.image.angles');
 
-        foreach ($sizes as $size) {
-            foreach ($angles as $angle) {
-                // replacing with angle and sizes
-                $origin = $this->prepareUrlOrigin($origin_url, $angle, $size);
-                $destination = $this->prepareUrlDestination( app_path() . '/../' .  $destination_url, $angle, $size);
-
-                $result = $this->get_image($origin, $destination);
-
-                if (! $result) {
-                    break;
-                }
-            }
-        }
+        $this->retrieve_images($sizes, $angles);
     }
 
+
+
+    /**
+     * Runs accross some angles an size of images if the object is a instance of
+     * Product else just get the image
+     * @param  array $sizes
+     * @param  array $angles
+     */
+    protected function retrieve_images($sizes, $angles)
+    {
+        if ($this->object instanceof \Product) {
+            foreach ($sizes as $size) {
+                foreach ($angles as $angle) {
+                    // replacing with angle and sizes
+                    $origin = $this->prepareUrl($this->origin_url, $angle, $size);
+                    $destination = $this->prepareUrl( $this->destination_url, $angle, $size);
+
+                    // getting result of get image
+                    $result = $this->get_image($origin, $destination);
+
+                    if (! $result) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            $origin = $this->prepareUrl($this->origin_url);
+            $destination = $this->prepareUrl( $this->destination_url );
+
+            // getting result of get image
+            $result = $this->get_image($origin, $destination);
+        }
+    }
 
     /**
      * Create image file
@@ -66,7 +92,7 @@ class ImageGrabber {
      */
     protected function get_url($url)
     {
-        $importer = \App::make('ImageImporter');
+        $importer = \App::make('RemoteImporter');
         $response = $importer->import($url);
 
         if ($response) {
@@ -80,7 +106,7 @@ class ImageGrabber {
      * Prepare the url Origin, replacing the parameters
      * @return the url to get images
      */
-    protected function prepareUrlOrigin($url, $angle, $size)
+    protected function prepareUrl($url=array(), $angle=null, $size=null)
     {
         $string_to_replace = '';
 
@@ -95,22 +121,6 @@ class ImageGrabber {
             $string_to_replace = $url['chave_entrada'];
             $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
         }
-
-        return $string_to_replace;
-    }
-
-    /**
-     * Prepare the url Destination, replacing the parameters
-     * @return the url to put images
-     */
-    protected function prepareUrlDestination($url, $angle, $size)
-    {
-        $string_to_replace = $url;
-
-        $string_to_replace = str_replace('{lm}', $this->object->_id, $string_to_replace);
-        $string_to_replace = str_replace('{collection}', $this->object->getCollectionName(), $string_to_replace);
-        $string_to_replace = str_replace('{angle}', $angle, $string_to_replace);
-        $string_to_replace = str_replace('{size}', $size, $string_to_replace);
 
         return $string_to_replace;
     }

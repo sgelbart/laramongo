@@ -1,7 +1,7 @@
 <?php
 
 use Laramongo\ImageGrabber\ImageGrabber;
-use Laramongo\ImageGrabber\ImageImporter;
+use Laramongo\ImageGrabber\RemoteImporter;
 use Mockery as m;
 
 class ImageGrabberTest extends TestCase {
@@ -20,7 +20,11 @@ class ImageGrabberTest extends TestCase {
             app_path() . '/tests/assets/chave-entrada-{lm}.jpg'
         );
 
-        Config::set('image_grabber.destination_url',
+        Config::set('image_grabber.destination_url.chave_entrada',
+            'app/tests/assets/category/chave-entrada-{lm}.jpg'
+        );
+
+        Config::set('image_grabber.destination_url.product',
             'app/tests/assets/product/{lm}_{angle}_{size}.jpg'
         );
 
@@ -33,7 +37,7 @@ class ImageGrabberTest extends TestCase {
         $product->_id = 100;
         $test = $this;
 
-        $image_importer = m::mock(new ImageImporter);
+        $image_importer = m::mock(new RemoteImporter);
         $image_importer
             ->shouldReceive('import')
             ->andReturnUsing(function($arg) use ($test)
@@ -41,23 +45,18 @@ class ImageGrabberTest extends TestCase {
                 return $test->curl_file($arg);
             });
 
-        App::bind('ImageImporter', function() use($image_importer){ return $image_importer; });
+        App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
 
         $product->grabImages();
     }
 
     public function testShouldImportImageToCategories()
     {
-
-        Config::set('image_grabber.destination_url',
-            'app/tests/assets/category/chave-entrada-{lm}.jpg'
-        );
-
         $category = testCategoryProvider::instance('valid_leaf_category');
         $category->_id = '003501';
         $test = $this;
 
-        $image_importer = m::mock(new ImageImporter);
+        $image_importer = m::mock(new RemoteImporter);
         $image_importer
             ->shouldReceive('import')
             ->andReturnUsing(function($arg) use ($test)
@@ -65,12 +64,13 @@ class ImageGrabberTest extends TestCase {
                 return $test->curl_file($arg);
             });
 
-        App::bind('ImageImporter', function() use($image_importer){ return $image_importer; });
+        App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
 
         $category->grabImages();
     }
 
 
+    // just to mock the request image
     public function curl_file($url)
     {
         if (file_exists($url)) {
