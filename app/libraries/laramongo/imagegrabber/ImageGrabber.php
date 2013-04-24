@@ -76,6 +76,10 @@ class ImageGrabber {
         $tmp = $this->get_url($origin_url);
 
         if ($tmp) {
+            if(! file_exists(dirname($destination_url))) {
+                mkdir(dirname($destination_url));
+            }
+
             $fp = fopen($destination_url, 'wb');
             fwrite($fp, $tmp);
             fclose($fp);
@@ -123,5 +127,14 @@ class ImageGrabber {
         }
 
         return $string_to_replace;
+    }
+
+    /**
+     * Return if image got at curl proccess as valid
+     */
+    protected function is_valid($image)
+    {
+        $validator = new Validator;
+        return $validator->validate( $image, $object );
     }
 }
