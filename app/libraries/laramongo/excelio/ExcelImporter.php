@@ -61,10 +61,9 @@ class ExcelImporter extends ExcelIo {
         $vintage =
             strtolower($aba1->getCell('A2')->getCalculatedValue()) != 'categoria';
 
-        $attributesRow = ($vintage) ? 7 : 4;
+        $attributesRow = $this->attributeRow();
 
         // Read schema
-
         $schema = array();
 
         $x = 0;
@@ -79,36 +78,11 @@ class ExcelImporter extends ExcelIo {
         $y = $attributesRow+1;
         while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
         {   
-            $product = new Product;
+            // Create an object provenient of the line $y in the $excel file
+            $product = $this->parseLine($excel, $y, $schema);
 
-            foreach ($schema as $x => $attribute) {
-
-                $attrName = substr($attribute,0,-1);
-
-                if(in_array($attrName, $this->nonCharacteristicKeys))
-                {
-                    $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $y)->getValue());
-                }
-                else
-                {
-                    $value = $aba1->getCellByColumnAndRow($x, $y)->getValue();
-
-                    if($value)
-                    {
-                        $details = $product->getAttribute('details');
-                        $details[$attrName] = ucfirst($value);
-                        $product->setAttribute('details', $details);
-                    }
-                }
-            }
-
-            if(! $vintage)
-            {
-                if(! isset($targetCategory))
-                    $targetCategory = $aba1->getCell('B2')->getCalculatedValue();
-
-                $product->category = $targetCategory;
-            }
+            // Get the category _id provienient of the $excel file
+            $product->category = $this->parseCategory($excel);
 
             if($product->_id)
             {
@@ -135,6 +109,68 @@ class ExcelImporter extends ExcelIo {
         }
 
         return true;
+    }
+
+    /**
+     * Reads the category if of the escel file that is being imported
+     * @param  PHPExcel $excel    Openned excel file
+     * @return string String of the MongoId of the found category 
+     */
+    protected function parseCategory($excel)
+    {
+        $aba1 = $excel->setActiveSheetIndex(0);
+
+        $category = $aba1->getCell('B2')->getCalculatedValue();
+
+        return $category;
+    }
+
+    /**
+     * Returns an Product object with the contents of the line read
+     * based on the specified schema
+     * 
+     * @param  PHPExcel $excel Openned excel file
+     * @param  integer $line   Line Number
+     * @param  array $schema   The fields present in the excel file
+     * @return Product         The product object build from the line content
+     */
+    protected function parseLine($excel, $line, $schema)
+    {
+        $aba1 = $excel->setActiveSheetIndex(0);
+        $product = new Product;
+
+        foreach ($schema as $x => $attribute) {
+
+            $attrName = substr($attribute,0,-1);
+
+            if(in_array($attrName, $this->nonCharacteristicKeys))
+            {
+                $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $line)->getValue());
+            }
+            else
+            {
+                $value = $aba1->getCellByColumnAndRow($x, $line)->getValue();
+
+                if($value)
+                {
+                    $details = $product->getAttribute('details');
+                    $details[$attrName] = ucfirst($value);
+                    $product->setAttribute('details', $details);
+                }
+            }
+        }
+
+        return $product;
+    }
+
+    /**
+     * The line where the attributes/schema of the chave the entrada
+     * can be found
+     * @return integer Excel file line number
+     */
+    protected function attributeRow()
+    {
+        return 4;
     }
 
     /**
