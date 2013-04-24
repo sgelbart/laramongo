@@ -30,7 +30,7 @@ class RemoteImporter
             CURLOPT_MAXREDIRS      => 10,
             CURLOPT_PROXY          => \Config::get('image_grabber.proxy'),
             CURLOPT_PROXYPORT      => \Config::get('image_grabber.proxy_port'),
-            CURLOPT_PROXYUSERPWD   => \Config::get('image_brabber.user')
+            CURLOPT_PROXYUSERPWD   => \Config::get('image_grabber.user')
         );
 
         // initializing cURL

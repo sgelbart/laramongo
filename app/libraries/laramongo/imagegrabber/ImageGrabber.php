@@ -121,6 +121,8 @@ class ImageGrabber {
                 $fp = fopen($destination_url, 'wb');
                 fwrite($fp, $tmp);
                 fclose($fp);
+
+                return true;
             }
             catch(\Exception $e)
             {
@@ -131,8 +133,6 @@ class ImageGrabber {
                 return false;
             }
         }
-
-        return true;
     }
 
     /**
