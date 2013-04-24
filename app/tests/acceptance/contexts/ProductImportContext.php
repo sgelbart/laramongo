@@ -93,4 +93,18 @@ class ProductImportContext extends BaseContext {
         $this->testCase()->assertRequestOk();
         $this->testCase()->assertBodyHasText('Produtos com erro '.$amount);
     }
+
+    /**
+     * @Then /^I should see the import report with "([^"]*)" success$/
+     */
+    public function iShouldSeeTheImportReportWithSuccess($amount)
+    {
+        $this->testCase()->requestAction(
+            'GET', 'Admin\ProductsController@importResult',
+            ['id'=>$this->lastImport->_id]
+        );
+
+        $this->testCase()->assertRequestOk();
+        $this->testCase()->assertBodyHasText('importados com sucesso '.$amount);
+    }
 }
