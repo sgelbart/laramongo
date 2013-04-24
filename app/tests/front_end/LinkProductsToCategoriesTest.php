@@ -49,7 +49,7 @@ class LinkProductsToCategoriesTest extends AcceptanceTestCase
     {
         $leafA = f::create( 'Category', ['kind'=>'leaf'] );
         $leafB = f::create( 'Category', ['kind'=>'leaf'] );
-        $product = f::create( 'Product' );
+        $product = testProductProvider::saved('simple_valid_product');
 
         $this->browser
             ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))

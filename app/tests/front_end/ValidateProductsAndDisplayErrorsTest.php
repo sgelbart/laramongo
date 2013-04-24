@@ -43,7 +43,9 @@ class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
     {
         $category = $this->aCategoryWithRules();
 
-        $product = f::create( 'Product', ['category'=>$category->_id] );
+        $product = testProductProvider::instance('simple_valid_product');
+        $product->category = $category->_id;
+        $product->save();
 
         $this->browser
             ->open(URL::action('Admin\ProductsController@edit', ['id'=>$product->_id]))
