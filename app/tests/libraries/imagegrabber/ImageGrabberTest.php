@@ -60,10 +60,30 @@ class ImageGrabberTest extends TestCase {
 
         App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
 
-        $product->grabImages();
+        $urlImages = $product->grabImages();
 
+        // if File exists
         $this->assertTrue(
             file_exists(
+                "app/tests/assets/product/" .
+                ruby_case($product->name) .
+                "_100_1_300.jpg"
+            )
+        );
+
+        // if the imageUrls is valid
+        $this->assertEquals(
+            $urlImages,
+            array(
+                "app/tests/assets/product/" .
+                ruby_case($product->name) .
+                "_100_1_300.jpg"
+            )
+        );
+
+        $this->assertEquals(
+            $product->image,
+            array(
                 "app/tests/assets/product/" .
                 ruby_case($product->name) .
                 "_100_1_300.jpg"
@@ -92,10 +112,27 @@ class ImageGrabberTest extends TestCase {
 
         App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
 
-        $category->grabImages();
+        $urlImages = $category->grabImages();
 
         $this->assertTrue(
             file_exists(
+                "app/tests/assets/category/chave_entrada_" .
+                "003501_" . ruby_case($category->name) . ".jpg"
+            )
+        );
+
+        // if the imageUrls is valid
+        $this->assertEquals(
+            $urlImages,
+            array(
+                "app/tests/assets/category/chave_entrada_" .
+                "003501_" . ruby_case($category->name) . ".jpg"
+            )
+        );
+
+        $this->assertEquals(
+            $category->image,
+            array(
                 "app/tests/assets/category/chave_entrada_" .
                 "003501_" . ruby_case($category->name) . ".jpg"
             )

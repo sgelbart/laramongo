@@ -20,6 +20,7 @@ class ImageGrabber {
      * Grab the images from website
      *
      * @param   $obj Product,Category
+     * @return  array of destinations urls
      */
 
     public function grab($obj)
@@ -34,11 +35,11 @@ class ImageGrabber {
 
         if ($this->object instanceof \Product)
         {
-            $this->retrieveProductImages($sizes, $angles);
+            return $this->retrieveProductImages($sizes, $angles);
         }
         elseif($this->object instanceof \Category)
         {
-            $this->retrieveCategoryImages();
+            return $this->retrieveCategoryImages();
         }
         else
         {
@@ -55,10 +56,12 @@ class ImageGrabber {
      *
      * @param  array $sizes
      * @param  array $angles
-     * @return  null
+     * @return  array the destinations urls
      */
     protected function retrieveProductImages($sizes, $angles)
     {
+        $urls = array();
+
         // For each image size (ex: 100, 150, 300)
         foreach ($sizes as $size) {
 
@@ -78,10 +81,13 @@ class ImageGrabber {
                     break;
                 } else {
                     // verifying if valid
+                    array_push($urls, $destination);
                     $this->isValid($destination, $size);
                 }
             }
         }
+
+        return $urls;
     }
 
     /**
@@ -99,6 +105,8 @@ class ImageGrabber {
 
         // verifying if valid
         $this->isValid($destination, 550, 360);
+
+        return array($destination);
     }
 
     /**
