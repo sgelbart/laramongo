@@ -9,6 +9,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000001' ),
             'name' => 'Ferramentas específicas',
+            'slug' => 'ferramentas_especificas',
             'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
@@ -26,6 +27,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000002' ),
             'name' => 'Ferramentas detalhadas',
+            'slug' => 'ferramentas_detalhadas',
             'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
@@ -43,6 +45,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000003' ),
             'name' => '',
+            'slug' => '',
             'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
@@ -60,6 +63,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000004' ),
             'name' => 'Ferramentas',
+            'slug' => 'ferramentas',
             'parents' => [],
             'description' => 'Ferramentas em geral',
         ];
@@ -70,6 +74,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000005' ),
             'name' => 'Equipamentos',
+            'slug' => 'equipamentos',
             'parents' => [],
             'description' => 'Equipamentos em geral',
         ];
@@ -80,6 +85,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000006' ),
             'name' => 'Coisas',
+            'slug' => 'coisas',
             'parents' => [],
             'description' => 'Departamento cheio de coisas',
         ];
@@ -90,6 +96,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000007' ),
             'name' => 'Brocas',
+            'slug' => 'brocas',
             'kind' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id,
@@ -109,6 +116,7 @@ class testCategoryProvider extends testObjectProvider
         return [
             '_id' => new MongoId( '4af9f23d8ead0e1d32000008' ),
             'name' => 'Lixeiras',
+            'slug' => 'lixeiras',
             'kind' => 'leaf',
             'parents' => [],
             'description' => 'Lixeiras e etc',

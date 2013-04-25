@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, Illuminate\Support\MessageBag;
+use Product, Category, Illuminate\Support\MessageBag;
 
 class ExcelImporter extends ExcelIo {
     
@@ -68,6 +68,8 @@ class ExcelImporter extends ExcelIo {
 
             $this->errors = $vintageImporter->getErrors();
             $this->success = $vintageImporter->getSuccess();
+
+            return $result;
         }
 
         $attributesRow = $this->attributeRow();
@@ -87,6 +89,7 @@ class ExcelImporter extends ExcelIo {
         $y = $attributesRow+1;
         while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
         {   
+
             // Create an object provenient of the line $y in the $excel file
             $product = $this->parseLine($excel, $y, $schema);
 
@@ -128,10 +131,21 @@ class ExcelImporter extends ExcelIo {
     protected function parseCategory($excel)
     {
         $aba1 = $excel->setActiveSheetIndex(0);
+        
+        $categoryName = $aba1->getCell('B2')->getCalculatedValue();
+        $categoryName = ruby_case($categoryName);
+        $category = Category::first(['slug'=>$categoryName]);
 
-        $category = $aba1->getCell('B2')->getCalculatedValue();
+        if(! $category)
+        {
+            $category = new Category;
+            $category->name = $categoryName;
+            $category->slug = $categoryName;
+            $category->kind = 'leaf';
+            $category->save();
+        }
 
-        return $category;
+        return $category->_id;
     }
 
     /**
