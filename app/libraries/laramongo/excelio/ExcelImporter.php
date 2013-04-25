@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag;
 
 class ExcelImporter extends ExcelIo {
     
@@ -93,13 +93,15 @@ class ExcelImporter extends ExcelIo {
             // Create an object provenient of the line $y in the $excel file
             $product = $this->parseLine($excel, $y, $schema);
 
+            // Prepares a product (if it is conjugated, etc...)
+            $this->prepareProduct( $product );
+
             // Get the category _id provienient of the $excel file
             $product->category = (string)$this->parseCategory($excel);
 
             if($product->_id)
             {
                 $product->save( true );
-                $product->isValid(); // Fill the errors of the object
             }
             else
             {
@@ -119,8 +121,23 @@ class ExcelImporter extends ExcelIo {
 
             $y++;
         }
-
+        
         return true;
+    }
+
+    protected function prepareProduct(&$product)
+    {
+        // Checks for conjugated
+        if($product->products)
+        {
+            // Polymorph into a Conjugated product
+            $conjProduct = new ConjugatedProduct;
+            $conjProduct->parseDocument( $product->attributes );
+            $product = $conjProduct;
+
+            $product->conjugated = $product->products;
+            unset($product->products);
+        }
     }
 
     /**
