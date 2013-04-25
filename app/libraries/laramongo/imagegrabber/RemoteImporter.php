@@ -1,5 +1,7 @@
 <?php namespace Laramongo\ImageGrabber;
 
+use Log;
+
 /**
  * This class has the responsability to get through HTTP resquest the content
  * passed as a parameter.
@@ -12,6 +14,8 @@ class RemoteImporter
      */
     public function import($url)
     {
+        Log::info('cURL: '.$url);
+
         // In order to speed test, don`t make real request at
         // testing environment
         if (app()->environment() == 'testing')

@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag, Log;
 
 class ExcelImporter extends ExcelIo {
     
@@ -32,6 +32,8 @@ class ExcelImporter extends ExcelIo {
     {        
         $reader = new PHPExcel_Reader_Excel2007();
 
+        Log::info('ExcelImporter::importFile('.$path.')');
+
         if( $reader->canRead(app_path().'/'.$path) )
         {
             $excel = $reader->load( app_path().'/'.$path );
@@ -61,6 +63,8 @@ class ExcelImporter extends ExcelIo {
         $vintage =
             strtolower($aba1->getCell('A2')->getCalculatedValue()) != 'categoria';
 
+        Log::info('Vintage file: '.($vintage) ? 'Yes' : 'No');
+
         if($vintage && (! $this instanceOf ExcelVintageImporter))
         {
             $vintageImporter = new ExcelVintageImporter;
@@ -84,11 +88,14 @@ class ExcelImporter extends ExcelIo {
             $x++;
         }
 
+        Log::info("Schema of file is: ".json_encode($schema));
+
         // Import lines
 
         $y = $attributesRow+1;
         while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
-        {   
+        {
+            Log::info("Parsing line ".$y);
 
             // Create an object provenient of the line $y in the $excel file
             $product = $this->parseLine($excel, $y, $schema);
@@ -101,6 +108,7 @@ class ExcelImporter extends ExcelIo {
 
             if($product->_id)
             {
+                Log::info("Importing product: ".(string)$product->_id);
                 $product->save( true );
             }
             else
@@ -121,6 +129,8 @@ class ExcelImporter extends ExcelIo {
 
             $y++;
         }
+
+        Log::info("ExcelImporter::fileParse complete");
         
         return true;
     }
