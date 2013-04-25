@@ -81,7 +81,7 @@ class ImageGrabber {
                     break;
                 } else {
                     // verifying if valid
-                    array_push($urls, $destination);
+                    array_push($urls, $this->getFilename($destination));
                     $this->isValid($destination, $size);
                 }
             }
@@ -237,5 +237,11 @@ class ImageGrabber {
 
         $validator = \App::make('ImageGrabber\Validator');
         return $validator->validate( $imagePath, $params );
+    }
+
+    public function getFilename($destination)
+    {
+        $path = pathinfo($destination);
+        return basename($path['basename']);
     }
 }
