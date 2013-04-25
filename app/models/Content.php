@@ -118,6 +118,13 @@ class Content extends BaseModel {
             $image->parseDocument( $instance->attributes );
             return $image;
         }
+        elseif( $instance->kind == 'shop' )
+        {
+            $shop = new ShopContent;
+
+            $shop->parseDocument( $instance->attributes );
+            return $shop;
+        }
         else
         {
             return $instance;

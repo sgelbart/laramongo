@@ -68,6 +68,15 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Create Video action should always return 200
+     *
+     */
+    public function testShouldCreateShop(){
+        $this->requestAction('GET', 'Admin\ContentsController@createShop');
+        $this->assertRequestOk();
+    }
+
+    /**
      * Edit Content action should return 200 if exists
      *
      */
@@ -86,6 +95,11 @@ class AdminContentsTest extends ControllerTestCase
 
         // Video
         $content = testContentProvider::saved( 'valid_video' );
+
+        $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
+        $this->assertRequestOk();
+
+        $content = testContentProvider::saved( 'valid_shop' );
 
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
         $this->assertRequestOk();
@@ -407,7 +421,7 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->requestAction(
             'POST', 'Admin\ContentsController@addCategory',
-            ['id'=>$content->_id, 'category_id'=>$category->_id] 
+            ['id'=>$content->_id, 'category_id'=>$category->_id]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));

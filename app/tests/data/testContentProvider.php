@@ -64,4 +64,17 @@ class testContentProvider extends testObjectProvider
             'tags' => 'interessante, leroy, bh, belo horizonte',
         ];
     }
+
+    protected function valid_shop()
+    {
+        return [
+            '_id' => new MongoId( '32f1423d8ead0e1d38000005' ),
+            'name' => 'Interlagos',
+            'adress' => 'Rua dos cravos, n 2012',
+            'kind' => 'shop',
+            'cep' => '123124214',
+            'phones' => '32f1423d8ead0e1d38000005.jpg',
+            'description' => 'Segunda a sexta 24 horas',
+        ];
+    }
 }

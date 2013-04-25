@@ -46,7 +46,7 @@ Route::get(    'search/products/{view}', 'SearchController@products');
 // Admin Root
 Route::get('admin', function()
 {
-    return Redirect::action('Admin\CategoriesController@index'); 
+    return Redirect::action('Admin\CategoriesController@index');
 });
 
 // Admin\ContentsController
@@ -55,6 +55,7 @@ Route::get(    'admin/content',                      'Admin\ContentsController@i
 Route::get(    'admin/content/article/create',       'Admin\ContentsController@createArticle');
 Route::get(    'admin/content/image/create',         'Admin\ContentsController@createImage');
 Route::get(    'admin/content/video/create',         'Admin\ContentsController@createVideo');
+Route::get(    'admin/content/shop/create',         'Admin\ContentsController@createShop');
 Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@edit');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
