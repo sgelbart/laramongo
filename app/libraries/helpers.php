@@ -57,10 +57,9 @@ if ( ! function_exists('clean_case'))
      * Remove acents then convert string to clean_case
      *
      * @param  string  $value
-     * @param  string  $delimiter
      * @return string
      */
-    function clean_case($value, $delimiter = '_'){
+    function clean_case($value){
 
         $normalizeChars = array( 
             'Á'=>'a', 'À'=>'a', 'Â'=>'a', 'Ã'=>'a', 'Å'=>'a', 'Ä'=>'a', 'Æ'=>'ae', 'Ç'=>'c', 
@@ -82,5 +81,20 @@ if ( ! function_exists('clean_case'))
         );
 
         return strtolower($value);
+    }
+}
+
+if ( ! function_exists('ruby_case'))
+{
+    /**
+     * Remove acents then convert string to clean_case but
+     * replaces the spaces with underline
+     *
+     * @param  string  $value
+     * @param  string  $delimiter
+     * @return string
+     */
+    function ruby_case($value){
+        return str_replace(" ", "_", clean_case($this->$value));
     }
 }
