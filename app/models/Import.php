@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\MessageBag;
-use Laramongo\ExcelIo\ExcelIo;
+use Laramongo\ExcelIo\ExcelImporter;
+use Laramongo\ExcelIo\ExcelVintageImporter;
 
 class Import extends DelayedTask {
 
@@ -47,7 +48,7 @@ class Import extends DelayedTask {
         {
             // Import file
             if(! $this->excelIo)
-                $this->excelIo = new ExcelIo;
+                $this->excelIo = new ExcelImporter;
 
             $this->excelIo->importFile($this->filename);
 

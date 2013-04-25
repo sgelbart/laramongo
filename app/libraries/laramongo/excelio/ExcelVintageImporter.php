@@ -48,7 +48,7 @@ class ExcelVintageImporter extends ExcelImporter {
             $category->save();
         }
 
-        return $category;
+        return $category->_id;
     }
     /**
      * Returns an Product object with the contents of the line read
@@ -75,7 +75,7 @@ class ExcelVintageImporter extends ExcelImporter {
 
             if(in_array($attrName, $this->nonCharacteristicKeys))
             {
-                $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $line)->getValue());
+                $product->setAttribute($attrName, $aba1->getCellByColumnAndRow($x, $line)->getValue());
             }
             else
             {
@@ -91,8 +91,6 @@ class ExcelVintageImporter extends ExcelImporter {
                 }
             }
         }
-
-        echo "Inserting: \n".$product."\n\n";
 
         return $product;   
     }

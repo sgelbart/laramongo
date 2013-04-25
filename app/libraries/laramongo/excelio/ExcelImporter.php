@@ -145,7 +145,7 @@ class ExcelImporter extends ExcelIo {
 
             if(in_array($attrName, $this->nonCharacteristicKeys))
             {
-                $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $line)->getValue());
+                $product->setAttribute($attrName, $aba1->getCellByColumnAndRow($x, $line)->getValue());
             }
             else
             {
