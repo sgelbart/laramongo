@@ -254,4 +254,14 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
 
         return $result;
     }
+
+    public function grabImages()
+    {
+        if(! isset($this->image ))
+            $images = ImageGrabber::grab($this);
+            $this->image = $images;
+            $this->save();
+
+            return $images;
+    }
 }

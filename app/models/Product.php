@@ -214,7 +214,12 @@ class Product extends BaseModel {
 
     public function grabImages()
     {
-        if(! isset($this->image ))
-            ImageGrabber::grab($this);
+        if(! isset($this->image )){
+            $images = ImageGrabber::grab($this);
+            $this->image = $images;
+            $this->save();
+
+            return $images;
+        }
     }
 }

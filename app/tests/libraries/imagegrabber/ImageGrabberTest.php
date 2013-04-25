@@ -21,11 +21,11 @@ class ImageGrabberTest extends TestCase {
         );
 
         Config::set('image_grabber.destination_url.chave_entrada',
-            'app/tests/assets/category/chave-entrada-{lm}.jpg'
+            'app/tests/assets/category/chave_entrada_{lm}_{name_chave_entrada}.jpg'
         );
 
         Config::set('image_grabber.destination_url.product',
-            'app/tests/assets/product/{lm}_{angle}_{size}.jpg'
+            'app/tests/assets/product/{name_product}_{lm}_{angle}_{size}.jpg'
         );
 
         $this->cleanCollection( 'products' );
@@ -42,7 +42,7 @@ class ImageGrabberTest extends TestCase {
     public function testShouldImportImageToProduct()
     {
         // Make sure the validator is calling validate method
-        $validatorMock = m::mock('newVADSADSADSASADSAD');
+        $validatorMock = m::mock('Laramongo\ImageGrabber\Validator');
         $validatorMock->shouldReceive('validate')->atLeast(1)->andReturn(true);
         \App::instance('ImageGrabber\Validator', $validatorMock);
 
@@ -60,7 +60,83 @@ class ImageGrabberTest extends TestCase {
 
         App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
 
-        $product->grabImages();
+        $urlImages = $product->grabImages();
+
+        // if File exists
+        $this->assertTrue(
+            file_exists(
+                "app/tests/assets/product/" .
+                ruby_case($product->name) .
+                "_100_1_300.jpg"
+            )
+        );
+
+        // if the imageUrls is valid
+        $this->assertEquals(
+            $urlImages,
+            array(
+                "app/tests/assets/product/" .
+                ruby_case($product->name) .
+                "_100_1_300.jpg"
+            )
+        );
+
+        $this->assertEquals(
+            $product->image,
+            array(
+                "app/tests/assets/product/" .
+                ruby_case($product->name) .
+                "_100_1_300.jpg"
+            )
+        );
+    }
+
+    public function testShouldImportImageToCategory()
+    {
+        // Make sure the validator is calling validate method
+        $validatorMock = m::mock('Laramongo\ImageGrabber\Validator');
+        $validatorMock->shouldReceive('validate')->atLeast(1)->andReturn(true);
+        \App::instance('ImageGrabber\Validator', $validatorMock);
+
+        $category = testCategoryProvider::instance('valid_leaf_category');
+        $category->_id = "003501";
+        $test = $this;
+
+        $image_importer = m::mock(new RemoteImporter);
+        $image_importer
+            ->shouldReceive('import')
+            ->andReturnUsing(function($arg) use ($test)
+            {
+                return $test->curl_file($arg);
+            });
+
+        App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
+
+        $urlImages = $category->grabImages();
+
+        $this->assertTrue(
+            file_exists(
+                "app/tests/assets/category/chave_entrada_" .
+                "003501_" . ruby_case($category->name) . ".jpg"
+            )
+        );
+
+        // if the imageUrls is valid
+        $this->assertEquals(
+            $urlImages,
+            array(
+                "app/tests/assets/category/chave_entrada_" .
+                "003501_" . ruby_case($category->name) . ".jpg"
+            )
+        );
+
+        $this->assertEquals(
+            $category->image,
+            array(
+                "app/tests/assets/category/chave_entrada_" .
+                "003501_" . ruby_case($category->name) . ".jpg"
+            )
+        );
     }
 
     // just to mock the request image
