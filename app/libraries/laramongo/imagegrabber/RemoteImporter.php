@@ -32,10 +32,25 @@ class RemoteImporter
             CURLOPT_CONNECTTIMEOUT => 5,      // timeout on connect
             CURLOPT_TIMEOUT        => 5,      // timeout on response
             CURLOPT_MAXREDIRS      => 10,
-            CURLOPT_PROXY          => \Config::get('image_grabber.proxy'),
-            CURLOPT_PROXYPORT      => \Config::get('image_grabber.proxy_port'),
-            CURLOPT_PROXYUSERPWD   => \Config::get('image_grabber.user')
         );
+
+        if( isset($_SERVER['http_proxy']) )
+        {
+            $proxy = $_SERVER['http_proxy'];
+
+            $address = explode(':',$proxy,10);
+            $address = $address[0].':'.$address[1];
+            $port = intval(array_get(explode(':',$proxy),2));
+
+            $options[CURLOPT_PROXY]          = $address;
+            $options[CURLOPT_PROXYPORT]      = $port;
+            $options[CURLOPT_PROXYUSERPWD]   = 'central\lalves:leroymerlin1';
+
+            Log::info('cURL using proxy: '.$proxy);
+        }
+
+        print_r($options);
+        exit;
 
         // initializing cURL
         $ch = curl_init( $url );
