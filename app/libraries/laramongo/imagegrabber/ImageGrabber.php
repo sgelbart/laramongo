@@ -21,6 +21,7 @@ class ImageGrabber {
      *
      * @param   $obj Product,Category
      */
+
     public function grab($obj)
     {
         $this->object = $obj;
@@ -167,19 +168,31 @@ class ImageGrabber {
             $stringToReplace = $url['product'];
 
             $tags = [
-                '{angle}','{size}','{collection}','{lm}',
+                '{angle}','{size}','{collection}','{lm}', '{name_product}'
             ];
 
             $values = [
                 $angle, $size,
                 $this->object->getCollectionName(),
                 $this->object->_id,
+                ruby_case($this->object->name)
             ];
 
             $stringToReplace = str_replace($tags, $values, $stringToReplace);
+
         } else {
             $stringToReplace = $url['chave_entrada'];
-            $stringToReplace = str_replace('{lm}', $this->object->_id, $stringToReplace);
+
+            $tags = [
+                '{lm}', '{name_chave_entrada}'
+            ];
+
+            $values = [
+                $this->object->_id,
+                ruby_case($this->object->name)
+            ];
+
+            $stringToReplace = str_replace($tags, $values, $stringToReplace);
         }
 
         return $stringToReplace;

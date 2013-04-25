@@ -6,8 +6,8 @@ return array(
         'chave_entrada' => 'http://www.leroymerlin.com.br/resources/images/chaveEntrada/chave-entrada-{lm}.jpg'
     ),
     'destination_url' => array(
-        'product' => 'public/uploads/img/{collection}/{lm}_{angle}_{size}.jpg',
-        'chave_entrada' => 'public/uploads/img/categories/chave-entrada-{lm}.jpg'
+        'product' => 'public/uploads/img/{collection}/{name_product}_{lm}_{angle}_{size}.jpg',
+        'chave_entrada' => 'public/uploads/img/categories/chave_entrada_{lm}_{name_chave_entrada}.jpg'
     ),
     'proxy' => 'http://10.56.22.70',
     'proxy_port' => '8080',
