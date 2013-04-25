@@ -138,6 +138,13 @@ class ExcelImporter extends ExcelIo {
             $product->conjugated = $product->products;
             unset($product->products);
         }
+
+        // Check for the need to grab images
+        $current = Product::first($product->_id, ['image']);
+        if($current)
+        {
+            $product->image = $current->image;
+        }
     }
 
     /**
