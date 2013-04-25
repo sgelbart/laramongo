@@ -75,7 +75,6 @@ class ImageGrabberTest extends TestCase {
         $this->assertEquals(
             $urlImages,
             array(
-                "app/tests/assets/product/" .
                 ruby_case($product->name) .
                 "_100_1_300.jpg"
             )
@@ -84,57 +83,8 @@ class ImageGrabberTest extends TestCase {
         $this->assertEquals(
             $product->image,
             array(
-                "app/tests/assets/product/" .
                 ruby_case($product->name) .
                 "_100_1_300.jpg"
-            )
-        );
-    }
-
-    public function testShouldImportImageToCategory()
-    {
-        // Make sure the validator is calling validate method
-        $validatorMock = m::mock('Laramongo\ImageGrabber\Validator');
-        $validatorMock->shouldReceive('validate')->atLeast(1)->andReturn(true);
-        \App::instance('ImageGrabber\Validator', $validatorMock);
-
-        $category = testCategoryProvider::instance('valid_leaf_category');
-        $category->_id = "003501";
-        $test = $this;
-
-        $image_importer = m::mock(new RemoteImporter);
-        $image_importer
-            ->shouldReceive('import')
-            ->andReturnUsing(function($arg) use ($test)
-            {
-                return $test->curl_file($arg);
-            });
-
-        App::bind('RemoteImporter', function() use($image_importer){ return $image_importer; });
-
-        $urlImages = $category->grabImages();
-
-        $this->assertTrue(
-            file_exists(
-                "app/tests/assets/category/chave_entrada_" .
-                "003501_" . ruby_case($category->name) . ".jpg"
-            )
-        );
-
-        // if the imageUrls is valid
-        $this->assertEquals(
-            $urlImages,
-            array(
-                "app/tests/assets/category/chave_entrada_" .
-                "003501_" . ruby_case($category->name) . ".jpg"
-            )
-        );
-
-        $this->assertEquals(
-            $category->image,
-            array(
-                "app/tests/assets/category/chave_entrada_" .
-                "003501_" . ruby_case($category->name) . ".jpg"
             )
         );
     }
