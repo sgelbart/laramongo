@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag, Log;
 
 class ExcelImporter extends ExcelIo {
     
@@ -32,6 +32,8 @@ class ExcelImporter extends ExcelIo {
     {        
         $reader = new PHPExcel_Reader_Excel2007();
 
+        Log::info('ExcelImporter::importFile('.$path.')');
+
         if( $reader->canRead(app_path().'/'.$path) )
         {
             $excel = $reader->load( app_path().'/'.$path );
@@ -61,6 +63,8 @@ class ExcelImporter extends ExcelIo {
         $vintage =
             strtolower($aba1->getCell('A2')->getCalculatedValue()) != 'categoria';
 
+        Log::info('Vintage file: '.($vintage) ? 'Yes' : 'No');
+
         if($vintage && (! $this instanceOf ExcelVintageImporter))
         {
             $vintageImporter = new ExcelVintageImporter;
@@ -84,22 +88,28 @@ class ExcelImporter extends ExcelIo {
             $x++;
         }
 
+        Log::info("Schema of file is: ".json_encode($schema));
+
         // Import lines
 
         $y = $attributesRow+1;
         while( $aba1->getCellByColumnAndRow(1, $y)->getValue() )
-        {   
+        {
+            Log::info("Parsing line ".$y);
 
             // Create an object provenient of the line $y in the $excel file
             $product = $this->parseLine($excel, $y, $schema);
 
+            // Prepares a product (if it is conjugated, etc...)
+            $this->prepareProduct( $product );
+
             // Get the category _id provienient of the $excel file
-            $product->category = $this->parseCategory($excel);
+            $product->category = (string)$this->parseCategory($excel);
 
             if($product->_id)
             {
+                Log::info("Importing product: ".(string)$product->_id);
                 $product->save( true );
-                $product->isValid(); // Fill the errors of the object
             }
             else
             {
@@ -120,7 +130,31 @@ class ExcelImporter extends ExcelIo {
             $y++;
         }
 
+        Log::info("ExcelImporter::fileParse complete");
+        
         return true;
+    }
+
+    protected function prepareProduct(&$product)
+    {
+        // Checks for conjugated
+        if($product->products)
+        {
+            // Polymorph into a Conjugated product
+            $conjProduct = new ConjugatedProduct;
+            $conjProduct->parseDocument( $product->attributes );
+            $product = $conjProduct;
+
+            $product->conjugated = $product->products;
+            unset($product->products);
+        }
+
+        // Check for the need to grab images
+        $current = Product::first($product->_id, ['image']);
+        if($current)
+        {
+            $product->image = $current->image;
+        }
     }
 
     /**

@@ -32,15 +32,36 @@ class ConjugatedProduct extends Product {
                 substr(rand(),-3);
         }
 
-        if(parent::save())
+        if(parent::save( $force ))
         {
             return true;
         }
         else
         {
-            unset($this->_id);
             return false;
         }
+    }
+
+    /**
+     * Overwrites the setAttribute method in order to
+     * explode a string into array before setting the
+     * conjugated attribute
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function setAttribute($key, $value)
+    {
+        if($key == 'conjugated')
+        {
+            if(is_string($value))
+            {
+                $value = array_map('intval',explode(",",strtolower($value)));
+            }
+        }
+
+        return parent::setAttribute($key, $value);
     }
 
     /**

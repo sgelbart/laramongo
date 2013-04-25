@@ -17,7 +17,7 @@ class DeactvateProductTest extends AcceptanceTestCase
 
     public function testShouldToggleProductsInIndex()
     {
-        $product = f::create('Product');
+        $product = testProductProvider::saved('simple_valid_product');
 
         $this->browser
             ->open(URL::action('Admin\ProductsController@index'))

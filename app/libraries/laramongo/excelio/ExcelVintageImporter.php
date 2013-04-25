@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag;
 
 class ExcelVintageImporter extends ExcelImporter {
 
@@ -14,6 +14,7 @@ class ExcelVintageImporter extends ExcelImporter {
         'Título' => 'name',
         'Texto Publicitário' => 'description',
         'Descrição' => 'small_description',
+        'LMs Conjugados' => 'products',
     ];
 
     /**
@@ -36,14 +37,14 @@ class ExcelVintageImporter extends ExcelImporter {
         $aba1 = $excel->setActiveSheetIndex(0);
         
         $categoryName = $aba1->getCell('B5')->getCalculatedValue();
-        $categoryName = ruby_case($categoryName);
-        $category = Category::first(['slug'=>$categoryName]);
+        $categorySlug = ruby_case($categoryName);
+        $category = Category::first(['slug'=>$categorySlug]);
 
         if(! $category)
         {
             $category = new Category;
             $category->name = $categoryName;
-            $category->slug = $categoryName;
+            $category->slug = $categorySlug;
             $category->kind = 'leaf';
             $category->save();
         }

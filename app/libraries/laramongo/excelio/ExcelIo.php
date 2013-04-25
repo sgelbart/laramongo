@@ -10,7 +10,7 @@ abstract class ExcelIo {
      * will not be embedded in the details attribute.
      */
     protected $nonCharacteristicKeys = [
-        '_id','name','description','small_description','category','products'
+        '_id','name','description','small_description','category','products','conjugated'
     ];
 
     /**
