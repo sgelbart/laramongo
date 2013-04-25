@@ -95,6 +95,6 @@ if ( ! function_exists('ruby_case'))
      * @return string
      */
     function ruby_case($value){
-        return str_replace(" ", "_", clean_case($this->$value));
+        return str_replace(" ", "_", clean_case($value));
     }
 }

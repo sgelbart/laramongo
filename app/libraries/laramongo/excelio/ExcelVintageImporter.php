@@ -1,7 +1,7 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, Illuminate\Support\MessageBag;
+use Product, Category, Illuminate\Support\MessageBag;
 
 class ExcelVintageImporter extends ExcelImporter {
 
@@ -9,10 +9,11 @@ class ExcelVintageImporter extends ExcelImporter {
      * Array with relative vintage names for the current attributes
      */
     protected $relativeVintageName = [
-        '_id' => 'LM',
-        'name' => 'Titulo',
-        'description' => 'Texto Publicitário',
-        'small_description' => 'Descrição',
+        'LM' => '_id',
+        'Titulo' => 'name',
+        'Título' => 'name',
+        'Texto Publicitário' => 'description',
+        'Descrição' => 'small_description',
     ];
 
     /**
@@ -20,7 +21,7 @@ class ExcelVintageImporter extends ExcelImporter {
      * can be found
      * @return integer Excel file line number
      */
-    public protected function attributeRow()
+    protected function attributeRow()
     {
         return 7;
     }
@@ -36,13 +37,14 @@ class ExcelVintageImporter extends ExcelImporter {
         
         $categoryName = $aba1->getCell('B5')->getCalculatedValue();
         $categoryName = ruby_case($categoryName);
-        $category = Category::first(['slug'=>$categoryName])
+        $category = Category::first(['slug'=>$categoryName]);
 
         if(! $category)
         {
             $category = new Category;
             $category->name = $categoryName;
             $category->slug = $categoryName;
+            $category->kind = 'leaf';
             $category->save();
         }
 
@@ -66,17 +68,19 @@ class ExcelVintageImporter extends ExcelImporter {
 
             $attrName = substr($attribute,0,-1);
 
+            if(isset($this->relativeVintageName[$attrName]))
+            {
+                $attrName = $this->relativeVintageName[$attrName];
+            }
+
             if(in_array($attrName, $this->nonCharacteristicKeys))
             {
-                if (in_array($attrName, array_keys(($this->$relativeVintageName)))
-                {
-                    $attrName = $this->$relativeVintageName[$attrName];
-                }
-
                 $product->setAttribute(substr($attribute,0,-1), $aba1->getCellByColumnAndRow($x, $line)->getValue());
             }
             else
             {
+                $attrName = clean_case($attrName);
+
                 $value = $aba1->getCellByColumnAndRow($x, $line)->getValue();
 
                 if($value)
@@ -87,6 +91,8 @@ class ExcelVintageImporter extends ExcelImporter {
                 }
             }
         }
+
+        echo "Inserting: \n".$product."\n\n";
 
         return $product;   
     }
