@@ -36,4 +36,28 @@ class BaseContext extends BehatContext
 
         return $this->acceptanceCase;
     }
+
+    /**
+     * Dynamically retrieve attributes from the Main Context.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getMainContext()->$key;
+    }
+
+    /**
+     * Dynamically set attributes om the Main Context.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function __set($key, $value)
+    {
+        // Set attribute
+        $this->getMainContext()->$key = $value;
+    }
 }
