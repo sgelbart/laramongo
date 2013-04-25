@@ -35,7 +35,7 @@ class ExcelImporter extends ExcelIo {
         if( $reader->canRead(app_path().'/'.$path) )
         {
             $excel = $reader->load( app_path().'/'.$path );
-            return $this->parseFile( $excel );
+            return $this->parseFile( $excel, $path );
         }
         else
         {
@@ -49,7 +49,7 @@ class ExcelImporter extends ExcelIo {
      * @param  PHPExcel $excel    Openned excel file
      * @return bool Success
      */
-    protected function parseFile( $excel )
+    protected function parseFile( $excel, $path = '' )
     {
         $vintage = false; // Vintage means that the excel file is provenient of
                           // the old website.
@@ -60,6 +60,15 @@ class ExcelImporter extends ExcelIo {
 
         $vintage =
             strtolower($aba1->getCell('A2')->getCalculatedValue()) != 'categoria';
+
+        if($vintage && (! $this instanceOf ExcelVintageImporter))
+        {
+            $vintageImporter = new ExcelVintageImporter;
+            $result = $vintageImporter->importFile($path);
+
+            $this->errors = $vintageImporter->getErrors();
+            $this->success = $vintageImporter->getSuccess();
+        }
 
         $attributesRow = $this->attributeRow();
 

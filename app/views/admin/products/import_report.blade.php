@@ -15,7 +15,7 @@
     @if ( $failed != '' && is_array($failed) )
         @foreach ($failed as $f)
             <div class="alert alert-error">
-                <h5>{{ $f['name'] }}</h5>
+                <h5>{{ array_get($f,'name',"Produto sem nome") }}</h5>
                 {{ implode('<br>', $f['error']) }}
             </div>
         @endforeach
