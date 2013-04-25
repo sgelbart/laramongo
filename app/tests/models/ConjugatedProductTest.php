@@ -33,7 +33,7 @@ class ConjugatedProductTest extends TestCase
 
         // A duplicated conjugated product (the same lm combination)
         // should not be valid
-        $dupliConjProduct = f::instance( 'ConjugatedProduct' );
+        $dupliConjProduct = $this->aConjugatedProduct();
         $dupliConjProduct->conjugated = $conjProduct->conjugated;
         $this->assertFalse($dupliConjProduct->isValid());
         $this->assertContains('Duplic', $dupliConjProduct->errors->first(0));

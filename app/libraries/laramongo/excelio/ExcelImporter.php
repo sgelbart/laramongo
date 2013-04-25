@@ -94,7 +94,7 @@ class ExcelImporter extends ExcelIo {
             $product = $this->parseLine($excel, $y, $schema);
 
             // Get the category _id provienient of the $excel file
-            $product->category = $this->parseCategory($excel);
+            $product->category = (string)$this->parseCategory($excel);
 
             if($product->_id)
             {
