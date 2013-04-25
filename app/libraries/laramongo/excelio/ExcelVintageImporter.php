@@ -36,14 +36,14 @@ class ExcelVintageImporter extends ExcelImporter {
         $aba1 = $excel->setActiveSheetIndex(0);
         
         $categoryName = $aba1->getCell('B5')->getCalculatedValue();
-        $categoryName = ruby_case($categoryName);
-        $category = Category::first(['slug'=>$categoryName]);
+        $categorySlug = ruby_case($categoryName);
+        $category = Category::first(['slug'=>$categorySlug]);
 
         if(! $category)
         {
             $category = new Category;
             $category->name = $categoryName;
-            $category->slug = $categoryName;
+            $category->slug = $categorySlug;
             $category->kind = 'leaf';
             $category->save();
         }
