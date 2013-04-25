@@ -98,7 +98,7 @@ if ( ! function_exists('ruby_case'))
         $tags = [
             ' ',
             '/',
-            '\\'
+            "\\"
         ];
 
         return str_replace($tags, "_", clean_case($value));
