@@ -49,9 +49,6 @@ class RemoteImporter
             Log::info('cURL using proxy: '.$proxy);
         }
 
-        print_r($options);
-        exit;
-
         // initializing cURL
         $ch = curl_init( $url );
 
