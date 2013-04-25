@@ -42,9 +42,11 @@ class ExcelExporter extends ExcelIo {
 
         $aba1 = $excel->setActiveSheetIndex(0);
 
+        $slug = ($category->slug) ?: ruby_case($category->name);
+
         $aba1
             ->setCellValue('A2','Categoria')
-            ->setCellValue('B2',(string)$category->_id);
+            ->setCellValue('B2',$slug);
             
         $aba1->getStyle('A2:B2')->getFill()->applyFromArray($this->fillColor('A8F263'));
         $aba1->getStyle('A2:B2')->getBorders()->applyFromArray($this->borderColor('599E19', 'allborders'));
