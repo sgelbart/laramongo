@@ -7,7 +7,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 use Zizaco\TestCases\ControllerTestCase,
-    Zizaco\TestCases\AcceptanceTestCase;
+    Zizaco\TestCases\IntegrationTestCase;
 
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
@@ -17,7 +17,7 @@ class BaseContext extends BehatContext
     use TestHelper;
     
     protected $testCase;
-    protected $acceptanceCase;
+    protected $integrationCase;
 
     /**
      * Adding ability to run assertions at TestCase
@@ -35,16 +35,16 @@ class BaseContext extends BehatContext
 
     /**
      * Adding ability to run assertions at fron_end test
-     * @return  AcceptanceTestCase object
+     * @return  IntegrationTestCase object
      */
-    public function acceptanceCase()
+    public function integrationCase()
     {
-        if (! isset($this->acceptanceCase)) {
-            $this->acceptanceCase = new AcceptanceTestCase;
-            $this->acceptanceCase->setUp();
+        if (! isset($this->integrationCase)) {
+            $this->integrationCase = new IntegrationTestCase;
+            $this->integrationCase->setUp();
         }
 
-        return $this->acceptanceCase;
+        return $this->integrationCase;
     }
 
     /**
