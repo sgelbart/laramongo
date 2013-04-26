@@ -135,7 +135,7 @@ class ImageGrabber {
             }
             catch(\Exception $e)
             {
-                Log::warning(
+                \Log::warning(
                     "The ImageGrabber could not create the file $destination_url, ".
                     "please check the directory permissions or if it exists"
                 );

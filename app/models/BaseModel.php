@@ -25,7 +25,7 @@ abstract class BaseModel extends Zizaco\Mongolid\Model
     public function save($force = false)
     {
 
-        if( $this->isValid() || $force )
+        if( $this->isValid( $force ) || $force )
         {
             return parent::save();
         }
@@ -40,7 +40,7 @@ abstract class BaseModel extends Zizaco\Mongolid\Model
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid($forceSave = false)
     {
         if(! is_array(static::$rules) )
             return true;

@@ -70,7 +70,7 @@ class ConjugatedProduct extends Product {
      * _ids specified exists.
      *
      */
-    public function isValid()
+    public function isValid($forceSave = false)
     {
         if( parent::isValid() )
         {
@@ -97,17 +97,20 @@ class ConjugatedProduct extends Product {
                 return false;
             }
 
-            // Check if all the lms are valid.
-            if(
-                Product::where(
-                    ['_id'=>['$in'=>$this->conjugated ] ]
-                )->count() != count($this->conjugated)
-            )
+            if(! $forceSave)
             {
-                $this->errors = new MessageBag(
-                    ['LM Inválido', "Um ou mais LMs são invalidos. Verifique se não existem LMs duplicados ou incorretos no conjugado."]
-                );
-                return false;
+                // Check if all the lms are valid.
+                if(
+                    Product::where(
+                        ['_id'=>['$in'=>$this->conjugated ] ]
+                    )->count() != count($this->conjugated)
+                )
+                {
+                    $this->errors = new MessageBag(
+                        ['LM Inválido', "Um ou mais LMs são invalidos. Verifique se não existem LMs duplicados ou incorretos no conjugado."]
+                    );
+                    return false;
+                }
             }
 
             return true;
