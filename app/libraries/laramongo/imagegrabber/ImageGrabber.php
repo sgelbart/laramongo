@@ -80,6 +80,9 @@ class ImageGrabber {
                 if (! $result) {
                     break;
                 } else {
+                    // Sending to Nas
+                    $this->sendImageToNas($destination);
+
                     // verifying if valid
                     array_push($urls, $this->getFilename($destination));
                     $this->isValid($destination, $size);
@@ -105,6 +108,9 @@ class ImageGrabber {
 
         // verifying if valid
         $this->isValid($destination, 550, 360);
+
+        // Sending to Nas
+        $this->sendImageToNas($destination);
 
         return array($destination);
     }
@@ -239,9 +245,45 @@ class ImageGrabber {
         return $validator->validate( $imagePath, $params );
     }
 
+    /**
+     * Getting the basename of full_path
+     *
+     * @param  string $destination full_path of file
+     * @return string
+     */
     public function getFilename($destination)
     {
         $path = pathinfo($destination);
         return basename($path['basename']);
+    }
+
+    /**
+     * Sending image to Nas
+     * @param  string $origin the url image location
+     *
+     * @return boolean
+     */
+    protected function sendImageToNas($origin)
+    {
+        if(\Config::get('s3.enabled',false))
+        {
+
+            $public_path = substr($origin, 7);
+
+            $s3 = app()->s3;
+            if( $s3 )
+            {
+                $result = $s3->sendFile($public_path);
+
+                if($result)
+                {
+                    unlink($origin);
+                }
+
+                return $result;
+            }
+        }
+
+        return true;
     }
 }
