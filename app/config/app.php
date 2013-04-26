@@ -119,6 +119,7 @@ return array(
 		'Basset\BassetServiceProvider',
 		'Laramongo\Nas\S3ServiceProvider',
 		'Laramongo\ImageGrabber\ImageGrabberServiceProvider',
+		'GuilhermeGuitte\BehatLaravel\BehatLaravelServiceProvider',
 
 	),
 

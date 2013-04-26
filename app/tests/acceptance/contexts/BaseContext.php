@@ -6,16 +6,23 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
+use Zizaco\TestCases\ControllerTestCase,
+    Zizaco\TestCases\AcceptanceTestCase;
 
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 class BaseContext extends BehatContext
 {
+    use TestHelper;
+    
     protected $testCase;
     protected $acceptanceCase;
 
-    // Adding ability to run assertions at TestCase
+    /**
+     * Adding ability to run assertions at TestCase
+     * @return  ControllerTestCase object
+     */
     public function testCase()
     {
         if (! isset($this->testCase)) {
@@ -26,7 +33,10 @@ class BaseContext extends BehatContext
         return $this->testCase;
     }
 
-    // Adding ability to run assertions at fron_end test
+    /**
+     * Adding ability to run assertions at fron_end test
+     * @return  AcceptanceTestCase object
+     */
     public function acceptanceCase()
     {
         if (! isset($this->acceptanceCase)) {

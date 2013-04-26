@@ -12,9 +12,6 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 class FeatureContext extends BaseContext
 {
-    protected $testCase;
-    protected $acceptanceCase;
-
     /**
      * Initializes context.
      * Load other context files
@@ -31,10 +28,9 @@ class FeatureContext extends BaseContext
 
         foreach ($it as $file)
         {
-            
             if (! $file->isDir()) {
                $name = $file->getFilename();
-               
+
                 if (in_array($name, $filesToSkip))
                     continue;
 

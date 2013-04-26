@@ -14,10 +14,9 @@
 	},
 	"require-dev": {
 		"zizaco/testcases-laravel": "dev-master",
+		"guilhermeguitte/behat-laravel": "dev-master",
 		"zizaco/factory-muff": "*",
-		"mockery/mockery": "*",
-		"alexandresalome/php-selenium": "1.0.1",
-		"behat/behat": "2.4.*@dev"
+		"mockery/mockery": "*"
 	},
 	"autoload": {
 		"classmap": [

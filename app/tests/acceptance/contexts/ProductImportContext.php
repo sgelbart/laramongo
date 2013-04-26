@@ -14,8 +14,8 @@ class ProductImportContext extends BaseContext {
 
     public function __construct()
     {
-        $this->testCase()->cleanCollection( 'categories' );
-        $this->testCase()->cleanCollection( 'products' );
+        $this->cleanCollection( 'categories' );
+        $this->cleanCollection( 'products' );
     }
 
     /**

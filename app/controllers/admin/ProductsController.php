@@ -279,7 +279,7 @@ class ProductsController extends AdminController {
     {
         $import = Import::first($id);
 
-        if($import->isDone())
+        if($import && $import->isDone())
         {
             $this->layout->content = View::make('admin.products.import_report')
                 ->with( 'success', $import->success )
