@@ -64,6 +64,13 @@ class DelayedTask extends BaseModel {
             $import->parseDocument( $instance->attributes );
             return $import;
         }
+        elseif( $instance->kind == 'massImport' )
+        {
+            $import = new MassImport;
+
+            $import->parseDocument( $instance->attributes );
+            return $import;
+        }
         else
         {
             return $instance;

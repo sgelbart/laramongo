@@ -1,7 +1,7 @@
 <?php namespace Admin;
 
 use Input, View, Product, ConjugatedProduct;
-use Redirect, Response, Category, Import;
+use Redirect, Response, Category, Import, MassImport;
 use Zizaco\CsvToMongo\Importer;
 use Zizaco\CsvToMongo\ImageUnzipper;
 
@@ -251,16 +251,31 @@ class ProductsController extends AdminController {
         {
             $csv_file = Input::file('csv_file');
             $path = '/../public/uploads/';
-            $filename = 'excel_file'.time().'.xlsx';
 
-            // Place file in storage
-            $csv_file->move(app_path().$path, $filename);
+            if($csv_file->getClientMimeType() == 'application/zip')
+            {
+                $filename = 'mass_import'.time().'.zip';
 
-            // Creates the import object
-            $import = new Import;
-            $import->filename = $path.$filename;
-            $import->isConjugated = Input::get('conjugated');
-            $import->save();
+                // Place file in storage
+                $csv_file->move(app_path().$path, $filename);
+
+                // Creates the import object
+                $import = new MassImport;
+                $import->filename = $path.$filename;
+                $import->save();
+            }
+            else
+            {
+                $filename = 'excel_file'.time().'.xlsx';
+
+                // Place file in storage
+                $csv_file->move(app_path().$path, $filename);
+
+                // Creates the import object
+                $import = new Import;
+                $import->filename = $path.$filename;
+                $import->save();
+            }
 
             return Redirect::action('Admin\ProductsController@importResult', ['id'=>$import->_id])
                 ->with( 'flash', $flash );

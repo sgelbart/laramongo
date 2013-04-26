@@ -37,7 +37,7 @@ trait ToTree
             $query = ['hidden'=>['$ne'=>'true']];
         }
             
-        static::$_nodes = static::where($query)->toArray(false);
+        static::$_nodes = static::where($query)->toArray(false, 8000);
 
 
         static::$_treeState = $treeStates;

@@ -34,7 +34,10 @@ class ExcelImporter extends ExcelIo {
 
         Log::info('ExcelImporter::importFile('.$path.')');
 
-        if( $reader->canRead(app_path().'/'.$path) )
+        if( 
+            file_exists(app_path().'/'.$path) && 
+            $reader->canRead(app_path().'/'.$path)
+        )
         {
             $excel = $reader->load( app_path().'/'.$path );
             return $this->parseFile( $excel, $path );

@@ -4,7 +4,9 @@ class ProcessDelayedTasks{
     
     public function fire($job, $data)
     {        
-        foreach( DelayedTask::all() as $i )
+        $i = DelayedTask::first(['done'=>null]);
+
+        if($i)
         {
             $i->process();
         }
