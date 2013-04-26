@@ -92,7 +92,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
      *
      * @return bool
      */
-    public function isValid()
+    public function isValid($force = false)
     {
         $valid = parent::isValid();
 

@@ -79,9 +79,9 @@ class Product extends BaseModel {
      * Overwrites the isValid method in order to make sure that the characteristics
      * are valid
      */
-    public function isValid()
+    public function isValid($force = false)
     {
-        if(parent::isValid())
+        if(parent::isValid($force))
         {
             $result = true;
 
@@ -149,17 +149,17 @@ class Product extends BaseModel {
     {
         $this->lm = (string)$this->_id;
 
-        if( $this->isValid() )
+        if( $this->isValid( $force ) )
         {
             unset($this->state);
-            $result = parent::save();
+            $result = parent::save( $force );
             $this->grabImages();
             return $result;
         }
         elseif( $force )
         {
             $this->state = 'invalid';
-            $result = parent::save( true );
+            $result = parent::save( $force );
             $this->grabImages();
             return $result;
         }
@@ -223,7 +223,7 @@ class Product extends BaseModel {
         if(! isset($this->image )){
             $images = ImageGrabber::grab($this);
             $this->image = $images;
-            $this->save();
+            $this->save( true );
 
             return $images;
         }

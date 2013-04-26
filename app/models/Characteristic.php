@@ -50,7 +50,7 @@ class Characteristic extends BaseModel {
         parent::setAttribute($key, $value);
     }
 
-    public function isValid()
+    public function isValid($force = false)
     {
         if($this->type == 'option')
         {

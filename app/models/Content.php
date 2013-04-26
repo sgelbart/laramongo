@@ -183,7 +183,7 @@ class Content extends BaseModel {
      *
      * @return Boolean
      */
-    public function isValid()
+    public function isValid($force = false)
     {
         if( parent::isValid() )
         {
