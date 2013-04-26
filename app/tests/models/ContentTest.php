@@ -1,7 +1,9 @@
 <?php
 
-class ContentTest extends TestCase
+class ContentTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

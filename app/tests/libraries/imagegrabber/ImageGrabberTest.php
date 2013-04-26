@@ -4,8 +4,12 @@ use Laramongo\ImageGrabber\ImageGrabber;
 use Laramongo\ImageGrabber\RemoteImporter;
 use Mockery as m;
 
-class ImageGrabberTest extends TestCase {
+class ImageGrabberTest extends Zizaco\TestCases\TestCase {
+    use TestHelper;
 
+    /**
+     * Clean collection between every test
+     */
     public function setUp()
     {
         parent::setUp();

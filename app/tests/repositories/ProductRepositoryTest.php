@@ -2,8 +2,10 @@
 
 use Mockery as m;
 
-class ProductRepositoryTest extends TestCase
+class ProductRepositoryTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

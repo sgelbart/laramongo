@@ -3,8 +3,10 @@
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 use Mockery as m;
 
-class ImportTest extends TestCase
+class ImportTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+    
     /**
      * Clean delayedTasks collection
      */

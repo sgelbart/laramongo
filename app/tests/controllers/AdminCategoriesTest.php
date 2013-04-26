@@ -2,8 +2,10 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class AdminCategoriesTest extends ControllerTestCase
+class AdminCategoriesTest extends Zizaco\TestCases\ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

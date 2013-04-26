@@ -3,8 +3,10 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
+class InLineFixForInvalidCharacteristicsTest extends Zizaco\TestCases\AcceptanceTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

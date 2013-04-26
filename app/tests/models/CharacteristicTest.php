@@ -2,8 +2,10 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class CharacteristicTest extends TestCase
+class CharacteristicTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

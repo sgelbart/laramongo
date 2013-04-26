@@ -2,8 +2,10 @@
 
 use Mockery as m;
 
-class ContentsTest extends ControllerTestCase
+class ContentsTest extends Zizaco\TestCases\ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

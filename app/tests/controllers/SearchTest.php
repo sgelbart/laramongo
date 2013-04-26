@@ -1,7 +1,9 @@
 <?php
 
-class SearchTest extends ControllerTestCase
+class SearchTest extends Zizaco\TestCases\ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

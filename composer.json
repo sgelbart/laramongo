@@ -13,6 +13,7 @@
 		"phpexcel/phpexcel": "v1.7.7"
 	},
 	"require-dev": {
+		"zizaco/testcases-laravel": "dev-master",
 		"zizaco/factory-muff": "*",
 		"mockery/mockery": "*",
 		"alexandresalome/php-selenium": "1.0.1",
@@ -25,10 +26,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php",
-			"app/tests/ControllerTestCase.php",
-			"app/tests/AcceptanceTestCase.php",
 			"app/tests/data/",
+			"app/tests/TestHelper.php",
 			"app/libraries",
 			"app/jobs",
 			"app/views"

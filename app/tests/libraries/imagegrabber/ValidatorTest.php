@@ -1,6 +1,6 @@
 <?php
 
-class ValidatorTest extends TestCase {
+class ValidatorTest extends Zizaco\TestCases\TestCase {
 
     public function testShouldValidate()
     {

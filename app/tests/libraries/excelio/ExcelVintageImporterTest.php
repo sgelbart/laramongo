@@ -3,9 +3,11 @@
 use Laramongo\ExcelIo\ExcelImporter;
 use Laramongo\ExcelIo\ExcelVintageImporter;
 
-class ExcelVintageImporterTest extends TestCase {
+class ExcelVintageImporterTest extends Zizaco\TestCases\TestCase {
 
     public $non_characteristic_keys;
+
+    use TestHelper;
 
     /**
      * Clean collection between every test

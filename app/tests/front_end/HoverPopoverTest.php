@@ -3,8 +3,10 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class HoverPopoverTest extends AcceptanceTestCase
+class HoverPopoverTest extends Zizaco\TestCases\AcceptanceTestCase
 {
+    use TestHelper;
+    
     public function setUp()
     {
         parent::setup();

@@ -3,8 +3,10 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
+class ValidateProductsAndDisplayErrorsTest extends Zizaco\TestCases\AcceptanceTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

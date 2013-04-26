@@ -3,8 +3,10 @@
 use Mockery as m;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class AdminProductsTest extends ControllerTestCase
+class AdminProductsTest extends Zizaco\TestCases\ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

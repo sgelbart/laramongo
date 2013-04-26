@@ -2,8 +2,10 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class DelayedTaskTest extends TestCase
+class DelayedTaskTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+    
     /**
      * Clean delayedTasks collection
      */

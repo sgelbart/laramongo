@@ -2,8 +2,10 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ConjugatedProductTest extends TestCase
+class ConjugatedProductTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

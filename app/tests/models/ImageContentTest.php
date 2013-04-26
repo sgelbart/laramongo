@@ -2,8 +2,10 @@
 
 use Mockery as m;
 
-class ImageContentTest extends TestCase
+class ImageContentTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

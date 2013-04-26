@@ -3,7 +3,9 @@
 use Zizaco\CsvToMongo\Importer;
 use Keboola\Csv\CsvFile;
 
-class ImporterTest extends TestCase {
+class ImporterTest extends Zizaco\TestCases\TestCase {
+
+    use TestHelper;
 
     /**
      * Clean collection between every test
