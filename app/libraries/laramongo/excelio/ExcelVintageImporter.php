@@ -36,20 +36,56 @@ class ExcelVintageImporter extends ExcelImporter {
     {
         $aba1 = $excel->setActiveSheetIndex(0);
         
-        $categoryName = $aba1->getCell('B5')->getCalculatedValue();
-        $categorySlug = ruby_case($categoryName);
-        $category = Category::first(['slug'=>$categorySlug]);
+        $departmentName = $aba1->getCell('B3')->getCalculatedValue();
+        $departmentSlug = ruby_case($departmentName);
+        $department = Category::first(['slug'=>$departmentSlug]);
 
-        if(! $category)
+        if(! $department)
         {
-            $category = new Category;
-            $category->name = $categoryName;
-            $category->slug = $categorySlug;
-            $category->kind = 'leaf';
-            $category->save();
+            $department = new Category;
+            $department->name = $departmentName;
+            $department->slug = $departmentSlug;
+            $department->save();
         }
 
-        return $category->_id;
+        $familyName = $aba1->getCell('B4')->getCalculatedValue();
+        $familySlug = ruby_case($familyName);
+        $family = Category::first(['slug'=>$familySlug]);
+
+        if(! $family)
+        {
+            $family = new Category;
+            $family->name = $familyName;
+            $family->slug = $familySlug;
+            $family->attachToParents($department);
+            $family->save();
+        }
+
+        $keyId = str_pad(
+            $aba1->getCell('C5')->getCalculatedValue(),
+            6, '0', STR_PAD_LEFT
+        );
+
+        $keyName = $aba1->getCell('B5')->getCalculatedValue();
+        $keySlug = ruby_case($keyName);
+        $key = Category::first(['slug'=>$keySlug]);
+
+        if(! $key)
+        {
+            $key = new Category;
+            $key->name = $keyName;
+            $key->slug = $keySlug;
+            $key->kind = 'leaf';
+            $key->attachToParents($family);
+
+            $key->_id = $keyId;
+            $key->image = array_get(\ImageGrabber::grab($key),0,null); // Grab Category Image
+            unset($key->_id);
+
+            $key->save();
+        }
+
+        return $key->_id;
     }
     /**
      * Returns an Product object with the contents of the line read

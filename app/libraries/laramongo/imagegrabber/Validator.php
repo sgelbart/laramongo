@@ -21,7 +21,11 @@ class Validator
 
         // Return false if file doesn't exists
         if(! file_exists($imagePath))
+        {
+            $this->logInvalid("Image not found!");
             return false;
+        }
+            
 
         // Get the image size and check if it meets the parameters
         $size = getimagesize($imagePath);

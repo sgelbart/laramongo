@@ -104,7 +104,10 @@ class ImageGrabber {
         $destination = $this->prepareUrl( $this->destination_url );
 
         // getting result of get image
-        $this->getImage($origin, $destination);
+        $result = $this->getImage($origin, $destination);
+
+        if(! $result)
+            return false;
 
         // verifying if valid
         $this->isValid($destination, 550, 360);
@@ -112,7 +115,7 @@ class ImageGrabber {
         // Sending to Nas
         $this->sendImageToNas($destination);
 
-        return array($destination);
+        return array($this->getFilename($destination));
     }
 
     /**
