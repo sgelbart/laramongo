@@ -15,7 +15,7 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 class BaseContext extends BehatContext
 {
     use TestHelper;
-    
+
     protected $testCase;
     protected $integrationCase;
 
