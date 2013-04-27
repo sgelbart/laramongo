@@ -133,7 +133,7 @@ class ImageGrabber {
         if ($tmp) {
             try{
                 if(! file_exists(dirname($destination_url))) {
-                    mkdir(dirname($destination_url));
+                    mkdir(dirname($destination_url), 0777, true);
                 }
 
                 $fp = fopen($destination_url, 'wb');
