@@ -28,7 +28,7 @@ class ExcelVintageImporter extends ExcelImporter {
     }
 
     /**
-     * Reads the category if of the escel file that is being imported
+     * Reads the category if of the excel file that is being imported
      * @param  PHPExcel $excel    Openned excel file
      * @return string String of the MongoId of the found category 
      */
@@ -68,7 +68,9 @@ class ExcelVintageImporter extends ExcelImporter {
 
         $keyName = $aba1->getCell('B5')->getCalculatedValue();
         $keySlug = ruby_case($keyName);
-        $key = Category::first(['slug'=>$keySlug]);
+        
+        // If not from the same parent, then it's a different category
+        $key = Category::first(['slug'=>$keySlug, 'parents'=>$family->_id]);
 
         if(! $key)
         {
