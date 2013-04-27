@@ -17,7 +17,7 @@ class Validator
      */
     public function validate($imagePath, $params)
     {
-        $this->imagePath = $imagePath;
+        $this->imagePath = app_path().'/../'.$imagePath;
 
         // Return false if file doesn't exists
         if(! file_exists($imagePath))
