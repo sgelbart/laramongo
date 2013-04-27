@@ -10,11 +10,11 @@
 		"vipsoft/unzip": "dev-master",
 		"oyatel/amazon-s3-php-class": "dev-master",
 		"pda/pheanstalk": "dev-master",
-		"phpexcel/phpexcel": "v1.7.7"
+		"phpexcel/phpexcel": "v1.7.7",
+		"guilhermeguitte/behat-laravel": "dev-master"
 	},
 	"require-dev": {
 		"zizaco/testcases-laravel": "dev-master",
-		"guilhermeguitte/behat-laravel": "dev-master",
 		"zizaco/factory-muff": "*",
 		"mockery/mockery": "*"
 	},
