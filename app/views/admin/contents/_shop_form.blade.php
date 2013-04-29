@@ -49,7 +49,7 @@
     </div>
 
     <div class="control-group">
-        {{ Form::label('slug', 'Slug do Artigo', ['class'=>'control-label']) }}
+        {{ Form::label('slug', 'Slug da Loja', ['class'=>'control-label']) }}
         <div class="controls">
             {{ Form::text('slug', array_get( $f,'slug') ) }}
             <span class="help-block">Url para acessar a loja</span>
