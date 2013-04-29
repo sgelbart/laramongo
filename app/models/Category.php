@@ -195,7 +195,11 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
             'nodeName' => 'category'
         );
 
-        return static::renderTree( array(), $options );
+        
+
+        //return Cache::rememberForever('renderedMenu', function() use ($options){
+            return static::renderTree( array(), $options );
+        //});
     }
 
     /**
