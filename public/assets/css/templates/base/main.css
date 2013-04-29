@@ -79,7 +79,7 @@ div.topbar span.tab.findstore {
 h1.logo {
   background: url("../../../img/templates/base/logo.png") no-repeat;
   background-position: top;
-  margin: -15px 0 0px 120px;
+  margin: 15px 0 10px 145px;
   width: 222px;
   height: 103px;
   text-indent: -9999px !important;
