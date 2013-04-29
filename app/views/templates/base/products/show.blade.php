@@ -10,7 +10,7 @@
     <div class='product_page'>
         <h1>{{ ucfirst($product->name) }}</h1>
 
-        {{ Html::image($product->imageUrl(1,600)) }}
+        {{ Html::image($product->imageUrl(3,600)) }}
 
         <p>{{ $product->description }}</p>
 

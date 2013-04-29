@@ -62,7 +62,7 @@ class Product extends BaseModel {
         $imageFile = '';
 
         if ($this->image) {
-            $imageFile = $this->image[0];
+            $imageFile = $this->image[$img];
         }
 
         if( $imageFile )

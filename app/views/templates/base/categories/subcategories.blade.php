@@ -1,7 +1,7 @@
 @section ('content')
 
     <p>
-        Seu caminho foi: 
+        Seu caminho foi:
         {{ Html::link( '/', 'Home' ) }} >
         {{ $category->name }}
     </p>
@@ -9,14 +9,16 @@
     <div class='tiled_subcategories'>
         <h1>{{ ucfirst($category->name) }}</h1>
 
-        <div class='img_frame'>
-            <div class='img' style='background-image: url({{ $category->imageUrl() }});'>
-                <div class='cat_desc'>
-                    <strong>{{ ucfirst($category->name) }}</strong>
-                    <p>{{ ucfirst($category->description) }}</p>
+        @if($category->hasImage())
+            <div class='img_frame'>
+                <div class='img' style='background-image: url({{ $category->imageUrl() }});'>
+                    <div class='cat_desc'>
+                        <strong>{{ ucfirst($category->name) }}</strong>
+                        <p>{{ ucfirst($category->description) }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <h2>Sub-categorias</h2>
 
