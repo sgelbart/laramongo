@@ -3,7 +3,7 @@
 class ProductRepository
 {
 
-    public $perPage = 6;
+    public $perPage = 60;
 
     /**
      * Should return a cursor of Products. If there is
