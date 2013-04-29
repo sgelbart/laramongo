@@ -27,7 +27,7 @@ trait ToTree
         }
 
         $cacheKey = str_replace('.', '_', implode('_', $options));
-        return Cache::remember('renderedMenu',10, function() use ($treeStates, $options, $showHidden){
+        return Cache::remember($cacheKey, 10, function() use ($treeStates, $options, $showHidden){
 
             $result = '<ul class="roots">';
 
