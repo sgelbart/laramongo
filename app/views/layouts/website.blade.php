@@ -8,6 +8,8 @@
         {{ Basset::show('website.css') }}
     </head>
     <body>
+        @include('layouts.website._tag_manager')
+        
         @include('layouts.website._header')
 
         <div class='content'>
