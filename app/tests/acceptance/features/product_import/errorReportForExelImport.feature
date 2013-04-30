@@ -1,4 +1,4 @@
-Feature: Error reporting for exel import
+ Feature: Error reporting for exel import
     As an Administrator
     I would like to see an error reporting after importing an excel file
     In order to know how to fix and improve the file that is being imported

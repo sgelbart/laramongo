@@ -16,6 +16,8 @@ class ProductImportContext extends BaseContext {
     {
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'products' );
+        $this->cleanCollection( 'delayedTasks' );
+        Config::get('queue.default','sync');
     }
 
     /**
