@@ -228,16 +228,19 @@ class Content extends BaseModel {
     {
         $tagsToInsert = array();
 
-        foreach ($this->tags as $tag) {
+        foreach ((array)$this->tags as $tag) {
             $tagsToInsert[] = ['_id'=>$tag];
         }
 
-        // batchInsert with write concern as 'Unacknowledged' (w=0)
-        $connector = new Zizaco\Mongolid\MongoDbConnector;
+        if( !empty($tagsToInsert) )
+        {
+            // batchInsert with write concern as 'Unacknowledged' (w=0)
+            $connector = new Zizaco\Mongolid\MongoDbConnector;
 
-        $database = Config::get('lmongo::connections.default.database');
+            $database = Config::get('lmongo::connections.default.database');
 
-        $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
+            $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
+        }
     }
 
 }

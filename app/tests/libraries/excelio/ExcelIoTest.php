@@ -19,7 +19,7 @@ class ExcelIoTest extends Zizaco\TestCases\TestCase {
         $this->cleanCollection( 'products' );
 
         $this->non_characteristic_keys = [
-            '_id'=>true,'name'=>true,'description'=>true,'small_description'=>true,'category'=>true,'products'=>true
+            '_id'=>true,'name'=>true,'description'=>true,'small_description'=>true,'category'=>true,'products'=>true, 'conjugated'=>true
         ];
     }
 

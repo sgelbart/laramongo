@@ -86,7 +86,7 @@ class AdminContentsTest extends Zizaco\TestCases\ControllerTestCase
 
         // Make sure that first is called twice
         $contentRepo = m::mock(new ContentRepository);
-        $contentRepo->shouldReceive('first')->twice()->passthru();
+        $contentRepo->shouldReceive('first')->times(3)->passthru();
         App::instance("ContentRepository", $contentRepo);
 
         // Article
@@ -101,6 +101,7 @@ class AdminContentsTest extends Zizaco\TestCases\ControllerTestCase
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
         $this->assertRequestOk();
 
+        // Shop
         $content = testContentProvider::saved( 'valid_shop' );
 
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);

@@ -68,13 +68,15 @@ class testContentProvider extends testObjectProvider
     protected function valid_shop()
     {
         return [
-            '_id' => new MongoId( '32f1423d8ead0e1d38000005' ),
+            '_id' => new MongoId( '32f1423d8ead0e1d38000006' ),
             'name' => 'Interlagos',
+            'slug' => 'loja_interlagos',
             'adress' => 'Rua dos cravos, n 2012',
             'kind' => 'shop',
             'cep' => '123124214',
-            'phones' => '32f1423d8ead0e1d38000005.jpg',
+            'phones' => '011 32323232',
             'description' => 'Segunda a sexta 24 horas',
+            'tags' => array(),
         ];
     }
 }

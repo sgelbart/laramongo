@@ -50,8 +50,8 @@ class CategoryTest extends Zizaco\TestCases\TestCase
         $category = testCategoryProvider::instance('another_valid_leaf_category');
         $category->name = 'The Name Of Category';
 
-        // Should return false, since there is already a category with that name
-        $this->assertFalse( $category->isValid() );
+        // Should return true, since now the name of the categories can be the same
+        $this->assertTrue( $category->isValid() );
     }
 
     /**
