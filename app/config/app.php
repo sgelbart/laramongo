@@ -114,6 +114,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'LMongo\LMongoServiceProvider',
+		'Zizaco\MongolidLaravel\MongolidServiceProvider',
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Lessy\LessyServiceProvider',
 		'Basset\BassetServiceProvider',
