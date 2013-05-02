@@ -56,4 +56,26 @@ class ImportPriceCsvContext extends BaseContext {
         $this->testCase()->assertEquals($should_be, $result);
     }
 
+    /**
+     * @When /^The system import the "([^"]*)"$/
+     */
+    public function theSystemImportThe($fileName)
+    {
+        $fileName = '/tests/assets/'.$fileName;
+
+        $parser = new CsvParser;
+        $this->testCase()->assertTrue( $parser->parseFile($fileName) );
+    }
+
+    /**
+     * @Then /^I should have the following StoreProducts into database:$/
+     */
+    public function iShouldHaveTheFollowingStoreproductsIntoDatabase(TableNode $storeProducts)
+    {
+        foreach ($storeProducts->getRows() as $storeProduct) {
+            var_dump($storeProduct);
+        }
+    }
+
+
 }

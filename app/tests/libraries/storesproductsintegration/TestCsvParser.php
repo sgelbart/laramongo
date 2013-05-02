@@ -110,6 +110,20 @@ class TestCsvParser extends Zizaco\TestCases\TestCase
         $this->assertEquals($should_be, $jsonResult);
     }
 
+    public function testParseFile()
+    {
+        $parser = new CsvParser;
+        $this->assertTrue( $parser->parseFile('/tests/assets/full-price-file.txt') );
+
+        // Check if the StoreProducts has been saved
+        $this->assertNotNull(StoreProduct::first(['_id'=>8800001]));
+        $this->assertNotNull(StoreProduct::first(['_id'=>8800002]));
+        $this->assertNotNull(StoreProduct::first(['_id'=>8800003]));
+
+        // The StoreProduct bellow doesn't exists. Should return false or null
+        $this->assertTrue(! StoreProduct::first(['_id'=>8800004])); 
+    }
+
     public function testShouldGetStoreNameById()
     {
         $parser = new CsvParser;

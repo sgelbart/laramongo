@@ -1,5 +1,8 @@
 <?php namespace Laramongo\StoresProductsIntegration;
 
+use Keboola\Csv\CsvFile;
+use Log;
+
 class CsvParser {
 
     /**
@@ -35,6 +38,34 @@ class CsvParser {
         $storeProduct->stores = $stores;
 
         return $storeProduct->save();
+    }
+
+    public function parseFile($filename, $delimiter = ';')
+    {
+        $filename = app_path().$filename;
+        $keboola = new CsvFile( $filename, $delimiter );
+
+        $headers = array();
+
+        foreach ($keboola as $line) {
+
+            // Set the headers
+            if( empty($headers) )
+            {
+                $headers = $line;
+                continue;
+            }
+
+            $line = array_combine($headers, $line);
+            $result = $this->parseLine($line);
+
+            if($result != true)
+            {
+                Log::error('CsvParser::parseFile() - Error when parsing the following line: '.json_encode($line));
+            }
+        }
+
+        return true;
     }
 
     /**
