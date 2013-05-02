@@ -1,4 +1,10 @@
 {
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/syphernl/basset.git"
+        }
+    ],
 	"require": {
 		"laravel/framework": "dev-master#d01a43c0527a97caeca8cbe95274fcccbe2c196a",
 		"way/generators": "dev-master",
@@ -7,7 +13,7 @@
 		"zizaco/mongolid-laravel": "dev-master",
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
-		"jasonlewis/basset": "dev-master#b5dd8228474ffd8a439234832e83e23531e7f8bf",
+		"jasonlewis/basset": "dev-patch-2#3780d48a35cdae412b0181c1e596ef666f035f25",
 		"vipsoft/unzip": "dev-master",
 		"oyatel/amazon-s3-php-class": "dev-master",
 		"pda/pheanstalk": "dev-master",
