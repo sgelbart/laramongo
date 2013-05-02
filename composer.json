@@ -2,7 +2,7 @@
 	"repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/syphernl/basset.git"
+            "url": "https://github.com/Zizaco/basset.git"
         }
     ],
 	"require": {
@@ -13,7 +13,7 @@
 		"zizaco/mongolid-laravel": "dev-master",
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
-		"jasonlewis/basset": "dev-patch-2#3780d48a35cdae412b0181c1e596ef666f035f25",
+		"jasonlewis/basset": "dev-master",
 		"vipsoft/unzip": "dev-master",
 		"oyatel/amazon-s3-php-class": "dev-master",
 		"pda/pheanstalk": "dev-master",
