@@ -11,7 +11,7 @@ class Import extends DelayedTask {
      *
      * @var string
      */
-    protected $collection = 'delayedTasks';
+    protected $collection = 'temp_delayedTasks';
 
     /**
      * Validation rules

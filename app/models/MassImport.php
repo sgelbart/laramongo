@@ -10,7 +10,7 @@ class MassImport extends DelayedTask {
      *
      * @var string
      */
-    protected $collection = 'delayedTasks';
+    protected $collection = 'temp_delayedTasks';
 
     /**
      * VIPSoft Unzip

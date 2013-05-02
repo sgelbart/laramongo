@@ -7,7 +7,7 @@ class DelayedTask extends BaseModel {
      *
      * @var string
      */
-    protected $collection = 'delayedTasks';
+    protected $collection = 'temp_delayedTasks';
 
     /**
      * Process this tasks
