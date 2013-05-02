@@ -4,7 +4,7 @@ I would like to import a csv file containing price and product availability
 In order to track the price changes of products per store
 
 Scenario: Importing a full prices csv file
-    Given I have an empty "Temp_StoresProductsIntegration" collection
+    Given I have an empty "temp_storesProductsIntegration" collection
     And I have the following Products into database:
         | "productA" |
         | "productB" |
@@ -16,7 +16,7 @@ Scenario: Importing a full prices csv file
         | "productC_price" |
 
 Scenario: Importing a partial prices csv file
-    Given I have an empty "Temp_StoresProductsIntegration" collection
+    Given I have an empty "temp_storesProductsIntegration" collection
     And I have the following Products into database:
         | "productA" |
         | "productB" |
@@ -27,7 +27,7 @@ Scenario: Importing a partial prices csv file
         | "productC_price" |
 
 Scenario: Importing a partial prices csv file
-    Given I have an empty "Temp_StoresProductsIntegration" collection
+    Given I have an empty "temp_storesProductsIntegration" collection
     And I have the following Products into database:
         | "productA" |
         | "productB" |
