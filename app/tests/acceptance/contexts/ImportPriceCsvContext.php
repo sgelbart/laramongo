@@ -10,4 +10,35 @@ use Behat\Gherkin\Node\PyStringNode,
 class ImportPriceCsvContext extends BaseContext {
 
     public function __construct() { }
+
+    /**
+     * @Given /^I have an empty "([^"]*)" collection$/
+     */
+    public function iHaveAnEmptyCollection($collection)
+    {
+        $db = new Zizaco\Mongolid\MongoDbConnector;
+        $db = $db->getConnection();
+
+        $db->$collection->drop();
+    }
+
+    /**
+     * @Given /^I have the following line in csv:$/
+     */
+    public function iHaveTheFollowingLineInCsv(TableNode $table)
+    {
+        $header = $table->getRows()[0];
+        $values = $table->getRows()[1];
+
+        $this->line = array_combine($header, $values);
+    }
+
+    /**
+     * @When /^I process the line$/
+     */
+    public function iProcessTheLine()
+    {
+        throw new PendingException();
+    }
+
 }
