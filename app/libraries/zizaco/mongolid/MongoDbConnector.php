@@ -5,7 +5,7 @@ use MongoClient;
 class MongoDbConnector{
 
     /**
-     * The connection name for the model.
+     * The connection that will be used.
      *
      * @var MongoDB
      */

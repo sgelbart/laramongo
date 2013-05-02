@@ -576,5 +576,7 @@ class _stubCursor {
         $this->validCount--;
         return $this->validCount > 0;
     }
+
+    public function limit() {}
 }
 

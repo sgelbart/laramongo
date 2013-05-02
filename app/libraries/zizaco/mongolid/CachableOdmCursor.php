@@ -54,7 +54,7 @@ class CachableOdmCursor implements \Iterator
      *
      * @return OdmCursor
      */
-    protected function getOdmCursor()
+    public function getOdmCursor()
     {
         $model = $this->model;
 
@@ -75,7 +75,7 @@ class CachableOdmCursor implements \Iterator
      */
     public function getCursor()
     {
-        return $this->getOdmCursor()->cursor;
+        return $this->getOdmCursor()->getCursor();
     }
 
     /**
@@ -167,17 +167,7 @@ class CachableOdmCursor implements \Iterator
      */
     public function __toString()
     {
-        $result = '';
-
-        $this->limit(20);
-        foreach($this->documents as $document)
-        {
-            $result .= (string)$document;
-        }
-
-        $result = '['.$result.']';
-
-        return $result;
+        return $this->toJson();
     }
 
     /**
@@ -187,14 +177,14 @@ class CachableOdmCursor implements \Iterator
      */
     public function toJson($options = 0)
     {
-        $result = '';
+        $result = array();
 
         foreach($this->documents as $document)
         {
-            $result .= $document->toJson($options);
+            $result[] = $document->toJson($options);
         }
 
-        $result = '['.$result.']';
+        $result = '['.implode($result, ',').']';
 
         return $result;
     }

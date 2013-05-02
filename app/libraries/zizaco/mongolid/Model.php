@@ -1,7 +1,6 @@
 <?php namespace Zizaco\Mongolid;
 
 use MongoClient;
-use Cache;
 
 class Model
 {
@@ -28,7 +27,7 @@ class Model
 
     /**
      * The Laravel's cache component. Or other cache manager that
-     * receives the same parameters.
+     * has a method with the same signature
      *
      * @var CacheComponent
      */
@@ -474,7 +473,7 @@ class Model
 
             // For the next 30 seconds (0.5 minutes), the last retrived value (for that Collection and ID)
             // will be returned from cache =)
-            return Cache::remember($cache_key, 0.5, function() use ($model, $field, $instance)
+            return $this->laravelCache->remember($cache_key, 0.5, function() use ($model, $field, $instance)
             {
                 return $model::first(array('_id'=>$instance->$field));
             });
@@ -508,7 +507,7 @@ class Model
 
             // For the next 6 seconds (0.1 minute), the last retrived value
             // will be returned from cache =)
-            return Cache::remember($cache_key, 0.1, function() use ($model, $ref_ids)
+            return $this->laravelCache->remember($cache_key, 0.1, function() use ($model, $ref_ids)
             {
                 return $model::where(array('_id'=>array('$in'=>$ref_ids)), [], true);
             });

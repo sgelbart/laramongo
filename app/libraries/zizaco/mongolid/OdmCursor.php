@@ -67,6 +67,10 @@ class OdmCursor implements \Iterator
                 return $result;
             }
         }
+        else
+        {
+            trigger_error("Method $name doens't exists in OdmCursor nor in MongoCursor.");
+        }
     }
 
     /**
