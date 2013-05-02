@@ -15,7 +15,7 @@ class InLineFixForInvalidCharacteristicsTest extends Zizaco\TestCases\Integratio
         parent::setUp();
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'products' );
-        $this->cleanCollection( 'imports' );
+        $this->cleanCollection( 'temp_delayedTasks' );
     }
 
     public function testShouldFixInvalidProducts()
