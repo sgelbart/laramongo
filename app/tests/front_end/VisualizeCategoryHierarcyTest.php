@@ -149,8 +149,8 @@ class VisualizeCategoryHierarchyTest extends Zizaco\TestCases\IntegrationTestCas
         $childB = f::create('Category', ['name'=>'childB']);
             $childB->attachToParents($parentB);
 
-        $childA->kind = 'leaf';
-        $childB->kind = 'leaf';
+        $childA->type = 'leaf';
+        $childB->type = 'leaf';
 
         $root->save();
         $parentA->save();

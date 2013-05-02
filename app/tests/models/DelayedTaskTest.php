@@ -57,7 +57,7 @@ class DelayedTaskTest extends Zizaco\TestCases\TestCase
     {
         $task = new DelayedTask;
         $task->name = 'Sometask';
-        $task->kind = 'import';
+        $task->type = 'import';
         $task = $task->polymorph( $task );
 
         $this->assertTrue($task instanceOf Import);

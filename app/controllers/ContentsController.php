@@ -21,7 +21,7 @@ class ContentsController extends BaseController {
         if( $content && $content->isVisible() )
         {
             $this->layout->content =
-                Template::make('contents.show_'.$content->kind, ['content' => $content ]);
+                Template::make('contents.show_'.$content->type, ['content' => $content ]);
         }
         else
         {

@@ -193,7 +193,7 @@ class AdminCategoriesTest extends Zizaco\TestCases\ControllerTestCase
     public function testShouldNotAddCharacteristicWithInvalidInput(){
         $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
 
-        $this->withInput( $category->getAttributes() )
+        $this->withInput( ['name'=>'lol'] )
             ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));

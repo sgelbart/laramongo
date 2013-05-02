@@ -55,10 +55,11 @@ Route::get(    'admin/content',                      'Admin\ContentsController@i
 Route::get(    'admin/content/article/create',       'Admin\ContentsController@createArticle');
 Route::get(    'admin/content/image/create',         'Admin\ContentsController@createImage');
 Route::get(    'admin/content/video/create',         'Admin\ContentsController@createVideo');
-Route::get(    'admin/content/shop/create',         'Admin\ContentsController@createShop');
+Route::get(    'admin/content/shop/create',          'Admin\ContentsController@createShop');
 Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@edit');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
+Route::delete( 'admin/content/{id}',                 'Admin\ContentsController@destroy');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
 Route::delete( 'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@removeProduct');
 Route::post(   'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@addProduct');

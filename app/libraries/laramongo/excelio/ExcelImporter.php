@@ -178,7 +178,7 @@ class ExcelImporter extends ExcelIo {
             $category = new Category;
             $category->name = $categoryName;
             $category->slug = $categoryName;
-            $category->kind = 'leaf';
+            $category->type = 'leaf';
             $category->save();
         }
 

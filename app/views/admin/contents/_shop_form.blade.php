@@ -17,7 +17,7 @@
     ])
 }}
 
-    {{ Form::hidden('kind', 'shop' ) }}
+    {{ Form::hidden('type', 'shop' ) }}
 
     <div class="control-group">
         {{ Form::label('name', 'Nome da Loja', ['class'=>'control-label']) }}

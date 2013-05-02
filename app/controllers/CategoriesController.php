@@ -17,7 +17,7 @@ class CategoriesController extends BaseController {
                 ->with( 'flash', 'Categoria não encontrada' );
         }
 
-        if($category->kind == 'leaf')
+        if($category->type == 'leaf')
         {
             $page = Input::get('page') ?: 1;
 

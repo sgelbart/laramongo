@@ -19,7 +19,7 @@ class CategoryCharacteristicsTest extends Zizaco\TestCases\IntegrationTestCase
 
     public function testShouldSetCategoryCharacteristics()
     {
-        $category = f::create( 'Category', ['kind'=>'leaf'] );
+        $category = f::create( 'Category', ['type'=>'leaf'] );
 
         // Add first Characteristic
         $this->browser
@@ -63,7 +63,7 @@ class CategoryCharacteristicsTest extends Zizaco\TestCases\IntegrationTestCase
 
     public function testShouldSetProductCharacteristicValue()
     {
-        $category = f::create( 'Category', ['kind'=>'leaf'] );
+        $category = f::create( 'Category', ['type'=>'leaf'] );
         $characA = f::instance( 'Characteristic' );
         $characB = f::instance( 'Characteristic' );
 

@@ -17,7 +17,7 @@ class ArticleContent extends Content {
     public static $rules = array(
         'name' => 'required',
         'slug' => 'required',
-        'kind' => 'required',
+        'type' => 'required',
         'article' => 'required',
     );
 

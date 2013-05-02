@@ -50,7 +50,7 @@ class ProductsController extends AdminController {
      */
     public function create()
     {
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.create')
             ->with( 'leafs', $leafs );
@@ -109,7 +109,7 @@ class ProductsController extends AdminController {
         }
 
         $category = $product->category();
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.edit')
             ->with( 'product', $product )
@@ -211,7 +211,7 @@ class ProductsController extends AdminController {
      */
     public function import()
     {
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.import')
             ->with( 'leafs', $leafs )

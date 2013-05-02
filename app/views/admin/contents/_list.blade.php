@@ -16,7 +16,7 @@
                     <td>
                         {{ Html::linkAction( 'Admin\ContentsController@edit', $content->name, ['id'=>$content->_id] ) }}
                     </td>
-                    <td>{{ $content->kind }}</td>
+                    <td>{{ $content->type }}</td>
                     <td>
                         {{ ($content->isVisible()) ? 'Sim' : 'Não' }}
                     </td>

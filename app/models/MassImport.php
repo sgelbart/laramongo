@@ -36,7 +36,7 @@ class MassImport extends DelayedTask {
     {
         parent::__construct();
         
-        $this->setAttribute('kind','massImport');
+        $this->setAttribute('type','massImport');
 
         $this->unzipper  = new Unzip();
     }

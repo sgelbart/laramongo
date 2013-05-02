@@ -18,7 +18,7 @@ class ImageContent extends Content {
     public static $rules = array(
         'name' => 'required',
         'slug' => 'required',
-        'kind' => 'required',
+        'type' => 'required',
     );
 
     /**

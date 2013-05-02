@@ -29,7 +29,7 @@ class ImportTest extends Zizaco\TestCases\TestCase
     public function testShouldHaveImportKind()
     {
         $import = new Import;
-        $this->assertEquals('import', $import->kind);
+        $this->assertEquals('import', $import->type);
     }
 
     public function testShouldProcess()

@@ -36,7 +36,7 @@ class Import extends DelayedTask {
     {
         parent::__construct();
         
-        $this->setAttribute('kind','import');
+        $this->setAttribute('type','import');
     }
 
     /**

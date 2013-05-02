@@ -22,7 +22,7 @@
         <hr>
     @endif
 
-    {{ Form::hidden('kind', 'image' ) }}
+    {{ Form::hidden('type', 'image' ) }}
     
     <div class="control-group">
         {{ Form::label('name', 'Titulo da Imagem', ['class'=>'control-label']) }}

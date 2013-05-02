@@ -10,7 +10,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000001' ),
             'name' => 'Ferramentas específicas',
             'slug' => 'ferramentas_especificas',
-            'kind' => 'leaf',
+            'type' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -28,7 +28,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000002' ),
             'name' => 'Ferramentas detalhadas',
             'slug' => 'ferramentas_detalhadas',
-            'kind' => 'leaf',
+            'type' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -46,7 +46,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000003' ),
             'name' => '',
             'slug' => '',
-            'kind' => 'leaf',
+            'type' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id
             ],
@@ -97,7 +97,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000007' ),
             'name' => 'Brocas',
             'slug' => 'brocas',
-            'kind' => 'leaf',
+            'type' => 'leaf',
             'parents' => [
                 testCategoryProvider::saved('valid_parent_category')->_id,
                 testCategoryProvider::saved('another_valid_parent_category')->_id
@@ -117,7 +117,7 @@ class testCategoryProvider extends testObjectProvider
             '_id' => new MongoId( '4af9f23d8ead0e1d32000008' ),
             'name' => 'Lixeiras',
             'slug' => 'lixeiras',
-            'kind' => 'leaf',
+            'type' => 'leaf',
             'parents' => [],
             'description' => 'Lixeiras e etc',
         ];

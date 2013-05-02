@@ -57,14 +57,14 @@ class DelayedTask extends BaseModel {
      */
     public function polymorph( $instance )
     {
-        if( $instance->kind == 'import' )
+        if( $instance->type == 'import' )
         {
             $import = new Import;
 
             $import->parseDocument( $instance->attributes );
             return $import;
         }
-        elseif( $instance->kind == 'massImport' )
+        elseif( $instance->type == 'massImport' )
         {
             $import = new MassImport;
 

@@ -29,12 +29,12 @@ class LinkProductsToCategoriesTest extends Zizaco\TestCases\IntegrationTestCase
 
         $category = Category::find($category->_id);
 
-        $this->assertEquals((string)'leaf', (string)$category->kind);
+        $this->assertEquals((string)'leaf', (string)$category->type);
     }
 
     public function testShouldSetCategoryAsNonLeaf()
     {
-        $category = f::create( 'Category', ['kind'=>'leaf'] );
+        $category = f::create( 'Category', ['type'=>'leaf'] );
 
         $this->browser
             ->open(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]))
@@ -44,13 +44,13 @@ class LinkProductsToCategoriesTest extends Zizaco\TestCases\IntegrationTestCase
 
         $category = Category::find($category->_id);
 
-        $this->assertNotEquals('leaf', (string)$category->kind);
+        $this->assertNotEquals('leaf', (string)$category->type);
     }
 
     public function testShouldSetLeafCategoryOfProduct()
     {
-        $leafA = f::create( 'Category', ['kind'=>'leaf'] );
-        $leafB = f::create( 'Category', ['kind'=>'leaf'] );
+        $leafA = f::create( 'Category', ['type'=>'leaf'] );
+        $leafB = f::create( 'Category', ['type'=>'leaf'] );
         $product = testProductProvider::saved('simple_valid_product');
 
         $this->browser

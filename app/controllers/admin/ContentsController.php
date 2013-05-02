@@ -21,7 +21,7 @@ class ContentsController extends AdminController {
     {
         $page = Input::get('page');
 
-        $contents = $this->contentRepo->search( Input::get('search'), Input::get('kind') );
+        $contents = $this->contentRepo->search( Input::get('search'), Input::get('type') );
         $total_pages = $this->contentRepo->pageCount( $contents );
         $contents = $this->contentRepo->paginate( $contents, $page );
 
@@ -87,7 +87,7 @@ class ContentsController extends AdminController {
 
         $viewData = [
             'content' => $content,
-            'categories' => \Category::toOptions( ['kind'=>['$ne'=>'leaf']] ),
+            'categories' => \Category::toOptions( ['type'=>['$ne'=>'leaf']] ),
             'action' => 'Admin\ContentsController@update',
             'method' => 'PUT',
         ];
@@ -139,7 +139,7 @@ class ContentsController extends AdminController {
             // Get validation errors
             $error = $content->errors->all();
 
-            return Redirect::action('Admin\ContentsController@create'.ucfirst($content->kind))
+            return Redirect::action('Admin\ContentsController@create'.ucfirst($content->type))
                 ->withInput()
                 ->with( 'error', $error );
         }

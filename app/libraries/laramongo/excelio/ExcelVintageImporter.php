@@ -77,7 +77,7 @@ class ExcelVintageImporter extends ExcelImporter {
             $key = new Category;
             $key->name = $keyName;
             $key->slug = $keySlug;
-            $key->kind = 'leaf';
+            $key->type = 'leaf';
             $key->attachToParents($family);
 
             $key->_id = $keyId;

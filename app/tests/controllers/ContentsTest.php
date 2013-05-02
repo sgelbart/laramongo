@@ -56,7 +56,7 @@ class ContentsTest extends Zizaco\TestCases\ControllerTestCase
         App::instance("ContentRepository", $contentRepo);
 
         $this->requestAction('GET', 'ContentsController@show', ['slug'=>'not_existent']);
-        $this->assertRedirection(URL::action('ContentsController@index'));
+        $this->assertRedirection();
         $this->assertSessionHas('flash','não encontrad');
     }
 }

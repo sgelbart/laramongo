@@ -103,7 +103,7 @@ class VisualizeProductsTest extends Zizaco\TestCases\IntegrationTestCase
      */
     private function buildSampleProducts()
     {
-        $category = f::create('Category', ['kind'=>'leaf']);
+        $category = f::create('Category', ['type'=>'leaf']);
 
         f::create('Product',
             ['_id'=>111, 'lm'=>'111',  'name'=>'ProductA', 'category'=>(string)$category->_id]

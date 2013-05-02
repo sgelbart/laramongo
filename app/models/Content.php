@@ -20,7 +20,7 @@ class Content extends BaseModel {
     public static $rules = array(
         'name' => 'required',
         'slug' => 'required',
-        'kind' => 'required',
+        'type' => 'required',
     );
 
     /**
@@ -97,28 +97,28 @@ class Content extends BaseModel {
      */
     public function polymorph( $instance )
     {
-        if( $instance->kind == 'article' )
+        if( $instance->type == 'article' )
         {
             $article = new ArticleContent;
 
             $article->parseDocument( $instance->attributes );
             return $article;
         }
-        elseif( $instance->kind == 'video' )
+        elseif( $instance->type == 'video' )
         {
             $video = new VideoContent;
 
             $video->parseDocument( $instance->attributes );
             return $video;
         }
-        elseif( $instance->kind == 'image' )
+        elseif( $instance->type == 'image' )
         {
             $image = new ImageContent;
 
             $image->parseDocument( $instance->attributes );
             return $image;
         }
-        elseif( $instance->kind == 'shop' )
+        elseif( $instance->type == 'shop' )
         {
             $shop = new ShopContent;
 
