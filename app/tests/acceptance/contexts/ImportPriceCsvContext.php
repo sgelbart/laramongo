@@ -6,21 +6,23 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
+use Laramongo\StoresProductsIntegration\CsvParser,
+    Laramongo\StoresProductsIntegration\StoreProduct;
 
 class ImportPriceCsvContext extends BaseContext {
 
     public function __construct() { }
 
     /**
-     * @Given /^I have an empty "([^"]*)" collection$/
+     * @Given /^I have no StoreProduct into database$/
      */
-    public function iHaveAnEmptyCollection($collection)
+    public function iHaveNoStoreproductIntoDatabase()
     {
-        $db = new Zizaco\Mongolid\MongoDbConnector;
-        $db = $db->getConnection();
-
-        $db->$collection->drop();
+        foreach (StoreProduct::all() as $storeProduct) {
+            $storeProduct->delete();
+        }
     }
+
 
     /**
      * @Given /^I have the following line in csv:$/
@@ -38,7 +40,20 @@ class ImportPriceCsvContext extends BaseContext {
      */
     public function iProcessTheLine()
     {
-        throw new PendingException();
+        $parser = new CsvParser;
+
+        $this->testCase()->assertTrue( $parser->parseLine($this->line) );
+    }
+
+    /**
+     * @Then /^I should have the following StoreProduct into database:$/
+     */
+    public function iShouldHaveTheFollowingPriceIntoDatabase(PyStringNode $should_be)
+    {
+        $result = StoreProduct::first()->toArray();
+        $should_be = json_decode($should_be->getRaw(), true);
+        
+        $this->testCase()->assertEquals($should_be, $result);
     }
 
 }
