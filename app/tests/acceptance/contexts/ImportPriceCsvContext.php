@@ -73,9 +73,41 @@ class ImportPriceCsvContext extends BaseContext {
     public function iShouldHaveTheFollowingStoreproductsIntoDatabase(TableNode $storeProducts)
     {
         foreach ($storeProducts->getRows() as $storeProduct) {
-            var_dump($storeProduct);
+            $should_be = \testStoreProductProvider::instance($storeProduct[0]);
+            $result = StoreProduct::first($should_be->_id);
+
+            $this->testCase()->assertTrue(is_object($result));
+            $this->testCase()->assertEquals($should_be->toJson, $result->toJson);
         }
     }
 
+    /**
+     * @Given /^I have the following StoreProducts into database:$/
+     */
+    public function iHaveTheFollowingStoreproductsIntoDatabase(TableNode $storeProducts)
+    {
+        foreach ($storeProducts->getRows() as $storeProduct) {
+            \testStoreProductProvider::saved($storeProduct[0]);
+        }
+    }
 
+    /**
+     * @Given /^I should Not have the following Price into database:$/
+     */
+    public function iShouldNotHaveTheFollowingPriceIntoDatabase(TableNode $storeProducts)
+    {
+        foreach ($storeProducts->getRows() as $storeProduct) {
+            $should_not_be = \testStoreProductProvider::instance($storeProduct[0]);
+            $result = StoreProduct::first($should_not_be->_id);
+
+            if(is_object($result))
+            {
+                $this->testCase()->assertNotEquals( $should_not_be->toJson(), $result->toJson() );
+            }
+            else
+            {
+                $this->testCase()->assertFalse(is_object($result));
+            }
+        }
+    }
 }

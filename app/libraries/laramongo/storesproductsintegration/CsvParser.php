@@ -21,17 +21,17 @@ class CsvParser {
 
         $storeProduct->_id = $line['lm'];
         $storeProduct->unit = strtolower(array_get($line,'unidade'));
-        $storeProduct->pack = strtolower(array_get($line,'embalagem'));
+        $storeProduct->pack = (float)strtolower(array_get($line,'embalagem'));
 
         // Grab and edit the stores array
         $stores = $storeProduct->stores;
 
         $storeSlug = $this->getStoreNameById(array_get($line,'cod_filial'));
         $stores[$storeSlug] = [
-            'top' => array_get($line,'top'),
-            'promotional_price' => array_get($line,'prc_promocional'),
-            'background_section' => array_get($line,'prc_fnd_secao'),
-            'recommended_retail_price' => array_get($line,'prc_aconselhado')
+            'top' => (int)array_get($line,'top'),
+            'promotional_price' => (float)array_get($line,'prc_promocional'),
+            'background_section' => (float)array_get($line,'prc_fnd_secao'),
+            'recommended_retail_price' => (float)array_get($line,'prc_aconselhado')
         ];
 
         // Set the stores array to the new values
@@ -54,6 +54,11 @@ class CsvParser {
             {
                 $headers = $line;
                 continue;
+            }
+
+            foreach ($line as $key => $value) {
+                if(is_numeric($value))
+                    $line[$key] = (float)$value;
             }
 
             $line = array_combine($headers, $line);
