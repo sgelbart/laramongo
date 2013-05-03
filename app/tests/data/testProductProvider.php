@@ -58,4 +58,34 @@ class testProductProvider extends testObjectProvider
             'description' => 'Descrição de outra coisa valida',
         ];
     }
+
+    protected function product_A()
+    {
+        return [
+            '_id' => 8800001,
+            'name' => 'Produto A',
+            'category' => (string)testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de coisa A',
+        ];
+    }
+
+    protected function product_B()
+    {
+        return [
+            '_id' => 8800002,
+            'name' => 'Produto B',
+            'category' => (string)testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de coisa B',
+        ];
+    }
+
+    protected function product_C()
+    {
+        return [
+            '_id' => 8800003,
+            'name' => 'Produto C',
+            'category' => (string)testCategoryProvider::saved('valid_leaf_category')->_id,
+            'description' => 'Descrição de coisa C',
+        ];
+    }
 }

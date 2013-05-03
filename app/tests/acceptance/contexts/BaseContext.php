@@ -20,6 +20,14 @@ class BaseContext extends BehatContext
     protected $integrationCase;
 
     /**
+     * Setup the test environment
+     */
+    public function __construct()
+    {
+        $this->testCase();
+    }
+
+    /**
      * Adding ability to run assertions at TestCase
      * @return  ControllerTestCase object
      */

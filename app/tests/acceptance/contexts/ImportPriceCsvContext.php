@@ -87,7 +87,7 @@ class ImportPriceCsvContext extends BaseContext {
     public function iHaveTheFollowingStoreproductsIntoDatabase(TableNode $storeProducts)
     {
         foreach ($storeProducts->getRows() as $storeProduct) {
-            \testStoreProductProvider::saved($storeProduct[0]);
+            testStoreProductProvider::saved($storeProduct[0]);
         }
     }
 
@@ -108,6 +108,34 @@ class ImportPriceCsvContext extends BaseContext {
             {
                 $this->testCase()->assertFalse(is_object($result));
             }
+        }
+    }
+
+    /**
+     * @Given /^The following Product prices$/
+     */
+    public function theFollowingProductPrices(TableNode $prices)
+    {
+        foreach ($prices->getRows() as $row) {
+            //Skip the first line
+            if($row[0] == 'Product')
+                continue;
+
+            $product_id = testProductProvider::attributesFor($row[0])['_id'];
+            $product = Product::first($product_id);
+
+            $this->testCase()->assertNotEquals(0, $product->price['belo_horizonte']['from_price']);
+            $this->testCase()->assertNotEquals(0, $product->price['belo_horizonte']['to_price']);
+        }
+    }
+
+    /**
+     * @Given /^I have the following Products into database:$/
+     */
+    public function iHaveTheFollowingProductsIntoDatabase(TableNode $products)
+    {
+        foreach ($products->getRows() as $product) {
+            testProductProvider::saved($product[0]);
         }
     }
 }
