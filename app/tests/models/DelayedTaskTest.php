@@ -5,6 +5,11 @@ use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 class DelayedTaskTest extends Zizaco\TestCases\TestCase
 {
     use TestHelper;
+
+    /**
+     * MongoDB
+     */
+    protected $db;
     
     /**
      * Clean delayedTasks collection
@@ -12,7 +17,14 @@ class DelayedTaskTest extends Zizaco\TestCases\TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->cleanCollection( 'delayedTasks' );
+        $this->cleanCollection( 'temp_delayedTasks' );
+
+        $connection = new Zizaco\Mongolid\MongoDbConnector;
+        $database = Config::get('lmongo::connections.default.database');
+        $db = $connection->getConnection()->$database;
+        $db->temp_delayedTasks->drop();
+
+        $this->db = $db;
 
         Config::set('queue.default','sync');
     }
@@ -42,15 +54,38 @@ class DelayedTaskTest extends Zizaco\TestCases\TestCase
 
     public function testShouldBeProcessedByJob()
     {
-        $connection = new Zizaco\Mongolid\MongoDbConnector;
-        $database = Config::get('lmongo::connections.default.database');
-        $db = $connection->getConnection()->$database;
-        $db->delayedTasks->insert(['name'=>'Sometask']);
+        $this->db->temp_delayedTasks->insert(['name'=>'Sometask', 'tries'=>0]);
 
         Queue::push('ProcessDelayedTasks');
 
         $task = DelayedTask::first(['name'=>'Sometask']);
         $this->assertTrue($task->isDone());
+    }
+
+    public function testShouldNotBeProcessedAfterFiveFails()
+    {
+        $this->db->temp_delayedTasks->insert(['name'=>'lol', 'tries'=>0]);
+
+        // Try to process the task 50 times.
+        for ($i=0; $i < 50; $i++) { 
+
+            $task = DelayedTask::first(['name'=>'lol']);
+
+            // Checks if $tries attribute is being incremented
+            if($task->tries < 5)
+            {
+                $this->assertEquals($i, $task->tries);
+            }
+
+            // Unset done. (this way the task will be processed again unless the tries reach its limit)
+            unset($task->done);
+            $task->save();
+
+            Queue::push('ProcessDelayedTasks');
+        }
+
+        // Should not try more than 5 times
+        $this->assertLessThan(6, $task->tries);
     }
 
     public function testShouldPolymorph()

@@ -39,6 +39,9 @@ class DelayedTask extends BaseModel {
      */
     public function save($force = false)
     {
+        if(! isset($this->tries))
+            $this->tries = 0;
+
         $result = parent::save($force);
 
         if(! $this->isDone())
@@ -47,6 +50,18 @@ class DelayedTask extends BaseModel {
         }
 
         return $result;
+    }
+
+    /**
+     * Increments the try counter of the Task
+     * 
+     * @return void
+     */
+    public function incTries()
+    {
+        $this->tries = $this->tries + 1;
+
+        parent::save();
     }
 
     /**
