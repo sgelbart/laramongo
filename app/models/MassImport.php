@@ -50,7 +50,6 @@ class MassImport extends DelayedTask {
         {
             $path = substr($this->filename, 0, -4);
 
-            echo app_path().$path."\n";
             if ( ! is_dir(app_path().$path) )
                 mkdir(app_path().$path, 0777, true);
 
@@ -60,8 +59,6 @@ class MassImport extends DelayedTask {
                 if(substr($filename,-4) == 'xlsx')
                 {
                     Log::info("MassImport adding to queue:\n $filename");
-                    echo("MassImport adding to queue:\n $filename \n");
-                    // echo $path.'/'.$filename."\n";
 
                     // Creates the import object
                     $import = new Import;

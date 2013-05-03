@@ -45,7 +45,10 @@ class CsvParser {
         $filename = app_path().$filename;
         $keboola = new CsvFile( $filename, $delimiter );
 
+        \Log::info('CsvParser: file '.$filename.' will be parsed...');
+
         $headers = array();
+        $linesProcessed = 0;
 
         foreach ($keboola as $line) {
 
@@ -68,7 +71,15 @@ class CsvParser {
             {
                 Log::error('CsvParser::parseFile() - Error when parsing the following line: '.json_encode($line));
             }
+
+            $linesProcessed++;
+            if($linesProcessed % 5000 == 0)
+            {
+                Log::info('CsvParser: '.$linesProcessed.' lines parsed...');   
+            }
         }
+
+        \Log::info('CsvParser: parsing finished. '.$filename.' .');
 
         return true;
     }

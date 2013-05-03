@@ -5,7 +5,7 @@ use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 use Laramongo\StoresProductsIntegration\CsvParser;
 use Laramongo\StoresProductsIntegration\StoreProduct;
 
-class TestCsvParser extends Zizaco\TestCases\TestCase
+class CsvParserTest extends Zizaco\TestCases\TestCase
 {
     use TestHelper;
 
