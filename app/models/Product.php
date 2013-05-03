@@ -91,18 +91,23 @@ class Product extends BaseModel {
         {
             $result = true;
 
-            foreach ($this->category()->characteristics() as $charac) {
+            $category = $this->category();
 
-                if(isset($this->details[clean_case($charac->name)]))
-                {
-                    if (! $charac->validate($this->details[clean_case($charac->name)]))
+            if( $category )
+            {
+                foreach ($category->characteristics() as $charac) {
+
+                    if(isset($this->details[clean_case($charac->name)]))
                     {
-                        if(! $this->errors)
+                        if (! $charac->validate($this->details[clean_case($charac->name)]))
                         {
-                            $this->errors = new MessageBag;
+                            if(! $this->errors)
+                            {
+                                $this->errors = new MessageBag;
+                            }
+                            $this->errors->add($charac->name, "Valor inválido para caracteristica '$charac->name'");
+                            $result = false;
                         }
-                        $this->errors->add($charac->name, "Valor inválido para caracteristica '$charac->name'");
-                        $result = false;
                     }
                 }
             }
