@@ -67,8 +67,8 @@ class PriceCalculator {
 
         // setting the result of prices
         $this->resultPrice = array(
-            'from_price' => $resultFrom,
-            'to_price' => $resultTo
+            'from_price' => (float)$resultFrom,
+            'to_price' => (float)$resultTo
         );
     }
 
@@ -95,14 +95,16 @@ class PriceCalculator {
      */
     private function choosePriceValue (array $prices) {
         if( isset($prices['promotional_price']) && $prices['promotional_price'] > 0 ) {
-            return $prices['promotional_price'];
+            $result =  $prices['promotional_price'];
         }
         elseif ( $prices['background_section_price'] > 0 ) {
-            return $prices['background_section_price'];
+            $result =  $prices['background_section_price'];
 
         } elseif ($prices['recommended_retail_price'] > 0 ) {
-            return $prices['recommended_retail_price'];
+            $result =  $prices['recommended_retail_price'];
         }
+
+        return number_format($result, 2);
     }
 
     /**
