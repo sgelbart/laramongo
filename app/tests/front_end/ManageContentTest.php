@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ManageContentTest extends Zizaco\TestCases\IntegrationTestCase
+class ManageContentTest extends AcceptanceTestCase
 {
     use TestHelper;
 
@@ -182,7 +182,7 @@ class ManageContentTest extends Zizaco\TestCases\IntegrationTestCase
 
         $this->browser
             // Hover in the tag
-            ->runScript("$('[data-tag-for-popover]').trigger('mouseover');") 
+            ->runScript("$('[data-tag-for-popover]').trigger('mouseover');")
             // The .tagged-product-popover SHOULD HAVE the visible
             // class by now (when hovering in the tag).
             // An error will occur if the element is not found

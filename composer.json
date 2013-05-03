@@ -34,6 +34,8 @@
 			"app/database/seeds",
 			"app/tests/data/",
 			"app/tests/TestHelper.php",
+			"app/tests/ControllerTestCase.php",
+			"app/tests/AcceptanceTestCase.php",
 			"app/libraries",
 			"app/jobs",
 			"app/views"

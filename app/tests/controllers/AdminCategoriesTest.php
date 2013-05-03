@@ -2,7 +2,7 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class AdminCategoriesTest extends Zizaco\TestCases\ControllerTestCase
+class AdminCategoriesTest extends ControllerTestCase
 {
     use TestHelper;
 
@@ -161,7 +161,7 @@ class AdminCategoriesTest extends Zizaco\TestCases\ControllerTestCase
         $parent = $category->parents()->first();
 
         $this->withInput( ['parent'=>(string)$parent->_id] );
-        
+
         $this->requestAction(
                 'DELETE', 'Admin\CategoriesController@detach',
                 ['id'=>$category->_id, 'parent'=>$parent->_id]

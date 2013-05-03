@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class InLineFixForInvalidCharacteristicsTest extends Zizaco\TestCases\IntegrationTestCase
+class InLineFixForInvalidCharacteristicsTest extends AcceptanceTestCase
 {
     use TestHelper;
 
@@ -55,7 +55,7 @@ class InLineFixForInvalidCharacteristicsTest extends Zizaco\TestCases\Integratio
             ->click(l::css('#row-77777777-fix button'));
 
         sleep(1); // Wait for ajax =(
-            
+
         $productA = Product::first('66666666');
         $this->assertEquals('Cromado', $productA->details['cor']);
         $this->assertNull($productA->state);

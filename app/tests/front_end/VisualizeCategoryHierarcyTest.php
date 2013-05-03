@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class VisualizeCategoryHierarchyTest extends Zizaco\TestCases\IntegrationTestCase
+class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
 {
     use TestHelper;
 
@@ -21,7 +21,7 @@ class VisualizeCategoryHierarchyTest extends Zizaco\TestCases\IntegrationTestCas
         $this->buildSampleTree();
 
         $this->browser->open('/admin/categories');
-            
+
         $this->assertExpandTreeIten('root');
         $this->assertExpandTreeIten('parentA');
         $this->assertExpandTreeIten('parentB');
@@ -108,7 +108,7 @@ class VisualizeCategoryHierarchyTest extends Zizaco\TestCases\IntegrationTestCas
             $this->assertContains('Could not find element attribute', $e->getMessage());
         }
 
-        
+
     }
 
     private function assertQuicksearchNotMatchedIten($name)

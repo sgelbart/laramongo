@@ -9,5 +9,5 @@ trait TestHelper {
     {
         $db = LMongo::connection();
         $db->$collection->drop();
-    } 
+    }
 }

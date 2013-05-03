@@ -1,6 +1,6 @@
 <?php
 
-class testProductProvider extends testObjectProvider
+class testStoreProductProvider extends testObjectProvider
 {
     public static $model = 'Laramongo\StoresProductsIntegration\StoreProduct';
 
@@ -9,7 +9,7 @@ class testProductProvider extends testObjectProvider
         return [
             "_id" => 8800001,
             "unit" => 'un',
-            "pack" => 1,
+            "pack" => fz1,
             "stores" => [
                 "contagem" => [
                     "top" => 1,

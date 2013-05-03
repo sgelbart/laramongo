@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class LinkProductsToCategoriesTest extends Zizaco\TestCases\IntegrationTestCase
+class LinkProductsToCategoriesTest extends AcceptanceTestCase
 {
     use TestHelper;
 

@@ -11,6 +11,10 @@
 |
 */
 
+// Regions
+Route::get("/regions/create", 'RegionsController@create');
+Route::post("/regions/store", 'RegionsController@store');
+
 // Home
 Route::get('/', 'HomeController@index');
 
@@ -35,6 +39,17 @@ Route::get(    'health/details', function(){
 } );
 
 Route::get(    'search/products/{view}', 'SearchController@products');
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get( 'login',           'UsersController@login');
+Route::post('login',           'UsersController@do_login');
+Route::get( 'logout',          'UsersController@logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -103,14 +118,3 @@ Route::put(    'admin/product/{id}/fix',              'Admin\ProductsController@
 Route::put(    'admin/product/{id}/toggle',           'Admin\ProductsController@toggle');
 Route::put(    'admin/product/{conj_id}/add/{id}',    'Admin\ProductsController@addToConjugated');
 Route::put(    'admin/product/{conj_id}/remove/{id}', 'Admin\ProductsController@removeFromConjugated');
-
-/*
-|--------------------------------------------------------------------------
-| Authentication Routes
-|--------------------------------------------------------------------------
-|
-*/
-
-Route::get( 'login',           'UsersController@login');
-Route::post('login',           'UsersController@do_login');
-Route::get( 'logout',          'UsersController@logout');

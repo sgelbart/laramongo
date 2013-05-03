@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class AdminContentsTest extends Zizaco\TestCases\ControllerTestCase
+class AdminContentsTest extends ControllerTestCase
 {
     use TestHelper;
 

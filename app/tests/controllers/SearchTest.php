@@ -1,6 +1,6 @@
 <?php
 
-class SearchTest extends Zizaco\TestCases\ControllerTestCase
+class SearchTest extends ControllerTestCase
 {
     use TestHelper;
 
