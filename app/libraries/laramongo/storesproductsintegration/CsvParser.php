@@ -21,17 +21,17 @@ class CsvParser {
 
         $storeProduct->_id = $line['lm'];
         $storeProduct->unit = strtolower(array_get($line,'unidade'));
-        $storeProduct->pack = strtolower(array_get($line,'embalagem'));
+        $storeProduct->pack = (float)strtolower(array_get($line,'embalagem'));
 
         // Grab and edit the stores array
         $stores = $storeProduct->stores;
 
         $storeSlug = $this->getStoreNameById(array_get($line,'cod_filial'));
         $stores[$storeSlug] = [
-            'top' => array_get($line,'top'),
-            'promotional_price' => array_get($line,'prc_promocional'),
-            'background_section' => array_get($line,'prc_fnd_secao'),
-            'recommended_retail_price' => array_get($line,'prc_aconselhado')
+            'top' => (int)array_get($line,'top'),
+            'promotional_price' => (float)array_get($line,'prc_promocional'),
+            'background_section' => (float)array_get($line,'prc_fnd_secao'),
+            'recommended_retail_price' => (float)array_get($line,'prc_aconselhado')
         ];
 
         // Set the stores array to the new values
@@ -45,7 +45,10 @@ class CsvParser {
         $filename = app_path().$filename;
         $keboola = new CsvFile( $filename, $delimiter );
 
+        \Log::info('CsvParser: file '.$filename.' will be parsed...');
+
         $headers = array();
+        $linesProcessed = 0;
 
         foreach ($keboola as $line) {
 
@@ -56,6 +59,11 @@ class CsvParser {
                 continue;
             }
 
+            foreach ($line as $key => $value) {
+                if(is_numeric($value))
+                    $line[$key] = (float)$value;
+            }
+
             $line = array_combine($headers, $line);
             $result = $this->parseLine($line);
 
@@ -63,7 +71,15 @@ class CsvParser {
             {
                 Log::error('CsvParser::parseFile() - Error when parsing the following line: '.json_encode($line));
             }
+
+            $linesProcessed++;
+            if($linesProcessed % 5000 == 0)
+            {
+                Log::info('CsvParser: '.$linesProcessed.' lines parsed...');   
+            }
         }
+
+        \Log::info('CsvParser: parsing finished. '.$filename.' .');
 
         return true;
     }
