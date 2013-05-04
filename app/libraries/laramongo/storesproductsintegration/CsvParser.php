@@ -52,6 +52,10 @@ class CsvParser {
 
         foreach ($keboola as $line) {
 
+            // DON'T REMOVE THIS SLEEP
+            // This will make sure that the file parsing will not eat 100% of the CPU
+            usleep(380);
+
             // Set the headers
             if( empty($headers) )
             {
