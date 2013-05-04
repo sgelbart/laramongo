@@ -94,14 +94,21 @@ class PriceCalculator {
      * @return float the choosed price
      */
     private function choosePriceValue (array $prices) {
+        
         if( isset($prices['promotional_price']) && $prices['promotional_price'] > 0 ) {
             $result =  $prices['promotional_price'];
         }
-        elseif ( $prices['background_section_price'] > 0 ) {
+        elseif ( $prices['background_section_price'] > 0 )
+        {
             $result =  $prices['background_section_price'];
-
-        } elseif ($prices['recommended_retail_price'] > 0 ) {
+        }
+        elseif ($prices['recommended_retail_price'] > 0 )
+        {
             $result =  $prices['recommended_retail_price'];
+        }
+        else
+        {
+            $result = 0;
         }
 
         return number_format($result, 2);
