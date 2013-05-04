@@ -40,7 +40,7 @@ class CsvParser {
         return $storeProduct->save();
     }
 
-    public function parseFile($filename, $delimiter = ';')
+    public function parseFile($filename, $delimiter = ';', $skip = 0)
     {
         $filename = app_path().$filename;
         $keboola = new CsvFile( $filename, $delimiter );
@@ -54,12 +54,18 @@ class CsvParser {
 
             // DON'T REMOVE THIS SLEEP
             // This will make sure that the file parsing will not eat 100% of the CPU
-            usleep(380);
+            //usleep(380);
 
             // Set the headers
             if( empty($headers) )
             {
                 $headers = $line;
+                continue;
+            }
+
+            if($skip)
+            {
+                $skip--;
                 continue;
             }
 
