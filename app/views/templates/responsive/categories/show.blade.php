@@ -27,6 +27,7 @@
               <div class="caption">
                 <p><b>Nome:</b> {{ $product->name }}</p>
                 <p><b>Descrição:</b> {{ substr($product->description, 0, 120) . ' ...' }}</p>
+                <p>@include('templates.base.products._price')</p>
 
                 <a href="/product/{{$product->_id}}" class="button button-block">Veja sobre o produto</a>
               </div>
