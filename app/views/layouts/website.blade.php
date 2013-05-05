@@ -6,8 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <title>Laramongo - Tudo para você reformar e decorar sua casa.</title>
 
-
-        @if(Template::getName() == 'default' || !Template::getName())
+        @if(Template::getName() == 'base')
             <link rel="stylesheet" href="/assets/css/templates/base/image-tagging.css" >
             <link rel="stylesheet" href="/assets/css/templates/base/main.css" >
             <link rel="stylesheet" href="/assets/css/templates/base/product_page.css" >
