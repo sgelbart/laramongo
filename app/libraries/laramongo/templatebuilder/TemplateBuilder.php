@@ -87,6 +87,8 @@ class TemplateBuilder
 
         App::bind('Template', 'Templates\\'.ucfirst($templateName).'\TemplateBuilder', true);
 
+        $this->name = $templateName;
+
         return $templateName;
     }
 }
