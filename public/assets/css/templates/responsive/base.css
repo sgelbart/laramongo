@@ -30,3 +30,39 @@
     width: 67% !important;
   }
 }
+
+/* Price Styling */
+
+.base_price{
+    background: #FFE746;
+    color: #333332;
+    display: inline-block;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 23px;
+    margin: 5px 0 0 0;
+    white-space: nowrap;
+    .border-radius(4px);
+    padding: 2px 6px;
+}
+
+.base_price.crossed{
+    background: #EEE;
+    color: #8D8D8D;
+    display: inline-block;
+    font-size: 11px;
+    text-decoration: line-through;
+}
+
+.promotional_price{
+    background: #FFE746;
+    color: #F00;
+    display: inline-block;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 23px;
+    margin: 5px 0 0 0;
+    white-space: nowrap;
+    .border-radius(4px);
+    padding: 2px 6px;
+}
