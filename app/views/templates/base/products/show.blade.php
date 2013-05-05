@@ -14,6 +14,7 @@
 
         <p>{{ $product->description }}</p>
 
+        @include('templates.base.products._price')
 
         @include('templates.base.products._product_characteristics')
 

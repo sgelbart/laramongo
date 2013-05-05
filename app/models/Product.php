@@ -181,6 +181,32 @@ class Product extends BaseModel {
     }
 
     /**
+     * Get the price of the product by region. If the region parameter
+     * is null, it will be filled with the 'region' key in the user's
+     * session.
+     * It returns the price array containing the 'base_price' and the
+     * 'promotional_price'.
+     * 
+     * @param  string $region Region slug
+     * @return array  Prices array (base_price and promotional_price)
+     */
+    public function getPrice( $region = null )
+    {
+        $result = array();
+
+        if(! $region)
+            $region = Session::get('region');
+
+        $to_price = array_get(array_get($this->price,$region),'to_price', 0);
+        $from_price = array_get(array_get($this->price,$region),'from_price', 0);
+
+        $result['base_price'] = $from_price;
+        $result['promotional_price'] = $to_price;
+
+        return $result;
+    }
+
+    /**
      * Overwrites the Mongolid\Model delete method in order
      * to clean references to the resource
      */
@@ -229,6 +255,10 @@ class Product extends BaseModel {
         }
     }
 
+    /**
+     * Grab images from the original website
+     * @return array Images array
+     */
     public function grabImages()
     {
         if(! isset($this->image )){
