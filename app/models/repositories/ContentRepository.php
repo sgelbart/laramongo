@@ -42,7 +42,10 @@ class ContentRepository
         $count = $cursor->count();
 
         if(is_numeric($count) && $count > 0)
-            return round($cursor->count()/$this->perPage);
+        {
+            return round($count/$this->perPage);
+        }
+            
 
         return 0;
     }
@@ -117,7 +120,7 @@ class ContentRepository
     {
         $connection = new Zizaco\Mongolid\MongoDbConnector;
 
-        $database = Config::get('lmongo::connections.default.database');
+        $database = Config::get('database.mongodb.default.database');
 
         $db = $connection->getConnection()->$database;
 

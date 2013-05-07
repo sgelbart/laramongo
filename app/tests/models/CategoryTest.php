@@ -1,5 +1,4 @@
 <?php
-
 use Mockery as m;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
@@ -248,5 +247,25 @@ class CategoryTest extends Zizaco\TestCases\TestCase
         $this->assertContains('<div',$category->renderPopover());
         $this->assertContains('<span',$category->renderPopover());
         $this->assertContains('bacon',$category->renderPopover('bacon'));
+    }
+
+    public function testShouldIndexCategoryOnSave()
+    {
+        // Enable search engine
+        Config::set('search_engine.enabled', true);
+        Config::set('search_engine.engine', 'mockedSearchEngine');
+
+        // Prepare mocked searchEngine
+        $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('indexObject')->twice();
+
+        App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
+            return $mockedSearchEng; 
+        });
+
+        $category = testCategoryProvider::instance('valid_leaf_category');
+        $category->save(); // This should call the SearchEngine->indexObject
+
+        Config::set('search_engine.enabled', false);
     }
 }

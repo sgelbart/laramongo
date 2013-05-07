@@ -5,6 +5,7 @@
  */
 
 return array(
+    'enabled' => true,
     'application_name' => 'dev',
     'engine' => 'ElasticSearch',
 

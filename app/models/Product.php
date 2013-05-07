@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\MessageBag;
+use Laramongo\SearchEngine\Searchable;
 
-class Product extends BaseModel {
+class Product extends BaseModel implements Searchable {
     use Traits\ToPopover;
+    use Traits\Searchable;
 
     /**
      * The database collection
@@ -162,6 +164,7 @@ class Product extends BaseModel {
 
         if( $this->isValid( $force ) )
         {
+            $this->searchEngineIndex();
             unset($this->state);
             $result = parent::save( $force );
             $this->grabImages();

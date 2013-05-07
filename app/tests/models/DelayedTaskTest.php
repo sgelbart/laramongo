@@ -20,7 +20,7 @@ class DelayedTaskTest extends Zizaco\TestCases\TestCase
         $this->cleanCollection( 'temp_delayedTasks' );
 
         $connection = new Zizaco\Mongolid\MongoDbConnector;
-        $database = Config::get('lmongo::connections.default.database');
+        $database = Config::get('database.mongodb.default.database');
         $db = $connection->getConnection()->$database;
         $db->temp_delayedTasks->drop();
 

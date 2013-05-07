@@ -1,6 +1,7 @@
 <?php
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
+use Mockery as m;
 
 class ProductTest extends Zizaco\TestCases\TestCase
 {
@@ -14,6 +15,16 @@ class ProductTest extends Zizaco\TestCases\TestCase
         parent::setUp();
         $this->cleanCollection( 'products' );
         $this->cleanCollection( 'categories' );
+        $this->cleanCollection( 'contents' );
+        $this->cleanCollection( 'tags' );
+    }
+
+    /**
+     * Mockery teardown
+     */
+    public function tearDown()
+    {
+        m::close();
     }
 
     /**
@@ -157,5 +168,25 @@ class ProductTest extends Zizaco\TestCases\TestCase
         $this->assertContains('<div',$product->renderPopover());
         $this->assertContains('<span',$product->renderPopover());
         $this->assertContains('bacon',$product->renderPopover('bacon'));
+    }
+
+    public function testShouldIndexProductOnSave()
+    {
+        // Enable search engine
+        Config::set('search_engine.enabled', true);
+        Config::set('search_engine.engine', 'mockedSearchEngine');
+
+        // Prepare mocked searchEngine
+        $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('indexObject')->times(4);
+
+        App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
+            return $mockedSearchEng; 
+        });
+
+        $product = testProductProvider::instance('simple_valid_product');
+        $product->save(); // This should call the SearchEngine->indexObject
+
+        Config::set('search_engine.enabled', false);
     }
 }

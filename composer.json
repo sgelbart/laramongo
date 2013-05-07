@@ -1,10 +1,4 @@
 {
-	"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Zizaco/basset.git"
-        }
-    ],
 	"require": {
 		"laravel/framework": "dev-master#d01a43c0527a97caeca8cbe95274fcccbe2c196a",
 		"way/generators": "dev-master",

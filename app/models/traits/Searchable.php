@@ -5,15 +5,13 @@ use App;
 
 trait Searchable
 {
-    protected $engine;
-
     public function searchEngineIndex()
     {
-        if (! isset($this->engine)) {
+        if (Config::get('search_engine.enabled')) {
             $engineName = Config::get('search_engine.engine');
-            $this->engine = App::make($engineName);
-        }
+            $searchEngine = App::make($engineName);
 
-        $this->engine->indexObject($this);
+            $searchEngine->indexObject($this);
+        }
     }
 }

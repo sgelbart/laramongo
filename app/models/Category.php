@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\MessageBag;
+use Laramongo\SearchEngine\Searchable;
 
-class Category extends BaseModel implements Traits\ToTreeInterface {
-    use Traits\HasImage, Traits\ToTree, Traits\ToSelect, Traits\ToPopover;
+class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
+    use Traits\HasImage, Traits\ToTree, Traits\ToSelect, Traits\ToPopover, Traits\Searchable;
 
     /**
      * The database collection
@@ -127,6 +128,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
 
         if( $this->isValid() )
         {
+            $this->searchEngineIndex();
             $this->buildAncestors();
             return parent::save( $force );
 

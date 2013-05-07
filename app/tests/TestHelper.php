@@ -7,7 +7,11 @@ trait TestHelper {
      */
     protected function cleanCollection( $collection )
     {
-        $db = LMongo::connection();
-        $db->$collection->drop();
+        $database = Config::get('database.mongodb.default.database');
+
+        $connector = new Zizaco\Mongolid\MongoDbConnector;
+        $connection = $connector->getConnection();
+
+        $connection->$database->$collection->drop();
     }
 }

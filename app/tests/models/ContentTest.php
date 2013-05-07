@@ -1,5 +1,7 @@
 <?php
 
+use Mockery as m;
+
 class ContentTest extends Zizaco\TestCases\TestCase
 {
     use TestHelper;
@@ -14,6 +16,14 @@ class ContentTest extends Zizaco\TestCases\TestCase
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'contents' );
         $this->cleanCollection( 'tags' );
+    }
+
+    /**
+     * Mockery teardown
+     */
+    public function tearDown()
+    {
+        m::close();
     }
 
     public function testShouldValidateAndSaveContent()
@@ -131,8 +141,23 @@ class ContentTest extends Zizaco\TestCases\TestCase
         $this->assertContains('bacon',$content->renderPopover('bacon'));
     }
 
-    public function testShouldIndexContent()
+    public function testShouldIndexContentOnSave()
     {
+        // Enable search engine
+        Config::set('search_engine.enabled', true);
+        Config::set('search_engine.engine', 'mockedSearchEngine');
+
+        // Prepare mocked searchEngine
+        $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('indexObject')->once();
+
+        App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
+            return $mockedSearchEng; 
+        });
+
         $content = testContentProvider::instance('valid_article');
+        $content->save(); // This should call the SearchEngine->indexObject
+
+        Config::set('search_engine.enabled', false);
     }
 }

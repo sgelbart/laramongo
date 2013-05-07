@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\MessageBag;
+use Laramongo\SearchEngine\Searchable;
 
-class Content extends BaseModel implements Laramongo\SearchEngine\Searchable {
+class Content extends BaseModel implements Searchable {
     use Traits\ToPopover;
     use Traits\Searchable;
 
@@ -240,7 +241,7 @@ class Content extends BaseModel implements Laramongo\SearchEngine\Searchable {
             // batchInsert with write concern as 'Unacknowledged' (w=0)
             $connector = new Zizaco\Mongolid\MongoDbConnector;
 
-            $database = Config::get('lmongo::connections.default.database');
+            $database = Config::get('database.mongodb.default.database');
 
             $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
         }
