@@ -4,6 +4,8 @@ use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
 class AdminCategoriesTest extends ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -159,7 +161,7 @@ class AdminCategoriesTest extends ControllerTestCase
         $parent = $category->parents()->first();
 
         $this->withInput( ['parent'=>(string)$parent->_id] );
-        
+
         $this->requestAction(
                 'DELETE', 'Admin\CategoriesController@detach',
                 ['id'=>$category->_id, 'parent'=>$parent->_id]
@@ -191,7 +193,7 @@ class AdminCategoriesTest extends ControllerTestCase
     public function testShouldNotAddCharacteristicWithInvalidInput(){
         $category = testCategoryProvider::saved( 'another_valid_leaf_category' );
 
-        $this->withInput( $category->getAttributes() )
+        $this->withInput( ['name'=>'lol'] )
             ->requestAction('POST', 'Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]);
 
         $this->assertRedirection(URL::action('Admin\CategoriesController@edit', ['id'=>$category->_id]));

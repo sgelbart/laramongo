@@ -88,34 +88,6 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
     }
 
     /**
-     * Verify if the model is valid
-     *
-     * @return bool
-     */
-    public function isValid()
-    {
-        $valid = parent::isValid();
-
-        if( $valid )
-        {
-            // does a category with the same name and with different _id exists?
-            $exists = Category::where(['name'=>$this->name, '_id'=>['$ne'=>$this->_id]])->count();
-
-            if( $exists )
-            {
-                $this->errors = new MessageBag(['Já existe uma categoria com esse nome']);
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Determines if a category is visible or not. This takes a decision
      * assembling the following facts:
      * - hidden is not any sort of 'true'
@@ -203,7 +175,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
      */
     public function productCount()
     {
-        $productCount = Cache::rememberForever("category_".$this->_id."_prod_count", function()
+        $productCount = Cache::remember("category_".$this->_id."_prod_count", 5, function()
             {
                 return Product::where(['category'=>(string)$this->_id])->count();
             });
@@ -223,7 +195,11 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
             'nodeName' => 'category'
         );
 
-        return static::renderTree( array(), $options );
+        
+
+        //return Cache::rememberForever('renderedMenu', function() use ($options){
+            return static::renderTree( array(), $options );
+        //});
     }
 
     /**
@@ -254,5 +230,4 @@ class Category extends BaseModel implements Traits\ToTreeInterface {
 
         return $result;
     }
-
 }

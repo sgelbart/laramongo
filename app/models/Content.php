@@ -20,7 +20,7 @@ class Content extends BaseModel {
     public static $rules = array(
         'name' => 'required',
         'slug' => 'required',
-        'kind' => 'required',
+        'type' => 'required',
     );
 
     /**
@@ -97,26 +97,33 @@ class Content extends BaseModel {
      */
     public function polymorph( $instance )
     {
-        if( $instance->kind == 'article' )
+        if( $instance->type == 'article' )
         {
             $article = new ArticleContent;
 
             $article->parseDocument( $instance->attributes );
             return $article;
         }
-        elseif( $instance->kind == 'video' )
+        elseif( $instance->type == 'video' )
         {
             $video = new VideoContent;
 
             $video->parseDocument( $instance->attributes );
             return $video;
         }
-        elseif( $instance->kind == 'image' )
+        elseif( $instance->type == 'image' )
         {
             $image = new ImageContent;
 
             $image->parseDocument( $instance->attributes );
             return $image;
+        }
+        elseif( $instance->type == 'shop' )
+        {
+            $shop = new ShopContent;
+
+            $shop->parseDocument( $instance->attributes );
+            return $shop;
         }
         else
         {
@@ -176,7 +183,7 @@ class Content extends BaseModel {
      *
      * @return Boolean
      */
-    public function isValid()
+    public function isValid($force = false)
     {
         if( parent::isValid() )
         {
@@ -221,16 +228,19 @@ class Content extends BaseModel {
     {
         $tagsToInsert = array();
 
-        foreach ($this->tags as $tag) {
+        foreach ((array)$this->tags as $tag) {
             $tagsToInsert[] = ['_id'=>$tag];
         }
 
-        // batchInsert with write concern as 'Unacknowledged' (w=0)
-        $connector = new Zizaco\Mongolid\MongoDbConnector;
+        if( !empty($tagsToInsert) )
+        {
+            // batchInsert with write concern as 'Unacknowledged' (w=0)
+            $connector = new Zizaco\Mongolid\MongoDbConnector;
 
-        $database = Config::get('lmongo::connections.default.database');
+            $database = Config::get('lmongo::connections.default.database');
 
-        $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
+            $connector->getConnection()->$database->tags->batchInsert($tagsToInsert, ["w" => 0]);
+        }
     }
 
 }

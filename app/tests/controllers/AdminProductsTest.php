@@ -5,6 +5,8 @@ use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
 class AdminProductsTest extends ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -185,7 +187,7 @@ class AdminProductsTest extends ControllerTestCase
         $productRepo->shouldReceive('first')->once()->passthru();
         $productRepo->shouldReceive('updateCharacteristics')->once()->passthru();
         App::instance("ProductRepository", $productRepo);
-        
+
         $product = testProductProvider::saved( 'simple_valid_product' );
 
         $this->withInput( ['capacidade'=>5] )
@@ -215,7 +217,7 @@ class AdminProductsTest extends ControllerTestCase
      *
      */
     public function testShouldShowErrorWhenDestroyFails(){
-        
+
         $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
 
         $product = $conjProduct->products()->first();
@@ -227,7 +229,7 @@ class AdminProductsTest extends ControllerTestCase
     }
 
     /**
-     * Import action should always return 200 
+     * Import action should always return 200
      *
      */
     public function testShowImportDialog(){
@@ -236,7 +238,7 @@ class AdminProductsTest extends ControllerTestCase
     }
 
     /**
-     * Invalids action should always return 200 
+     * Invalids action should always return 200
      *
      */
     public function testDisplayInvalids(){
@@ -305,7 +307,7 @@ class AdminProductsTest extends ControllerTestCase
     public function testRemoveFromConjugated()
     {
         $conjProduct = testConjugatedProductProvider::saved('simple_conjugated_product');
-        
+
         // Add a new product since a conjugated need at least 2 products
         $conjProduct->attachToConjugated( testProductProvider::saved( 'product_with_details' )->_id );
         $conjProduct->save();

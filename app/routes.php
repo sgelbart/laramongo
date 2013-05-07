@@ -11,6 +11,10 @@
 |
 */
 
+// Regions
+Route::get("/regions/create", 'RegionsController@create');
+Route::post("/regions/store", 'RegionsController@store');
+
 // Home
 Route::get('/', 'HomeController@index');
 
@@ -38,6 +42,17 @@ Route::get(    'search/products/{view}', 'SearchController@products');
 
 /*
 |--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::get( 'login',           'UsersController@login');
+Route::post('login',           'UsersController@do_login');
+Route::get( 'logout',          'UsersController@logout');
+
+/*
+|--------------------------------------------------------------------------
 | Admin Routes
 |--------------------------------------------------------------------------
 |
@@ -46,7 +61,7 @@ Route::get(    'search/products/{view}', 'SearchController@products');
 // Admin Root
 Route::get('admin', function()
 {
-    return Redirect::action('Admin\CategoriesController@index'); 
+    return Redirect::action('Admin\CategoriesController@index');
 });
 
 // Admin\ContentsController
@@ -55,9 +70,11 @@ Route::get(    'admin/content',                      'Admin\ContentsController@i
 Route::get(    'admin/content/article/create',       'Admin\ContentsController@createArticle');
 Route::get(    'admin/content/image/create',         'Admin\ContentsController@createImage');
 Route::get(    'admin/content/video/create',         'Admin\ContentsController@createVideo');
+Route::get(    'admin/content/shop/create',          'Admin\ContentsController@createShop');
 Route::get(    'admin/content/{id}/edit',            'Admin\ContentsController@edit');
 Route::post(   'admin/content/store',                'Admin\ContentsController@store');
 Route::put(    'admin/content/{id}',                 'Admin\ContentsController@update');
+Route::delete( 'admin/content/{id}',                 'Admin\ContentsController@destroy');
 Route::get(    'admin/tags',                         'Admin\ContentsController@tags');
 Route::delete( 'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@removeProduct');
 Route::post(   'admin/content/{id}/rel/product/{product_id}',   'Admin\ContentsController@addProduct');
@@ -101,14 +118,3 @@ Route::put(    'admin/product/{id}/fix',              'Admin\ProductsController@
 Route::put(    'admin/product/{id}/toggle',           'Admin\ProductsController@toggle');
 Route::put(    'admin/product/{conj_id}/add/{id}',    'Admin\ProductsController@addToConjugated');
 Route::put(    'admin/product/{conj_id}/remove/{id}', 'Admin\ProductsController@removeFromConjugated');
-
-/*
-|--------------------------------------------------------------------------
-| Authentication Routes
-|--------------------------------------------------------------------------
-|
-*/
-
-Route::get( 'login',           'UsersController@login');
-Route::post('login',           'UsersController@do_login');
-Route::get( 'logout',          'UsersController@logout');

@@ -3,7 +3,7 @@
 use Laramongo\Nas\S3;
 use Mockery as m;
 
-class nasS3Test extends TestCase {
+class nasS3Test extends Zizaco\TestCases\TestCase {
     
     public function setUp()
     {

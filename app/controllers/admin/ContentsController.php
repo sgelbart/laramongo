@@ -1,6 +1,6 @@
 <?php namespace Admin;
 
-use Content, ArticleContent, ImageContent, VideoContent;
+use Content, ArticleContent, ImageContent, VideoContent, ShopContent;
 use View, Input, Redirect, URL, MongoId, Session, Response, App;
 
 class ContentsController extends AdminController {
@@ -21,7 +21,7 @@ class ContentsController extends AdminController {
     {
         $page = Input::get('page');
 
-        $contents = $this->contentRepo->search( Input::get('search'), Input::get('kind') );
+        $contents = $this->contentRepo->search( Input::get('search'), Input::get('type') );
         $total_pages = $this->contentRepo->pageCount( $contents );
         $contents = $this->contentRepo->paginate( $contents, $page );
 
@@ -71,6 +71,11 @@ class ContentsController extends AdminController {
         $this->layout->content = View::make('admin.contents.create_video');
     }
 
+    public function createShop()
+    {
+        $this->layout->content = View::make('admin.contents.create_shop');
+    }
+
     /**
      * Display the article update form
      *
@@ -82,7 +87,7 @@ class ContentsController extends AdminController {
 
         $viewData = [
             'content' => $content,
-            'categories' => \Category::toOptions( ['kind'=>['$ne'=>'leaf']] ),
+            'categories' => \Category::toOptions( ['type'=>['$ne'=>'leaf']] ),
             'action' => 'Admin\ContentsController@update',
             'method' => 'PUT',
         ];
@@ -101,6 +106,10 @@ class ContentsController extends AdminController {
         elseif($content instanceof VideoContent)
         {
             $this->layout->content = View::make('admin.contents.edit_video', $viewData);
+        }
+        elseif($content instanceof ShopContent)
+        {
+            $this->layout->content = View::make('admin.contents.edit_shop', $viewData);
         }
         else
         {
@@ -130,7 +139,7 @@ class ContentsController extends AdminController {
             // Get validation errors
             $error = $content->errors->all();
 
-            return Redirect::action('Admin\ContentsController@create'.ucfirst($content->kind))
+            return Redirect::action('Admin\ContentsController@create'.ucfirst($content->type))
                 ->withInput()
                 ->with( 'error', $error );
         }
@@ -145,7 +154,7 @@ class ContentsController extends AdminController {
     {
         $content = $this->contentRepo->first($id);
         $image = Input::file('image_file') ?: Input::get('image_file');
-        
+
         if($content)
             $content->fill( Input::all() );
 
@@ -172,7 +181,7 @@ class ContentsController extends AdminController {
     public function tags()
     {
         $tags = $this->contentRepo->existentTags(Input::get('term'));
-        
+
         return Response::json($tags);
     }
 
@@ -236,7 +245,7 @@ class ContentsController extends AdminController {
         $content = $this->contentRepo->first($id);
 
         $this->contentRepo->removeTagged( $content, $tag_id );
-        
+
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-image-tagging'])
             ->with( 'flash', l('content.tag_removed_sucessfully') );
     }
@@ -251,7 +260,7 @@ class ContentsController extends AdminController {
         $content = $this->contentRepo->first($id);
 
         $this->contentRepo->removeProduct( $content, $product_id );
-        
+
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
             ->with( 'flash', l('content.relation_removed_sucessfully', ['resource'=>'conteúdo']) );
     }
@@ -293,7 +302,7 @@ class ContentsController extends AdminController {
         $content = $this->contentRepo->first($id);
 
         $this->contentRepo->removeCategory( $content, $category_id );
-        
+
         return Redirect::action('Admin\ContentsController@edit', ['id'=>$content->_id,'tab'=>'content-relations'])
             ->with( 'flash', l('content.relation_removed_sucessfully', ['resource'=>'conteúdo']) );
     }

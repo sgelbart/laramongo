@@ -17,7 +17,7 @@ class VideoContent extends Content {
     public static $rules = array(
         'name' => 'required',
         'slug' => 'required',
-        'kind' => 'required',
+        'type' => 'required',
         'youTubeId' => 'required',
     );
 

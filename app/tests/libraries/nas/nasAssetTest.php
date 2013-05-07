@@ -2,7 +2,7 @@
 
 use Laramongo\Nas\Asset;
 
-class nasAssetTest extends TestCase {
+class nasAssetTest extends Zizaco\TestCases\TestCase {
 
     public function setUp()
     {

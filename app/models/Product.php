@@ -18,8 +18,9 @@ class Product extends BaseModel {
      * @var array
      */
     public static $rules = array(
+        '_id'       => 'required',
         'name'      => 'required',
-        'category'     => 'required',
+        'category'  => 'required',
     );
 
     /**
@@ -58,9 +59,21 @@ class Product extends BaseModel {
      */
     public function imageUrl( $img = 1, $size = 300 )
     {
-        if( false )
+        $imageFile = '';
+
+        if ($this->image) {
+            while(! isset($this->image[$img]))
+                $img--;
+
+            if(isset($this->image[$img]))
+            {
+                $imageFile = $this->image[$img];
+            }
+        }
+
+        if( $imageFile )
         {
-            return URL::to(Asset::url('uploads/img/products/'.$this->_id.'_'.$img.'_'.$size.'.jpg'));
+            return URL::to(Asset::url('uploads/img/products/' . $imageFile));
         }
         else
         {
@@ -72,24 +85,29 @@ class Product extends BaseModel {
      * Overwrites the isValid method in order to make sure that the characteristics
      * are valid
      */
-    public function isValid()
+    public function isValid($force = false)
     {
-        if(parent::isValid())
+        if(parent::isValid($force))
         {
             $result = true;
 
-            foreach ($this->category()->characteristics() as $charac) {
+            $category = $this->category();
 
-                if(isset($this->details[clean_case($charac->name)]))
-                {
-                    if (! $charac->validate($this->details[clean_case($charac->name)]))
+            if( $category )
+            {
+                foreach ($category->characteristics() as $charac) {
+
+                    if(isset($this->details[clean_case($charac->name)]))
                     {
-                        if(! $this->errors)
+                        if (! $charac->validate($this->details[clean_case($charac->name)]))
                         {
-                            $this->errors = new MessageBag;
+                            if(! $this->errors)
+                            {
+                                $this->errors = new MessageBag;
+                            }
+                            $this->errors->add($charac->name, "Valor inválido para caracteristica '$charac->name'");
+                            $result = false;
                         }
-                        $this->errors->add($charac->name, "Valor inválido para caracteristica '$charac->name'");
-                        $result = false;
                     }
                 }
             }
@@ -142,20 +160,50 @@ class Product extends BaseModel {
     {
         $this->lm = (string)$this->_id;
 
-        if( $this->isValid() )
+        if( $this->isValid( $force ) )
         {
             unset($this->state);
-            return parent::save();
+            $result = parent::save( $force );
+            $this->grabImages();
+            return $result;
         }
         elseif( $force )
         {
             $this->state = 'invalid';
-            return parent::save( true );
+            $result = parent::save( $force );
+            $this->grabImages();
+            return $result;
         }
         else
         {
             return false;
         }
+    }
+
+    /**
+     * Get the price of the product by region. If the region parameter
+     * is null, it will be filled with the 'region' key in the user's
+     * session.
+     * It returns the price array containing the 'base_price' and the
+     * 'promotional_price'.
+     * 
+     * @param  string $region Region slug
+     * @return array  Prices array (base_price and promotional_price)
+     */
+    public function getPrice( $region = null )
+    {
+        $result = array();
+
+        if(! $region)
+            $region = Session::get('region');
+
+        $to_price = array_get(array_get($this->price,$region),'to_price', 0);
+        $from_price = array_get(array_get($this->price,$region),'from_price', 0);
+
+        $result['base_price'] = $from_price;
+        $result['promotional_price'] = $to_price;
+
+        return $result;
     }
 
     /**
@@ -204,6 +252,21 @@ class Product extends BaseModel {
         else
         {
             return $instance;
+        }
+    }
+
+    /**
+     * Grab images from the original website
+     * @return array Images array
+     */
+    public function grabImages()
+    {
+        if(! isset($this->image )){
+            $images = ImageGrabber::grab($this);
+            $this->image = $images;
+            $this->save( true );
+
+            return $images;
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php $is_leaf = $category->kind == 'leaf'; ?>
+<?php $is_leaf = $category->type == 'leaf'; ?>
 
 <div class='line'>
     <a

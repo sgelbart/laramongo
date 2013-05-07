@@ -1,7 +1,9 @@
 <?php
 
-class VideoContentTest extends TestCase
+class VideoContentTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

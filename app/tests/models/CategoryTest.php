@@ -3,8 +3,10 @@
 use Mockery as m;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class CategoryTest extends TestCase
+class CategoryTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -48,8 +50,8 @@ class CategoryTest extends TestCase
         $category = testCategoryProvider::instance('another_valid_leaf_category');
         $category->name = 'The Name Of Category';
 
-        // Should return false, since there is already a category with that name
-        $this->assertFalse( $category->isValid() );
+        // Should return true, since now the name of the categories can be the same
+        $this->assertTrue( $category->isValid() );
     }
 
     /**

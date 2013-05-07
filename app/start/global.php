@@ -54,7 +54,7 @@ App::error(function(Exception $exception, $code)
 
     if(App::environment() != 'local')
     {
-        return Response::make(View::make('errors.runtime'), 500);
+        //return Response::make(View::make('errors.runtime'), 500);
     }
 });
 

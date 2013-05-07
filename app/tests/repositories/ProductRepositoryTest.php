@@ -2,8 +2,10 @@
 
 use Mockery as m;
 
-class ProductRepositoryTest extends TestCase
+class ProductRepositoryTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -122,17 +124,15 @@ class ProductRepositoryTest extends TestCase
 
         // A valid instance
         $product = testProductProvider::instance( 'simple_valid_product' );
-        unset( $product->_id );
 
         $this->assertTrue($repo->createNew( $product ));
         $this->assertNotEquals(null, $product->_id);
 
         // A invalid instance
         $product = testProductProvider::instance( 'simple_invalid_product' );
-        unset( $product->_id );
 
         $this->assertFalse($repo->createNew( $product ));
-        $this->assertEquals(null, $product->_id);
+        $this->assertEquals(null, Product::first($product->_id));
     }
     
     public function testShouldGetFirst()

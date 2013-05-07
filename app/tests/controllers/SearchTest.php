@@ -2,6 +2,8 @@
 
 class SearchTest extends ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */

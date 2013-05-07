@@ -1,21 +1,30 @@
 {
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Zizaco/basset.git"
+        }
+    ],
 	"require": {
-		"laravel/framework": "dev-master#fc9760ad63e2421e484410394fd97e393fb21962",
+		"laravel/framework": "dev-master#d01a43c0527a97caeca8cbe95274fcccbe2c196a",
 		"way/generators": "dev-master",
 		"navruzm/lmongo": "dev-master#d673d7762028ab53a54f227caa8882830e80c427",
 		"keboola/csv": "1.0.9",
+		"zizaco/mongolid-laravel": "dev-master",
 		"zizaco/confide": "dev-master",
 		"zizaco/lessy": "dev-master",
 		"jasonlewis/basset": "dev-master",
 		"vipsoft/unzip": "dev-master",
 		"oyatel/amazon-s3-php-class": "dev-master",
 		"pda/pheanstalk": "dev-master",
-		"phpexcel/phpexcel": "v1.7.7"
+		"phpexcel/phpexcel": "v1.7.7",
+		"guilhermeguitte/behat-laravel": "dev-master",
+		"nervetattoo/elasticsearch" : ">=2.0"
 	},
 	"require-dev": {
+		"zizaco/testcases-laravel": "dev-master",
 		"zizaco/factory-muff": "*",
-		"mockery/mockery": "*",
-		"alexandresalome/php-selenium": "1.0.1"
+		"mockery/mockery": "*"
 	},
 	"autoload": {
 		"classmap": [
@@ -24,10 +33,10 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php",
+			"app/tests/data/",
+			"app/tests/TestHelper.php",
 			"app/tests/ControllerTestCase.php",
 			"app/tests/AcceptanceTestCase.php",
-			"app/tests/data/",
 			"app/libraries",
 			"app/jobs",
 			"app/views"

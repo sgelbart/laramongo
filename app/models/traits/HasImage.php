@@ -6,7 +6,7 @@ trait HasImage
 {
     /**
      * Attach an UploadedFile as the category image
-     * 
+     *
      * @param Symfony\Component\HttpFoundation\File\UploadedFile $image_file
      * @return bool
      */
@@ -15,14 +15,14 @@ trait HasImage
         $path = app_path().'/../public/uploads/img/'.$this->collection;
         $filename = $this->_id.'.jpg';
 
-        $old = umask(0); 
+        $old = umask(0);
 
         if ( ! is_dir($path) )
             mkdir($path, 0777, true);
-        
+
         $image_file->move($path, $filename);
         try{
-            chmod($path.'/'.$filename, 0775);    
+            chmod($path.'/'.$filename, 0775);
         }catch( \Exception $e){}
 
         umask($old);
@@ -31,12 +31,12 @@ trait HasImage
 
         if($this->sendImageToNas())
         {
-            return $this->save();    
+            return $this->save();
         }
         else
         {
             return false;
-        }        
+        }
     }
 
     protected function sendImageToNas()
@@ -50,7 +50,7 @@ trait HasImage
             $s3 = app()->s3;
             if( $s3 )
             {
-                $result = $s3->sendFile($public_path);    
+                $result = $s3->sendFile($public_path);
 
                 if($result)
                 {
@@ -79,5 +79,10 @@ trait HasImage
         {
             return URL::to(Asset::url('assets/img/'.$this->collection.'/default.png'));
         }
+    }
+
+    public function hasImage()
+    {
+        return (boolean)$this->image;
     }
 }

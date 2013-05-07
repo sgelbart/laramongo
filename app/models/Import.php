@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\MessageBag;
-use Zizaco\CsvToMongo\Importer;
+use Laramongo\ExcelIo\ExcelImporter;
+use Laramongo\ExcelIo\ExcelVintageImporter;
 
-class Import extends BaseModel {
+class Import extends DelayedTask {
 
     /**
      * The database collection
      *
      * @var string
      */
-    protected $collection = 'imports';
+    protected $collection = 'temp_delayedTasks';
 
     /**
      * Validation rules
@@ -19,15 +20,23 @@ class Import extends BaseModel {
      */
     public static $rules = array(
         'filename'     => 'required',
-        'category'     => 'required',
     );
 
     /**
-     * Reference to category
+     * Stores the ExcelIo instantiated
+     * @var Laramongo\ExcelIo\ExcelIo
      */
-    public function category()
+    public $excelIo = null;
+
+    /**
+     * __construct defines the kind attribute to 'import'
+     * in order do polymorphise later
+     */
+    function __construct()
     {
-        return $this->referencesOne('Category','category');
+        parent::__construct();
+        
+        $this->setAttribute('type','import');
     }
 
     /**
@@ -38,37 +47,24 @@ class Import extends BaseModel {
         if(! $this->isDone() )
         {
             // Import file
-            $importer = new Importer($this->filename,'Product');
-            $importer->import( $this->category, $this->isConjugated );
+            if(! $this->excelIo)
+                $this->excelIo = new ExcelImporter;
+
+            $this->excelIo->importFile($this->filename);
 
             // Retreive results
-            $this->success = $importer->getSuccess();
-            $this->fail = $importer->getErrors();
+            $this->success = $this->excelIo->getSuccess();
+            $this->fail = $this->excelIo->getErrors();
 
             // Remove temporary file
-            unlink($this->filename);
+            if (file_exists(app_path().$this->filename))
+            {
+                unlink(app_path().$this->filename);
+            }
 
             $this->done = true;
 
             return $this->save();
         }
     }
-
-    /**
-     * Returns true if the import is complete
-     */
-    public function isDone()
-    {
-        return $this->done == true;
-    }
-
-    public function save($force = false)
-    {
-        $result = parent::save($force);
-
-        Queue::push('ProcessImports');
-
-        return $result;
-    }
-
 }

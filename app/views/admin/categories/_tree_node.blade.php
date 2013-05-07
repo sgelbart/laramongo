@@ -1,4 +1,4 @@
-<?php $is_leaf = $category->kind == 'leaf'; ?>
+<?php $is_leaf = $category->type == 'leaf'; ?>
 
 <div class='line'>
     <a
@@ -20,12 +20,12 @@
 
     <div class='btn-group'>
         @if($is_leaf)
-            {{ Html::linkAction(
+            {{-- Html::linkAction(
                 'Admin\CategoriesController@products',
                 'Produtos',
                 ['id'=>$category->_id],
                 ['class'=>'btn btn-primary btn-mini', 'id'=>'products-cat-'.$category->_id]
-            ); }}
+            ); --}}
         @endif
         {{ Html::linkAction(
             'Admin\CategoriesController@edit',

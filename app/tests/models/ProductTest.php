@@ -2,8 +2,10 @@
 
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ProductTest extends TestCase
+class ProductTest extends Zizaco\TestCases\TestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -34,7 +36,7 @@ class ProductTest extends TestCase
     {
         $product = testProductProvider::instance('simple_valid_product');
 
-        // Save and retreive the saved product
+        // Save and retrieve the saved product
         $product->save();
         $product = Product::first($product->_id);
 

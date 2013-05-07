@@ -17,7 +17,7 @@ class CategoriesController extends BaseController {
                 ->with( 'flash', 'Categoria não encontrada' );
         }
 
-        if($category->kind == 'leaf')
+        if($category->type == 'leaf')
         {
             $page = Input::get('page') ?: 1;
 
@@ -35,7 +35,7 @@ class CategoriesController extends BaseController {
             if( Input::get('ajax') || Request::ajax() )
             {
                 // For ajax request, don't return the layout or the complete view
-                return Template::make('categories._products', $parameters);
+                return Template::make('categories._paginate', $parameters);
             }
             else
             {

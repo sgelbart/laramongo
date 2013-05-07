@@ -4,6 +4,8 @@ use Mockery as m;
 
 class AdminContentsTest extends ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -68,6 +70,15 @@ class AdminContentsTest extends ControllerTestCase
     }
 
     /**
+     * Create Video action should always return 200
+     *
+     */
+    public function testShouldCreateShop(){
+        $this->requestAction('GET', 'Admin\ContentsController@createShop');
+        $this->assertRequestOk();
+    }
+
+    /**
      * Edit Content action should return 200 if exists
      *
      */
@@ -75,7 +86,7 @@ class AdminContentsTest extends ControllerTestCase
 
         // Make sure that first is called twice
         $contentRepo = m::mock(new ContentRepository);
-        $contentRepo->shouldReceive('first')->twice()->passthru();
+        $contentRepo->shouldReceive('first')->times(3)->passthru();
         App::instance("ContentRepository", $contentRepo);
 
         // Article
@@ -86,6 +97,12 @@ class AdminContentsTest extends ControllerTestCase
 
         // Video
         $content = testContentProvider::saved( 'valid_video' );
+
+        $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
+        $this->assertRequestOk();
+
+        // Shop
+        $content = testContentProvider::saved( 'valid_shop' );
 
         $this->requestAction('GET', 'Admin\ContentsController@edit', ['id'=>$content->_id]);
         $this->assertRequestOk();
@@ -407,7 +424,7 @@ class AdminContentsTest extends ControllerTestCase
 
         $this->requestAction(
             'POST', 'Admin\ContentsController@addCategory',
-            ['id'=>$content->_id, 'category_id'=>$category->_id] 
+            ['id'=>$content->_id, 'category_id'=>$category->_id]
         );
 
         $this->assertRedirection(URL::action('Admin\ContentsController@edit', ['id'=>$content->_id, 'tab'=>'content-relations']));

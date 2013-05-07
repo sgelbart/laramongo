@@ -25,7 +25,6 @@ $(function(){
 
                 if(data) // If receive some content
                 {
-                    paginator.before(data); // Show content
                     paginator.attr('data-nextpage', parseInt(page) + 1);
                     paginator.removeAttr('loading');
                 }

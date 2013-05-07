@@ -1,6 +1,6 @@
 <?php namespace Traits;
 
-use Html;
+use Html, Cache;
 
 trait ToTree
 {
@@ -26,32 +26,37 @@ trait ToTree
             $options = static::$treeOptions;
         }
 
-        $result = '<ul class="roots">';
+        $cacheKey = str_replace('.', '_', implode('_', $options));
+        return Cache::remember($cacheKey, 60, function() use ($treeStates, $options, $showHidden){
 
-        if($showHidden)
-        {
-            $query = array();
-        }
-        else
-        {   
-            $query = ['hidden'=>['$ne'=>'true']];
-        }
-            
-        static::$_nodes = static::where($query)->toArray(false);
+            $result = '<ul class="roots">';
 
-
-        static::$_treeState = $treeStates;
-
-        foreach (static::$_nodes as $node) {
-            if($node->isRoot())
+            if($showHidden)
             {
-                $result .= $node->renderNode( true, $options );
+                $query = array();
             }
-        }
+            else
+            {   
+                $query = ['hidden'=>['$ne'=>'true']];
+            }
+                
+            static::$_nodes = static::where($query)->toArray(false, 8000);
 
-        $result .= '</ul>';
 
-        return $result;
+            static::$_treeState = $treeStates;
+
+            foreach (static::$_nodes as $node) {
+                if($node->isRoot())
+                {
+                    $result .= $node->renderNode( true, $options );
+                }
+            }
+
+            $result .= '</ul>';
+
+            return $result;
+
+        });
     }
 
     public function isRoot(){

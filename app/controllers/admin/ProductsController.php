@@ -1,7 +1,7 @@
 <?php namespace Admin;
 
 use Input, View, Product, ConjugatedProduct;
-use Redirect, Response, Category, Import;
+use Redirect, Response, Category, Import, MassImport;
 use Zizaco\CsvToMongo\Importer;
 use Zizaco\CsvToMongo\ImageUnzipper;
 
@@ -50,7 +50,7 @@ class ProductsController extends AdminController {
      */
     public function create()
     {
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.create')
             ->with( 'leafs', $leafs );
@@ -109,7 +109,7 @@ class ProductsController extends AdminController {
         }
 
         $category = $product->category();
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.edit')
             ->with( 'product', $product )
@@ -211,7 +211,7 @@ class ProductsController extends AdminController {
      */
     public function import()
     {
-        $leafs = Category::toOptions( ['kind'=>'leaf'] );
+        $leafs = Category::toOptions( ['type'=>'leaf'] );
 
         $this->layout->content = View::make('admin.products.import')
             ->with( 'leafs', $leafs )
@@ -250,18 +250,32 @@ class ProductsController extends AdminController {
         if(Input::hasFile('csv_file'))
         {
             $csv_file = Input::file('csv_file');
-            $path = app_path().'/storage/';
-            $filename = 'csv_file'.time().'.csv';
+            $path = '/../public/uploads/';
 
-            // Place file in storage
-            $csv_file->move($path, $filename);
+            if($csv_file->getClientMimeType() == 'application/zip')
+            {
+                $filename = 'mass_import'.time().'.zip';
 
-            // Creates the import object
-            $import = new Import;
-            $import->filename = $path.$filename;
-            $import->category = Input::get('category');
-            $import->isConjugated = Input::get('conjugated');
-            $import->save();
+                // Place file in storage
+                $csv_file->move(app_path().$path, $filename);
+
+                // Creates the import object
+                $import = new MassImport;
+                $import->filename = $path.$filename;
+                $import->save();
+            }
+            else
+            {
+                $filename = 'excel_file'.time().'.xlsx';
+
+                // Place file in storage
+                $csv_file->move(app_path().$path, $filename);
+
+                // Creates the import object
+                $import = new Import;
+                $import->filename = $path.$filename;
+                $import->save();
+            }
 
             return Redirect::action('Admin\ProductsController@importResult', ['id'=>$import->_id])
                 ->with( 'flash', $flash );
@@ -280,12 +294,12 @@ class ProductsController extends AdminController {
     {
         $import = Import::first($id);
 
-        if($import->isDone())
+        if($import && $import->isDone())
         {
             $this->layout->content = View::make('admin.products.import_report')
                 ->with( 'success', $import->success )
                 ->with( 'failed', $import->fail )
-                ->with( 'category_id', $import->category );
+                ->with( 'category_id', '$import->category' );
         }
         else
         {

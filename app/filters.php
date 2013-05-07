@@ -13,13 +13,12 @@
 
 App::before(function($request)
 {
-	//
+
 });
 
 
 App::after(function($request, $response)
 {
-	//
 });
 
 /*
@@ -32,6 +31,18 @@ App::after(function($request, $response)
 | integrates HTTP Basic authentication for quick, simple checking.
 |
 */
+
+Route::filter('region', function($route, $request)
+{
+    $path = $route->getPath();
+
+    if ( ! strstr($path, 'regions') && ! strstr($path, 'health') ) {
+        if (! Session::get('region')) {
+            Session::set('path', $request->url());
+            return Redirect::action('RegionsController@create');
+        }
+    }
+});
 
 Route::filter('auth', function()
 {
@@ -78,3 +89,5 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::when('*', 'region');

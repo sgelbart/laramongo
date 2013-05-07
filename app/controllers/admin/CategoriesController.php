@@ -108,7 +108,7 @@ class CategoriesController extends AdminController {
 	public function edit($id)
 	{
 		$category =   Category::first($id);
-        $categories = Category::toOptions( ['kind'=>['$ne'=>'leaf']] );
+        $categories = Category::toOptions( ['type'=>['$ne'=>'leaf']] );
 
         if(! $category)
         {

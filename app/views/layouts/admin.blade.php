@@ -5,7 +5,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>Laramongo</title>
-            {{ Basset::show('admin.css') }}
+        <link rel="stylesheet" href="/assets/css/admin/bootstrap.css">
+        <link rel="stylesheet" href="/assets/css/admin/chosen.css">
+        <link rel="stylesheet" href="/assets/css/admin/image-tagging.css">
+        <link rel="stylesheet" href="/assets/css/admin/jquery-ui.css">
+        <link rel="stylesheet" href="/assets/css/admin/main.css">
+        <link rel="stylesheet" href="/assets/css/admin/taginput.css">
     </head>
     <body>
 
@@ -58,7 +63,7 @@
         <div class='maincontent'>
             @yield('content')
         </div>
-        
+
         {{ Basset::show('js_global.js') }}
         {{ Basset::show('js_bottom.js') }}
     </body>

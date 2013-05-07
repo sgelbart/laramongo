@@ -4,6 +4,8 @@ use Mockery as m;
 
 class ContentsTest extends ControllerTestCase
 {
+    use TestHelper;
+
     /**
      * Clean collection between every test
      */
@@ -54,7 +56,7 @@ class ContentsTest extends ControllerTestCase
         App::instance("ContentRepository", $contentRepo);
 
         $this->requestAction('GET', 'ContentsController@show', ['slug'=>'not_existent']);
-        $this->assertRedirection(URL::action('ContentsController@index'));
+        $this->assertRedirection();
         $this->assertSessionHas('flash','não encontrad');
     }
 }

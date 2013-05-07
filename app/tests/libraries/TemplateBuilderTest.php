@@ -3,7 +3,7 @@
 use Laramongo\TemplateBuilder\TemplateBuilder;
 use Mockery as m;
 
-class TemplateBuilderTest extends TestCase
+class TemplateBuilderTest extends Zizaco\TestCases\TestCase
 {
 
     public function testShouldMake()
