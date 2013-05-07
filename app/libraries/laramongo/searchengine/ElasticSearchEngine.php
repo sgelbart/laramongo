@@ -1,10 +1,10 @@
-<?php namespace Traits;
+<?php namespace Laramongo\SearchEngine;
 
 use \ElasticSearch\Client, Config;
 
-trait SearchableEs
+class ElasticSearchEngine extends SearchEngine
 {
-    /**
+/**
      * Client of Elastic Search instance
      * @var Client
      */
@@ -27,13 +27,15 @@ trait SearchableEs
      * Insert the elastic_search index
      * @return boolean
      */
-    public function searchEngineIndex()
+    public function indexObject($object)
     {
-        $this->connect();
+        if (Config::get('search_engine.enabled')) {
+            $this->connect();
 
-        $this->prepareIndexationPath();
+            $this->prepareIndexationPath();
 
-        $this->es->index($this->getAttributes(), $this->_id);
+            $this->es->index($this->getAttributes(), $this->_id);
+        }
     }
 
     /**
