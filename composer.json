@@ -18,7 +18,8 @@
 		"oyatel/amazon-s3-php-class": "dev-master",
 		"pda/pheanstalk": "dev-master",
 		"phpexcel/phpexcel": "v1.7.7",
-		"guilhermeguitte/behat-laravel": "dev-master"
+		"guilhermeguitte/behat-laravel": "dev-master",
+		"nervetattoo/elasticsearch" : ">=2.0"
 	},
 	"require-dev": {
 		"zizaco/testcases-laravel": "dev-master",
