@@ -130,4 +130,9 @@ class ContentTest extends Zizaco\TestCases\TestCase
         $this->assertContains('<span',$content->renderPopover());
         $this->assertContains('bacon',$content->renderPopover('bacon'));
     }
+
+    public function testShouldIndexContent()
+    {
+        $content = testContentProvider::instance('valid_article');
+    }
 }

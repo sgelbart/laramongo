@@ -6,6 +6,7 @@
 
 return array(
     'application_name' => 'dev',
+    'engine' => 'ElasticSearch',
 
     'settings' => array(
         'elastic_search' =>  array (

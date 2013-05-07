@@ -119,6 +119,7 @@ return array(
 		'Zizaco\Lessy\LessyServiceProvider',
 		'Basset\BassetServiceProvider',
 		'Laramongo\Nas\S3ServiceProvider',
+		'Laramongo\SearchEngine\SearchEngineServiceProvider',
 		'Laramongo\ImageGrabber\ImageGrabberServiceProvider',
 		'GuilhermeGuitte\BehatLaravel\BehatLaravelServiceProvider',
 

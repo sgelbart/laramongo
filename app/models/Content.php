@@ -2,8 +2,9 @@
 
 use Illuminate\Support\MessageBag;
 
-class Content extends BaseModel {
+class Content extends BaseModel implements Laramongo\SearchEngine\Searchable {
     use Traits\ToPopover;
+    use Traits\Searchable;
 
     /**
      * The database collection
@@ -166,8 +167,10 @@ class Content extends BaseModel {
         {
             $result = parent::save();
 
-            if( $result )
+            if( $result ) {
+                $this->searchEngineIndex();
                 $this->insertTags();
+            }
 
             return $result;
         }
