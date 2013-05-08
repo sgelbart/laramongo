@@ -29,6 +29,9 @@ Route::get(    'product/{id}', 'ProductsController@show' );
 
 // HealthCheck
 Route::get(    'health', function(){
+    if(extension_loaded ('newrelic'))
+        newrelic_ignore_transaction();
+
     return "App is healthy";
 } );
 
