@@ -18,7 +18,7 @@ class SearchEngineServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['ElasticSearch'] = $this->app->share(function($app)
+        $this->app['ElasticSearchEngine'] = $this->app->share(function($app)
         {
             return new ElasticSearchEngine;
         });

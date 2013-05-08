@@ -6,21 +6,21 @@ class ElasticSearchEngine extends SearchEngine
 {
     /**
      * Client of Elastic Search instance
-     * 
+     *
      * @var ElasticSearch\Client
      */
     public $es;
 
     /**
      * Object that is going to be indexed
-     * 
+     *
      * @var Model
      */
     protected $object;
 
     /**
      * Create the connection with elastic search
-     * 
+     *
      * @return null
      */
     protected function connect()
@@ -34,7 +34,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Insert the elastic_search index
-     * 
+     *
      * @return boolean
      */
     public function indexObject($object)
@@ -52,12 +52,12 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Prepare the index name used by elastic search
-     * 
+     *
      * @return null
      */
     protected function prepareIndexationPath()
     {
         $this->es->setIndex(Config::get('search_engine.application_name'));
-        $this->es->setType($this->object->collection);
+        $this->es->setType($this->object->getCollectionName());
     }
 }
