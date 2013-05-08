@@ -99,9 +99,9 @@ class Product extends BaseModel implements Searchable {
             {
                 foreach ($category->characteristics() as $charac) {
 
-                    if(isset($this->details[clean_case($charac->name)]))
+                    if(isset($this->characteristics[clean_case($charac->name)]))
                     {
-                        if (! $charac->validate($this->details[clean_case($charac->name)]))
+                        if (! $charac->validate($this->characteristics[clean_case($charac->name)]))
                         {
                             if(! $this->errors)
                             {

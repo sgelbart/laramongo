@@ -9,5 +9,7 @@ use Behat\Gherkin\Node\PyStringNode,
 
 class IndexResourcesContext extends BaseContext {
 
-    public function __construct() { }
+    public function __construct() {
+        parent::__construct();
+    }
 }

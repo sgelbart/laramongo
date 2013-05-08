@@ -50,7 +50,7 @@
                                 <span class='padding-as-input'>{{ $product->_id }}</span>
                             </td>
                             @foreach( $category->characteristics() as $char )
-                                <?php $value = array_get($product->details, clean_case($char->name)) ?>
+                                <?php $value = array_get($product->characteristics, clean_case($char->name)) ?>
                                 <td>
                                     @if ($product->errors && $product->errors->has($char->name) )
                                         @if ($char->type == 'option')

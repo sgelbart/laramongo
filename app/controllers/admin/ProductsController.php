@@ -346,8 +346,8 @@ class ProductsController extends AdminController {
             $details[str_replace('_', ' ', $key)] = $value; 
         }
 
-        $product->details = array_merge(
-            $product->details,
+        $product->characteristics = array_merge(
+            $product->characteristics,
             $details
         );
 

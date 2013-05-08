@@ -85,7 +85,7 @@ class CategoryCharacteristicsTest extends AcceptanceTestCase
 
         $product = Product::first($product->_id);
 
-        $this->assertEquals('1', $product->details[clean_case($characA->name)]);
-        $this->assertEquals('2', $product->details[clean_case($characB->name)]);
+        $this->assertEquals('1', $product->characteristics[clean_case($characA->name)]);
+        $this->assertEquals('2', $product->characteristics[clean_case($characB->name)]);
     }
 }

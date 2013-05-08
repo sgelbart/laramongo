@@ -29,10 +29,12 @@ class ExcelVintageImporter extends ExcelImporter {
 
     /**
      * Reads the category if of the excel file that is being imported
+     * 
      * @param  PHPExcel $excel    Openned excel file
+     * @param  array    $schema The characteristics schema
      * @return string String of the MongoId of the found category 
      */
-    protected function parseCategory($excel)
+    protected function parseCategory($excel, $schema)
     {
         $aba1 = $excel->setActiveSheetIndex(0);
         
@@ -84,6 +86,16 @@ class ExcelVintageImporter extends ExcelImporter {
             $key->image = array_get(\ImageGrabber::grab($key),0,null); // Grab Category Image
             unset($key->_id);
 
+            foreach ($schema as $field) {
+                if(in_array($field, $this->nonCharacteristicKeys))
+                {
+                    $charac = new Characteristic;
+                    $charac->name = ucfirst($field);
+                    $charac->type = 'string';
+                    $key->embedToCharacteristics( $charac );
+                }
+            }
+
             $key->save();
         }
 
@@ -124,9 +136,9 @@ class ExcelVintageImporter extends ExcelImporter {
 
                 if($value)
                 {
-                    $details = $product->getAttribute('details');
+                    $details = $product->getAttribute('characteristics');
                     $details[$attrName] = ucfirst($value);
-                    $product->setAttribute('details', $details);
+                    $product->setAttribute('characteristics', $details);
                 }
             }
         }

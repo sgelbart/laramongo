@@ -142,7 +142,7 @@ class ProductRepository
         }
         
         // Finally set the details attribute
-        $instance->details = $details;
+        $instance->characteristics = $details;
 
         // Saves
         return $instance->save();

@@ -14,10 +14,10 @@ class ProductImportContext extends BaseContext {
 
     public function __construct()
     {
+        parent::__construct();
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'products' );
         $this->cleanCollection( 'delayedTasks' );
-        Config::get('queue.default','sync');
     }
 
     /**
@@ -57,7 +57,7 @@ class ProductImportContext extends BaseContext {
     {
         // Mimics the values from the "new_products.xlsx"
         $products[0] = testProductProvider::instance('simple_valid_product');
-        $products[0]->details = ['alguma coisa'=>'Algum valor'];
+        $products[0]->characteristics = ['alguma coisa'=>'Algum valor'];
         $products[] = testProductProvider::instance('simple_deactivated_product');
         $products[] = testProductProvider::instance('product_with_details');
         $products[] = testProductProvider::instance('another_valid_product');
@@ -67,7 +67,7 @@ class ProductImportContext extends BaseContext {
             // Should find the imported products
             $this->testCase()->assertEquals(1, Product::where($product->_id)->count());
             $this->testCase()->assertEquals((string)$this->category->_id, Product::first($product->_id)->category);
-            $this->testCase()->assertEquals((array)$product->details, (array)Product::first($product->_id)->details);
+            $this->testCase()->assertEquals((array)$product->characteristics, (array)Product::first($product->_id)->characteristics);
         }
 
         // Check if there are 4 products into the database

@@ -25,7 +25,7 @@ class ExcelVintageImporterTest extends Zizaco\TestCases\TestCase {
         $products[] = testProductProvider::instance('simple_deactivated_product');
         $products[] = testProductProvider::instance('product_with_details');
         $products[] = testProductProvider::instance('another_valid_product');
-        $products[0]->details = ['alguma coisa'=>'algum valor'];
+        $products[0]->characteristics = ['alguma coisa'=>'algum valor'];
 
         $file = 'tests/assets/vintage_products.xlsx';
 

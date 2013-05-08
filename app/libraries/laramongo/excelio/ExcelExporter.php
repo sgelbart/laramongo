@@ -84,7 +84,7 @@ class ExcelExporter extends ExcelIo {
                     $val = $product->$key;
                 }
                 else{
-                    $val = array_get($product->details, $key, '');
+                    $val = array_get($product->characteristics, $key, '');
                 }
 
                 $aba1->setCellValueByColumnAndRow($x, $y, (string)$val);
@@ -123,9 +123,9 @@ class ExcelExporter extends ExcelIo {
         if($products)
         {
             foreach ($products as $product) {
-                if( is_array($product->details) )
+                if( is_array($product->characteristics) )
                 {
-                    foreach (array_keys($product->details) as $key) {
+                    foreach (array_keys($product->characteristics) as $key) {
                         $result[$key] = false;
                     }
                 }
