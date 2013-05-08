@@ -46,7 +46,10 @@ class ElasticSearchEngine extends SearchEngine
 
             $this->prepareIndexationPath();
 
-            $this->es->index($this->object->getAttributes(), $this->object->_id);
+            $attributes = $this->object->getAttributes();
+            unset($attributes['_id']);
+            
+            $this->es->index($attributes, $this->object->_id);
         }
     }
 

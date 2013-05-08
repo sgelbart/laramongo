@@ -1,7 +1,8 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Characteristic;
+use Illuminate\Support\MessageBag;
 
 class ExcelVintageImporter extends ExcelImporter {
 
@@ -15,6 +16,9 @@ class ExcelVintageImporter extends ExcelImporter {
         'Texto Publicitário' => 'description',
         'Descrição' => 'small_description',
         'LMs Conjugados' => 'products',
+        'Ordem' => 'order',
+        'Status' => 'status',
+        'Disclaimer' => 'disclaimer',
     ];
 
     /**
@@ -87,10 +91,13 @@ class ExcelVintageImporter extends ExcelImporter {
             unset($key->_id);
 
             foreach ($schema as $field) {
-                if(in_array($field, $this->nonCharacteristicKeys))
+
+                $field = substr($field,0,-1);
+
+                if(! in_array($field, $this->nonCharacteristicKeys) && ! in_array(strtolower($field), array_map('strtolower',array_keys($this->relativeVintageName))))
                 {
                     $charac = new Characteristic;
-                    $charac->name = ucfirst($field);
+                    $charac->name = ucfirst(strtolower($field));
                     $charac->type = 'string';
                     $key->embedToCharacteristics( $charac );
                 }

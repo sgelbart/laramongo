@@ -184,10 +184,10 @@ class ExcelImporter extends ExcelIo {
             $category->type = 'leaf';
 
             foreach ($schema as $field) {
-                if(in_array($field, $this->nonCharacteristicKeys))
+                if(! in_array($field, $this->nonCharacteristicKeys))
                 {
                     $charac = new Characteristic;
-                    $charac->name = ucfirst($field);
+                    $charac->name = ucfirst(strtolower($field));
                     $charac->type = 'string';
                     $key->embedToCharacteristics( $charac );
                 }
