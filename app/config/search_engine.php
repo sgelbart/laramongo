@@ -7,7 +7,7 @@
 return array(
     'enabled' => true,
     'application_name' => 'dev',
-    'engine' => 'ElasticSearch',
+    'engine' => 'ElasticSearchEngine',
 
     'settings' => array(
         'elastic_search' =>  array (
