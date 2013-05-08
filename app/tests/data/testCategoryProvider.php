@@ -122,4 +122,25 @@ class testCategoryProvider extends testObjectProvider
             'description' => 'Lixeiras e etc',
         ];
     }
+
+    protected function leaf_with_facets()
+    {
+        return [
+            '_id' => new MongoId( '4af9f23d8ead0e1d32000009' ),
+            'name' => 'Cortadores de grama',
+            'slug' => 'cortadores_de_grama',
+            'type' => 'leaf',
+            'parents' => [
+                testCategoryProvider::saved('valid_parent_category')->_id,
+                testCategoryProvider::saved('another_valid_parent_category')->_id
+            ],
+            'description' => 'Cortadores de grama u la la',
+            'characteristics' => [
+                testCharacteristicProvider::attributesFor('valid_numeric_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_option_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_string_characteristic'),
+                testCharacteristicProvider::attributesFor('valid_decimal_characteristic'),
+            ],
+        ];
+    }
 }
