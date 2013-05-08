@@ -1,7 +1,8 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag, Log;
+use Product, ConjugatedProduct, Category, Characteristic;
+use Illuminate\Support\MessageBag, Log;
 
 class ExcelImporter extends ExcelIo {
     
@@ -107,7 +108,7 @@ class ExcelImporter extends ExcelIo {
             $this->prepareProduct( $product );
 
             // Get the category _id provienient of the $excel file
-            $product->category = (string)$this->parseCategory($excel);
+            $product->category = (string)$this->parseCategory($excel, $schema);
 
             if($product->_id)
             {
@@ -162,10 +163,12 @@ class ExcelImporter extends ExcelIo {
 
     /**
      * Reads the category if of the escel file that is being imported
+     * 
      * @param  PHPExcel $excel    Openned excel file
+     * @param  array    $schema The characteristics schema
      * @return string String of the MongoId of the found category 
      */
-    protected function parseCategory($excel)
+    protected function parseCategory($excel, $schema)
     {
         $aba1 = $excel->setActiveSheetIndex(0);
         
@@ -180,6 +183,15 @@ class ExcelImporter extends ExcelIo {
             $category->slug = $categoryName;
             $category->type = 'leaf';
             $category->save();
+
+            foreach ($schema as $key) {
+                if(in_array($key, $this->nonCharacteristicKeys))
+                {
+                    $charac = new Characteristic;
+                    $charac->name = ucfirst($key);
+                    $charac->type = 'string';
+                }
+            }
         }
 
         return $category->_id;

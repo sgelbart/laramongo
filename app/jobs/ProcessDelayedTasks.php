@@ -11,8 +11,10 @@ class ProcessDelayedTasks{
 
         if($i)
         {
-            $i->incTries(); // Mark the ammount of tries
+            if(extension_loaded ('newrelic'))
+                newrelic_background_job((string)$i->_id);
 
+            $i->incTries(); // Mark the ammount of tries
             $i->process();
         }
 

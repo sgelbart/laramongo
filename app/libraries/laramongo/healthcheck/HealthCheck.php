@@ -51,6 +51,9 @@ class HealthCheck
 
     public function renderResults()
     {
+        if(extension_loaded ('newrelic'))
+            newrelic_ignore_transaction();
+
         $html = 
             "
             <html>

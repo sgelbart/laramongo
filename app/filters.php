@@ -13,7 +13,9 @@
 
 App::before(function($request)
 {
-
+    if (extension_loaded ('newrelic')) {
+        newrelic_name_transaction($request->path());
+    }
 });
 
 
