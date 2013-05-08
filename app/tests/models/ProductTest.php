@@ -178,7 +178,7 @@ class ProductTest extends Zizaco\TestCases\TestCase
 
         // Prepare mocked searchEngine
         $mockedSearchEng = m::mock('Es');
-        $mockedSearchEng->shouldReceive('indexObject')->times(4);
+        $mockedSearchEng->shouldReceive('indexObject')->atLeast(1);
 
         App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
             return $mockedSearchEng; 
