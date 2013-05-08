@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class RunValidationWithAButtonTest extends AcceptanceTestCase
+class RunValidationWithAButtonTest extends IntegrationTestCase
 {
     use TestHelper;
 

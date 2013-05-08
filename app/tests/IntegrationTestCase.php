@@ -1,6 +1,6 @@
 <?php
 
-class AcceptanceTestCase extends Zizaco\TestCases\IntegrationTestCase {
+class IntegrationTestCase extends Zizaco\TestCases\IntegrationTestCase {
 
     public function setUp()
     {

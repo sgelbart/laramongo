@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class VisualizeCategoryHierarchyTest extends AcceptanceTestCase
+class VisualizeCategoryHierarchyTest extends IntegrationTestCase
 {
     use TestHelper;
 

@@ -30,7 +30,7 @@
 			"app/tests/data/",
 			"app/tests/TestHelper.php",
 			"app/tests/ControllerTestCase.php",
-			"app/tests/AcceptanceTestCase.php",
+			"app/tests/IntegrationTestCase.php",
 			"app/libraries",
 			"app/jobs",
 			"app/views"

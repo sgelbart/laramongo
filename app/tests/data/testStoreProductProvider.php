@@ -9,7 +9,7 @@ class testStoreProductProvider extends testObjectProvider
         return [
             "_id" => 8800001,
             "unit" => 'un',
-            "pack" => fz1,
+            "pack" => 1,
             "stores" => [
                 "contagem" => [
                     "top" => 1,
