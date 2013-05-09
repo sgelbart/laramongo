@@ -17,6 +17,10 @@ class PriceAlgorithmContext extends BaseContext {
     private $priceTable = array();
     private $priceCalculator = '';
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     /**
      * @Given /^the stores which has the following prices:$/
      */

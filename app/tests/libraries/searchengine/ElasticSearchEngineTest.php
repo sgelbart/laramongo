@@ -35,9 +35,14 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
 
         unset($attributes['_id']);
 
+        // Important, the array sent to the elasticsearch should not contain the _id within the
+        // first parameter
+        $should_send = $product->getAttributes();
+        unset($should_send['_id']);
+
         $this->mockedEs
             ->shouldReceive('index')
-            ->with($attributes, $product->_id)
+            ->with($should_send, $product->_id)
             ->once();
 
         $searchEngine = new ElasticSearchEngine;

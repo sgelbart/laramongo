@@ -13,6 +13,10 @@ use Mockery as m;
 
 class IndexResourcesContext extends BaseContext {
 
+    public function __construct() {
+        parent::__construct();
+    }
+
      /**
      * @Then /^should have indexed product at Search Engine$/
      */

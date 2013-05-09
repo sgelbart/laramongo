@@ -173,8 +173,8 @@ class ProductRepositoryTest extends Zizaco\TestCases\TestCase
 
         $product = Product::first($product->_id);
 
-        $this->assertEquals(25, array_get($product->details, 'capacidade'));
-        $this->assertEquals('Preto', array_get($product->details, 'cor'));
+        $this->assertEquals(25, array_get($product->characteristics, 'capacidade'));
+        $this->assertEquals('Preto', array_get($product->characteristics, 'cor'));
     }
 
     public function testShouldReturnProductsToOption()

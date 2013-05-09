@@ -1,7 +1,8 @@
 <?php namespace Laramongo\ExcelIo;
 
 use PHPExcel, PHPExcel_IOFactory, PHPExcel_Style_Fill, PHPExcel_Style_Color, PHPExcel_Style_Border, PHPExcel_Reader_Excel2007;
-use Product, ConjugatedProduct, Category, Illuminate\Support\MessageBag;
+use Product, ConjugatedProduct, Category, Characteristic;
+use Illuminate\Support\MessageBag;
 
 class ExcelVintageImporter extends ExcelImporter {
 
@@ -15,6 +16,9 @@ class ExcelVintageImporter extends ExcelImporter {
         'Texto Publicitário' => 'description',
         'Descrição' => 'small_description',
         'LMs Conjugados' => 'products',
+        'Ordem' => 'order',
+        'Status' => 'status',
+        'Disclaimer' => 'disclaimer',
     ];
 
     /**
@@ -29,10 +33,12 @@ class ExcelVintageImporter extends ExcelImporter {
 
     /**
      * Reads the category if of the excel file that is being imported
+     * 
      * @param  PHPExcel $excel    Openned excel file
+     * @param  array    $schema The characteristics schema
      * @return string String of the MongoId of the found category 
      */
-    protected function parseCategory($excel)
+    protected function parseCategory($excel, $schema)
     {
         $aba1 = $excel->setActiveSheetIndex(0);
         
@@ -84,6 +90,19 @@ class ExcelVintageImporter extends ExcelImporter {
             $key->image = array_get(\ImageGrabber::grab($key),0,null); // Grab Category Image
             unset($key->_id);
 
+            foreach ($schema as $field) {
+
+                $field = substr($field,0,-1);
+
+                if(! in_array($field, $this->nonCharacteristicKeys) && ! in_array(strtolower($field), array_map('strtolower',array_keys($this->relativeVintageName))))
+                {
+                    $charac = new Characteristic;
+                    $charac->name = ucfirst(strtolower($field));
+                    $charac->type = 'string';
+                    $key->embedToCharacteristics( $charac );
+                }
+            }
+
             $key->save();
         }
 
@@ -124,9 +143,9 @@ class ExcelVintageImporter extends ExcelImporter {
 
                 if($value)
                 {
-                    $details = $product->getAttribute('details');
+                    $details = $product->getAttribute('characteristics');
                     $details[$attrName] = ucfirst($value);
-                    $product->setAttribute('details', $details);
+                    $product->setAttribute('characteristics', $details);
                 }
             }
         }

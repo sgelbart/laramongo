@@ -89,7 +89,7 @@ class Importer
 
                         if(! in_array($key, $this->non_characteristic_keys))
                         {
-                            $attributes['details'][$key] = $value;
+                            $attributes['characteristics'][$key] = $value;
                             unset($attributes[$key]);
                         }
 

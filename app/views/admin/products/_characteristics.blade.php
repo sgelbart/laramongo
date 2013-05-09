@@ -1,5 +1,5 @@
 <?php
-    $f = array_merge( (array)$product->details, Input::old() );
+    $f = array_merge( (array)$product->characteristics, Input::old() );
 ?>
 
 {{-- Since multiple line brackets are not yet implemented --}}

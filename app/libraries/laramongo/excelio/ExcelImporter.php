@@ -182,16 +182,18 @@ class ExcelImporter extends ExcelIo {
             $category->name = $categoryName;
             $category->slug = $categoryName;
             $category->type = 'leaf';
-            $category->save();
 
-            foreach ($schema as $key) {
-                if(in_array($key, $this->nonCharacteristicKeys))
+            foreach ($schema as $field) {
+                if(! in_array($field, $this->nonCharacteristicKeys))
                 {
                     $charac = new Characteristic;
-                    $charac->name = ucfirst($key);
+                    $charac->name = ucfirst(strtolower($field));
                     $charac->type = 'string';
+                    $key->embedToCharacteristics( $charac );
                 }
             }
+
+            $category->save();
         }
 
         return $category->_id;
@@ -225,9 +227,9 @@ class ExcelImporter extends ExcelIo {
 
                 if($value)
                 {
-                    $details = $product->getAttribute('details');
+                    $details = $product->getAttribute('characteristics');
                     $details[$attrName] = ucfirst($value);
-                    $product->setAttribute('details', $details);
+                    $product->setAttribute('characteristics', $details);
                 }
             }
         }

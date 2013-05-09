@@ -42,7 +42,7 @@ class testProductProvider extends testObjectProvider
             'name' => 'Prod Detalhado',
             'category' => (string)testCategoryProvider::saved('valid_leaf_category')->_id,
             'description' => 'Descrição de um produto com detalhes',
-            'details' => [
+            'characteristics' => [
                 'capacidade' => 3,
                 'cor' => 'Verde',
             ]

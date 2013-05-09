@@ -268,4 +268,30 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         Config::set('search_engine.enabled', false);
     }
+
+    public function testShouldGetFacets()
+    {
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $result = $category->getFacets();
+
+        foreach ($category->characteristics() as $charac) {
+            $this->assertContains($charac->name, array_keys($result));
+        }
+    }
+
+    public function testShouldGetHistogramFacet()
+    {
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $result = $category->getFacets();
+
+        foreach ($category->characteristics() as $charac) {
+
+            if( $charac->type == 'int' || $charac->type == 'float' )
+            {
+                $this->assertContains( 'histogram' ,array_keys($result[$charac->name]));    
+            }    
+        }
+    }
 }

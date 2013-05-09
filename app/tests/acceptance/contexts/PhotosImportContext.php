@@ -17,6 +17,7 @@ class PhotosImportContext extends BaseContext {
 
     public function __construct()
     {
+        parent::__construct();
         $this->cleanCollection( 'categories' );
         $this->cleanCollection( 'products' );
     }

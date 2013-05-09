@@ -232,4 +232,36 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         return $result;
     }
+
+    /**
+     * Returns an array of the facets if the category based in the
+     * characteristics defined previously
+     * 
+     * @return array Facets
+     */
+    public function getFacets()
+    {
+        $facets = array();
+
+        foreach($this->characteristics() as $charac)
+        {
+            if( $charac->type == 'int' || $charac->type == 'float' )
+            {
+                $facets[$charac->name] = [
+                    'histogram' => [
+                        'field'=>$charac->name,
+                        'interval'=>10
+                    ]
+                ];
+            }
+            else
+            {
+                $facets[$charac->name] = [
+                    'terms' => ['field'=>$charac->name]
+                ];
+            }
+        }
+        
+        return $facets;
+    }
 }

@@ -32,7 +32,7 @@ class ExcelIoTest extends Zizaco\TestCases\TestCase {
         $products[] = testProductProvider::saved('product_with_details');
         $products[] = testProductProvider::saved('another_valid_product');
         $prod = Product::first();
-        $prod->details = ['alguma coisa'=>'algum valor'];
+        $prod->characteristics = ['alguma coisa'=>'algum valor'];
         $prod->save();
 
         $output = '../public/uploads/'.clean_case($category->name).'.xlsx';
@@ -69,7 +69,7 @@ class ExcelIoTest extends Zizaco\TestCases\TestCase {
         testProductProvider::saved('simple_deactivated_product');
         testProductProvider::saved('another_valid_product');
         $prod = Product::first();
-        $prod->details = ['alguma coisa'=>'algum valor'];
+        $prod->characteristics = ['alguma coisa'=>'algum valor'];
         $prod->save();
 
         $io = new ExcelExporter;

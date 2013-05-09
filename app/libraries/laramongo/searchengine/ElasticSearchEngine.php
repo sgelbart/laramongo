@@ -54,7 +54,6 @@ class ElasticSearchEngine extends SearchEngine
 
             $attributes = $this->object->getAttributes();
             unset($attributes['_id']);
-
             $this->es->index($attributes, $this->object->_id);
         }
     }

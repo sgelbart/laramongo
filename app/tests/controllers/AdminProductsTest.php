@@ -254,7 +254,7 @@ class AdminProductsTest extends ControllerTestCase
      */
     public function testShouldFixExistent(){
         $product = testProductProvider::saved( 'simple_valid_product' );
-        $product->details = ['color'=>'red'];
+        $product->characteristics = ['color'=>'red'];
         $product->save(true);
 
         $this->withInput( ['color'=>'blue'] )

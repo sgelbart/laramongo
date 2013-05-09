@@ -57,12 +57,12 @@ class InLineFixForInvalidCharacteristicsTest extends IntegrationTestCase
         sleep(1); // Wait for ajax =(
 
         $productA = Product::first('66666666');
-        $this->assertEquals('Cromado', $productA->details['cor']);
+        $this->assertEquals('Cromado', $productA->characteristics['cor']);
         $this->assertNull($productA->state);
 
         $productB = Product::first('77777777');
-        $this->assertEquals('Sim', $productB->details['tampa']);
-        $this->assertEquals('20', $productB->details['diametro']);
+        $this->assertEquals('Sim', $productB->characteristics['tampa']);
+        $this->assertEquals('20', $productB->characteristics['diametro']);
         $this->assertNull($productB->state);
     }
 

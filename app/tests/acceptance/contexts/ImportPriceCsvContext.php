@@ -11,7 +11,9 @@ use Laramongo\StoresProductsIntegration\CsvParser,
 
 class ImportPriceCsvContext extends BaseContext {
 
-    public function __construct() { }
+    public function __construct() { 
+        parent::__construct();
+    }
 
     /**
      * @Given /^I have no StoreProduct into database$/
