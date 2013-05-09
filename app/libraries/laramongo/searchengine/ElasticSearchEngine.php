@@ -94,10 +94,12 @@ class ElasticSearchEngine extends SearchEngine
 
             $this->prepareIndexationPath('products');
 
-            $this->searchResult = $this->es->search(array(
-                'query' => array(),
+            $this->searchResult = $this->es->search([
+                'query' => [
+                    'term'=>['category'=>$category]
+                ],
                 'facets' => $facets
-            ));
+            ]);
         }
     }
 

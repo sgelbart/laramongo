@@ -32,6 +32,13 @@ class CategoriesController extends BaseController {
                 'page'=> $page
             );
 
+            $searchEngine = new Laramongo\SearchEngine\ElasticSearchEngine;
+            $searchEngine->connect();
+            $searchEngine->facetSearch($category->getFacets(), (string)$category->_id);
+            echo "<pre>";
+            print_r($searchEngine->getRawResult());
+            echo "</pre>";
+
             if( Input::get('ajax') || Request::ajax() )
             {
                 // For ajax request, don't return the layout or the complete view
