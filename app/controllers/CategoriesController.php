@@ -19,9 +19,12 @@ class CategoriesController extends BaseController {
 
         if($category->type == 'leaf')
         {
-            $searchEngine = new Laramongo\SearchEngine\ElasticSearchEngine;
-            $searchEngine->connect();
-            $searchEngine->facetSearch($category->getFacets(), (string)$category->_id);
+            if(Config::get('search_engine.enabled'))
+            {
+                $searchEngine = new Laramongo\SearchEngine\ElasticSearchEngine;
+                $searchEngine->connect();
+                $searchEngine->facetSearch($category->getFacets(), (string)$category->_id);
+            }
 
             $page = Input::get('page') ?: 1;
 
@@ -34,7 +37,7 @@ class CategoriesController extends BaseController {
                 'products'=> $products,
                 'total_pages'=> round($products->count()/12),
                 'page'=> $page,
-                'facets'=> $searchEngine->getFacetResult()
+                'facets'=> (isset($searchEngine)) ? $searchEngine->getFacetResult() : array()
             );
 
             if( Input::get('ajax') || Request::ajax() )
