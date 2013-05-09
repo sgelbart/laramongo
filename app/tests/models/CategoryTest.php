@@ -257,6 +257,7 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         // Prepare mocked searchEngine
         $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('mapCategory');
         $mockedSearchEng->shouldReceive('indexObject')->atLeast(1);
 
         App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
@@ -277,7 +278,8 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         // Prepare mocked searchEngine
         $mockedSearchEng = m::mock('Es');
-        $mockedSearchEng->shouldReceive('indexObject')->once(1);
+        $mockedSearchEng->shouldReceive('indexObject');
+        $mockedSearchEng->shouldReceive('mapCategory')->atLeast(1);
 
         App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
             return $mockedSearchEng; 

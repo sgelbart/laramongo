@@ -129,6 +129,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
         if( $this->isValid() )
         {
             $this->searchEngineIndex();
+            $this->searchEngineMapFacets();
             $this->buildAncestors();
             return parent::save( $force );
 
@@ -245,6 +246,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         foreach($this->characteristics() as $charac)
         {
+            // Ignore these characteristics for now
             if(in_array($charac->name, ['Ordem','Status','Disclaimer']))
                 continue;
 
@@ -263,9 +265,18 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
                     'terms' => ['field'=>clean_case($charac->name)]
                 ];
             }
-            break;
         }
         
         return $facets;
+    }
+
+    public function searchEngineMapFacets()
+    {
+        if (Config::get('search_engine.enabled')) {
+            $engineName = Config::get('search_engine.engine');
+            $searchEngine = App::make($engineName);
+
+            $searchEngine->mapCategory($this);
+        }
     }
 }

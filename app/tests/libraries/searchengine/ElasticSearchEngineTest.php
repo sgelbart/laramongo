@@ -85,10 +85,16 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         Config::set('search_engine.application_name', 'laramongo_test');
 
         $mapping = [
-            clean_case('Capacidade') => 'analyzed',
-            clean_case('Quantidade') => 'analyzed',
-            clean_case('Coleção') => 'analyzed',
-            clean_case('Cor') => 'analyzed'
+            'properties' => [
+                'characteristics' => [
+                    'properties' => [
+                        clean_case('Capacidade') => ['type'=>'string'],
+                        clean_case('Quantidade') => ['type'=>'string'],
+                        clean_case('Coleção') => ['type'=>'string'],
+                        clean_case('Cor') => ['type'=>'string']
+                    ]
+                ]
+            ]
         ];
 
         $category = testCategoryProvider::instance('leaf_with_facets');
@@ -120,7 +126,9 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $this->mockedEs
             ->shouldReceive('search')
             ->with([
-                'query'=>array(),
+                'query' => [
+                    'term'=>['category'=>'123']
+                ],
                 'facets'=>$facets
             ])
             ->once();

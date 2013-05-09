@@ -70,14 +70,14 @@ class ElasticSearchEngine extends SearchEngine
         if (Config::get('search_engine.enabled')) {
             $this->connect();
 
-            $this->prepareIndexationPath('products');
+            $this->prepareIndexationPath('categories');
 
             $characs = array();
             foreach ($category->characteristics() as $charac) {
-                $characs[clean_case($charac->name)] = 'analyzed';
+                $characs['characteristics']['properties'][clean_case($charac->name)] = ['type'=>'string'];
             }
 
-            $this->es->map($characs);
+            $this->es->map(['properties'=>$characs]);
         }
     }
 
