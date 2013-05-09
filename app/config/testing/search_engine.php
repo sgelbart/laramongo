@@ -6,4 +6,6 @@
 
 return array(
     'enabled' => false,
+
+    'application_name' => 'laramongo_test',
 );

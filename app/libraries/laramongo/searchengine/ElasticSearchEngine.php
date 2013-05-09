@@ -48,6 +48,11 @@ class ElasticSearchEngine extends SearchEngine
         if (Config::get('search_engine.enabled')) {
             $this->object = $object;
 
+            if(! $this->object->_id)
+            {
+                trigger_error("The object provided doens't have an _id. Make sure to save it in database first.");
+            }
+
             $this->connect();
 
             $this->prepareIndexationPath($this->object->getCollectionName());
@@ -55,6 +60,29 @@ class ElasticSearchEngine extends SearchEngine
             $attributes = $this->object->getAttributes();
             unset($attributes['_id']);
             $this->es->index($attributes, $this->object->_id);
+        }
+    }
+
+    /**
+     * Maps the characteristics and fields contained within a category to
+     * the ElasticSearch in order to be used as facets later
+     * 
+     * @param  Category $category A Category object
+     * @return bool Success
+     */
+    public function mapCategory($category)
+    {
+        if (Config::get('search_engine.enabled')) {
+            $this->connect();
+
+            $this->prepareIndexationPath('products');
+
+            $characs = array();
+            foreach ($category->characteristics() as $charac) {
+                $characs['characteristics']['properties'][clean_case($charac->name)] = ['type'=>'string'];
+            }
+
+            $this->es->map(['properties'=>$characs]);
         }
     }
 
@@ -94,10 +122,12 @@ class ElasticSearchEngine extends SearchEngine
 
             $this->prepareIndexationPath('products');
 
-            $this->searchResult = $this->es->search(array(
-                'query' => array(),
+            $this->searchResult = $this->es->search([
+                'query' => [
+                    'term'=>['category'=>$category]
+                ],
                 'facets' => $facets
-            ));
+            ]);
         }
     }
 
@@ -119,15 +149,24 @@ class ElasticSearchEngine extends SearchEngine
 
                 $object = new $className();
 
-                foreach ($indexed['_source'] as $key => $value) {
-                    $object->$key = $value;
-                }
+                $object->parseDocument( $indexed['_source'] );
+                $object = $object->polymorph( $object );
 
                 array_push($filteredResult, $object);
             }
         }
 
         return $filteredResult;
+    }
+
+    /**
+     * Return the facet results of the last facetSearch
+     * 
+     * @return array
+     */
+    public function getFacetResult()
+    {
+        return array_get($this->getRawResult(), 'facets',[]);
     }
 
     /**

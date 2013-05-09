@@ -128,9 +128,13 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         if( $this->isValid() )
         {
-            $this->searchEngineIndex();
-            $this->buildAncestors();
-            return parent::save( $force );
+            if(parent::save( $force ))
+            {
+                $this->searchEngineIndex();
+                $this->searchEngineMapFacets();
+                $this->buildAncestors();
+                return true;
+            }
 
             foreach ($this->childs() as $child)
             {
@@ -245,11 +249,15 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         foreach($this->characteristics() as $charac)
         {
+            // Ignore these characteristics for now
+            if(in_array($charac->name, ['Ordem','Status','Disclaimer']))
+                continue;
+
             if( $charac->type == 'int' || $charac->type == 'float' )
             {
                 $facets[$charac->name] = [
                     'histogram' => [
-                        'field'=>$charac->name,
+                        'field'=>clean_case($charac->name),
                         'interval'=>10
                     ]
                 ];
@@ -257,11 +265,21 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
             else
             {
                 $facets[$charac->name] = [
-                    'terms' => ['field'=>$charac->name]
+                    'terms' => ['field'=>clean_case($charac->name)]
                 ];
             }
         }
         
         return $facets;
+    }
+
+    public function searchEngineMapFacets()
+    {
+        if (Config::get('search_engine.enabled')) {
+            $engineName = Config::get('search_engine.engine');
+            $searchEngine = App::make($engineName);
+
+            $searchEngine->mapCategory($this);
+        }
     }
 }

@@ -336,3 +336,29 @@ div.main div.search_box input[type=submit] {
   line-height: 35px;
   border-top: solid 1px #DDD;
 }
+.facets-sidebar {
+  border: solid 1px #DDD;
+  margin-top: 20px;
+  margin-right: 19px;
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+}
+.facets-sidebar h3 {
+  display: block;
+  background-color: #DDD;
+  padding: 7px;
+}
+.facets-sidebar h3:first-child {
+  margin-top: 0px;
+}
+.facets-sidebar a {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 2px 10px;
+}
+.facets-sidebar a small {
+  color: #000;
+  font-weight: bold;
+}

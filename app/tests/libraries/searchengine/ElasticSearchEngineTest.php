@@ -80,6 +80,36 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $this->assertInstanceOf('Product', $result[0]);
     }
 
+    public function testShouldMapCategory()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $mapping = [
+            'properties' => [
+                'characteristics' => [
+                    'properties' => [
+                        clean_case('Capacidade') => ['type'=>'string'],
+                        clean_case('Quantidade') => ['type'=>'string'],
+                        clean_case('Coleção') => ['type'=>'string'],
+                        clean_case('Cor') => ['type'=>'string']
+                    ]
+                ]
+            ]
+        ];
+
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $this->mockedEs
+            ->shouldReceive('map')
+            ->with($mapping)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->mapCategory($category);
+    }
+
     public function testShouldDoFacetSearch()
     {
         Config::set('search_engine.application_name', 'laramongo_test');
@@ -96,7 +126,9 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $this->mockedEs
             ->shouldReceive('search')
             ->with([
-                'query'=>array(),
+                'query' => [
+                    'term'=>['category'=>'123']
+                ],
                 'facets'=>$facets
             ])
             ->once();
@@ -105,5 +137,55 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $searchEngine->es = $this->mockedEs;
 
         $searchEngine->facetSearch($facets, '123');
+    }
+
+    public function testShouldGetRawResult()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $result = [
+            'facets' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'hits' => [
+                'anything' => 'lalala'
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->andReturn($result)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->searchObject();
+        $this->assertEquals($result, $searchEngine->getRawResult());
+    }
+
+    public function testShouldGetFacetResult()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $result = [
+            'facets' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'hits' => [
+                'anything' => 'lalala'
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->andReturn($result)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->searchObject();
+        $this->assertEquals($result['facets'], $searchEngine->getFacetResult());
     }
 }

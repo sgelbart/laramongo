@@ -257,6 +257,7 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         // Prepare mocked searchEngine
         $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('mapCategory');
         $mockedSearchEng->shouldReceive('indexObject')->atLeast(1);
 
         App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
@@ -265,6 +266,27 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         $category = testCategoryProvider::instance('valid_leaf_category');
         $category->save(); // This should call the SearchEngine->indexObject
+
+        Config::set('search_engine.enabled', false);
+    }
+
+    public function testShoultMapFacetsOnSave()
+    {
+        // Enable search engine
+        Config::set('search_engine.enabled', true);
+        Config::set('search_engine.engine', 'mockedSearchEngine');
+
+        // Prepare mocked searchEngine
+        $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('indexObject');
+        $mockedSearchEng->shouldReceive('mapCategory')->atLeast(1);
+
+        App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
+            return $mockedSearchEng; 
+        });
+
+        $category = testCategoryProvider::instance('leaf_with_facets');
+        $category->save();
 
         Config::set('search_engine.enabled', false);
     }

@@ -14,25 +14,15 @@
             <link rel="stylesheet" href="/assets/css/templates/base/tiled_category.css" >
         @else
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/common.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/image-tagging.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/main.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/menu.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/product-page.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/sidebar.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/subcategories_page.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/tiled_category.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/topbar.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/old_layout/css/variables.css" >
-
             <link rel="stylesheet" href="/assets/css/templates/responsive/thumbnail.css" >
             <link rel="stylesheet" href="/assets/css/templates/responsive/sugestions.css" >
             <link rel="stylesheet" href="/assets/css/templates/responsive/product-information.css" >
