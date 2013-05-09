@@ -79,7 +79,23 @@ class ElasticSearchEngine extends SearchEngine
 
             $characs = array();
             foreach ($category->characteristics() as $charac) {
-                $characs['characteristics']['properties'][clean_case($charac->name)] = ['type'=>'string'];
+                $type = 'string';
+
+                if($charac->type == 'int')
+                {
+                    $type = 'integer';
+                }
+                if($charac->type == 'float')
+                {
+                    $type = 'float';
+                }
+
+                $characs['characteristics']['properties'][clean_case($charac->name)] = [
+                    'type' => 'multi_field',
+                    'fields' => [
+                        'as_'.$type => ['type'=>$type]
+                    ]
+                ];
             }
 
             $this->es->map(['properties'=>$characs]);

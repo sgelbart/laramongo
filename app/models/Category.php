@@ -253,11 +253,22 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
             if(in_array($charac->name, ['Ordem','Status','Disclaimer']))
                 continue;
 
+            $type_name = 'as_string';
+
+            if($charac->type == 'int')
+            {
+                $type_name = 'as_integer';
+            }
+            if($charac->type == 'float')
+            {
+                $type_name = 'as_float';
+            }
+
             if( $charac->type == 'int' || $charac->type == 'float' )
             {
                 $facets[$charac->name] = [
                     'histogram' => [
-                        'field'=>clean_case($charac->name),
+                        'field'=>'characteristics.'.clean_case($charac->name).'.'.$type_name,
                         'interval'=>10
                     ]
                 ];
@@ -265,7 +276,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
             else
             {
                 $facets[$charac->name] = [
-                    'terms' => ['field'=>clean_case($charac->name)]
+                    'terms' => ['field'=>'characteristics.'.clean_case($charac->name).'.'.$type_name]
                 ];
             }
         }
