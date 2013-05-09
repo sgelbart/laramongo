@@ -66,7 +66,7 @@ class ElasticSearchEngine extends SearchEngine
     /**
      * Maps the characteristics and fields contained within a category to
      * the ElasticSearch in order to be used as facets later
-     * 
+     *
      * @param  Category $category A Category object
      * @return bool Success
      */
@@ -141,19 +141,23 @@ class ElasticSearchEngine extends SearchEngine
     {
         $filteredResult = array();
 
-        foreach ($this->searchResult['hits']['hits'] as $indexed) {
-            if ($indexed['_type'] == $type) {
-                $indexed['_source']['_id'] = $indexed['_id'];
+        if ($this->searchResult['hits']) {
+            foreach ($this->searchResult['hits']['hits'] as $indexed) {
+                if ($indexed['_type'] == $type) {
+                    $indexed['_source']['_id'] = $indexed['_id'];
 
-                $className = $this->getClassName($type);
+                    $className = $this->getClassName($type);
 
-                $object = new $className();
+                    $object = new $className();
 
-                $object->parseDocument( $indexed['_source'] );
-                $object = $object->polymorph( $object );
+                    $object->parseDocument( $indexed['_source'] );
+                    $object = $object->polymorph( $object );
 
-                array_push($filteredResult, $object);
+                    array_push($filteredResult, $object);
+                }
             }
+        } else {
+            return false;
         }
 
         return $filteredResult;
@@ -161,7 +165,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Return the facet results of the last facetSearch
-     * 
+     *
      * @return array
      */
     public function getFacetResult()

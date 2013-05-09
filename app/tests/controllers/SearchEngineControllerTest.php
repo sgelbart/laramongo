@@ -17,7 +17,13 @@ class SearchEngineControllerTest extends ControllerTestCase
 
     public function testShouldCanSearchSomething()
     {
-        $this->requestAction('GET', 'SearchEngineController@search', ['query' => 'coisa']);
+        $this->requestUrl('GET', 'search?query=coisa');
         $this->assertRequestOk();
+    }
+
+    public function testShouldRedirectToHomeIfHasNotStringToQuery()
+    {
+        $this->requestAction('GET', 'SearchEngineController@search');
+        $this->assertRedirection(URL::action('HomeController@index'));
     }
 }
