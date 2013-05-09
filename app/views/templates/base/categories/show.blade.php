@@ -35,3 +35,10 @@
     </div>
 
 @stop
+
+
+@section ('facets')
+    @if( $facets )
+        @include('templates.base.categories._facets')
+    @endif
+@stop

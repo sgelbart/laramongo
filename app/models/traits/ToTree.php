@@ -31,7 +31,6 @@ trait ToTree
         $cacheKey = str_replace('.', '_', implode('_', $options));
         //return Cache::remember($cacheKey, 0.1, function() use ($treeStates, $options, $showHidden){
 
-            static::start();
             $result = '<ul class="roots">';
 
             if($showHidden)
@@ -60,11 +59,9 @@ trait ToTree
                     $result .= $node->renderNode( true, $options );
                 }
             }
-            static::end_v();
 
             $result .= '</ul>';
             
-            echo "rendered: ".static::$rendered++."\n<br>";
             return $result;
 
         //});
