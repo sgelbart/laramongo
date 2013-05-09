@@ -18,4 +18,19 @@ abstract class SearchEngine
      * @return boolean Success
      */
     abstract public function facetSearch($facets, $category, $filter = array());
+
+    /**
+     * Return result of the search query by type (Content, product, etc...)
+     * 
+     * @param  string $type name of collections to filtering result
+     * @return array
+     */
+    abstract public function getResultBy($type);
+
+    /**
+     * Return the RAW result of the last search query performed by the search engine
+     * 
+     * @return array
+     */
+    abstract public function getRawResult();
 }

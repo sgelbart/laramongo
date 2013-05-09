@@ -60,6 +60,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Search multiples types and return values
+     * 
      * @param  array or string $types the types used at Elastic Search
      * @param  string $query what you want to search
      * @return result
@@ -102,6 +103,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Return result of search query
+     * 
      * @param  string $type name of collections to filtering result
      * @return array
      */
