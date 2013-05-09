@@ -59,6 +59,29 @@ class ElasticSearchEngine extends SearchEngine
     }
 
     /**
+     * Maps the characteristics and fields contained within a category to
+     * the ElasticSearch in order to be used as facets later
+     * 
+     * @param  Category $category A Category object
+     * @return bool Success
+     */
+    public function mapCategory($category)
+    {
+        if (Config::get('search_engine.enabled')) {
+            $this->connect();
+
+            $this->prepareIndexationPath('products');
+
+            $characs = array();
+            foreach ($category->characteristics() as $charac) {
+                $characs[clean_case($charac->name)] = 'analyzed';
+            }
+
+            $this->es->map($characs);
+        }
+    }
+
+    /**
      * Search multiples types and return values
      * 
      * @param  array or string $types the types used at Elastic Search

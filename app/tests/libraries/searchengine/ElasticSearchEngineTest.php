@@ -80,6 +80,30 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $this->assertInstanceOf('Product', $result[0]);
     }
 
+    public function testShouldMapCategory()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $mapping = [
+            clean_case('Capacidade') => 'analyzed',
+            clean_case('Quantidade') => 'analyzed',
+            clean_case('Coleção') => 'analyzed',
+            clean_case('Cor') => 'analyzed'
+        ];
+
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $this->mockedEs
+            ->shouldReceive('map')
+            ->with($mapping)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->mapCategory($category);
+    }
+
     public function testShouldDoFacetSearch()
     {
         Config::set('search_engine.application_name', 'laramongo_test');

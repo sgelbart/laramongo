@@ -4,6 +4,15 @@ abstract class SearchEngine
 {
     abstract public function indexObject($object);
 
+    /**
+     * Maps the characteristics and fields contained within a category to
+     * the searchEngine in order to be used as facets later
+     * 
+     * @param  Category $category A Category object
+     * @return bool Success
+     */
+    abstract public function mapCategory($category);
+
     abstract public function searchObject();
 
     /**

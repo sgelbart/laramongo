@@ -269,6 +269,26 @@ class CategoryTest extends Zizaco\TestCases\TestCase
         Config::set('search_engine.enabled', false);
     }
 
+    public function testShoultMapFacetsOnSave()
+    {
+        // Enable search engine
+        Config::set('search_engine.enabled', true);
+        Config::set('search_engine.engine', 'mockedSearchEngine');
+
+        // Prepare mocked searchEngine
+        $mockedSearchEng = m::mock('Es');
+        $mockedSearchEng->shouldReceive('indexObject')->once(1);
+
+        App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
+            return $mockedSearchEng; 
+        });
+
+        $category = testCategoryProvider::instance('leaf_with_facets');
+        $category->save();
+
+        Config::set('search_engine.enabled', false);
+    }
+
     public function testShouldGetFacets()
     {
         $category = testCategoryProvider::instance('leaf_with_facets');
