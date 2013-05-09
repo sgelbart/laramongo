@@ -3,7 +3,7 @@
 use Selenium\Locator as l;
 use Zizaco\FactoryMuff\Facade\FactoryMuff as f;
 
-class ValidateProductsAndDisplayErrorsTest extends AcceptanceTestCase
+class ValidateProductsAndDisplayErrorsTest extends IntegrationTestCase
 {
     use TestHelper;
 
