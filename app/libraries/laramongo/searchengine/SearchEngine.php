@@ -3,4 +3,6 @@
 abstract class SearchEngine
 {
     abstract public function indexObject($object);
+
+    abstract public function searchObject();
 }

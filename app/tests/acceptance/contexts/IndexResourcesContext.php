@@ -35,4 +35,27 @@ class IndexResourcesContext extends BaseContext {
 
         $searchEngine->indexObject($this->simple_valid_product);
     }
+
+    /**
+     * @Then /^should have retrieved a index of product$/
+     */
+    public function shouldHaveRetrievedAIndexOfProduct()
+    {
+        Config::set('search_engine.enabled', true);
+
+        // Prepare mocked searchEngine
+        $this->mockedEs = m::mock('Es');
+        $this->mockedEs->shouldReceive('setIndex');
+        $this->mockedEs->shouldReceive('setType');
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->with($this->simple_valid_product->getAttributes(), $this->simple_valid_product->_id)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->indexObject($this->simple_valid_product);
+    }
 }

@@ -19,11 +19,17 @@ class ElasticSearchEngine extends SearchEngine
     protected $object;
 
     /**
+     * Result the searchObject function
+     * @var array
+     */
+    protected $searchResult;
+
+    /**
      * Create the connection with elastic search
      *
      * @return null
      */
-    protected function connect()
+    public function connect()
     {
         if (! isset($this->es)) {
             $this->es = Client::connection(
@@ -44,20 +50,58 @@ class ElasticSearchEngine extends SearchEngine
 
             $this->connect();
 
-            $this->prepareIndexationPath();
+            $this->prepareIndexationPath($this->object->getCollectionName());
 
-            $this->es->index($this->object->getAttributes(), $this->object->_id);
+            $attributes = $this->object->getAttributes();
+            unset($attributes['_id']);
+
+            $this->es->index($attributes, $this->object->_id);
         }
     }
 
     /**
+     * Search multiples types and return values
+     * @param  array or string $types the types used at Elastic Search
+     * @param  string $query what you want to search
+     * @return result
+     */
+    public function searchObject()
+    {
+        if (Config::get('search_engine.enabled')) {
+            $this->connect();
+
+            $this->prepareIndexationPath(array('contents', 'products', 'categories'));
+
+            $this->searchResult = $this->es->search('*:*');
+        }
+    }
+
+    /**
+     * Return result of search query
+     * @param  string $type name of collections to filtering result
+     * @return array
+     */
+    public function getResultBy($type)
+    {
+        $filteredResult = array();
+
+        foreach ($this->searchResult['hits']['hits'] as $indexed) {
+            if ($indexed['_type'] == $type) {
+                array_push($filteredResult, $indexed['_source']);
+            }
+        }
+
+        return $filteredResult;
+    }
+
+    /**
      * Prepare the index name used by elastic search
-     *
+     * @param  string or array $types
      * @return null
      */
-    protected function prepareIndexationPath()
+    public function prepareIndexationPath($types)
     {
         $this->es->setIndex(Config::get('search_engine.application_name'));
-        $this->es->setType($this->object->getCollectionName());
+        $this->es->setType($types);
     }
 }

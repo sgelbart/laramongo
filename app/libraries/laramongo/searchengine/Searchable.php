@@ -4,7 +4,7 @@ interface Searchable
 {
     /**
      * Insert a index at Search engine
-     * @return boolean
+     * @return null
      */
     public function searchEngineIndex();
 }

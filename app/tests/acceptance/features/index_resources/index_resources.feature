@@ -5,3 +5,7 @@ I would like to add a product and see if was indexed
 Scenario: Saving a product
     Given I have a the product "simple_valid_product"
     Then should have indexed product at Search Engine
+
+Scenario: Retriving the products indexed
+    Given I have a the product "simple_valid_product"
+    Then should have retrieved a index of product
