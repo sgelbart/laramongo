@@ -1,6 +1,6 @@
 <?php
 
-class ContentRepository
+class CategoryRepository
 {
     
 }

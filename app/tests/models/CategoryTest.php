@@ -268,4 +268,15 @@ class CategoryTest extends Zizaco\TestCases\TestCase
 
         Config::set('search_engine.enabled', false);
     }
+
+    public function testShouldGetFacets()
+    {
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $result = $category->getFacets();
+
+        foreach ($category->characteristics() as $charac) {
+            $this->assertContains($charac->name, array_keys($result));
+        }
+    }
 }
