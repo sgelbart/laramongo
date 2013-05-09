@@ -245,9 +245,21 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         foreach($this->characteristics() as $charac)
         {
-            $facets[$charac->name] = [
-                'terms' => ['field'=>$charac->name]
-            ];
+            if( $charac->type == 'int' || $charac->type == 'float' )
+            {
+                $facets[$charac->name] = [
+                    'histogram' => [
+                        'field'=>$charac->name,
+                        'interval'=>10
+                    ]
+                ];
+            }
+            else
+            {
+                $facets[$charac->name] = [
+                    'terms' => ['field'=>$charac->name]
+                ];
+            }
         }
         
         return $facets;
