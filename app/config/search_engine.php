@@ -11,7 +11,7 @@ return array(
 
     'settings' => array(
         'elastic_search' =>  array (
-            'connection_url' => 'http://127.0.0.1:9200'
+            'connection_url' => isset($_SERVER['PARAM5']) ? $_SERVER['PARAM5'] : 'http://127.0.0.1:9200'
         ),
 
         'exalead' => array ()
