@@ -76,4 +76,31 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
 
         $this->assertInstanceOf('Product', $result);
     }
+
+    public function testShouldDoFacetSearch()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $facets = [
+            'Color' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'Size' => [
+                'histogram' => ['field'=>'Size', 'interval'=>50]
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->with([
+                'query'=>array(),
+                'facets'=>$facets
+            ])
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->facetSearch($facets, '123');
+    }
 }

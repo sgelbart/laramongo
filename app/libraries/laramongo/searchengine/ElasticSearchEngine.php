@@ -76,6 +76,31 @@ class ElasticSearchEngine extends SearchEngine
     }
 
     /**
+     * Performs a facet search within a category. The search will be
+     * performed in all the Products that contain the 'category' attribute
+     * equals to the $category attribute passed to the method.
+     * The facets should be build based in the category characteristics
+     * 
+     * @param  array $facets   The facets in the array format. See: http://www.elasticsearch.org/guide/reference/api/search/facets/
+     * @param  array $category The product category there the search should be performed.
+     * @param  array $filter   Should contain the chosen values to the facets given before.
+     * @return boolean Success
+     */
+    public function facetSearch($facets, $category, $filter = array())
+    {
+        if (Config::get('search_engine.enabled')) {
+            $this->connect();
+
+            $this->prepareIndexationPath('products');
+
+            $this->searchResult = $this->es->search(array(
+                'query' => array(),
+                'facets' => $facets
+            ));
+        }
+    }
+
+    /**
      * Return result of search query
      * @param  string $type name of collections to filtering result
      * @return array
@@ -91,6 +116,16 @@ class ElasticSearchEngine extends SearchEngine
         }
 
         return $filteredResult;
+    }
+
+    /**
+     * Return the RAW result of search query
+     * 
+     * @return array
+     */
+    public function getRawResult()
+    {
+        return $this->searchResult;
     }
 
     /**
