@@ -7,17 +7,21 @@ class SearchEngineController extends BaseController {
     {
         $query = Input::get('query');
 
-        $es = new ElasticSearchEngine();
+        if ($query) {
+            $es = new ElasticSearchEngine();
 
-        $es->searchObject($query);
+            $es->searchObject($query);
 
-        $products = $es->getResultBy('products');
-        $contents = $es->getResultBy('contents');
-        $categories = $es->getResultBy('categories');
+            $products = $es->getResultBy('products');
+            $contents = $es->getResultBy('contents');
+            $categories = $es->getResultBy('categories');
 
-        $this->layout->content = View::make('searchengine.search')
-            ->with('products', $products)
-            ->with('contents', $contents)
-            ->with('categories', $categories);
+            $this->layout->content = View::make('searchengine.search')
+                ->with('products', $products)
+                ->with('contents', $contents)
+                ->with('categories', $categories);
+        } else {
+            return Redirect::action('HomeController@index');
+        }
     }
 }
