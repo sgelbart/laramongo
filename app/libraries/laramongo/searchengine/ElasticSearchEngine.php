@@ -86,7 +86,17 @@ class ElasticSearchEngine extends SearchEngine
 
         foreach ($this->searchResult['hits']['hits'] as $indexed) {
             if ($indexed['_type'] == $type) {
-                array_push($filteredResult, $indexed['_source']);
+                array_push($indexed['_source'], array('_id' => $indexed['_id']));
+
+                $className = $this->getClassName($type);
+
+                $object = new $className();
+
+                foreach ($indexed['_source'] as $key => $value) {
+                    $object->$key = $value;
+                }
+
+                array_push($filteredResult, $object);
             }
         }
 
@@ -102,5 +112,21 @@ class ElasticSearchEngine extends SearchEngine
     {
         $this->es->setIndex(Config::get('search_engine.application_name'));
         $this->es->setType($types);
+    }
+
+    private function getClassName($name)
+    {
+        switch ($name) {
+            case 'products':
+                return 'Product';
+                break;
+
+            case 'categories':
+                return 'Category';
+                break;
+            case 'contents':
+                return 'Content';
+                break;
+        }
     }
 }
