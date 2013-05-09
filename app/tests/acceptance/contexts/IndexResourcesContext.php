@@ -29,9 +29,12 @@ class IndexResourcesContext extends BaseContext {
         $this->mockedEs->shouldReceive('setIndex');
         $this->mockedEs->shouldReceive('setType');
 
+        $attributes = $this->simple_valid_product->getAttributes();
+        unset($attributes['_id']);
+
         $this->mockedEs
             ->shouldReceive('index')
-            ->with($this->simple_valid_product->getAttributes(), $this->simple_valid_product->_id)
+            ->with($attributes, $this->simple_valid_product->_id)
             ->once();
 
         $searchEngine = new ElasticSearchEngine;
@@ -52,14 +55,27 @@ class IndexResourcesContext extends BaseContext {
         $this->mockedEs->shouldReceive('setIndex');
         $this->mockedEs->shouldReceive('setType');
 
+
+        $attributes = $this->simple_valid_product->getAttributes();
+        unset($attributes['_id']);
+
+        $this->mockedEs
+            ->shouldReceive('index')
+            ->with($attributes, $this->simple_valid_product->_id)
+            ->once();
+
         $this->mockedEs
             ->shouldReceive('search')
-            ->with($this->simple_valid_product->getAttributes(), $this->simple_valid_product->_id)
             ->once();
+
+        $this->mockedEs
+            ->shouldReceive('getResultBy')
+            ->with('products');
 
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
         $searchEngine->indexObject($this->simple_valid_product);
+        $searchEngine->searchObject();
     }
 }

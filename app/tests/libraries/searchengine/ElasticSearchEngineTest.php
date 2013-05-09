@@ -68,13 +68,16 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
 
         // creating a product
         $product = testProductProvider::saved('simple_valid_product');
+        //waiting elastic Search Index.
+        sleep(1);
+
         $engine->searchObject();
 
         $result = $engine->getResultBy('products');
 
         Config::set('search_engine.application_name', 'dev');
 
-        $this->assertInstanceOf('Product', $result);
+        $this->assertInstanceOf('Product', $result[0]);
     }
 
     public function testShouldDoFacetSearch()
