@@ -10,7 +10,7 @@ class SearchEngineController extends BaseController {
         if ($query) {
             $es = new ElasticSearchEngine();
 
-            $es->searchObject($query);
+            $es->searchObject("*" . $query . "*");
 
             $products = $es->getResultBy('products');
             $contents = $es->getResultBy('contents');
