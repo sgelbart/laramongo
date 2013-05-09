@@ -128,10 +128,13 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         if( $this->isValid() )
         {
-            $this->searchEngineIndex();
-            $this->searchEngineMapFacets();
-            $this->buildAncestors();
-            return parent::save( $force );
+            if(parent::save( $force ))
+            {
+                $this->searchEngineIndex();
+                $this->searchEngineMapFacets();
+                $this->buildAncestors();
+                return true;
+            }
 
             foreach ($this->childs() as $child)
             {

@@ -48,6 +48,11 @@ class ElasticSearchEngine extends SearchEngine
         if (Config::get('search_engine.enabled')) {
             $this->object = $object;
 
+            if(! $this->object->_id)
+            {
+                trigger_error("The object provided doens't have an _id. Make sure to save it in database first.");
+            }
+
             $this->connect();
 
             $this->prepareIndexationPath($this->object->getCollectionName());
