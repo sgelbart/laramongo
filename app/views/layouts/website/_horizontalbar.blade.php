@@ -1,6 +1,10 @@
 <div class='search_box'>
-    <input type='submit'>
-    <input placeholder='O que você precisa?'>
+
+    {{ Form::open( array('url' => 'search', 'method' => 'get' ) ) }}
+        {{ Form::text('query') }}
+        {{ Form::submit() }}
+    {{ Form::close() }}
+
 </div>
 
 <ul class='horizon_menu'>

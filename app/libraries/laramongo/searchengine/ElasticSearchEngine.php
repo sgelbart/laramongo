@@ -60,19 +60,19 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Search multiples types and return values
-     * 
+     *
      * @param  array or string $types the types used at Elastic Search
      * @param  string $query what you want to search
      * @return result
      */
-    public function searchObject()
+    public function searchObject($query= '*:*')
     {
         if (Config::get('search_engine.enabled')) {
             $this->connect();
 
             $this->prepareIndexationPath(array('contents', 'products', 'categories'));
 
-            $this->searchResult = $this->es->search('*:*');
+            $this->searchResult = $this->es->search($query);
         }
     }
 
@@ -81,7 +81,7 @@ class ElasticSearchEngine extends SearchEngine
      * performed in all the Products that contain the 'category' attribute
      * equals to the $category attribute passed to the method.
      * The facets should be build based in the category characteristics
-     * 
+     *
      * @param  array $facets   The facets in the array format. See: http://www.elasticsearch.org/guide/reference/api/search/facets/
      * @param  array $category The product category there the search should be performed.
      * @param  array $filter   Should contain the chosen values to the facets given before.
@@ -103,7 +103,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Return result of search query
-     * 
+     *
      * @param  string $type name of collections to filtering result
      * @return array
      */
@@ -113,7 +113,7 @@ class ElasticSearchEngine extends SearchEngine
 
         foreach ($this->searchResult['hits']['hits'] as $indexed) {
             if ($indexed['_type'] == $type) {
-                array_push($indexed['_source'], array('_id' => $indexed['_id']));
+                $indexed['_source']['_id'] = $indexed['_id'];
 
                 $className = $this->getClassName($type);
 
@@ -132,7 +132,7 @@ class ElasticSearchEngine extends SearchEngine
 
     /**
      * Return the RAW result of search query
-     * 
+     *
      * @return array
      */
     public function getRawResult()

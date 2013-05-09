@@ -41,6 +41,9 @@ Route::get(    'health/details', function(){
     return $hc->renderResults();
 } );
 
+Route::get('search', 'SearchEngineController@search');
+
+// Ajax search at admin controllers
 Route::get(    'search/products/{view}', 'SearchController@products');
 
 /*
