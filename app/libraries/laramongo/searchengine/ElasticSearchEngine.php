@@ -75,7 +75,7 @@ class ElasticSearchEngine extends SearchEngine
         if (Config::get('search_engine.enabled')) {
             $this->connect();
 
-            $this->prepareIndexationPath('categories');
+            $this->prepareIndexationPath('products');
 
             $characs = array();
             foreach ($category->characteristics() as $charac) {
@@ -157,6 +157,16 @@ class ElasticSearchEngine extends SearchEngine
         }
 
         return $filteredResult;
+    }
+
+    /**
+     * Return the facet results of the last facetSearch
+     * 
+     * @return array
+     */
+    public function getFacetResult()
+    {
+        return array_get($this->getRawResult(), 'facets',[]);
     }
 
     /**

@@ -36,7 +36,7 @@ class CategoriesController extends BaseController {
             $searchEngine->connect();
             $searchEngine->facetSearch($category->getFacets(), (string)$category->_id);
             echo "<pre>";
-            print_r($searchEngine->getRawResult());
+            print_r($searchEngine->getFacetResult());
             echo "</pre>";
 
             if( Input::get('ajax') || Request::ajax() )

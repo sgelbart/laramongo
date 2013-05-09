@@ -138,4 +138,54 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
 
         $searchEngine->facetSearch($facets, '123');
     }
+
+    public function testShouldGetRawResult()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $result = [
+            'facets' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'hits' => [
+                'anything' => 'lalala'
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->andReturn($result)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->searchObject();
+        $this->assertEquals($result, $searchEngine->getRawResult());
+    }
+
+    public function testShouldGetFacetResult()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $result = [
+            'facets' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'hits' => [
+                'anything' => 'lalala'
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->andReturn($result)
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->searchObject();
+        $this->assertEquals($result['facets'], $searchEngine->getFacetResult());
+    }
 }

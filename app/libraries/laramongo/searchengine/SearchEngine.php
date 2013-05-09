@@ -37,6 +37,13 @@ abstract class SearchEngine
     abstract public function getResultBy($type);
 
     /**
+     * Return the facet results of the last facetSearch
+     * 
+     * @return array
+     */
+    abstract public function getFacetResult();
+
+    /**
      * Return the RAW result of the last search query performed by the search engine
      * 
      * @return array
