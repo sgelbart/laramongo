@@ -121,9 +121,8 @@ class ElasticSearchEngine extends SearchEngine
 
                 $object = new $className();
 
-                foreach ($indexed['_source'] as $key => $value) {
-                    $object->$key = $value;
-                }
+                $object->parseDocument( $indexed['_source'] );
+                $object = $object->polymorph( $object );
 
                 array_push($filteredResult, $object);
             }
