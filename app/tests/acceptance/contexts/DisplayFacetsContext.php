@@ -25,10 +25,36 @@ class DisplayFacetsContext extends BaseContext {
         Config::set('search_engine.enabled', true);
         Config::set('search_engine.engine', 'mockedSearchEngine');
 
+        $searchResult = [
+            'Capacidade'=> [
+                '_type'=>'terms',
+                'total'=>3
+            ],
+            'Quantidade' => [
+                '_type'=>'terms',
+                'total'=>3
+            ],
+            'Coleção' => [
+                '_type'=>'terms',
+                'total'=>3
+            ],
+            'Cor' => [
+                '_type'=>'terms',
+                'total'=>3
+            ]
+        ];
+
         // Prepare mocked searchEngine
-        $mockedSearchEng = m::mock('Es');
-        $mockedSearchEng->shouldReceive('mapCategory');
-        $mockedSearchEng->shouldReceive('search')->atLeast(1);
+        $mockedSearchEng = m::mock('Es')
+            ->shouldReceive('connect')->getMock()
+            ->shouldReceive('mapCategory')->getMock()
+            ->shouldReceive('indexObject')->getMock();
+
+        $mockedSearchEng->shouldReceive('facetSearch')
+            ->once();
+        $mockedSearchEng->shouldReceive('getFacetResult')
+            ->once()
+            ->andReturn($searchResult);
 
         App::bind('mockedSearchEngine', function() use ($mockedSearchEng){
             return $mockedSearchEng; 
@@ -56,7 +82,7 @@ class DisplayFacetsContext extends BaseContext {
     public function iShouldSeeTheFacets(TableNode $facets)
     {
         foreach ($facets->getRows() as $facet) {
-            $this->testCase()->assertBodyHasHtml($facet);
+            $this->testCase()->assertBodyHasText($facet);
         }
 
         m::close();

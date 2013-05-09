@@ -21,7 +21,7 @@ class CategoriesController extends BaseController {
         {
             if(Config::get('search_engine.enabled'))
             {
-                $searchEngine = new Laramongo\SearchEngine\ElasticSearchEngine;
+                $searchEngine = App::make(Config::get('search_engine.engine'));
                 $searchEngine->connect();
                 $searchEngine->facetSearch($category->getFacets(), (string)$category->_id);
             }

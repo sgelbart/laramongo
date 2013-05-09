@@ -17,6 +17,6 @@
 
 
     <pre>
-    {{ print_r($facets, true) }}
+    {{-- print_r($facets, true) --}}
     </pre>
 </div>
