@@ -89,10 +89,30 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
             'properties' => [
                 'characteristics' => [
                     'properties' => [
-                        clean_case('Capacidade') => ['type'=>'string'],
-                        clean_case('Quantidade') => ['type'=>'string'],
-                        clean_case('Coleção') => ['type'=>'string'],
-                        clean_case('Cor') => ['type'=>'string']
+                        clean_case('Capacidade') => [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_integer' => ['type'=>'integer']
+                            ]
+                        ],
+                        clean_case('Quantidade') => [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_float' => ['type'=>'float']
+                            ]
+                        ],
+                        clean_case('Coleção') => [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_string' => ['type'=>'string', 'index' => 'not_analyzed']
+                            ]
+                        ],
+                        clean_case('Cor') => [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_string' => ['type'=>'string', 'index' => 'not_analyzed']
+                            ]
+                        ]
                     ]
                 ]
             ]
@@ -108,7 +128,7 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
-        $searchEngine->mapCategory($category); // The $mapping variable above needs to be tweaked
+        $searchEngine->mapCategory($category);
     }
 
     public function testShouldDoFacetSearch()
@@ -128,9 +148,13 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
             ->shouldReceive('search')
             ->with([
                 'query' => [
-                    'term'=>['category'=>'123']
+                    'filtered' => [
+                        'query' => [
+                            'term'=>['category'=>'123']
+                        ]
+                    ]
                 ],
-                'facets'=>$facets
+                'facets' => $facets
             ])
             ->once();
 
@@ -157,16 +181,21 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
             ->shouldReceive('search')
             ->with([
                 'query' => [
-                    'term'=>['category'=>'123']
+                    'filtered' => [
+                        'query' => [
+                            'term'=>['category'=>'123']
+                        ],
+                        'filter'
+                    ]
                 ],
-                'facets'=>$facets
+                'facets' => $facets
             ])
             ->once();
 
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
-        $searchEngine->facetSearch($facets, '123');
+        $searchEngine->facetSearch($facets, '123', $filter);
     }
 
     public function testShouldGetRawResult()
