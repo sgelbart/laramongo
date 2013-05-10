@@ -8,22 +8,22 @@ class SearchEngineController extends BaseController {
         $query = Input::get('query');
 
         if ($query) {
-            $es = new ElasticSearchEngine();
-
-            // $es->searchObject("*" . $query . "*");
-
-            $collections = array('products', 'contents', 'categories');
-
-            $es->connect();
+            $collections = array('categories', 'contents', 'products');
 
             foreach ($collections as $collection) {
+                $es = new ElasticSearchEngine();
+
+                $es->connect();
+
                 $es->prepareIndexationPath($collection);
 
                 $es->searchObject([
+                    'size' => '5',
                     'query' => [
                         'fuzzy_like_this' => [
+                            'ignore_tf' => false,
                             'like_text' => $query,
-                            "max_query_terms" => 5,
+                            "max_query_terms" => 25,
                             "min_similarity" => 0.1
                         ]
                     ]

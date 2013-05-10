@@ -92,7 +92,7 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type]
                             ]
                         ];
-                        
+
                         break;
 
                     case 'float':
@@ -105,9 +105,9 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type]
                             ]
                         ];
-                        
+
                         break;
-                    
+
                     default:
                         $type = 'string';
 
@@ -117,7 +117,7 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
                             ]
                         ];
-                        
+
                         break;
                 }
             }
@@ -137,8 +137,6 @@ class ElasticSearchEngine extends SearchEngine
     {
         if (Config::get('search_engine.enabled')) {
             $this->connect();
-
-            $this->prepareIndexationPath(array('contents', 'products', 'categories'));
 
             $this->searchResult = $this->es->search($query);
         }
@@ -195,7 +193,7 @@ class ElasticSearchEngine extends SearchEngine
     {
         $filteredResult = array();
 
-        if (! isset($this->searchResult['error'])) {
+        if (! isset($this->searchResult['error']) && isset($this->searchResult['hits']['hits'])) {
             foreach ($this->searchResult['hits']['hits'] as $indexed) {
                 if ($indexed['_type'] == $type) {
                     $indexed['_source']['_id'] = $indexed['_id'];
