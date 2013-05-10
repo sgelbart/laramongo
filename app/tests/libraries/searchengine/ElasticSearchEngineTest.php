@@ -71,6 +71,7 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         //waiting elastic Search Index.
         sleep(1);
 
+        $engine->prepareIndexationPath(array('products', 'categories', 'contents'));
         $engine->searchObject();
 
         $result = $engine->getResultBy('products');

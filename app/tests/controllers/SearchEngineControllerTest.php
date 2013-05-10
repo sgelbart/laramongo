@@ -17,7 +17,7 @@ class SearchEngineControllerTest extends ControllerTestCase
 
     public function testShouldCanSearchSomething()
     {
-        $this->requestUrl('GET', 'search?query=coisa');
+        $this->requestUrl('GET', 'search?query=c');
         $this->assertRequestOk();
     }
 

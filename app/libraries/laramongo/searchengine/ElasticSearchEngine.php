@@ -83,7 +83,7 @@ class ElasticSearchEngine extends SearchEngine
                 switch ($charac->type) {
 
                     case 'string':
-                    
+
                         $type = 'string';
 
                         $characs['characteristics']['properties'][clean_case($charac->name)] = [
@@ -92,11 +92,11 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
                             ]
                         ];
-                        
+
                         break;
 
                     case 'int':
-                    
+
                         $type = 'integer';
 
                         $characs['characteristics']['properties'][clean_case($charac->name)] = [
@@ -105,11 +105,11 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
                             ]
                         ];
-                        
+
                         break;
 
                     case 'float':
-                    
+
                         $type = 'float';
 
                         $characs['characteristics']['properties'][clean_case($charac->name)] = [
@@ -118,9 +118,9 @@ class ElasticSearchEngine extends SearchEngine
                                 'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
                             ]
                         ];
-                        
+
                         break;
-                    
+
                     default:
                         # code...
                         break;
@@ -142,8 +142,6 @@ class ElasticSearchEngine extends SearchEngine
     {
         if (Config::get('search_engine.enabled')) {
             $this->connect();
-
-            $this->prepareIndexationPath(array('contents', 'products', 'categories'));
 
             $this->searchResult = $this->es->search($query);
         }
@@ -200,7 +198,7 @@ class ElasticSearchEngine extends SearchEngine
     {
         $filteredResult = array();
 
-        if (! isset($this->searchResult['error'])) {
+        if (! isset($this->searchResult['error']) && isset($this->searchResult['hits']['hits'])) {
             foreach ($this->searchResult['hits']['hits'] as $indexed) {
                 if ($indexed['_type'] == $type) {
                     $indexed['_source']['_id'] = $indexed['_id'];
