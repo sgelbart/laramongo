@@ -107,10 +107,39 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
-        $searchEngine->mapCategory($category);
+        $searchEngine->mapCategory($category); // The $mapping variable above needs to be tweaked
     }
 
     public function testShouldDoFacetSearch()
+    {
+        Config::set('search_engine.application_name', 'laramongo_test');
+
+        $facets = [
+            'Color' => [
+                'terms'=> ['field'=>'Color']
+            ],
+            'Size' => [
+                'histogram' => ['field'=>'Size', 'interval'=>50]
+            ]
+        ];
+
+        $this->mockedEs
+            ->shouldReceive('search')
+            ->with([
+                'query' => [
+                    'term'=>['category'=>'123']
+                ],
+                'facets'=>$facets
+            ])
+            ->once();
+
+        $searchEngine = new ElasticSearchEngine;
+        $searchEngine->es = $this->mockedEs;
+
+        $searchEngine->facetSearch($facets, '123');
+    }
+
+    public function testShouldFilterFacetSearch()
     {
         Config::set('search_engine.application_name', 'laramongo_test');
 

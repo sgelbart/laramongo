@@ -4,19 +4,25 @@
 
         @if( isset($facets[$facetName]['terms']) )
             @foreach( $facets[$facetName]['terms'] as $option )
-                <a href="#" class='option'>{{ ucfirst($option['term']) }} <small>({{ $option['count'] }})</small> </a>
+                <a href="{{ URL::action('CategoriesController@show', ['id'=>$category->_id, 'filters' => [$facetName=>$option['term'] ]]) }}" class='option'>
+                    {{ ucfirst($option['term']) }} 
+                    <small>({{ $option['count'] }})</small>
+                </a>
             @endforeach
         @endif
 
         @if( isset($facets[$facetName]['entries']) )
             @foreach( $facets[$facetName]['entries'] as $option )
-                <a href="#" class='option'>{{ ucfirst($option['key']) }} <small>({{ $option['count'] }})</small> </a>
+                <a href="{{ URL::action('CategoriesController@show', ['id'=>$category->_id, 'filters' => [$facetName=>$option['key'] ]]) }}" class='option'>
+                    {{ ucfirst($option['key']) }}
+                    <small>({{ $option['count'] }})</small>
+                </a>
             @endforeach
         @endif
     @endforeach
 
 
     <pre>
-    {{-- print_r($facets, true) --}}
+    {{ print_r($facets, true) }}
     </pre>
 </div>
