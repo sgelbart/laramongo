@@ -18,9 +18,13 @@
  setupTagPicker = function(){
     $('[tag-picker]').each(function(){
         el = $(this);
-        el.tagsInput({
-            autocomplete_url: el.attr('tag-picker')
-        });
+        var attributes = {};
+
+        if ( el.attr('tag-picker') && el.attr('tag-picker') != 'tag-picker') {
+            attributes = { 'autocomplete_url': el.attr('tag-picker') };
+        }
+
+        el.tagsInput(attributes);
     });
 };
 

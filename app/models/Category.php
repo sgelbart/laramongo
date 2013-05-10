@@ -201,7 +201,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
             'nodeName' => 'category'
         );
 
-        
+
 
         //return Cache::rememberForever('renderedMenu', function() use ($options){
             return static::renderTree( array(), $options );
@@ -240,7 +240,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
     /**
      * Returns an array of the facets if the category based in the
      * characteristics defined previously
-     * 
+     *
      * @return array Facets
      */
     public function getFacets()
@@ -280,7 +280,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
                 ];
             }
         }
-        
+
         return $facets;
     }
 

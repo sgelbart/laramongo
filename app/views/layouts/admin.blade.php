@@ -35,6 +35,25 @@
                             {{ Html::linkAction( 'Admin\ContentsController@index', 'Conteúdo' ) }}
                         </li>
 
+                        <li {{ (Request::is('admin/synonymous*')) ? 'class="active"' : '' }} >
+
+                        </li>
+                            <ul class="nav">
+                              <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                  Busca
+                                  <b class="caret"></b>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                  <li>
+                                    <a href="{{ URL::action('Admin\SynonymsController@index') }}">
+                                        Sinônimos
+                                    </a>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
                         <li>
                             {{ Html::linkAction( 'UsersController@logout', 'Logout' ) }}
                         </li>
