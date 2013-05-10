@@ -79,23 +79,52 @@ class ElasticSearchEngine extends SearchEngine
 
             $characs = array();
             foreach ($category->characteristics() as $charac) {
-                $type = 'string';
 
-                if($charac->type == 'int')
-                {
-                    $type = 'integer';
-                }
-                if($charac->type == 'float')
-                {
-                    $type = 'float';
-                }
+                switch ($charac->type) {
 
-                $characs['characteristics']['properties'][clean_case($charac->name)] = [
-                    'type' => 'multi_field',
-                    'fields' => [
-                        'as_'.$type => ['type'=>$type]
-                    ]
-                ];
+                    case 'string':
+                    
+                        $type = 'string';
+
+                        $characs['characteristics']['properties'][clean_case($charac->name)] = [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
+                            ]
+                        ];
+                        
+                        break;
+
+                    case 'int':
+                    
+                        $type = 'integer';
+
+                        $characs['characteristics']['properties'][clean_case($charac->name)] = [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
+                            ]
+                        ];
+                        
+                        break;
+
+                    case 'float':
+                    
+                        $type = 'float';
+
+                        $characs['characteristics']['properties'][clean_case($charac->name)] = [
+                            'type' => 'multi_field',
+                            'fields' => [
+                                'as_'.$type => ['type'=>$type, 'index' => 'not_analyzed']
+                            ]
+                        ];
+                        
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
             }
 
             $this->es->map(['properties'=>$characs]);
