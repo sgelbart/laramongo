@@ -19,18 +19,28 @@ class CategoriesController extends BaseController {
 
         if($category->type == 'leaf')
         {
+            $page = Input::get('page') ?: 1;
+
             if(Config::get('search_engine.enabled'))
             {
                 $searchEngine = App::make(Config::get('search_engine.engine'));
                 $searchEngine->connect();
                 $searchEngine->facetSearch( $category, Input::get('filters') );
+
+                $products = Product::where(
+                    ['_id'=>[
+                        '$in'=>array_map('intval', $searchEngine->getIdOfHits())
+                    ]]
+                )
+                    ->limit(12)
+                    ->skip( ($page-1)*12 );
             }
-
-            $page = Input::get('page') ?: 1;
-
-            $products = Product::where(['category'=>(string)$category->_id, 'deactivated'=>null])
-                ->limit(12)
-                ->skip( ($page-1)*12 );
+            else
+            {
+                $products = Product::where(['category'=>(string)$category->_id, 'deactivated'=>null])
+                    ->limit(12)
+                    ->skip( ($page-1)*12 );
+            }           
 
             $parameters = array(
                 'category' => $category,

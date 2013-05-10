@@ -259,6 +259,27 @@ class ElasticSearchEngine extends SearchEngine
     }
 
     /**
+     * Return the _id of all hits of the least search query
+     *
+     * @return array
+     */
+    public function getIdOfHits()
+    {
+        $ids = array();
+
+        $hits = array_get(
+            array_get($this->getRawResult(), 'hits',[]),
+            'hits',[]
+        );
+
+        foreach ($hits as $hit) {
+            $ids[] = $hit['_id'];
+        }
+
+        return $ids;
+    }
+
+    /**
      * Prepare the index name used by elastic search
      * @param  string or array $types
      * @return null
