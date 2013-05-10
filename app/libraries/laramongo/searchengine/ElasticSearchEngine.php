@@ -164,6 +164,7 @@ class ElasticSearchEngine extends SearchEngine
             $this->prepareIndexationPath('products');
 
             $query = [
+                'size' => 40,
                 'query' => [
                     'filtered' => [
                         'query' => [

@@ -33,9 +33,10 @@
     @endif
 
     @foreach( array_keys($facets) as $facetName )
-        <h3 class='single-facet' href="#">{{ $facetName }}</h3>
 
-        @if( isset($facets[$facetName]['terms']) )
+        @if( isset($facets[$facetName]['terms']) && count($facets[$facetName]['terms']) > 1 )
+
+            <h3 class='single-facet' href="#">{{ $facetName }}</h3>
             @foreach( $facets[$facetName]['terms'] as $option )
                 <a href="{{
                         URL::action(
@@ -54,7 +55,9 @@
             @endforeach
         @endif
 
-        @if( isset($facets[$facetName]['entries']) )
+        @if( isset($facets[$facetName]['entries']) && count($facets[$facetName]['entries']) > 1 )
+
+            <h3 class='single-facet' href="#">{{ $facetName }}</h3>
             @foreach( $facets[$facetName]['entries'] as $option )
                 <a href="{{
                     URL::action(
