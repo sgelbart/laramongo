@@ -124,3 +124,11 @@ Route::put(    'admin/product/{id}/fix',              'Admin\ProductsController@
 Route::put(    'admin/product/{id}/toggle',           'Admin\ProductsController@toggle');
 Route::put(    'admin/product/{conj_id}/add/{id}',    'Admin\ProductsController@addToConjugated');
 Route::put(    'admin/product/{conj_id}/remove/{id}', 'Admin\ProductsController@removeFromConjugated');
+
+// Admin\SynonymsController
+Route::get('admin/synonyms', 'Admin\SynonymsController@index');
+Route::get('admin/synonyms/create', 'Admin\SynonymsController@create');
+Route::post('admin/synonyms/store', 'Admin\SynonymsController@store');
+Route::get('admin/synonyms/{id}/edit', 'Admin\SynonymsController@edit');
+Route::put('admin/synonyms/{id}', 'Admin\SynonymsController@update');
+Route::delete('admin/synonyms/{id}', 'Admin\SynonymsController@destroy');
