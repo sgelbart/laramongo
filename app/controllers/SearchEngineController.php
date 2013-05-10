@@ -10,11 +10,27 @@ class SearchEngineController extends BaseController {
         if ($query) {
             $es = new ElasticSearchEngine();
 
-            $es->searchObject("*" . $query . "*");
+            // $es->searchObject("*" . $query . "*");
 
-            $products = $es->getResultBy('products');
-            $contents = $es->getResultBy('contents');
-            $categories = $es->getResultBy('categories');
+            $collections = array('products', 'contents', 'categories');
+
+            $es->connect();
+
+            foreach ($collections as $collection) {
+                $es->prepareIndexationPath($collection);
+
+                $es->searchObject([
+                    'query' => [
+                        'fuzzy_like_this' => [
+                            'like_text' => $query,
+                            "max_query_terms" => 5,
+                            "min_similarity" => 0.1
+                        ]
+                    ]
+                ]);
+
+                $$collection = $es->getResultBy($collection);
+            }
 
             $this->layout->content = View::make('searchengine.search')
                 ->with('products', $products)
@@ -24,4 +40,4 @@ class SearchEngineController extends BaseController {
             return Redirect::action('HomeController@index');
         }
     }
-}
+ }

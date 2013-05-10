@@ -141,7 +141,7 @@ class ElasticSearchEngine extends SearchEngine
     {
         $filteredResult = array();
 
-        if ($this->searchResult['hits']) {
+        if (! isset($this->searchResult['error'])) {
             foreach ($this->searchResult['hits']['hits'] as $indexed) {
                 if ($indexed['_type'] == $type) {
                     $indexed['_source']['_id'] = $indexed['_id'];
