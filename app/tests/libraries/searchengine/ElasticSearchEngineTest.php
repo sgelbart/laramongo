@@ -135,67 +135,131 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
     {
         Config::set('search_engine.application_name', 'laramongo_test');
 
-        $facets = [
-            'Color' => [
-                'terms'=> ['field'=>'Color']
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $query = [
+            'query' => [
+                'filtered' => [
+                    'query' => [
+                        'term' => [
+                            'category' => (string)$category->_id
+                        ]
+                    ]
+                ]
             ],
-            'Size' => [
-                'histogram' => ['field'=>'Size', 'interval'=>50]
+
+            'facets' => [
+                'Capacidade' => [
+                    'histogram' => [
+                        'field' => 'characteristics.capacidade.as_integer',
+                        'interval' => 10
+                    ]
+                ],
+
+                'Cor' => [
+                    'terms' => [
+                        'field' => 'characteristics.cor.as_string'
+                    ]
+                ],
+
+                'Coleção' => [
+                    'terms' => [
+                        'field' => 'characteristics.colecao.as_string'
+                    ]
+                ],
+
+                'Quantidade' => [
+                    'histogram' => [
+                        'field' => 'characteristics.quantidade.as_float',
+                        'interval' => 10
+                    ]
+                ]
             ]
         ];
 
         $this->mockedEs
             ->shouldReceive('search')
-            ->with([
-                'query' => [
-                    'filtered' => [
-                        'query' => [
-                            'term'=>['category'=>'123']
-                        ]
-                    ]
-                ],
-                'facets' => $facets
-            ])
+            ->with($query)
             ->once();
 
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
-        $searchEngine->facetSearch($facets, '123');
+        $searchEngine->facetSearch($category);
     }
 
     public function testShouldFilterFacetSearch()
     {
         Config::set('search_engine.application_name', 'laramongo_test');
 
-        $facets = [
-            'Color' => [
-                'terms'=> ['field'=>'Color']
+        $category = testCategoryProvider::instance('leaf_with_facets');
+
+        $filter = [
+            clean_case('Capacidade') => 10,
+            clean_case('Colecao') => 'Alguma'
+        ];
+
+        $query = [
+            'query' => [
+                'filtered' => [
+                    'query' => [
+                        'term' => [
+                            'category' => (string)$category->_id
+                        ]
+                    ],
+                    'filter' => [
+                        'and' => [
+                            ['range' => [
+                                'characteristics.capacidade.as_integer' => [
+                                    'from'=>10, 'to'=>10+10
+                                ],
+                            ]],
+                            ['term' => [
+                                'characteristics.colecao.as_string' => 'Alguma'
+                            ]]                         
+                        ]
+                    ]
+                ]
             ],
-            'Size' => [
-                'histogram' => ['field'=>'Size', 'interval'=>50]
+            'facets' => [
+                'Capacidade' => [
+                    'histogram' => [
+                        'field' => 'characteristics.capacidade.as_integer',
+                        'interval' => 10
+                    ]
+
+                ],
+                'Cor' => [
+                    'terms' => [
+                        'field' => 'characteristics.cor.as_string'
+                    ]
+
+                ],
+                'Coleção' => [
+                    'terms' => [
+                        'field' => 'characteristics.colecao.as_string'
+                    ]
+                ],
+                'Quantidade' => [
+                    'histogram' => [
+                        'field' => 'characteristics.quantidade.as_float',
+                        'interval' => 10
+                    ]
+
+                ]
+
             ]
         ];
 
         $this->mockedEs
             ->shouldReceive('search')
-            ->with([
-                'query' => [
-                    'filtered' => [
-                        'query' => [
-                            'term'=>['category'=>'123']
-                        ],
-                        'filter'
-                    ]
-                ],
-                'facets' => $facets
-            ])
+            ->with($query)
             ->once();
 
         $searchEngine = new ElasticSearchEngine;
         $searchEngine->es = $this->mockedEs;
 
-        $searchEngine->facetSearch($facets, '123', $filter);
+        $searchEngine->facetSearch($category, $filter);
     }
 
     public function testShouldGetRawResult()

@@ -153,9 +153,12 @@ class ElasticSearchEngine extends SearchEngine
      * @param  array $filter   Should contain the chosen values to the facets given before.
      * @return boolean Success
      */
-    public function facetSearch($facets, $category, $filter = array())
+    public function facetSearch($category, $filter = array())
     {
         if (Config::get('search_engine.enabled')) {
+
+            $facets = $category->getFacets();
+
             $this->connect();
 
             $this->prepareIndexationPath('products');
@@ -164,7 +167,7 @@ class ElasticSearchEngine extends SearchEngine
                 'query' => [
                     'filtered' => [
                         'query' => [
-                            'term'=>['category'=>$category]
+                            'term'=>['category'=>(string)$category->_id]
                         ]
                     ]
                 ],
@@ -173,12 +176,32 @@ class ElasticSearchEngine extends SearchEngine
 
             if(! empty($filter))
             {
-                foreach ($filter as $name => $value) {
-                    $query['query']['filtered']['filter']['term']['characteristics.'.clean_case($name).'.as_string'] = $value;
+                foreach ($category->characteristics() as $charac) {
+                    if(array_key_exists( clean_case($charac->name), $filter ) )
+                    {
+                        if($charac->type == 'int')
+                        {
+                            $query['query']['filtered']['filter']['and'][]['range']['characteristics.'.clean_case($charac->name).'.as_integer'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)]+10 ];
+                        }
+                        elseif($charac->type == 'float')
+                        {
+                            $query['query']['filtered']['filter']['and'][]['range']['characteristics.'.clean_case($charac->name).'.as_float'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)]+10 ];
+                        }
+                        else
+                        {
+                            $query['query']['filtered']['filter']['and'][]['term']['characteristics.'.clean_case($charac->name).'.as_string'] = $filter[clean_case($charac->name)];   
+                        }
+                    }
                 }
             }
 
             $this->searchResult = $this->es->search($query);
+
+            //echo '<pre>';
+            //print_r($query);
+            //echo '<hr>';
+            //print_r($this->searchResult);
+            //exit;
 
         }
     }
@@ -233,6 +256,27 @@ class ElasticSearchEngine extends SearchEngine
     public function getRawResult()
     {
         return $this->searchResult;
+    }
+
+    /**
+     * Return the _id of all hits of the least search query
+     *
+     * @return array
+     */
+    public function getIdOfHits()
+    {
+        $ids = array();
+
+        $hits = array_get(
+            array_get($this->getRawResult(), 'hits',[]),
+            'hits',[]
+        );
+
+        foreach ($hits as $hit) {
+            $ids[] = $hit['_id'];
+        }
+
+        return $ids;
     }
 
     /**
