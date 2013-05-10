@@ -1,7 +1,6 @@
 @section('content')
-    <h1>Produtos</h1>
-
     @if($products)
+        <h1>Produtos</h1>
         @foreach($products as $product)
             <h3>
                 <a href="{{URL::Action('ProductsController@show', ['id' => $product->_id])}}">
@@ -9,15 +8,11 @@
                 </a>
             </h3>
         @endforeach
-    @else
-        Não foram encontrados produtos.
+        <hr>
     @endif
 
-    <hr>
-
-    <h1>Categorias</h1>
-
     @if($categories)
+        <h1>Categorias</h1>
         @foreach($categories as $category)
             <h3>
                 <a href="{{URL::Action('CategoriesController@show', ['id' => $category->_id])}}">
@@ -25,14 +20,11 @@
                 </a>
             </h3>
         @endforeach
-    @else
-        Não foram encontrados categorias.
+        <hr>
     @endif
 
-    <hr>
-
-    <h1>Conteúdos</h1>
     @if($contents)
+        <h1>Conteúdos</h1>
         @foreach($contents as $content)
             <h3>
                 <a href="{{URL::Action('ContentsController@show', ['slug' => $content->slug ])}}">
@@ -40,9 +32,6 @@
                 </a>
             </h3>
         @endforeach
-    @else
-        Não foram encontrados conteúdos.
+        <hr>
     @endif
-
-    <hr>
 @stop

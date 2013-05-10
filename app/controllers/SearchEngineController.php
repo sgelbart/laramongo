@@ -24,7 +24,7 @@ class SearchEngineController extends BaseController {
                             'ignore_tf' => false,
                             'like_text' => $query,
                             "max_query_terms" => 25,
-                            "min_similarity" => 0.1
+                            "min_similarity" => 0.3
                         ]
                     ]
                 ]);
