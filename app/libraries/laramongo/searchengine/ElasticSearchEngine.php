@@ -167,7 +167,7 @@ class ElasticSearchEngine extends SearchEngine
                 'query' => [
                     'filtered' => [
                         'query' => [
-                            'term'=>['category'=>$category->_id]
+                            'term'=>['category'=>(string)$category->_id]
                         ]
                     ]
                 ],
@@ -181,21 +181,27 @@ class ElasticSearchEngine extends SearchEngine
                     {
                         if($charac->type == 'int')
                         {
-                            $query['query']['filtered']['filter']['range']['characteristics.'.clean_case($charac->name).'.as_integer'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)] ];
+                            $query['query']['filtered']['filter']['and'][]['range']['characteristics.'.clean_case($charac->name).'.as_integer'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)]+10 ];
                         }
                         elseif($charac->type == 'float')
                         {
-                            $query['query']['filtered']['filter']['range']['characteristics.'.clean_case($charac->name).'.as_float'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)] ];
+                            $query['query']['filtered']['filter']['and'][]['range']['characteristics.'.clean_case($charac->name).'.as_float'] = ['from'=> $filter[clean_case($charac->name)], 'to'=> $filter[clean_case($charac->name)]+10 ];
                         }
                         else
                         {
-                            $query['query']['filtered']['filter']['term']['characteristics.'.clean_case($charac->name).'.as_string'] = $filter[clean_case($charac->name)];   
+                            $query['query']['filtered']['filter']['and'][]['term']['characteristics.'.clean_case($charac->name).'.as_string'] = $filter[clean_case($charac->name)];   
                         }
                     }
                 }
             }
 
             $this->searchResult = $this->es->search($query);
+
+            //echo '<pre>';
+            //print_r($query);
+            //echo '<hr>';
+            //print_r($this->searchResult);
+            //exit;
 
         }
     }

@@ -23,7 +23,7 @@ class CategoriesController extends BaseController {
             {
                 $searchEngine = App::make(Config::get('search_engine.engine'));
                 $searchEngine->connect();
-                $searchEngine->facetSearch($category->getFacets(), (string)$category->_id, Input::get('filters') );
+                $searchEngine->facetSearch( $category, Input::get('filters') );
             }
 
             $page = Input::get('page') ?: 1;

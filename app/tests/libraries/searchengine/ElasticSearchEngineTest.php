@@ -131,7 +131,7 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
         $searchEngine->mapCategory($category);
     }
 
-    public function XtestShouldDoFacetSearch()
+    public function testShouldDoFacetSearch()
     {
         Config::set('search_engine.application_name', 'laramongo_test');
 
@@ -142,7 +142,7 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
                 'filtered' => [
                     'query' => [
                         'term' => [
-                            'category' => $category->_id
+                            'category' => (string)$category->_id
                         ]
                     ]
                 ]
@@ -204,17 +204,19 @@ class ElasticSearchEngineTest extends Zizaco\TestCases\TestCase {
                 'filtered' => [
                     'query' => [
                         'term' => [
-                            'category' => $category->_id
+                            'category' => (string)$category->_id
                         ]
                     ],
                     'filter' => [
-                        'term' => [
-                            'characteristics.colecao.as_string' => 'Alguma'
-                        ],
-                        'range' => [
-                            'characteristics.capacidade.as_integer' => [
-                                'from'=>10, 'to'=>10
-                            ],
+                        'and' => [
+                            ['range' => [
+                                'characteristics.capacidade.as_integer' => [
+                                    'from'=>10, 'to'=>10+10
+                                ],
+                            ]],
+                            ['term' => [
+                                'characteristics.colecao.as_string' => 'Alguma'
+                            ]]                         
                         ]
                     ]
                 ]
