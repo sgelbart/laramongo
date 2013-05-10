@@ -6,4 +6,5 @@
 
 return array(
     'enabled' => true,
+    'application_name' => 'test',
 );
