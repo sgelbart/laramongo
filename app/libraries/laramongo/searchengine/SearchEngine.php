@@ -21,12 +21,11 @@ abstract class SearchEngine
      * equals to the $category attribute passed to the method.
      * The facets should be build based in the category characteristics
      * 
-     * @param  array $facets   The facets in the array format.
-     * @param  array $category The product category there the search should be performed.
+     * @param  Category $category The product category there the search should be performed.
      * @param  array $filter   Should contain the chosen values to the facets given before.
      * @return boolean Success
      */
-    abstract public function facetSearch($facets, $category, $filter = array());
+    abstract public function facetSearch($category, $filter = array());
 
     /**
      * Return result of the search query by type (Content, product, etc...)
