@@ -352,13 +352,35 @@ div.main div.search_box input[type=submit] {
 .facets-sidebar h3:first-child {
   margin-top: 0px;
 }
-.facets-sidebar a {
+.facets-sidebar a.facet-option {
   display: block;
   width: 100%;
   margin: 0;
   padding: 2px 10px;
 }
-.facets-sidebar a small {
+.facets-sidebar a.facet-option small {
   color: #000;
   font-weight: bold;
+}
+.facets-sidebar .chossen-filter {
+  background-color: #c9f394;
+  color: #316b03;
+  font-weight: bold;
+  padding: 5px;
+  margin: 3px;
+  display: block;
+  border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+}
+.facets-sidebar .chossen-filter span {
+  display: inline;
+}
+.facets-sidebar .chossen-filter span.filter-value {
+  display: block;
+  font-weight: normal;
+}
+.facets-sidebar .chossen-filter a.remove {
+  float: right;
+  display: block;
 }

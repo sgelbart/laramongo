@@ -7,7 +7,7 @@
             @if( array_key_exists(clean_case($facetName), Input::get('filters')) )
                 <div class='chossen-filter'>
 
-                    <a href="{{
+                    <a class='remove' href="{{
                         URL::action(
                             'CategoriesController@show',
                             ['id'=>$category->_id, 'filters' => 
@@ -38,7 +38,7 @@
 
             <h3 class='single-facet' href="#">{{ $facetName }}</h3>
             @foreach( $facets[$facetName]['terms'] as $option )
-                <a href="{{
+                <a class='facet-option' href="{{
                         URL::action(
                             'CategoriesController@show',
                             ['id'=>$category->_id, 'filters' => 
@@ -59,7 +59,7 @@
 
             <h3 class='single-facet' href="#">{{ $facetName }}</h3>
             @foreach( $facets[$facetName]['entries'] as $option )
-                <a href="{{
+                <a class='facet-option' href="{{
                     URL::action(
                         'CategoriesController@show',
                         ['id'=>$category->_id, 'filters' => 

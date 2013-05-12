@@ -428,7 +428,7 @@ div.main{
         }
     }
 
-    a{
+    a.facet-option{
         display: block;
         width: 100%;
         margin:0;
@@ -437,6 +437,30 @@ div.main{
         small{
             color: #000;
             font-weight: bold;
+        }
+    }
+
+    .chossen-filter{
+        background-color: rgb(201, 243, 148);
+        color: rgb(49, 107, 3);
+        font-weight: bold;
+        padding: 5px;
+        margin: 3px;
+        display: block;
+        .border-radius(4px);
+
+        span{
+            display: inline;
+        }
+
+        span.filter-value{
+            display: block;
+            font-weight: normal;
+        }
+
+        a.remove{
+            float: right;
+            display: block;
         }
     }
 }
