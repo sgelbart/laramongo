@@ -135,3 +135,6 @@ Route::post('admin/synonyms/store', 'Admin\SynonymsController@store');
 Route::get('admin/synonyms/{id}/edit', 'Admin\SynonymsController@edit');
 Route::put('admin/synonyms/{id}', 'Admin\SynonymsController@update');
 Route::delete('admin/synonyms/{id}', 'Admin\SynonymsController@destroy');
+
+// Admin\
+Route::get('admin/warnings', 'Admin\WarningsController@index');
