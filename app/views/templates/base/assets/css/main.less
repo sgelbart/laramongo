@@ -472,12 +472,33 @@ div.main{
 .main-quicksearch{
     position: absolute;
     background-color: #FFF;
-    .border-radius(6px);
-    box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
     width: 600px;
     height: 350px;
     right: 0px;
     top: 32px;
-    border: solid 3px rgb(169, 228, 17);
+    border: solid 1px #CCC;
     z-index: 9999;
+
+    h1 {
+      font-size: 18px;
+      padding: 10px;
+      margin: 0;
+    }
+
+    h3 {
+        margin: 0;
+        font-weight: normal;
+        display:inline-block;
+        vertical-align: top;
+    }
+
+    .searched-item {
+      padding: 1px 10px;
+      margin: 0;
+
+        img {
+            width: 10%;
+        }
+    }
 }
