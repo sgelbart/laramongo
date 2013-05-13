@@ -69,7 +69,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
     public function characteristics()
     {
         $characteristicsArray = $this->characteristics;
-        
+
         usort($characteristicsArray, function($a, $b){
             return array_get($a, 'priority', 50) < array_get($b, 'priority', 50);
         });
@@ -257,6 +257,10 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
 
         foreach($this->characteristics() as $charac)
         {
+            // Ignore characteristics with priority bellow one
+            if( ($charac->priority ?: 50) <= 1 )
+                continue;
+
             // Ignore these characteristics for now
             if(in_array($charac->name, ['Ordem','Status','Disclaimer']))
                 continue;
