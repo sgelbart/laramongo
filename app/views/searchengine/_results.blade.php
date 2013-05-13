@@ -30,6 +30,7 @@
     @foreach($contents as $content)
         <div class='searched-item'>
             <h3>
+                <img src="http://logonoid.com/images/leroy-merlin-logo.png" alt="">
                 <a href="{{URL::Action('ContentsController@show', ['slug' => $content->slug ])}}">
                         {{ $content->name }}
                 </a>
