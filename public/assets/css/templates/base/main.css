@@ -387,14 +387,29 @@ div.main div.search_box input[type=submit] {
 .main-quicksearch {
   position: absolute;
   background-color: #FFF;
-  border-radius: 6px 6px 6px 6px;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   width: 600px;
   height: 350px;
   right: 0px;
   top: 32px;
-  border: solid 3px #a9e411;
+  border: solid 1px #CCC;
   z-index: 9999;
+}
+.main-quicksearch h1 {
+  font-size: 18px;
+  padding: 10px;
+  margin: 0;
+}
+.main-quicksearch h3 {
+  margin: 0;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: top;
+}
+.main-quicksearch .searched-item {
+  padding: 1px 10px;
+  margin: 0;
+}
+.main-quicksearch .searched-item img {
+  width: 10%;
 }
