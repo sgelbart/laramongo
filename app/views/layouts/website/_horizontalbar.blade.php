@@ -1,7 +1,7 @@
 <div class='search_box'>
 
     {{ Form::open( array('url' => 'quick_search', 'method' => 'get', 'data-ajax' => 'true' ) ) }}
-        {{ Form::text('query','', array( 'data-submit-on-type' => 'true' ) ) }}
+        {{ Form::text('query','', array( 'autocomplete' => 'off', 'data-submit-on-type' => 'true' ) ) }}
         {{ Form::submit() }}
     {{ Form::close() }}
 
