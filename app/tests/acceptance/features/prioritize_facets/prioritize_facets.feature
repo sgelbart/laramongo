@@ -6,6 +6,7 @@ And to help the visitors to find what they are looking for
 
 Scenario: Prioritize facets of chave de entrada
     Given I have the category "leaf_with_facets"
+    And a SearchEngine enabled for facets
     When I priorize the characteristics of "leaf_with_facets" like:
         | Capacidade | 15 |
         | Quantidade | 60 |
@@ -20,6 +21,7 @@ Scenario: Prioritize facets of chave de entrada
 
 Scenario: Prioritize and hide facets of chave de entrada
     Given I have the category "leaf_with_facets"
+    And a SearchEngine enabled for facets
     When I priorize the characteristics of "leaf_with_facets" like:
         | Capacidade | 80 |
         | Quantidade | 70 |
