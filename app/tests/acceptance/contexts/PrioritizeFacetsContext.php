@@ -41,9 +41,10 @@ class PrioritizeFacetsContext extends BaseContext {
     {
         $bodyText = $this->bodyText;
 
+        echo $this->bodyText;
+
         foreach ($facets->getRows() as $facet) {
-            echo $facet[0].' | '.$facet[1]." \n";
-            echo strpos($bodyText, $facet[0]);
+            echo $facet[0].' | '.strpos($bodyText, $facet[0])."\n";
         }
     }
 }

@@ -28,19 +28,39 @@ class DisplayFacetsContext extends BaseContext {
         $searchResult = [
             'Capacidade'=> [
                 '_type'=>'terms',
-                'total'=>3
+                'total'=>3,
+                'terms'=> [
+                    '12'=>['term'=>'12','count'=>2],
+                    '13'=>['term'=>'13','count'=>2],
+                    '14'=>['term'=>'14','count'=>2]
+                ]
             ],
             'Quantidade' => [
                 '_type'=>'terms',
-                'total'=>3
+                'total'=>3,
+                'terms'=> [
+                    '12'=>['term'=>'12','count'=>2],
+                    '13'=>['term'=>'13','count'=>2],
+                    '14'=>['term'=>'14','count'=>2]
+                ]
             ],
             'Coleção' => [
                 '_type'=>'terms',
-                'total'=>3
+                'total'=>3,
+                'terms'=> [
+                    'primavera'=>['term'=>'primavera','count'=>2],
+                    'verao'=>['term'=>'verao','count'=>2],
+                    'inverno'=>['term'=>'inverno','count'=>2]
+                ]
             ],
             'Cor' => [
                 '_type'=>'terms',
-                'total'=>3
+                'total'=>3,
+                'terms'=> [
+                    'red'=>['term'=>'red','count'=>2],
+                    'green'=>['term'=>'green','count'=>2],
+                    'blue'=>['term'=>'blue','count'=>2]
+                ]
             ]
         ];
 
@@ -48,7 +68,8 @@ class DisplayFacetsContext extends BaseContext {
         $mockedSearchEng = m::mock('Es')
             ->shouldReceive('connect')->getMock()
             ->shouldReceive('mapCategory')->getMock()
-            ->shouldReceive('indexObject')->getMock();
+            ->shouldReceive('indexObject')->getMock()
+            ->shouldReceive('getIdOfHits')->andReturn(array())->getMock();
 
         $mockedSearchEng->shouldReceive('facetSearch')
             ->once();
