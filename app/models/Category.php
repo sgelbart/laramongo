@@ -68,7 +68,7 @@ class Category extends BaseModel implements Traits\ToTreeInterface, Searchable {
      */
     public function characteristics()
     {
-        $characteristicsArray = $this->characteristics;
+        $characteristicsArray = (array)$this->characteristics;
 
         usort($characteristicsArray, function($a, $b){
             return array_get($a, 'priority', 50) < array_get($b, 'priority', 50);
