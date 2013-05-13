@@ -243,6 +243,84 @@ class CategoriesController extends AdminController {
     }
 
     /**
+     * Edit an embedded characteristic
+     *
+     * @return Response
+     */
+    public function edit_characteristic($id, $charac_name)
+    {
+        $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        foreach($category->characteristics() as $charac)
+        {
+            if($charac->name == $charac_name)
+            {
+                $characteristic = $charac;
+            }
+        }
+
+        return View::make('admin.categories._characteristics_form')
+            ->with( 'category', $category )
+            ->with( 'characteristic', $characteristic )
+            ->with( 'action', 'Admin\CategoriesController@update')
+            ->with( 'method', 'PUT');
+    }
+
+    /**
+     * Update an embedded characteristic
+     *
+     * @return Response
+     */
+    public function update_characteristic($id, $charac_name)
+    {
+        $category = Category::first($id);
+
+        if(! ($category) )
+        {
+            return Redirect::action('Admin\CategoriesController@index')
+                ->with( 'flash', 'Categoria não encontrada');
+        }
+
+        foreach($category->characteristics() as $charac)
+        {
+            if($charac->name == $charac_name)
+            {
+                $characteristic = $charac;
+
+                $characteristic->fill(Input::all());
+
+                if( $characteristic->isValid() )
+                {
+                    $category->unembed('characteristics', ['name'=>$charac_name]);
+                    $category->embedToCharacteristics( $characteristic );
+                    $category->save();
+
+                    return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id, 'tab'=>'category-characteristcs'])
+                        ->with( 'flash', 'Caracteristica atualizada com sucesso' );
+                }
+                else
+                {
+                    // Get validation errors
+                    $error = $characteristic->errors->all();
+
+                    return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id, 'tab'=>'category-characteristcs'])
+                        ->withInput()
+                        ->with( 'error', $error );
+                }
+            }
+        }
+
+        return Redirect::action('Admin\CategoriesController@edit', ['id'=>$id, 'tab'=>'category-characteristcs'])
+                ->with( 'flash', 'Caracteristica não encontrada');
+    }
+
+    /**
      * Destroy an embedded characteristic
      *
      * @return Response

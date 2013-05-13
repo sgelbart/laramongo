@@ -1,6 +1,7 @@
 <table class='table table-bordered table-striped' id='characteristics-table'>
     <thead>
         <tr>
+            <th>Prioridade</th>
             <th>Caracteristicas</th>
             <th>Tipo</th>
             <th>Layout</th>
@@ -11,6 +12,18 @@
     <tbody>
         @foreach ( $category->characteristics() as $charac )
             <tr>
+                <td>
+                    {{
+                        Form::open([   
+                            'url' => URL::action('Admin\CategoriesController@update_characteristic', ['id'=>$category->_id, 'charac_name'=>$charac->name]),
+                            'method'=>'PUT',
+                            'class'=>'form-inline',
+                            'style'=>'margin:0px'
+                        ])
+                    }}
+                        {{ Form::text('priority', ($charac->priority) ?: 50, ['class'=>'input-mini']) }}
+                    {{ Form::close() }}
+                </td>
                 <td>
                     {{ $charac->name }}
                 </td>
@@ -25,7 +38,13 @@
                 </td>
                 <td>
                     <div class='btn-group'>
-                        <a class='btn btn-mini'>Modificar</a>
+                        {{ Html::linkAction(
+                            'Admin\CategoriesController@edit_characteristic', 
+                            'Modificar',
+                            ['id'=>$category->_id, 'charac_name'=>$charac->name],
+                            ['class'=>'btn btn-mini', 'remote'=>'true']
+                        ) }}
+
                         {{ Html::linkAction(
                             'Admin\CategoriesController@destroy_characteristic', 
                             'Excluir',
@@ -44,35 +63,5 @@
 <hr>
 
 <div class='well'>
-    {{
-        Form::open([   
-            'url' => URL::action('Admin\CategoriesController@add_characteristic', ['id'=>$category->_id]),
-            'method'=>'POST'
-        ])
-    }}
-
-    {{ Form::label('type', 'Nova caracteristica', ['class'=>'control-label']) }}
-
-    {{ Form::select('type', ['int'=>'Numero','float'=>'Numero decimal','option'=>'Opções','string'=>'Livre'], null, ['class'=>'input-block-level']) }}
-
-    {{ Form::text('name', '', ['placeholder'=>'Nome da caracteristica', 'class'=>'input-block-level', 'id'=>'characteristic-name']) }}
-
-    {{ Form::label('layout-pre', 'Layout', ['class'=>'control-label']) }}
-
-    {{ Form::text('layout-pre', '') }}
-    <span class="muted">&ltvalor&gt</span>
-    {{ Form::text('layout-pos', '') }}
-
-    {{ Form::label('values', 'Possíveis valores', ['class'=>'control-label']) }}
-
-    {{ Form::text('values', '', ['placeholder'=>'Madeira, Metal, Plastico, Vidro', 'class'=>'input-block-level']) }}
-
-    <div>
-        {{ Form::button(
-            'Adicionar caracteristica',
-            ['type'=>'submit', 'class'=>'btn btn-primary', 'id'=>'submit-create-characteristic'] )
-        }}
-    </div>
-
-    {{ Form::close() }}
+    @include('admin.categories._characteristics_form')
 </div>
