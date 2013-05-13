@@ -42,6 +42,7 @@ Route::get(    'health/details', function(){
 } );
 
 Route::get('search', 'SearchEngineController@search');
+Route::get('quick_search', 'SearchEngineController@quickSearch');
 
 // Ajax search at admin controllers
 Route::get(    'search/products/{view}', 'SearchController@products');

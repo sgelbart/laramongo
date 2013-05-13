@@ -1,10 +1,13 @@
 <div class='search_box'>
 
-    {{ Form::open( array('url' => 'search', 'method' => 'get' ) ) }}
-        {{ Form::text('query') }}
+    {{ Form::open( array('url' => 'quick_search', 'method' => 'get', 'data-ajax' => 'true' ) ) }}
+        {{ Form::text('query','', array( 'data-submit-on-type' => 'true' ) ) }}
         {{ Form::submit() }}
     {{ Form::close() }}
 
+</div>
+<div id='quicksearch' class='main-quicksearch' style='display:none;'>
+    Resultados...
 </div>
 
 <ul class='horizon_menu'>
