@@ -412,3 +412,9 @@ div.main div.search_box input[type=submit] {
 .main-quicksearch .searched-item img {
   width: 10%;
 }
+.main-quicksearch .searched-item a {
+  vertical-align: middle;
+}
+.main-quicksearch .searched-item img.video-icon {
+  width: 35%;
+}

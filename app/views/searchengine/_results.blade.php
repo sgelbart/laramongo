@@ -30,7 +30,11 @@
     @foreach($contents as $content)
         <div class='searched-item'>
             <h3>
-                <img src="http://logonoid.com/images/leroy-merlin-logo.png" alt="">
+                @if($content->type == 'video')
+                    <img src="http://faculty.elgin.edu/dkernler/statistics/images/video_icon.gif" alt="" class="video-icon">
+                @else
+                    <img src="http://logonoid.com/images/leroy-merlin-logo.png" alt="">
+                @endif
                 <a href="{{URL::Action('ContentsController@show', ['slug' => $content->slug ])}}">
                         {{ $content->name }}
                 </a>
