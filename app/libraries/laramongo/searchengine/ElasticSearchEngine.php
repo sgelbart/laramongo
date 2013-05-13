@@ -83,7 +83,7 @@ class ElasticSearchEngine extends SearchEngine
                 switch ($charac->type) {
 
                     case 'int':
-                    
+
                         $type = 'integer';
 
                         $characs['characteristics']['properties'][clean_case($charac->name)] = [
@@ -96,7 +96,7 @@ class ElasticSearchEngine extends SearchEngine
                         break;
 
                     case 'float':
-                    
+
                         $type = 'float';
 
                         $characs['characteristics']['properties'][clean_case($charac->name)] = [
@@ -121,7 +121,7 @@ class ElasticSearchEngine extends SearchEngine
                         break;
                 }
             }
-            
+
             $this->es->map(['properties'=>$characs]);
         }
     }
@@ -190,20 +190,13 @@ class ElasticSearchEngine extends SearchEngine
                         }
                         else
                         {
-                            $query['query']['filtered']['filter']['and'][]['term']['characteristics.'.clean_case($charac->name).'.as_string'] = $filter[clean_case($charac->name)];   
+                            $query['query']['filtered']['filter']['and'][]['term']['characteristics.'.clean_case($charac->name).'.as_string'] = $filter[clean_case($charac->name)];
                         }
                     }
                 }
             }
 
             $this->searchResult = $this->es->search($query);
-
-            //echo '<pre>';
-            //print_r($query);
-            //echo '<hr>';
-            //print_r($this->searchResult);
-            //exit;
-
         }
     }
 

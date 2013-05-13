@@ -3,7 +3,7 @@
 use Laramongo\SearchEngine\ElasticSearchEngine;
 
 class SearchEngineController extends BaseController {
-    
+
     public function search()
     {
         $query = Input::get('query');
@@ -44,7 +44,7 @@ class SearchEngineController extends BaseController {
 
     /**
      * Similar to search but to be used with ajax
-     * 
+     *
      * @return Response
      */
     public function quickSearch()
