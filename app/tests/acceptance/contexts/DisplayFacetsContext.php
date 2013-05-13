@@ -73,6 +73,8 @@ class DisplayFacetsContext extends BaseContext {
             ['id'=> (string)$category_id]
         );
 
+        $this->bodyText = $this->testCase()->getBodyText();
+
         $this->testCase()->assertRequestOk();
     }
 
