@@ -1,3 +1,3 @@
 @section('content')
-    @include('searchengine._results')    
+    @include('searchengine._results')
 @stop

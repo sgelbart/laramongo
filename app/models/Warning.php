@@ -32,7 +32,7 @@ class Warning extends BaseModel
     {
         $warn = new Warning();
         $warn->keyword = $keyword;
-        $warn->lastSearch = getdate();
+        $warn->lastSearch = new MongoDate();
 
         $warn->save();
     }

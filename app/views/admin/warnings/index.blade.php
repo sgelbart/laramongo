@@ -12,8 +12,8 @@
             @foreach($warnings as $warn)
                 <tr>
                     <td>{{ $warn->keyword }}</td>
-                    <td>{{ $warn->lastSearch }}</td>
-                    <td></td>
+                    <td>{{ date('d-m-Y h:i:s', $warn->lastSearch->sec) }}</td>
+                    <td>{{ $warn->occurrences }}</td>
                 </tr>
             @endforeach
         </table>

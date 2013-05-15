@@ -51,6 +51,12 @@
                                         Sinônimos
                                     </a>
                                   </li>
+
+                                  <li>
+                                    <a href="{{ URL::action('Admin\WarningsController@index') }}">
+                                        Palavras não encontradas
+                                    </a>
+                                  </li>
                                 </ul>
                               </li>
                             </ul>

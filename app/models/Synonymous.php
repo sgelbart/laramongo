@@ -35,6 +35,7 @@ class Synonymous extends BaseModel
         {
             if(parent::save( $force ))
             {
+                $this->insertSynonyms();
                 return true;
             }
         }
@@ -55,5 +56,68 @@ class Synonymous extends BaseModel
         }
 
         return parent::setAttribute($key, $value);
+    }
+
+    public function insertSynonyms()
+    {
+        $requestURL = Config::get('search_engine.settings.elastic_search.connection_url');
+        $appName = Config::get('search_engine.application_name');
+
+        // Closing indexes
+        $requestURL = str_replace(':9200', '', $requestURL);
+        $request = $requestURL . "/" . $appName . "/_close";
+        $this->execute("POST", $request, "9200");
+
+        $synonyms = array();
+
+        // Preparing to update index
+        foreach (Synonymous::all() as $sym) {
+            $related_word = implode(', ', $sym->related_word);
+            array_push($synonyms, "$related_word => $sym->word");
+        }
+
+        $parameters = [
+            'index' => [
+                'analysis' => [
+                    'filter' => [
+                        'synonym' => [
+                            'type' => 'synonym',
+                            'synonyms' => $synonyms
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // updating indexes
+        $request = $requestURL . "/" . $appName .  "/_settings";
+
+        $this->execute("PUT", $request, "9200", $parameters);
+
+
+        // closing
+        $request = $requestURL . "/" . $appName . "/_open";
+
+        $this->execute("POST", $request, "9200");
+
+    }
+
+    private function execute($method, $url, $port, $parameters=array())
+    {
+        $conn = curl_init();
+
+        curl_setopt($conn, CURLOPT_URL, $url);
+        curl_setopt($conn, CURLOPT_TIMEOUT, 5);
+        curl_setopt($conn, CURLOPT_PORT, $port);
+        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1) ;
+        curl_setopt($conn, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($conn, CURLOPT_FORBID_REUSE , 0) ;
+
+        if (is_array($parameters) && count($parameters) > 0)
+            curl_setopt($conn, CURLOPT_POSTFIELDS, json_encode($parameters));
+        else
+            curl_setopt($conn, CURLOPT_POSTFIELDS, null);
+
+        curl_exec($conn);
     }
 }
